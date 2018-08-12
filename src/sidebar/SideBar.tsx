@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import React, { SFC } from "react";
+import { Location } from "history";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
@@ -10,7 +11,7 @@ import SideBarBodyContainer from "sideBar/SideBarBodyContainer";
 
 interface IProps extends WithStyles<typeof styles> {
   open: boolean;
-  location: any;
+  location: Location;
 }
 
 const drawerPaperStyles: {

@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import React, { Fragment } from "react";
+import { Location } from "history";
 
 import { DragDropContextProvider } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
@@ -14,6 +15,7 @@ interface IProps {
   handleDrawerOpen: () => void;
   open: boolean;
   isQesEnabled: boolean;
+  location: Location;
 }
 
 const styles = withStyles({

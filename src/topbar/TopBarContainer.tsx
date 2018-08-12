@@ -14,11 +14,17 @@ interface IDispatchProps {
   dispatchProfileClick: () => void;
 }
 
+interface IProps {
+  handleDrawerOpen: () => void;
+}
+
+type Props = IDispatchProps & IProps;
+
 interface IState {
   anchorEl?: HTMLElement;
 }
 
-class TopBarContainer extends Component<IDispatchProps, IState> {
+class TopBarContainer extends Component<Props, IState> {
   public static propTypes = {
     dispatchWelcomePage: PropTypes.func.isRequired,
     dispatchLogout: PropTypes.func.isRequired,

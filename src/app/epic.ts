@@ -10,7 +10,7 @@ export const appEpic: Epic<AppAction, any> = action$ =>
     ofType(QES_ENABLED_REQUEST),
     mergeMap(() =>
       getQesEnabledAsync().pipe(
-        map(isQesEnabled => qesEnabledSuccess(isQesEnabled)),
+        map((isQesEnabled: boolean) => qesEnabledSuccess(isQesEnabled)),
         catchError(error => handleException(error))
       )
     )

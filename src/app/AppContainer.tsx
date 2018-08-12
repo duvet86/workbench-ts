@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import { Location } from "history";
 
 import { AppAction, qesEnabledRequest } from "app/actions";
 
@@ -12,6 +13,7 @@ interface IProps {
   dispatchQesEnabledRequest: () => void;
   isLoading: boolean;
   isQesEnabled: boolean;
+  location: Location;
 }
 
 interface IStoreState {
