@@ -1,0 +1,18 @@
+html {
+  overflow: hidden;
+  height: 100%;
+}
+
+body,
+#root {
+  height: 100%;
+}
+
+a {
+  text-decoration: none;
+}
+
+a.active {
+  color: #262626;
+  background-color: #e0e0e0;
+}

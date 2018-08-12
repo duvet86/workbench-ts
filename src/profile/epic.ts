@@ -1,0 +1,21 @@
+import { Epic, ofType } from "redux-observable";
+import { catchError, map, mergeMap } from "rxjs/operators";
+
+import { handleException } from "errorPage/epic";
+import {
+  IProfileRequest,
+  PROFILE_REQUEST,
+  profileSuccess
+} from "profile/actions";
+import { getUserInfoAsync } from "profile/api";
+
+export const fetchProfileEpic: Epic<IProfileRequest, any> = action$ =>
+  action$.pipe(
+    ofType(PROFILE_REQUEST),
+    mergeMap(() =>
+      getUserInfoAsync().pipe(
+        map(response => profileSuccess(response)),
+        catchError(error => handleException(error))
+      )
+    )
+  );
