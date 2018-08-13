@@ -1,21 +1,21 @@
 import PropTypes from "prop-types";
-import React from "react";
+import React, { SFC } from "react";
 import { Route, Switch } from "react-router-dom";
 
-import { withStyles } from "@material-ui/core/styles";
+import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
 
 import loadAsync from "lib/loadAsync";
 import NotFoundRoute from "routes/NotFoundRoute";
 
-const styles = withStyles(() => ({
+const styles = createStyles({
   gridContainer: {
     marginBottom: 48
   }
-}));
+});
 
-const AppBody = styles(({ classes }) => (
+const AppBody: SFC<WithStyles<typeof styles>> = ({ classes }) => (
   <Grid container className={classes.gridContainer}>
     <Grid item xs={12}>
       <Switch>
@@ -48,10 +48,10 @@ const AppBody = styles(({ classes }) => (
       </Switch>
     </Grid>
   </Grid>
-));
+);
 
 AppBody.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default AppBody;
+export default withStyles(styles)(AppBody);

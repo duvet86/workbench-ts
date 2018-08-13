@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import Loading from "common/loading/Loading";
 
 interface IProps {
-  children: React.ReactElement<any>;
+  children: React.ReactNode;
   delay?: number;
   error?: object;
   isLoading: boolean;

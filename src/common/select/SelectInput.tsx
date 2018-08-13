@@ -1,8 +1,7 @@
 import PropTypes from "prop-types";
 import React, { ComponentType, SFC } from "react";
 
-import { createStyles, withStyles } from "@material-ui/core/styles";
-import { Theme } from "@material-ui/core/styles/createMuiTheme";
+import { createStyles, Theme, withStyles } from "@material-ui/core/styles";
 
 import FormControl from "@material-ui/core/FormControl";
 import FormHelperText from "@material-ui/core/FormHelperText";

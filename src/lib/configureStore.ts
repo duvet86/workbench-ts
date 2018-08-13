@@ -6,12 +6,18 @@ import history from "lib/history";
 import rootEpic from "rootEpic";
 import rootReducer from "rootReducer";
 
-const epicMiddleware = createEpicMiddleware(rootEpic);
+const epicMiddleware = createEpicMiddleware();
 const browserRouterMiddleware = routerMiddleware(history);
 
 const middleware = [epicMiddleware, browserRouterMiddleware];
 
-const configureStore = () =>
-  createStore(rootReducer, compose(applyMiddleware(...middleware)));
+export default function configureStore() {
+  const store = createStore(
+    rootReducer,
+    compose(applyMiddleware(...middleware))
+  );
 
-export default configureStore;
+  epicMiddleware.run(rootEpic);
+
+  return store;
+}

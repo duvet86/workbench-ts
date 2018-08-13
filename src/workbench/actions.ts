@@ -8,7 +8,7 @@ type SESSION_SUCCESS = typeof SESSION_SUCCESS;
 
 export interface ISessionRequest {
   type: SESSION_REQUEST;
-  dataViewId: string;
+  dataViewId?: string;
 }
 
 // TODO: fix me.
@@ -22,7 +22,7 @@ export interface ISessionSuccess {
 
 export type SessionAction = ISessionRequest | ISessionSuccess;
 
-export const sessionRequest = (dataViewId: string): ISessionRequest => ({
+export const sessionRequest = (dataViewId?: string): ISessionRequest => ({
   type: SESSION_REQUEST,
   dataViewId
 });

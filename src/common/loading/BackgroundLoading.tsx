@@ -1,17 +1,17 @@
 import PropTypes from "prop-types";
-import React, { Fragment } from "react";
+import React, { Fragment, SFC } from "react";
 
-import { withStyles } from "@material-ui/core/styles";
+import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
 import BaseLoading from "common/loading/BaseLoading";
 
-interface IProps {
+interface IProps extends WithStyles<typeof styles> {
   isLoading: boolean;
   pastDelay: boolean;
   children: React.ReactNode;
 }
 
-const styles = withStyles({
+const styles = createStyles({
   container: {
     backgroundColor: "#eee",
     height: "100%",
@@ -27,20 +27,23 @@ const styles = withStyles({
   }
 });
 
-const BackgroundLoading = styles<IProps>(
-  ({ classes, isLoading, pastDelay, children }) => (
-    <Fragment>
-      {isLoading &&
-        pastDelay && (
-          <div className={classes.container}>
-            <div className={classes.loading}>
-              <BaseLoading />
-            </div>
+const BackgroundLoading: SFC<IProps> = ({
+  classes,
+  isLoading,
+  pastDelay,
+  children
+}) => (
+  <Fragment>
+    {isLoading &&
+      pastDelay && (
+        <div className={classes.container}>
+          <div className={classes.loading}>
+            <BaseLoading />
           </div>
-        )}
-      {children}
-    </Fragment>
-  )
+        </div>
+      )}
+    {children}
+  </Fragment>
 );
 
 BackgroundLoading.propTypes = {
@@ -50,4 +53,4 @@ BackgroundLoading.propTypes = {
   pastDelay: PropTypes.bool.isRequired
 };
 
-export default BackgroundLoading;
+export default withStyles(styles)(BackgroundLoading);

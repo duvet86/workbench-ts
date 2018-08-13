@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
-import React, { ChangeEventHandler } from "react";
+import React, { ChangeEventHandler, SFC } from "react";
 
-import { withStyles } from "@material-ui/core/styles";
+import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
 import { AutoSizer, List as VirtualizedList } from "react-virtualized";
 
@@ -20,7 +20,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 
 import rowRenderer from "common/searchableList/rowRenderer";
 
-interface IProps {
+interface IProps extends WithStyles<typeof styles> {
   label: string;
   totItems: number;
   searchableColumns: IColumn[];
@@ -30,7 +30,7 @@ interface IProps {
   handleClickClearIcon: () => void;
 }
 
-const styles = withStyles({
+const styles = createStyles({
   iconColour: {
     fill: "#003b86"
   },
@@ -51,53 +51,51 @@ const styles = withStyles({
   }
 });
 
-const SearchableList = styles<IProps>(
-  ({
-    classes,
-    label,
-    totItems,
-    searchableColumns,
-    searchString,
-    onItemClick,
-    handleChange,
-    handleClickClearIcon
-  }) => (
-    <Paper className={classes.paper}>
-      <Typography variant="subheading">{`${label} (${totItems})`}</Typography>
-      <List className={classes.list} component="div" disablePadding>
-        <FormControl fullWidth>
-          <InputLabel>Search</InputLabel>
-          <Input
-            value={searchString}
-            onChange={handleChange}
-            disabled={searchableColumns.length === 0}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="Clear"
-                  onClick={handleClickClearIcon}
-                  onMouseDown={handleClickClearIcon}
-                >
-                  {searchString ? <ClearIcon /> : null}
-                </IconButton>
-              </InputAdornment>
-            }
+const SearchableList: SFC<IProps> = ({
+  classes,
+  label,
+  totItems,
+  searchableColumns,
+  searchString,
+  onItemClick,
+  handleChange,
+  handleClickClearIcon
+}) => (
+  <Paper className={classes.paper}>
+    <Typography variant="subheading">{`${label} (${totItems})`}</Typography>
+    <List className={classes.list} component="div" disablePadding>
+      <FormControl fullWidth>
+        <InputLabel>Search</InputLabel>
+        <Input
+          value={searchString}
+          onChange={handleChange}
+          disabled={searchableColumns.length === 0}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="Clear"
+                onClick={handleClickClearIcon}
+                onMouseDown={handleClickClearIcon}
+              >
+                {searchString ? <ClearIcon /> : null}
+              </IconButton>
+            </InputAdornment>
+          }
+        />
+      </FormControl>
+      <AutoSizer disableHeight>
+        {({ width }) => (
+          <VirtualizedList
+            width={width}
+            height={245}
+            rowCount={searchableColumns.length}
+            rowHeight={41}
+            rowRenderer={rowRenderer(classes, searchableColumns, onItemClick)}
           />
-        </FormControl>
-        <AutoSizer disableHeight>
-          {({ width }) => (
-            <VirtualizedList
-              width={width}
-              height={245}
-              rowCount={searchableColumns.length}
-              rowHeight={41}
-              rowRenderer={rowRenderer(classes, searchableColumns, onItemClick)}
-            />
-          )}
-        </AutoSizer>
-      </List>
-    </Paper>
-  )
+        )}
+      </AutoSizer>
+    </List>
+  </Paper>
 );
 
 SearchableList.propTypes = {
@@ -108,4 +106,4 @@ SearchableList.propTypes = {
   totItems: PropTypes.number.isRequired
 };
 
-export default SearchableList;
+export default withStyles(styles)(SearchableList);

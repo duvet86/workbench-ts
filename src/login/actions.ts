@@ -41,4 +41,8 @@ export const loginError = (error: any): ILoginError => ({
 export const LOGOUT = "LOGOUT";
 type LOGOUT = typeof LOGOUT;
 
-export const logout = () => ({ type: LOGOUT });
+export interface ILogout {
+  type: LOGOUT;
+}
+
+export const logout = (): ILogout => ({ type: LOGOUT });

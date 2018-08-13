@@ -5,12 +5,17 @@ import { Dispatch } from "redux";
 import { LoadingAction, startDelay } from "common/loading/actions";
 import BackgroundLoading from "common/loading/BackgroundLoading";
 
-interface IProps {
+interface IDispatchProps {
   dispatchStartDelay: () => void;
+}
+
+interface IStateProps {
   isLoading: boolean;
   pastDelay: boolean;
   children: React.ReactNode;
 }
+
+type Props = IStateProps & IDispatchProps;
 
 interface IStoreState {
   loadingReducer: {
@@ -18,8 +23,8 @@ interface IStoreState {
   };
 }
 
-class BackgroundLoadingContainer extends Component<IProps> {
-  public componentWillReceiveProps(nextProps: IProps) {
+class BackgroundLoadingContainer extends Component<Props> {
+  public componentWillReceiveProps(nextProps: Props) {
     if (nextProps.isLoading && !this.props.isLoading) {
       this.props.dispatchStartDelay();
     }

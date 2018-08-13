@@ -9,12 +9,17 @@ import { AppAction, qesEnabledRequest } from "app/actions";
 import App from "app/App";
 import { LoadingContainer } from "common/loading";
 
-interface IProps {
+interface IDispatchProps {
   dispatchQesEnabledRequest: () => void;
+}
+
+interface IProps {
   isLoading: boolean;
   isQesEnabled: boolean;
   location: Location;
 }
+
+type Props = IDispatchProps & IProps;
 
 interface IStoreState {
   appReducer: {
@@ -28,7 +33,7 @@ interface ILocalState {
   open: boolean;
 }
 
-class AppContainer extends Component<IProps, ILocalState> {
+class AppContainer extends Component<Props, ILocalState> {
   public static propTypes = {
     dispatchQesEnabledRequest: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,

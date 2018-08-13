@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
-import React from "react";
+import React, { SFC } from "react";
 import { LoadingComponentProps } from "react-loadable";
 
 import BaseLoading from "common/loading/BaseLoading";
 
-const LoadingAsync: React.StatelessComponent<LoadingComponentProps> = ({
+const LoadingAsync: SFC<LoadingComponentProps> = ({
   error,
   pastDelay,
   timedOut

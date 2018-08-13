@@ -10,7 +10,7 @@ import SubdirectoryArrowLeftIcon from "@material-ui/icons/SubdirectoryArrowLeft"
 import SubdirectoryArrowRightIcon from "@material-ui/icons/SubdirectoryArrowRight";
 
 export interface IExtraInfo {
-  type?: OperatorType;
+  type?: ElementType;
   IconComponent: React.ComponentType<SvgIconProps>;
   backgroundColor: string;
 }
@@ -19,7 +19,7 @@ export interface IOperatorExtraInfo {
   [key: string]: IExtraInfo;
 }
 
-export enum OperatorType {
+export enum ElementType {
   NONE = "NONE",
   QUERY = "QUERY",
   FILTER = "FILTER"
@@ -50,13 +50,13 @@ export const staticOperatorsList = [
 export const operatorsExtraInfo: IOperatorExtraInfo = {
   // Data Query.
   1: {
-    type: OperatorType.QUERY,
+    type: ElementType.QUERY,
     IconComponent: SearchIcon,
     backgroundColor: "#7b582d"
   },
   // Filter.
   2: {
-    type: OperatorType.FILTER,
+    type: ElementType.FILTER,
     IconComponent: FilterListIcon,
     backgroundColor: "#2c5367"
   },
