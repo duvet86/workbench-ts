@@ -4,7 +4,7 @@ import { of } from "rxjs";
 import { catchError, flatMap, mergeMap } from "rxjs/operators";
 
 import {
-  ILoginRequest,
+  LoginAction,
   LOGIN_REQUEST,
   loginError,
   loginSuccess
@@ -18,10 +18,10 @@ function storeTokenAndTriggerLogingSucces(token: string) {
   return loginSuccess();
 }
 
-export const loginEpic: Epic<ILoginRequest, any> = action$ =>
+export const loginEpic: Epic<LoginAction, any> = action$ =>
   action$.pipe(
     ofType(LOGIN_REQUEST),
-    mergeMap(({ username, password }) =>
+    mergeMap(({ username, password }: { username: string; password: string }) =>
       getTokenAsync(username, password).pipe(
         flatMap(token => [
           // Fire 2 actions, one after the other

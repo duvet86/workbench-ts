@@ -1,19 +1,21 @@
 import { denormalize } from "normalizr";
-import { ofType } from "redux-observable";
+import { Epic, ofType } from "redux-observable";
 import { catchError, map, mergeMap } from "rxjs/operators";
 
 import { handleException } from "errorPage/epic";
 import {
   GRAPH_PUSH_REQUEST,
-  GRAPH_REQUEST,
   GRAPH_SAVE_REQUEST,
   QUERY_ADD,
   QUERY_DATASERVICE_UPDATE,
   graphPushSuccess,
   graphSaveChangesSuccess,
-  graphSuccess,
   sessionSuccess,
   SESSION_REQUEST,
+  SessionAction,
+  GraphSaveChangesAction,
+  GraphPushAction,
+  QueryAction
 } from "workbench/actions";
 import {
   getSessionInfoObs,
@@ -24,10 +26,10 @@ import {
 import { graphSchema } from "workbench/schema";
 import { openQueryConfig, queryDescribeRequest } from "workbench/query/actions";
 
-export const sessionEpic = action$ =>
+export const sessionEpic: Epic<SessionAction, any> = action$ =>
   action$.pipe(
     ofType(SESSION_REQUEST),
-    mergeMap(({ dataViewId }) =>
+    mergeMap(({ dataViewId }: { dataViewId: string }) =>
       getSessionInfoObs(dataViewId).pipe(
         map(response => sessionSuccess(response)),
         catchError(error => handleException(error))
@@ -35,10 +37,13 @@ export const sessionEpic = action$ =>
     )
   );
 
-export const saveGraphEpic = (action$, state$) =>
+export const saveGraphEpic: Epic<GraphSaveChangesAction, any> = (
+  action$,
+  state$
+) =>
   action$.pipe(
     ofType(GRAPH_SAVE_REQUEST),
-    mergeMap(({ tenantId, sessionId, queryGraphId, graphData }) => {
+    mergeMap(() => {
       const {
         sessionReducer: {
           session: { TenantId, SessionId, QueryGraphId },
@@ -53,18 +58,21 @@ export const saveGraphEpic = (action$, state$) =>
     })
   );
 
-export const getGraphEpic = action$ =>
-  action$.pipe(
-    ofType(GRAPH_REQUEST),
-    mergeMap(() =>
-      getGraphObs().pipe(
-        map(response => graphSuccess(response)),
-        catchError(error => handleException(error))
-      )
-    )
-  );
+// export const getGraphEpic: Epic<GraphAction, any> = action$ =>
+//   action$.pipe(
+//     ofType(GRAPH_REQUEST),
+//     mergeMap(() =>
+//       getGraphObs().pipe(
+//         map(response => graphSuccess(response)),
+//         catchError(error => handleException(error))
+//       )
+//     )
+//   );
 
-export const pushGraphChangesEpic = (action$, state$) =>
+export const pushGraphChangesEpic: Epic<GraphPushAction, any> = (
+  action$,
+  state$
+) =>
   action$.pipe(
     ofType(GRAPH_PUSH_REQUEST),
     mergeMap(() => {
@@ -75,7 +83,7 @@ export const pushGraphChangesEpic = (action$, state$) =>
       } = state$.value;
 
       return pushGraphChangesObs(TenantId, SessionId, QueryGraphId).pipe(
-        map(response => graphPushSuccess(response)),
+        map(() => graphPushSuccess()),
         catchError(error => handleException(error))
       );
     })
@@ -96,13 +104,16 @@ export const pushGraphChangesEpic = (action$, state$) =>
 //     })
 //   );
 
-export const addQueryEpic = action$ =>
+export const addQueryEpic: Epic<QueryAction, any> = action$ =>
   action$.pipe(
     ofType(QUERY_ADD),
     map(({ elementId }) => openQueryConfig(elementId))
   );
 
-export const updateQueryDataServiceEpic = (action$, state$) =>
+export const updateQueryDataServiceEpic: Epic<QueryAction, any> = (
+  action$,
+  state$
+) =>
   action$.pipe(
     ofType(QUERY_DATASERVICE_UPDATE),
     mergeMap(({ elementId, query: { TargetDataViewId } }) => {
