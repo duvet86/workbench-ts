@@ -1,37 +1,38 @@
-export const PROFILE_REQUEST = "PROFILE_REQUEST";
-type PROFILE_REQUEST = typeof PROFILE_REQUEST;
-export const PROFILE_SUCCESS = "PROFILE_SUCCESS";
-type PROFILE_SUCCESS = typeof PROFILE_SUCCESS;
-export const PROFILE_ERROR = "PROFILE_ERROR";
-type PROFILE_ERROR = typeof PROFILE_ERROR;
+import { Action } from "redux";
 
-export interface IProfileRequest {
-  type: PROFILE_REQUEST;
+export const enum ProfileActionTypes {
+  PROFILE_REQUEST = "PROFILE_REQUEST",
+  PROFILE_SUCCESS = "PROFILE_SUCCESS",
+  PROFILE_ERROR = "PROFILE_ERROR"
 }
 
-export interface IProfileSuccess {
-  type: PROFILE_SUCCESS;
+export interface IProfileRequest extends Action {
+  type: ProfileActionTypes.PROFILE_REQUEST;
+}
+
+export interface IProfileSuccess extends Action {
+  type: ProfileActionTypes.PROFILE_SUCCESS;
   userInfo: any;
 }
 
-export interface IProfileError {
-  type: PROFILE_ERROR;
+export interface IProfileError extends Action {
+  type: ProfileActionTypes.PROFILE_ERROR;
   error: any;
 }
 
 export type ProfileAction = IProfileRequest | IProfileSuccess | IProfileError;
 
 export const profileRequest = (): IProfileRequest => ({
-  type: PROFILE_REQUEST
+  type: ProfileActionTypes.PROFILE_REQUEST
 });
 
 // TODO: fix me.
 export const profileSuccess = (userInfo: any): IProfileSuccess => ({
-  type: PROFILE_SUCCESS,
+  type: ProfileActionTypes.PROFILE_SUCCESS,
   userInfo
 });
 
 export const profileError = (error: any): IProfileError => ({
-  type: PROFILE_ERROR,
+  type: ProfileActionTypes.PROFILE_ERROR,
   error
 });

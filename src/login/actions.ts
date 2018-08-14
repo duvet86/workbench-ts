@@ -1,48 +1,49 @@
-export const LOGIN_REQUEST = "LOGIN_REQUEST";
-type LOGIN_REQUEST = typeof LOGIN_REQUEST;
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-type LOGIN_SUCCESS = typeof LOGIN_SUCCESS;
-export const LOGIN_ERROR = "LOGIN_ERROR";
-type LOGIN_ERROR = typeof LOGIN_ERROR;
+import { Action } from "redux";
 
-export interface ILoginRequest {
-  type: LOGIN_REQUEST;
+export const enum LoginActionTypes {
+  LOGIN_REQUEST = "LOGIN_REQUEST",
+  LOGIN_SUCCESS = "LOGIN_SUCCESS",
+  LOGIN_ERROR = "LOGIN_ERROR",
+  LOGOUT = "LOGOUT"
+}
+
+export interface ILoginRequest extends Action {
+  type: LoginActionTypes.LOGIN_REQUEST;
   username: string;
   password: string;
 }
 
-export interface ILoginError {
-  type: LOGIN_ERROR;
+export interface ILoginError extends Action {
+  type: LoginActionTypes.LOGIN_ERROR;
   error: any;
 }
 
-export interface ILoginSuccess {
-  type: LOGIN_SUCCESS;
+export interface ILoginSuccess extends Action {
+  type: LoginActionTypes.LOGIN_SUCCESS;
 }
 
-export type LoginAction = ILoginRequest | ILoginError | ILoginSuccess;
+export interface ILogout extends Action {
+  type: LoginActionTypes.LOGOUT;
+}
+
+export type LoginAction = ILoginRequest | ILoginError | ILoginSuccess | ILogout;
 
 export const loginRequest = (
   username: string,
   password: string
 ): ILoginRequest => ({
-  type: LOGIN_REQUEST,
+  type: LoginActionTypes.LOGIN_REQUEST,
   username,
   password
 });
 
-export const loginSuccess = (): ILoginSuccess => ({ type: LOGIN_SUCCESS });
+export const loginSuccess = (): ILoginSuccess => ({
+  type: LoginActionTypes.LOGIN_SUCCESS
+});
 
 export const loginError = (error: any): ILoginError => ({
-  type: LOGIN_ERROR,
+  type: LoginActionTypes.LOGIN_ERROR,
   error
 });
 
-export const LOGOUT = "LOGOUT";
-type LOGOUT = typeof LOGOUT;
-
-export interface ILogout {
-  type: LOGOUT;
-}
-
-export const logout = (): ILogout => ({ type: LOGOUT });
+export const logout = (): ILogout => ({ type: LoginActionTypes.LOGOUT });

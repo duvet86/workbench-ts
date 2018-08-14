@@ -24,7 +24,12 @@ import {
   getGraphObs
 } from "workbench/api";
 import { graphSchema } from "workbench/schema";
-import { openQueryConfig, queryDescribeRequest } from "workbench/query/actions";
+import {
+  openQueryConfig,
+  queryDescribeRequest,
+  QueryConfigAction,
+  QueryDescribeAction
+} from "workbench/query/actions";
 
 export const sessionEpic: Epic<SessionAction, any> = action$ =>
   action$.pipe(
@@ -104,19 +109,27 @@ export const pushGraphChangesEpic: Epic<GraphPushAction, any> = (
 //     })
 //   );
 
-export const addQueryEpic: Epic<QueryAction, any> = action$ =>
+export const addQueryEpic: Epic<
+  QueryAction | QueryConfigAction,
+  any
+> = action$ =>
   action$.pipe(
     ofType(QUERY_ADD),
-    map(({ elementId }) => openQueryConfig(elementId))
+    map(({ elementId }: { elementId: number }) => openQueryConfig(elementId))
   );
 
-export const updateQueryDataServiceEpic: Epic<QueryAction, any> = (
-  action$,
-  state$
-) =>
+interface IDataservice {
+  elementId: number;
+  query: { TargetDataViewId: number };
+}
+
+export const updateQueryDataServiceEpic: Epic<
+  QueryAction | QueryDescribeAction,
+  any
+> = (action$, state$) =>
   action$.pipe(
     ofType(QUERY_DATASERVICE_UPDATE),
-    mergeMap(({ elementId, query: { TargetDataViewId } }) => {
+    mergeMap(({ elementId, query: { TargetDataViewId } }: IDataservice) => {
       if (!TargetDataViewId) {
         return [openQueryConfig(elementId)];
       }

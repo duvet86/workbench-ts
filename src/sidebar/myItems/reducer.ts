@@ -1,8 +1,4 @@
-import {
-  MY_ITEMS_REQUEST,
-  MY_ITEMS_SUCCESS,
-  MyItemsAction
-} from "sideBar/myItems/actions";
+import { MyItemsActionTypes, MyItemsAction } from "sideBar/myItems/actions";
 
 interface IState {
   isLoading: boolean;
@@ -25,13 +21,13 @@ function myItems(
   action: MyItemsAction
 ) {
   switch (action.type) {
-    case MY_ITEMS_REQUEST:
+    case MyItemsActionTypes.MY_ITEMS_REQUEST:
       return {
         ...state,
         isLoading: true
       };
 
-    case MY_ITEMS_SUCCESS:
+    case MyItemsActionTypes.MY_ITEMS_SUCCESS:
       return {
         isLoading: false,
         items: action.items

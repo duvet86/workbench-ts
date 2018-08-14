@@ -1,15 +1,18 @@
-import { Epic, ofType } from "redux-observable";
-import { of } from "rxjs";
+import { ActionsObservable, ofType } from "redux-observable";
+import { of, Observable } from "rxjs";
 import { filter, switchMap } from "rxjs/operators";
 
 import { LOCATION_CHANGE, LocationChangeAction } from "react-router-redux";
 import {
   showFilters,
   showMyItems,
-  showTools
+  showTools,
+  TabsAction
 } from "sideBar/navigationTabs/actions";
 
-export const navigationTabsEpic: Epic<LocationChangeAction, any> = action$ =>
+export const navigationTabsEpic = (
+  action$: ActionsObservable<LocationChangeAction | TabsAction>
+): Observable<TabsAction> =>
   action$.pipe(
     ofType(LOCATION_CHANGE),
     filter(

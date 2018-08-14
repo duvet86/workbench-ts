@@ -1,12 +1,15 @@
-export const ERROR_TRIGGER = "ERROR_TRIGGER";
-export type ERROR_TRIGGER = typeof ERROR_TRIGGER;
+import { Action } from "redux";
 
-export interface IErrorAction {
+export const enum ErrorActionTypes {
+  ERROR_TRIGGER = "ERROR_TRIGGER"
+}
+
+export interface IErrorAction extends Action {
+  type: ErrorActionTypes.ERROR_TRIGGER;
   error: any;
-  type: "ERROR_TRIGGER";
 }
 
 export const triggerError = (error: any): IErrorAction => ({
   error,
-  type: ERROR_TRIGGER
+  type: ErrorActionTypes.ERROR_TRIGGER
 });

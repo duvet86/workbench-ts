@@ -1,31 +1,27 @@
-import {
-  PROFILE_REQUEST,
-  PROFILE_SUCCESS,
-  ProfileAction
-} from "profile/actions";
+import { ProfileActionTypes, ProfileAction } from "profile/actions";
 
 interface IState {
   isLoading: boolean;
-  userInfo: {
+  userInfo?: {
     Profile: { UserName: string };
-  } | null;
+  };
 }
 
 function profile(
   state: IState = {
     isLoading: true,
-    userInfo: null
+    userInfo: undefined
   },
   action: ProfileAction
 ) {
   switch (action.type) {
-    case PROFILE_REQUEST:
+    case ProfileActionTypes.PROFILE_REQUEST:
       return {
         ...state,
         isLoading: true
       };
 
-    case PROFILE_SUCCESS:
+    case ProfileActionTypes.PROFILE_SUCCESS:
       return {
         isLoading: false,
         userInfo: action.userInfo

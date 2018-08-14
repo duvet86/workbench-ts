@@ -1,3 +1,5 @@
+import { Action } from "redux";
+
 export const MYITEMS_SHOW = "MYITEMS_SHOW";
 export type MYITEMS_SHOW = typeof MYITEMS_SHOW;
 export const FILTERS_SHOW = "FILTERS_SHOW";
@@ -7,7 +9,7 @@ export type TOOLS_SHOW = typeof TOOLS_SHOW;
 
 type TabsState = [boolean, boolean, boolean];
 
-export interface IShowMyItems {
+export interface IShowMyItems extends Action {
   type: MYITEMS_SHOW;
   tabsState?: TabsState;
 }

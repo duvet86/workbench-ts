@@ -1,9 +1,4 @@
-import {
-  LOGIN_ERROR,
-  LOGIN_REQUEST,
-  LOGIN_SUCCESS,
-  LoginAction
-} from "login/actions";
+import { LoginActionTypes, LoginAction } from "login/actions";
 
 interface IState {
   isLoading: boolean;
@@ -18,19 +13,19 @@ function login(
   action: LoginAction
 ) {
   switch (action.type) {
-    case LOGIN_REQUEST:
+    case LoginActionTypes.LOGIN_REQUEST:
       return {
         ...state,
         isLoading: true
       };
 
-    case LOGIN_SUCCESS:
+    case LoginActionTypes.LOGIN_SUCCESS:
       return {
         ...state,
         isLoading: false
       };
 
-    case LOGIN_ERROR:
+    case LoginActionTypes.LOGIN_ERROR:
       return {
         ...state,
         isLoading: false,

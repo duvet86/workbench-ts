@@ -1,8 +1,4 @@
-import {
-  AppAction,
-  QES_ENABLED_REQUEST,
-  QES_ENABLED_SUCCESS
-} from "app/actions";
+import { AppAction, QesEnabledActionTypes } from "app/actions";
 
 interface IState {
   isLoading: boolean;
@@ -17,13 +13,13 @@ function login(
   action: AppAction
 ) {
   switch (action.type) {
-    case QES_ENABLED_REQUEST:
+    case QesEnabledActionTypes.QES_ENABLED_REQUEST:
       return {
         ...state,
         isLoading: true
       };
 
-    case QES_ENABLED_SUCCESS:
+    case QesEnabledActionTypes.QES_ENABLED_SUCCESS:
       return {
         isLoading: false,
         isQesEnabled: action.isQesEnabled

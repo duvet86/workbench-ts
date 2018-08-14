@@ -4,14 +4,14 @@ import { catchError, map, mergeMap } from "rxjs/operators";
 import { handleException } from "errorPage/epic";
 import {
   IProfileRequest,
-  PROFILE_REQUEST,
+  ProfileActionTypes,
   profileSuccess
 } from "profile/actions";
 import { getUserInfoAsync } from "profile/api";
 
 export const fetchProfileEpic: Epic<IProfileRequest, any> = action$ =>
   action$.pipe(
-    ofType(PROFILE_REQUEST),
+    ofType(ProfileActionTypes.PROFILE_REQUEST),
     mergeMap(() =>
       getUserInfoAsync().pipe(
         map(response => profileSuccess(response)),

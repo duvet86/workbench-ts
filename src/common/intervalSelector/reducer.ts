@@ -1,11 +1,8 @@
 import update from "immutability-helper";
 
 import {
-  INTERVAL_UPDATE,
-  IntervalAction,
-  INTERVALTYPE_ERROR,
-  INTERVALTYPE_REQUEST,
-  INTERVALTYPE_SUCCESS
+  IntervalActionTypes,
+  IntervalAction
 } from "common/intervalSelector/actions";
 
 import { IIntervalTypes } from "common/intervalSelector/types";
@@ -31,27 +28,27 @@ function interval(
   action: IntervalAction
 ) {
   switch (action.type) {
-    case INTERVALTYPE_REQUEST:
+    case IntervalActionTypes.INTERVALTYPE_REQUEST:
       return {
         ...state,
         isLoading: true
       };
 
-    case INTERVALTYPE_SUCCESS:
+    case IntervalActionTypes.INTERVALTYPE_SUCCESS:
       return {
         ...state,
         intervalTypes: action.intervalTypes,
         isLoading: false
       };
 
-    case INTERVALTYPE_ERROR:
+    case IntervalActionTypes.INTERVALTYPE_ERROR:
       return {
         ...state,
         error: action.error,
         isLoading: false
       };
 
-    case INTERVAL_UPDATE:
+    case IntervalActionTypes.INTERVAL_UPDATE:
       return update(state, {
         interval: {
           $merge: {

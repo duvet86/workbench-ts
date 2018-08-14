@@ -1,4 +1,4 @@
-import { ERROR_TRIGGER, IErrorAction } from "errorPage/actions";
+import { ErrorActionTypes, IErrorAction } from "errorPage/actions";
 
 interface IState {
   error?: any;
@@ -11,7 +11,7 @@ function errorPage(
   action: IErrorAction
 ) {
   switch (action.type) {
-    case ERROR_TRIGGER:
+    case ErrorActionTypes.ERROR_TRIGGER:
       return {
         error: action.error
       };

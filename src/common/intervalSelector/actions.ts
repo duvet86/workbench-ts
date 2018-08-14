@@ -1,59 +1,55 @@
+import { Action } from "redux";
 import { IInterval, IIntervalTypes } from "common/intervalSelector/types";
 
-export const INTERVALTYPE_REQUEST = "INTERVALTYPE_REQUEST";
-type INTERVALTYPE_REQUEST = typeof INTERVALTYPE_REQUEST;
-
-export const INTERVALTYPE_SUCCESS = "INTERVALTYPE_SUCCESS";
-type INTERVALTYPE_SUCCESS = typeof INTERVALTYPE_SUCCESS;
-
-export const INTERVALTYPE_ERROR = "INTERVALTYPE_ERROR";
-type INTERVALTYPE_ERROR = typeof INTERVALTYPE_ERROR;
-
-interface IIntervalTypesRequest {
-  type: INTERVALTYPE_REQUEST;
+export const enum IntervalActionTypes {
+  INTERVALTYPE_REQUEST = "INTERVALTYPE_REQUEST",
+  INTERVALTYPE_SUCCESS = "INTERVALTYPE_SUCCESS",
+  INTERVALTYPE_ERROR = "INTERVALTYPE_ERROR",
+  INTERVAL_UPDATE = "INTERVAL_UPDATE"
 }
 
-interface IIntervalTypesSuccess {
-  type: INTERVALTYPE_SUCCESS;
+interface IIntervalTypesRequest extends Action {
+  type: IntervalActionTypes.INTERVALTYPE_REQUEST;
+}
+
+interface IIntervalTypesSuccess extends Action {
+  type: IntervalActionTypes.INTERVALTYPE_SUCCESS;
   intervalTypes: IIntervalTypes[];
 }
 
-interface IIntervalTypesError {
-  type: INTERVALTYPE_ERROR;
+interface IIntervalTypesError extends Action {
+  type: IntervalActionTypes.INTERVALTYPE_ERROR;
   error: object;
 }
 
-export const intervalTypesRequest = (): IIntervalTypesRequest => ({
-  type: INTERVALTYPE_REQUEST
-});
-
-export const intervalTypesSuccess = (
-  intervalTypes: IIntervalTypes[]
-): IIntervalTypesSuccess => ({
-  intervalTypes,
-  type: INTERVALTYPE_SUCCESS
-});
-
-export const intervalTypesError = (error: object): IIntervalTypesError => ({
-  error,
-  type: INTERVALTYPE_ERROR
-});
-
-export const INTERVAL_UPDATE = "INTERVAL_UPDATE";
-type INTERVAL_UPDATE = typeof INTERVAL_UPDATE;
-
-interface IIntervalUpdate {
+interface IIntervalUpdate extends Action {
   newInterval: IInterval;
-  type: INTERVAL_UPDATE;
+  type: IntervalActionTypes.INTERVAL_UPDATE;
 }
-
-export const intervalUpdate = (newInterval: IInterval): IIntervalUpdate => ({
-  newInterval,
-  type: INTERVAL_UPDATE
-});
 
 export type IntervalAction =
   | IIntervalTypesRequest
   | IIntervalTypesSuccess
   | IIntervalTypesError
   | IIntervalUpdate;
+
+export const intervalTypesRequest = (): IIntervalTypesRequest => ({
+  type: IntervalActionTypes.INTERVALTYPE_REQUEST
+});
+
+export const intervalTypesSuccess = (
+  intervalTypes: IIntervalTypes[]
+): IIntervalTypesSuccess => ({
+  intervalTypes,
+  type: IntervalActionTypes.INTERVALTYPE_SUCCESS
+});
+
+export const intervalTypesError = (error: object): IIntervalTypesError => ({
+  error,
+  type: IntervalActionTypes.INTERVALTYPE_ERROR
+});
+
+export const intervalUpdate = (newInterval: IInterval): IIntervalUpdate => ({
+  newInterval,
+  type: IntervalActionTypes.INTERVAL_UPDATE
+});

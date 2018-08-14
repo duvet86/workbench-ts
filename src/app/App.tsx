@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import React, { Fragment, SFC } from "react";
 import { Location } from "history";
-
 import { DragDropContextProvider } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 

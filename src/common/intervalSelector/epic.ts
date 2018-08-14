@@ -3,19 +3,15 @@ import { catchError, map, mergeMap } from "rxjs/operators";
 
 import {
   IntervalAction,
-  INTERVALTYPE_REQUEST,
-  intervalTypesSuccess
-  // RESOLVE_INTERVAL_REQUEST
+  intervalTypesSuccess,
+  IntervalActionTypes
 } from "common/intervalSelector/actions";
-import {
-  getIntervalTypesObs
-  // resolveIntervalObs
-} from "common/intervalSelector/api";
+import { getIntervalTypesObs } from "common/intervalSelector/api";
 import { handleException } from "errorPage/epic";
 
 export const intervalTypeEpic: Epic<IntervalAction, any> = action$ =>
   action$.pipe(
-    ofType(INTERVALTYPE_REQUEST),
+    ofType(IntervalActionTypes.INTERVALTYPE_REQUEST),
     mergeMap(() =>
       getIntervalTypesObs().pipe(
         map(intervalTypes => intervalTypesSuccess(intervalTypes)),

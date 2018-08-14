@@ -1,4 +1,4 @@
-import { DELAY_END, DELAY_START, LoadingAction } from "common/loading/actions";
+import { DelayActionTypes, LoadingAction } from "common/loading/actions";
 
 interface IState {
   pastDelay: boolean;
@@ -11,12 +11,12 @@ function loading(
   action: LoadingAction
 ) {
   switch (action.type) {
-    case DELAY_START:
+    case DelayActionTypes.DELAY_START:
       return {
         pastDelay: false
       };
 
-    case DELAY_END:
+    case DelayActionTypes.DELAY_END:
       return {
         pastDelay: true
       };
