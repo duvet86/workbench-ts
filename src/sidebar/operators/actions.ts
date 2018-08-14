@@ -1,3 +1,4 @@
+import { Action } from "redux";
 import {
   DEFAULTS,
   IExtraInfo,
@@ -5,24 +6,23 @@ import {
   staticOperatorsList
 } from "sideBar/operators/operatorsData";
 
-export const OPERATORS_REQUEST = "OPERATORS_REQUEST";
-export type OPERATORS_REQUEST = typeof OPERATORS_REQUEST;
-export const OPERATORS_SUCCESS = "OPERATORS_SUCCESS";
-export type OPERATORS_SUCCESS = typeof OPERATORS_SUCCESS;
-export const OPERATORS_ERROR = "OPERATORS_ERROR";
-export type OPERATORS_ERROR = typeof OPERATORS_ERROR;
-
-export interface IOperatorsRequest {
-  type: OPERATORS_REQUEST;
+export const enum OperatorsActionTypes {
+  OPERATORS_REQUEST = "OPERATORS_REQUEST",
+  OPERATORS_SUCCESS = "OPERATORS_SUCCESS",
+  OPERATORS_ERROR = "OPERATORS_ERROR"
 }
 
-export interface IOperatorsSuccess {
-  type: OPERATORS_SUCCESS;
+export interface IOperatorsRequest extends Action {
+  type: OperatorsActionTypes.OPERATORS_REQUEST;
+}
+
+export interface IOperatorsSuccess extends Action {
+  type: OperatorsActionTypes.OPERATORS_SUCCESS;
   operators: { [key: string]: IOperatorResult };
 }
 
-export interface IOperatorsError {
-  type: OPERATORS_ERROR;
+export interface IOperatorsError extends Action {
+  type: OperatorsActionTypes.OPERATORS_ERROR;
   error: any;
 }
 
@@ -32,7 +32,7 @@ export type OperatorsAction =
   | IOperatorsError;
 
 export const operatorsRequest = (): IOperatorsRequest => ({
-  type: OPERATORS_REQUEST
+  type: OperatorsActionTypes.OPERATORS_REQUEST
 });
 
 export interface IOperatorResult extends IExtraInfo {
@@ -67,12 +67,12 @@ export const operatorsSuccess = (
   }, {});
 
   return {
-    type: OPERATORS_SUCCESS,
+    type: OperatorsActionTypes.OPERATORS_SUCCESS,
     operators: normalizedOperators
   };
 };
 
 export const operatorsError = (error: any): IOperatorsError => ({
-  type: OPERATORS_ERROR,
+  type: OperatorsActionTypes.OPERATORS_ERROR,
   error
 });

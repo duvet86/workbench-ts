@@ -1,7 +1,6 @@
 import {
   IOperatorResult,
-  OPERATORS_REQUEST,
-  OPERATORS_SUCCESS,
+  OperatorsActionTypes,
   OperatorsAction
 } from "sideBar/operators/actions";
 
@@ -18,13 +17,13 @@ function operators(
   action: OperatorsAction
 ) {
   switch (action.type) {
-    case OPERATORS_REQUEST:
+    case OperatorsActionTypes.OPERATORS_REQUEST:
       return {
         ...state,
         isLoading: true
       };
 
-    case OPERATORS_SUCCESS:
+    case OperatorsActionTypes.OPERATORS_SUCCESS:
       return {
         isLoading: false,
         operators: action.operators

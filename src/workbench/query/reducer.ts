@@ -1,13 +1,9 @@
 import { QUERY_DATASERVICE_UPDATE, QueryAction } from "workbench/actions";
 import {
-  QUERY_CONFIG_ERROR,
-  QUERY_CONFIG_OPEN,
-  QUERY_CONFIG_CLOSE,
-  GO_TO_STEP,
-  DATASERVICES_REQUEST,
-  DATASERVICES_SUCCESS,
-  FILTER_CAPABILITIES_SUCCESS,
-  QUERY_DESCRIBE_SUCCESS,
+  QueryConfigActionTypes,
+  DataServicesActionTypes,
+  FilterCapActionTypes,
+  QueryDescActionTypes,
   QueryConfigAction,
   IGoToStep,
   DataServicesAction,
@@ -47,38 +43,38 @@ function queryConfig(
     | QueryDescribeAction
 ) {
   switch (action.type) {
-    case QUERY_CONFIG_OPEN:
+    case QueryConfigActionTypes.QUERY_CONFIG_OPEN:
       return {
         ...state,
         elementId: action.elementId
       };
 
-    case QUERY_CONFIG_ERROR:
-    case QUERY_CONFIG_CLOSE:
+    case QueryConfigActionTypes.QUERY_CONFIG_ERROR:
+    case QueryConfigActionTypes.QUERY_CONFIG_CLOSE:
       return {
         ...initialState
       };
 
-    case GO_TO_STEP:
+    case QueryConfigActionTypes.GO_TO_STEP:
       return {
         ...state,
         currentStep: action.step
       };
 
-    case DATASERVICES_REQUEST:
+    case DataServicesActionTypes.DATASERVICES_REQUEST:
       return {
         ...state,
         isLoading: true
       };
 
-    case DATASERVICES_SUCCESS:
+    case DataServicesActionTypes.DATASERVICES_SUCCESS:
       return {
         ...state,
         isLoading: false,
         dataServices: action.dataServices
       };
 
-    case FILTER_CAPABILITIES_SUCCESS:
+    case FilterCapActionTypes.FILTER_CAPABILITIES_SUCCESS:
       return {
         ...state,
         filterCapabilities: action.filterCapabilities
@@ -92,7 +88,7 @@ function queryConfig(
         isLoading: true
       };
 
-    case QUERY_DESCRIBE_SUCCESS:
+    case QueryDescActionTypes.QUERY_DESCRIBE_SUCCESS:
       return {
         ...state,
         isLoading: false,

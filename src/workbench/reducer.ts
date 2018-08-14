@@ -1,16 +1,10 @@
 import update from "immutability-helper";
 
 import {
-  SESSION_REQUEST,
-  SESSION_SUCCESS,
-  QUERY_ADD,
-  QUERY_DATASERVICE_UPDATE,
-  QUERY_COLUMN_ADD,
-  QUERY_COLUMN_REMOVE,
-  QUERY_CONSTRAINT_ADD,
-  QUERY_CONSTRAINT_TYPE,
-  QUERY_CONSTRAINT_VALUES,
-  QUERY_CONSTRAINT_REMOVE,
+  SessionActionTypes,
+  QueryActionTypes,
+  QueryColumnActionTypes,
+  QueryConstraintActionTypes,
   SessionAction,
   QueryAction,
   QueryColumnAction,
@@ -42,21 +36,21 @@ function session(
     | QueryConstraintAction
 ) {
   switch (action.type) {
-    case SESSION_REQUEST:
+    case SessionActionTypes.SESSION_REQUEST:
       return {
         ...state,
         isLoading: true,
         dataViewId: action.dataViewId
       };
 
-    case SESSION_SUCCESS:
+    case SessionActionTypes.SESSION_SUCCESS:
       return {
         ...state,
         isLoading: false,
         ...action.payload
       };
 
-    case QUERY_ADD:
+    case QueryActionTypes.QUERY_ADD:
       return update(state, {
         graph: { Queries: { $push: [action.elementId] } },
         queries: {
@@ -68,7 +62,7 @@ function session(
         }
       });
 
-    case QUERY_DATASERVICE_UPDATE:
+    case QueryActionTypes.QUERY_DATASERVICE_UPDATE:
       return update(state, {
         queries: {
           [action.elementId]: {
@@ -81,7 +75,7 @@ function session(
         }
       });
 
-    case QUERY_COLUMN_ADD:
+    case QueryColumnActionTypes.QUERY_COLUMN_ADD:
       return update(state, {
         queries: {
           [action.elementId]: {
@@ -90,7 +84,7 @@ function session(
         }
       });
 
-    case QUERY_COLUMN_REMOVE:
+    case QueryColumnActionTypes.QUERY_COLUMN_REMOVE:
       return update(state, {
         queries: {
           [action.elementId]: {
@@ -104,7 +98,7 @@ function session(
         }
       });
 
-    case QUERY_CONSTRAINT_ADD:
+    case QueryConstraintActionTypes.QUERY_CONSTRAINT_ADD:
       return update(state, {
         queries: {
           [action.elementId]: {
@@ -113,7 +107,7 @@ function session(
         }
       });
 
-    case QUERY_CONSTRAINT_TYPE:
+    case QueryConstraintActionTypes.QUERY_CONSTRAINT_TYPE:
       return update(state, {
         queries: {
           [action.elementId]: {
@@ -128,7 +122,7 @@ function session(
         }
       });
 
-    case QUERY_CONSTRAINT_VALUES:
+    case QueryConstraintActionTypes.QUERY_CONSTRAINT_VALUES:
       return update(state, {
         queries: {
           [action.elementId]: {
@@ -144,7 +138,7 @@ function session(
         }
       });
 
-    case QUERY_CONSTRAINT_REMOVE:
+    case QueryConstraintActionTypes.QUERY_CONSTRAINT_REMOVE:
       return update(state, {
         queries: {
           [action.elementId]: {

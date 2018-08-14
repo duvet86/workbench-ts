@@ -16,12 +16,12 @@ export const navigationTabsEpic = (
   action$.pipe(
     ofType(LOCATION_CHANGE),
     filter(
-      ({ payload: { pathname } }) =>
+      ({ payload: { pathname } }: LocationChangeAction) =>
         pathname === "/" ||
         pathname === "/workbench/new" ||
         pathname === "/pagebuilder/new"
     ),
-    switchMap(({ payload: { pathname } }) => {
+    switchMap(({ payload: { pathname } }: LocationChangeAction) => {
       switch (pathname) {
         case "/workbench/new":
           return of(showTools([false, false, false]));

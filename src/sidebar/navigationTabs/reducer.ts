@@ -1,9 +1,4 @@
-import {
-  FILTERS_SHOW,
-  MYITEMS_SHOW,
-  TabsAction,
-  TOOLS_SHOW
-} from "sideBar/navigationTabs/actions";
+import { TabsActionTypes, TabsAction } from "sideBar/navigationTabs/actions";
 
 interface IState {
   selectedTab: number;
@@ -22,18 +17,18 @@ function navigationTabs(
   const tabsState = action.tabsState || state.tabsState;
 
   switch (action.type) {
-    case MYITEMS_SHOW:
+    case TabsActionTypes.MYITEMS_SHOW:
       return {
         selectedTab: 0,
         tabsState
       };
 
-    case FILTERS_SHOW:
+    case TabsActionTypes.FILTERS_SHOW:
       return {
         selectedTab: 1,
         tabsState
       };
-    case TOOLS_SHOW:
+    case TabsActionTypes.TOOLS_SHOW:
       return {
         selectedTab: 2,
         tabsState

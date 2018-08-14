@@ -3,9 +3,9 @@ import { mergeMap, map, catchError } from "rxjs/operators";
 
 import { handleException } from "errorPage/epic";
 import {
-  DATASERVICES_REQUEST,
-  FILTER_CAPABILITIES_REQUEST,
-  QUERY_DESCRIBE_REQUEST,
+  DataServicesActionTypes,
+  FilterCapActionTypes,
+  QueryDescActionTypes,
   queryConfigError,
   filterCapabilitiesSuccess,
   dataServicesSuccess,
@@ -22,7 +22,7 @@ import {
 
 export const dataServicesEpic: Epic<DataServicesAction, any> = action$ =>
   action$.pipe(
-    ofType(DATASERVICES_REQUEST),
+    ofType(DataServicesActionTypes.DATASERVICES_REQUEST),
     mergeMap(() =>
       getDataServicesObs().pipe(
         map(dataServices => dataServicesSuccess(dataServices)),
@@ -36,7 +36,7 @@ export const filterCapabilitiesEpic: Epic<
   any
 > = action$ =>
   action$.pipe(
-    ofType(FILTER_CAPABILITIES_REQUEST),
+    ofType(FilterCapActionTypes.FILTER_CAPABILITIES_REQUEST),
     mergeMap(() =>
       getFilterCapabilitiesObs().pipe(
         map(filterCapabilities =>
@@ -52,7 +52,7 @@ export const serviceDescriptionEpic: Epic<QueryDescribeAction, any> = (
   state$
 ) =>
   action$.pipe(
-    ofType(QUERY_DESCRIBE_REQUEST),
+    ofType(QueryDescActionTypes.QUERY_DESCRIBE_REQUEST),
     mergeMap(() => {
       const {
         sessionReducer: {

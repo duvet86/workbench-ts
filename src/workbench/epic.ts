@@ -4,14 +4,13 @@ import { catchError, map, mergeMap } from "rxjs/operators";
 
 import { handleException } from "errorPage/epic";
 import {
-  GRAPH_PUSH_REQUEST,
-  GRAPH_SAVE_REQUEST,
-  QUERY_ADD,
-  QUERY_DATASERVICE_UPDATE,
+  GraphPushActionTypes,
+  GraphSaveActionTypes,
+  QueryActionTypes,
   graphPushSuccess,
   graphSaveChangesSuccess,
   sessionSuccess,
-  SESSION_REQUEST,
+  SessionActionTypes,
   SessionAction,
   GraphSaveChangesAction,
   GraphPushAction,
@@ -33,7 +32,7 @@ import {
 
 export const sessionEpic: Epic<SessionAction, any> = action$ =>
   action$.pipe(
-    ofType(SESSION_REQUEST),
+    ofType(SessionActionTypes.SESSION_REQUEST),
     mergeMap(({ dataViewId }: { dataViewId: string }) =>
       getSessionInfoObs(dataViewId).pipe(
         map(response => sessionSuccess(response)),
@@ -47,7 +46,7 @@ export const saveGraphEpic: Epic<GraphSaveChangesAction, any> = (
   state$
 ) =>
   action$.pipe(
-    ofType(GRAPH_SAVE_REQUEST),
+    ofType(GraphSaveActionTypes.GRAPH_SAVE_REQUEST),
     mergeMap(() => {
       const {
         sessionReducer: {
@@ -79,7 +78,7 @@ export const pushGraphChangesEpic: Epic<GraphPushAction, any> = (
   state$
 ) =>
   action$.pipe(
-    ofType(GRAPH_PUSH_REQUEST),
+    ofType(GraphPushActionTypes.GRAPH_PUSH_REQUEST),
     mergeMap(() => {
       const {
         sessionReducer: {
@@ -114,7 +113,7 @@ export const addQueryEpic: Epic<
   any
 > = action$ =>
   action$.pipe(
-    ofType(QUERY_ADD),
+    ofType(QueryActionTypes.QUERY_ADD),
     map(({ elementId }: { elementId: number }) => openQueryConfig(elementId))
   );
 
@@ -128,7 +127,7 @@ export const updateQueryDataServiceEpic: Epic<
   any
 > = (action$, state$) =>
   action$.pipe(
-    ofType(QUERY_DATASERVICE_UPDATE),
+    ofType(QueryActionTypes.QUERY_DATASERVICE_UPDATE),
     mergeMap(({ elementId, query: { TargetDataViewId } }: IDataservice) => {
       if (!TargetDataViewId) {
         return [openQueryConfig(elementId)];

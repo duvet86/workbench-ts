@@ -1,19 +1,21 @@
+import { Action } from "redux";
+
 import { normalize } from "normalizr";
 import { graphSchema } from "workbench/schema";
 
-export const SESSION_REQUEST = "SESSION_REQUEST";
-type SESSION_REQUEST = typeof SESSION_REQUEST;
-export const SESSION_SUCCESS = "SESSION_SUCCESS";
-type SESSION_SUCCESS = typeof SESSION_SUCCESS;
+export const enum SessionActionTypes {
+  SESSION_REQUEST = "SESSION_REQUEST",
+  SESSION_SUCCESS = "SESSION_SUCCESS"
+}
 
-export interface ISessionRequest {
-  type: SESSION_REQUEST;
+export interface ISessionRequest extends Action {
+  type: SessionActionTypes.SESSION_REQUEST;
   dataViewId?: string;
 }
 
 // TODO: fix me.
-export interface ISessionSuccess {
-  type: SESSION_SUCCESS;
+export interface ISessionSuccess extends Action {
+  type: SessionActionTypes.SESSION_SUCCESS;
   payload: {
     session: any;
     graph: any;
@@ -23,7 +25,7 @@ export interface ISessionSuccess {
 export type SessionAction = ISessionRequest | ISessionSuccess;
 
 export const sessionRequest = (dataViewId?: string): ISessionRequest => ({
-  type: SESSION_REQUEST,
+  type: SessionActionTypes.SESSION_REQUEST,
   dataViewId
 });
 
@@ -34,7 +36,7 @@ export const sessionSuccess = ({
   const normalizedGraph = normalize(InitialQueryGraph, graphSchema);
 
   return {
-    type: SESSION_SUCCESS,
+    type: SessionActionTypes.SESSION_SUCCESS,
     payload: {
       session: { ...rest },
       graph: normalizedGraph.result,
@@ -43,17 +45,17 @@ export const sessionSuccess = ({
   };
 };
 
-export const GRAPH_SAVE_REQUEST = "GRAPH_SAVE_REQUEST";
-type GRAPH_SAVE_REQUEST = typeof GRAPH_SAVE_REQUEST;
-export const GRAPH_SAVE_SUCCESS = "GRAPH_SAVE_SUCCESS";
-type GRAPH_SAVE_SUCCESS = typeof GRAPH_SAVE_SUCCESS;
-
-export interface IGraphSaveChangesRequest {
-  type: GRAPH_SAVE_REQUEST;
+export const enum GraphSaveActionTypes {
+  GRAPH_SAVE_REQUEST = "GRAPH_SAVE_REQUEST",
+  GRAPH_SAVE_SUCCESS = "GRAPH_SAVE_SUCCESS"
 }
 
-export interface IGraphSaveChangesSuccess {
-  type: GRAPH_SAVE_SUCCESS;
+export interface IGraphSaveChangesRequest extends Action {
+  type: GraphSaveActionTypes.GRAPH_SAVE_REQUEST;
+}
+
+export interface IGraphSaveChangesSuccess extends Action {
+  type: GraphSaveActionTypes.GRAPH_SAVE_SUCCESS;
 }
 
 export type GraphSaveChangesAction =
@@ -61,91 +63,91 @@ export type GraphSaveChangesAction =
   | IGraphSaveChangesSuccess;
 
 export const graphSaveChangesRequest = (): IGraphSaveChangesRequest => ({
-  type: GRAPH_SAVE_REQUEST
+  type: GraphSaveActionTypes.GRAPH_SAVE_REQUEST
 });
 
 export const graphSaveChangesSuccess = (): IGraphSaveChangesSuccess => ({
-  type: GRAPH_SAVE_SUCCESS
+  type: GraphSaveActionTypes.GRAPH_SAVE_SUCCESS
 });
 
-export const GRAPH_REQUEST = "GRAPH_REQUEST";
-type GRAPH_REQUEST = typeof GRAPH_REQUEST;
-export const GRAPH_SUCCESS = "GRAPH_SUCCESS";
-type GRAPH_SUCCESS = typeof GRAPH_SUCCESS;
-
-export interface IGraphRequest {
-  type: GRAPH_REQUEST;
+export const enum GraphActionTypes {
+  GRAPH_REQUEST = "GRAPH_REQUEST",
+  GRAPH_SUCCESS = "GRAPH_SUCCESS"
 }
 
-export interface IGraphSuccess {
-  type: GRAPH_SUCCESS;
+export interface IGraphRequest extends Action {
+  type: GraphActionTypes.GRAPH_REQUEST;
+}
+
+export interface IGraphSuccess extends Action {
+  type: GraphActionTypes.GRAPH_SUCCESS;
   graphData: any;
 }
 
 export type GraphAction = IGraphRequest | IGraphSuccess;
 
 export const graphRequest = (): IGraphRequest => ({
-  type: GRAPH_REQUEST
+  type: GraphActionTypes.GRAPH_REQUEST
 });
 
 export const graphSuccess = (graphData: any): IGraphSuccess => ({
-  type: GRAPH_SUCCESS,
+  type: GraphActionTypes.GRAPH_SUCCESS,
   graphData
 });
 
-export const GRAPH_PUSH_REQUEST = "GRAPH_PUSH_REQUEST";
-type GRAPH_PUSH_REQUEST = typeof GRAPH_PUSH_REQUEST;
-export const GRAPH_PUSH_SUCCESS = "GRAPH_PUSH_SUCCESS";
-type GRAPH_PUSH_SUCCESS = typeof GRAPH_PUSH_SUCCESS;
-
-export interface IGraphPushRequest {
-  type: GRAPH_PUSH_REQUEST;
+export const enum GraphPushActionTypes {
+  GRAPH_PUSH_REQUEST = "GRAPH_PUSH_REQUEST",
+  GRAPH_PUSH_SUCCESS = "GRAPH_PUSH_SUCCESS"
 }
 
-export interface IGraphPushSuccess {
-  type: GRAPH_PUSH_SUCCESS;
+export interface IGraphPushRequest extends Action {
+  type: GraphPushActionTypes.GRAPH_PUSH_REQUEST;
+}
+
+export interface IGraphPushSuccess extends Action {
+  type: GraphPushActionTypes.GRAPH_PUSH_SUCCESS;
 }
 
 export type GraphPushAction = IGraphPushRequest | IGraphPushSuccess;
 
 export const graphPushRequest = (): IGraphPushRequest => ({
-  type: GRAPH_PUSH_REQUEST
+  type: GraphPushActionTypes.GRAPH_PUSH_REQUEST
 });
 
 export const graphPushSuccess = (): IGraphPushSuccess => ({
-  type: GRAPH_PUSH_SUCCESS
+  type: GraphPushActionTypes.GRAPH_PUSH_SUCCESS
 });
 
-export const GRAPH_POP_REQUEST = "GRAPH_POP_REQUEST";
-type GRAPH_POP_REQUEST = typeof GRAPH_POP_REQUEST;
-export const GRAPH_POP_SUCCESS = "GRAPH_POP_SUCCESS";
-type GRAPH_POP_SUCCESS = typeof GRAPH_POP_SUCCESS;
-
-export interface IGraphPopRequest {
-  type: GRAPH_POP_REQUEST;
+export const enum GraphPopActionTypes {
+  GRAPH_POP_REQUEST = "GRAPH_POP_REQUEST",
+  GRAPH_POP_SUCCESS = "GRAPH_POP_SUCCESS"
 }
 
-export interface IGraphPopSuccess {
-  type: GRAPH_POP_SUCCESS;
+export interface IGraphPopRequest extends Action {
+  type: GraphPopActionTypes.GRAPH_POP_REQUEST;
+}
+
+export interface IGraphPopSuccess extends Action {
+  type: GraphPopActionTypes.GRAPH_POP_SUCCESS;
 }
 
 export type GraphPopAction = IGraphPopRequest | IGraphPopSuccess;
 
 export const graphPopRequest = (): IGraphPopRequest => ({
-  type: GRAPH_POP_REQUEST
+  type: GraphPopActionTypes.GRAPH_POP_REQUEST
 });
 
 export const graphPopSuccess = (): IGraphPopSuccess => ({
-  type: GRAPH_POP_SUCCESS
+  type: GraphPopActionTypes.GRAPH_POP_SUCCESS
 });
 
-export const QUERY_ADD = "QUERY_ADD";
-type QUERY_ADD = typeof QUERY_ADD;
-export const QUERY_DATASERVICE_UPDATE = "QUERY_DATASERVICE_UPDATE";
-type QUERY_DATASERVICE_UPDATE = typeof QUERY_DATASERVICE_UPDATE;
+export const enum QueryActionTypes {
+  QUERY_ADD = "QUERY_ADD",
+  QUERY_DATASERVICE_UPDATE = "QUERY_DATASERVICE_UPDATE"
+}
 
-export interface IAddQuery {
-  type: QUERY_ADD;
+export interface IAddQuery extends Action {
+  type: QueryActionTypes.QUERY_ADD;
   elementId: number;
   query: {
     ElementId: number;
@@ -159,8 +161,8 @@ export interface IAddQuery {
   };
 }
 
-export interface IUpdateQueryDataService {
-  type: QUERY_DATASERVICE_UPDATE;
+export interface IUpdateQueryDataService extends Action {
+  type: QueryActionTypes.QUERY_DATASERVICE_UPDATE;
   elementId: number;
   query: any;
 }
@@ -168,7 +170,7 @@ export interface IUpdateQueryDataService {
 export type QueryAction = IAddQuery | IUpdateQueryDataService;
 
 export const addQuery = (elementId: number): IAddQuery => ({
-  type: QUERY_ADD,
+  type: QueryActionTypes.QUERY_ADD,
   elementId,
   query: {
     ElementId: elementId,
@@ -185,24 +187,24 @@ export const updateQueryDataService = (
   elementId: number,
   query: any
 ): IUpdateQueryDataService => ({
-  type: QUERY_DATASERVICE_UPDATE,
+  type: QueryActionTypes.QUERY_DATASERVICE_UPDATE,
   elementId,
   query
 });
 
-export const QUERY_COLUMN_ADD = "QUERY_COLUMN_ADD";
-type QUERY_COLUMN_ADD = typeof QUERY_COLUMN_ADD;
-export const QUERY_COLUMN_REMOVE = "QUERY_COLUMN_REMOVE";
-type QUERY_COLUMN_REMOVE = typeof QUERY_COLUMN_REMOVE;
+export const enum QueryColumnActionTypes {
+  QUERY_COLUMN_ADD = "QUERY_COLUMN_ADD",
+  QUERY_COLUMN_REMOVE = "QUERY_COLUMN_REMOVE"
+}
 
-export interface IAddQueryColumn {
-  type: QUERY_COLUMN_ADD;
+export interface IAddQueryColumn extends Action {
+  type: QueryColumnActionTypes.QUERY_COLUMN_ADD;
   elementId: number;
   column: any;
 }
 
-export interface IRemoveQueryColumn {
-  type: QUERY_COLUMN_REMOVE;
+export interface IRemoveQueryColumn extends Action {
+  type: QueryColumnActionTypes.QUERY_COLUMN_REMOVE;
   elementId: number;
   columnName: string;
 }
@@ -213,7 +215,7 @@ export const addQueryColumn = (
   elementId: number,
   column: any
 ): IAddQueryColumn => ({
-  type: QUERY_COLUMN_ADD,
+  type: QueryColumnActionTypes.QUERY_COLUMN_ADD,
   elementId,
   column
 });
@@ -222,22 +224,20 @@ export const removeQueryColumn = (
   elementId: number,
   columnName: string
 ): IRemoveQueryColumn => ({
-  type: QUERY_COLUMN_REMOVE,
+  type: QueryColumnActionTypes.QUERY_COLUMN_REMOVE,
   elementId,
   columnName
 });
 
-export const QUERY_CONSTRAINT_ADD = "QUERY_CONSTRAINT_ADD";
-type QUERY_CONSTRAINT_ADD = typeof QUERY_CONSTRAINT_ADD;
-export const QUERY_CONSTRAINT_TYPE = "QUERY_CONSTRAINT_TYPE";
-type QUERY_CONSTRAINT_TYPE = typeof QUERY_CONSTRAINT_TYPE;
-export const QUERY_CONSTRAINT_VALUES = "QUERY_CONSTRAINT_VALUES";
-type QUERY_CONSTRAINT_VALUES = typeof QUERY_CONSTRAINT_VALUES;
-export const QUERY_CONSTRAINT_REMOVE = "QUERY_CONSTRAINT_REMOVE";
-type QUERY_CONSTRAINT_REMOVE = typeof QUERY_CONSTRAINT_REMOVE;
+export const enum QueryConstraintActionTypes {
+  QUERY_CONSTRAINT_ADD = "QUERY_CONSTRAINT_ADD",
+  QUERY_CONSTRAINT_TYPE = "QUERY_CONSTRAINT_TYPE",
+  QUERY_CONSTRAINT_VALUES = "QUERY_CONSTRAINT_VALUES",
+  QUERY_CONSTRAINT_REMOVE = "QUERY_CONSTRAINT_REMOVE"
+}
 
-export interface IAddQueryConstraint {
-  type: QUERY_CONSTRAINT_ADD;
+export interface IAddQueryConstraint extends Action {
+  type: QueryConstraintActionTypes.QUERY_CONSTRAINT_ADD;
   elementId: number;
   constraint: {
     ConstraintId: number;
@@ -246,23 +246,23 @@ export interface IAddQueryConstraint {
   };
 }
 
-export interface IUpdateQueryConstraintType {
-  type: QUERY_CONSTRAINT_TYPE;
+export interface IUpdateQueryConstraintType extends Action {
+  type: QueryConstraintActionTypes.QUERY_CONSTRAINT_TYPE;
   elementId: number;
   constraintId: number;
   constraintType: any;
 }
 
-export interface IUpdateQueryConstraintValues {
-  type: QUERY_CONSTRAINT_VALUES;
+export interface IUpdateQueryConstraintValues extends Action {
+  type: QueryConstraintActionTypes.QUERY_CONSTRAINT_VALUES;
   elementId: number;
   constraintId: number;
   vectorValues: any[];
   valuesHint?: string;
 }
 
-export interface IRemoveQueryConstraint {
-  type: QUERY_CONSTRAINT_REMOVE;
+export interface IRemoveQueryConstraint extends Action {
+  type: QueryConstraintActionTypes.QUERY_CONSTRAINT_REMOVE;
   elementId: number;
   constraintId: number;
 }
@@ -278,7 +278,7 @@ export const addQueryConstraint = (
   constraintId: number,
   contraintTarget: any
 ): IAddQueryConstraint => ({
-  type: QUERY_CONSTRAINT_ADD,
+  type: QueryConstraintActionTypes.QUERY_CONSTRAINT_ADD,
   elementId,
   constraint: {
     ConstraintId: constraintId,
@@ -293,7 +293,7 @@ export const updateQueryConstraintType = (
   constraintId: number,
   constraintType: any
 ): IUpdateQueryConstraintType => ({
-  type: QUERY_CONSTRAINT_TYPE,
+  type: QueryConstraintActionTypes.QUERY_CONSTRAINT_TYPE,
   elementId,
   constraintId,
   constraintType
@@ -305,7 +305,7 @@ export const updateQueryConstraintValues = (
   vectorValues: any[],
   valuesHint?: string
 ): IUpdateQueryConstraintValues => ({
-  type: QUERY_CONSTRAINT_VALUES,
+  type: QueryConstraintActionTypes.QUERY_CONSTRAINT_VALUES,
   elementId,
   constraintId,
   vectorValues,
@@ -316,7 +316,7 @@ export const removeQueryConstraint = (
   elementId: number,
   constraintId: number
 ): IRemoveQueryConstraint => ({
-  type: QUERY_CONSTRAINT_REMOVE,
+  type: QueryConstraintActionTypes.QUERY_CONSTRAINT_REMOVE,
   elementId,
   constraintId
 });
