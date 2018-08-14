@@ -1,4 +1,4 @@
-import { QUERY_DATASERVICE_UPDATE, QueryAction } from "workbench/actions";
+import { QueryActionTypes, QueryAction } from "workbench/actions";
 import {
   QueryConfigActionTypes,
   DataServicesActionTypes,
@@ -82,7 +82,7 @@ function queryConfig(
 
     // It dispatches QUERY_DESCRIBE_REQUEST.
     // Starts the loading spinner when waiting for columns.
-    case QUERY_DATASERVICE_UPDATE:
+    case QueryActionTypes.QUERY_DATASERVICE_UPDATE:
       return {
         ...state,
         isLoading: true
