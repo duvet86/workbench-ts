@@ -1,4 +1,4 @@
-import { Epic, ofType } from "redux-observable";
+import { ActionsObservable, ofType } from "redux-observable";
 import { delay, mapTo } from "rxjs/operators";
 
 import {
@@ -7,7 +7,7 @@ import {
   LoadingAction
 } from "common/loading/actions";
 
-export const loadingEpic: Epic<LoadingAction, any> = action$ =>
+export const loadingEpic = (action$: ActionsObservable<LoadingAction>) =>
   action$.pipe(
     ofType(DelayActionTypes.DELAY_START),
     delay(200),

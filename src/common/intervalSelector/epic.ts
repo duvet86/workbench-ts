@@ -1,4 +1,4 @@
-import { Epic, ofType } from "redux-observable";
+import { ActionsObservable, ofType } from "redux-observable";
 import { catchError, map, mergeMap } from "rxjs/operators";
 
 import {
@@ -9,7 +9,7 @@ import {
 import { getIntervalTypesObs } from "common/intervalSelector/api";
 import { handleException } from "errorPage/epic";
 
-export const intervalTypeEpic: Epic<IntervalAction, any> = action$ =>
+export const intervalTypeEpic = (action$: ActionsObservable<IntervalAction>) =>
   action$.pipe(
     ofType(IntervalActionTypes.INTERVALTYPE_REQUEST),
     mergeMap(() =>

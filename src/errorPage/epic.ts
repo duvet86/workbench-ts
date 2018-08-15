@@ -1,6 +1,7 @@
-import { push } from "connected-react-router";
+import { push, RouterAction } from "connected-react-router";
+import { Action } from "redux";
 
-import { triggerError } from "errorPage/actions";
+import { IErrorAction, triggerError } from "errorPage/actions";
 import { deleteTokenAndRedirectLogin } from "lib/authApi";
 
 interface IErrorResponse {
@@ -19,7 +20,10 @@ interface IErrorResponse {
 // This relies on the fact that in RxJs v5, arrays can be returned
 // whenever an observable is expected and will be consumed as one.
 // This is effectively identical to the previous example.
-export const errorPage = (error: any, actions: any[] = []): any[] => [
+export const errorPage = (
+  error: any,
+  actions: Action[] = []
+): [IErrorAction, RouterAction, ...Action[]] => [
   // Fire 2 actions, one after the other
   triggerError(error),
   push("/error"),
@@ -28,8 +32,8 @@ export const errorPage = (error: any, actions: any[] = []): any[] => [
 
 export const handleException = (
   response: IErrorResponse,
-  ...actions: any[]
-): any[] => {
+  ...actions: Action[]
+) => {
   // tslint:disable-next-line:no-console
   console.error(response);
   switch (response.status) {

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { Location } from "history";
 
-import { AppAction, qesEnabledRequest } from "app/actions";
+import { QesEnabledAction, qesEnabledRequest } from "app/actions";
 
 import App from "app/App";
 import { LoadingContainer } from "common/loading";
@@ -75,7 +75,7 @@ const mapStateToProps = ({
   isQesEnabled
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<AppAction>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<QesEnabledAction>) => ({
   dispatchQesEnabledRequest: () => {
     dispatch(qesEnabledRequest());
   }

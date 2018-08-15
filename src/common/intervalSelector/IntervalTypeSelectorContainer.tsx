@@ -23,7 +23,7 @@ interface IDispatchProps {
 }
 
 interface IStateProps {
-  error?: object;
+  error?: any;
   interval: IInterval;
   intervalTypes: IIntervalTypes[];
   isLoading: boolean;

@@ -20,7 +20,7 @@ export interface IQesEnabledError extends Action {
   error: any;
 }
 
-export type AppAction =
+export type QesEnabledAction =
   | IQesEnabledRequest
   | IQesEnabledSuccess
   | IQesEnabledError;

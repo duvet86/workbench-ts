@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import BaseLoading from "common/loading/BaseLoading";
 
 interface IProps extends WithStyles<typeof styles> {
-  error?: object;
+  error: any;
   isLoading: boolean;
   pastDelay: boolean;
   children: any;
@@ -31,7 +31,7 @@ const Loading: SFC<IProps> = ({
   pastDelay,
   children
 }) => {
-  if (error) {
+  if (error != null) {
     // When the loader has errored.
     return (
       <div className={classes.container}>

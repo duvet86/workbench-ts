@@ -46,10 +46,10 @@ const handleErrors = async (response: Response) => {
   }
 };
 
-export const getAsync = async (
+export const getAsync = async <T>(
   url: string,
   headers: HeadersInit
-): Promise<any> => {
+): Promise<T> => {
   const response = await fetch(`${BASE_URL}/${url}`, {
     headers,
     method: "GET"
@@ -58,11 +58,11 @@ export const getAsync = async (
   return handleErrors(response);
 };
 
-export const postAsync = async (
+export const postAsync = async <T>(
   url: string,
   data: any,
   headers: HeadersInit
-): Promise<any> => {
+): Promise<T> => {
   const response = await fetch(`${BASE_URL}/${url}`, {
     body: JSON.stringify(data),
     headers,
@@ -72,8 +72,8 @@ export const postAsync = async (
   return handleErrors(response);
 };
 
-export const getWithJwtAsync = (url: string): Promise<any[]> =>
-  getAsync(url, getHeader());
+export const getWithJwtAsync = <T>(url: string) =>
+  getAsync<T>(url, getHeader());
 
-export const postWithJwtAsync = (url: string, data?: any): Promise<any> =>
-  postAsync(url, data, getHeader());
+export const postWithJwtAsync = <T>(url: string, data?: any) =>
+  postAsync<T>(url, data, getHeader());

@@ -11,10 +11,10 @@ import {
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Typography from "@material-ui/core/Typography";
 
-const styles = ({ spacing }: Theme) =>
+const styles = ({ spacing: { unit } }: Theme) =>
   createStyles({
     laodingContainer: {
-      margin: spacing.unit * 2
+      margin: unit * 2
     }
   });
 
