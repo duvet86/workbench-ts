@@ -5,7 +5,7 @@ import * as React from "react";
 import { render } from "react-dom";
 import { Provider } from "react-redux";
 import { Switch } from "react-router";
-import { ConnectedRouter } from "react-router-redux";
+import { ConnectedRouter } from "connected-react-router";
 
 import configureStore from "lib/configureStore";
 import configureTheme from "lib/configureTheme";

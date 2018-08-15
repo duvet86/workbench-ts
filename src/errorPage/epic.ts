@@ -1,4 +1,4 @@
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 
 import { triggerError } from "errorPage/actions";
 import { deleteTokenAndRedirectLogin } from "lib/authApi";

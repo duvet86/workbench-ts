@@ -6,7 +6,6 @@ import { loadingReducer } from "common/loading";
 import errorReducer from "errorPage/reducer";
 import loginReducer from "login/reducer";
 import profileReducer from "profile/reducer";
-import { routerReducer } from "react-router-redux";
 import myItemsReducer from "sideBar/myItems/reducer";
 import navigationTabsReducer from "sideBar/navigationTabs/reducer";
 import operatorsReducer from "sideBar/operators/reducer";
@@ -15,7 +14,6 @@ import queryConfigReducer from "workbench/query/reducer";
 import sessionReducer from "workbench/reducer";
 
 export default combineReducers({
-  routerReducer,
   loadingReducer,
   errorReducer,
   loginReducer,

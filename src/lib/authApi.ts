@@ -1,5 +1,5 @@
 import { encode } from "base-64";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import { from } from "rxjs";
 
 import { TIME_TO_LIVE } from "lib/constants";

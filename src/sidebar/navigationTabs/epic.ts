@@ -2,7 +2,7 @@ import { ActionsObservable, ofType } from "redux-observable";
 import { of, Observable } from "rxjs";
 import { filter, switchMap } from "rxjs/operators";
 
-import { LOCATION_CHANGE, LocationChangeAction } from "react-router-redux";
+import { LOCATION_CHANGE, RouterAction } from "connected-react-router";
 import {
   showFilters,
   showMyItems,
@@ -11,17 +11,17 @@ import {
 } from "sideBar/navigationTabs/actions";
 
 export const navigationTabsEpic = (
-  action$: ActionsObservable<LocationChangeAction | TabsAction>
+  action$: ActionsObservable<RouterAction | TabsAction>
 ): Observable<TabsAction> =>
   action$.pipe(
     ofType(LOCATION_CHANGE),
     filter(
-      ({ payload: { pathname } }: LocationChangeAction) =>
+      ({ payload: { pathname } }: any) =>
         pathname === "/" ||
         pathname === "/workbench/new" ||
         pathname === "/pagebuilder/new"
     ),
-    switchMap(({ payload: { pathname } }: LocationChangeAction) => {
+    switchMap(({ payload: { pathname } }) => {
       switch (pathname) {
         case "/workbench/new":
           return of(showTools([false, false, false]));

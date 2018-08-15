@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { push, RouterAction } from "react-router-redux";
+import { push, RouterAction } from "connected-react-router";
 import { Dispatch } from "redux";
 
 import { clearToken } from "lib/sessionStorageApi";

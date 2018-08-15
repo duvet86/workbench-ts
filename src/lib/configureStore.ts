@@ -1,5 +1,5 @@
-import { routerMiddleware } from "react-router-redux";
 import { applyMiddleware, compose, createStore } from "redux";
+import { connectRouter, routerMiddleware } from "connected-react-router";
 import { createEpicMiddleware } from "redux-observable";
 
 import history from "lib/history";
@@ -13,7 +13,7 @@ const middleware = [epicMiddleware, browserRouterMiddleware];
 
 export default function configureStore() {
   const store = createStore(
-    rootReducer,
+    connectRouter(history)(rootReducer),
     compose(applyMiddleware(...middleware))
   );
 

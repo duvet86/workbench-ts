@@ -1,7 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
-const { TsConfigPathsPlugin } = require("awesome-typescript-loader");
-//const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+//const { TsConfigPathsPlugin } = require("awesome-typescript-loader");
+const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 
 module.exports = {
   mode: "development",
@@ -15,7 +15,9 @@ module.exports = {
   devtool: "inline-source-map",
   devServer: {
     contentBase: "./public",
-    hot: true
+    hot: true,
+    open: true,
+    overlay: true
   },
   plugins: [
     new webpack.NamedModulesPlugin(),
@@ -23,18 +25,25 @@ module.exports = {
   ],
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
+    plugins: [new TsconfigPathsPlugin()]
     //modules: ["node_modules", path.resolve(__dirname, "src")]
-    plugins: [
-      new TsConfigPathsPlugin({
-        forceIsolatedModules: true
-      })
-    ]
+    // plugins: [
+    //   new TsConfigPathsPlugin({
+    //     forceIsolatedModules: true
+    //   })
+    // ]
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        use: "awesome-typescript-loader",
+        use: {
+          loader: "ts-loader",
+          options: {
+            transpileOnly: true,
+            reportFiles: ["src/**/*.{ts,tsx}"]
+          }
+        },
         exclude: /node_modules/
       },
       {

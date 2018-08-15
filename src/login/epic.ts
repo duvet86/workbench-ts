@@ -1,4 +1,4 @@
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import { Epic, ofType } from "redux-observable";
 import { of } from "rxjs";
 import { catchError, flatMap, mergeMap } from "rxjs/operators";
