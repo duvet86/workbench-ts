@@ -62,7 +62,7 @@ class WorkbenchContainer extends Component<Props, ILocalState> {
     connections: PropTypes.object.isRequired
   };
 
-  public state = {
+  public readonly state = {
     jsPlumbCanvasInstance: undefined,
     jsPlumbInstance: undefined
   };

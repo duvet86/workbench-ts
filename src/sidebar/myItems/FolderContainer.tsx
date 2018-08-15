@@ -23,7 +23,7 @@ class FolderContainer extends Component<IProps, IState> {
     Children: PropTypes.array.isRequired
   };
 
-  public state = {
+  public readonly state = {
     expanded: false
   };
 

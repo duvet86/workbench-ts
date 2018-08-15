@@ -31,7 +31,7 @@ class TopBarContainer extends Component<Props, IState> {
     dispatchProfileClick: PropTypes.func.isRequired
   };
 
-  public state = {
+  public readonly state = {
     anchorEl: undefined
   };
 

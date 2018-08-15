@@ -40,7 +40,7 @@ class AppContainer extends Component<Props, ILocalState> {
     isQesEnabled: PropTypes.bool.isRequired
   };
 
-  public state = {
+  public readonly state = {
     open: true
   };
 
