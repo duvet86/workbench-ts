@@ -17,7 +17,8 @@ module.exports = {
     contentBase: "./public",
     hot: true,
     open: true,
-    overlay: true
+    overlay: true,
+    historyApiFallback: true
   },
   plugins: [
     new webpack.NamedModulesPlugin(),

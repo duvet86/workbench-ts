@@ -68,7 +68,7 @@ const TopBar: SFC<IProps> = ({
   onWelcomePageClickHandler,
   onLogoutClickHandler,
   onProfileClickHandler,
-  // handleDrawerOpen,
+  handleDrawerOpen,
   ...props
 }) => (
   <AppBar {...props} className={classes.appBar}>
@@ -77,7 +77,7 @@ const TopBar: SFC<IProps> = ({
         <IconButton
           className={classes.matchColor}
           aria-label="open drawer"
-          // onClick={handleDrawerOpen}
+          onClick={handleDrawerOpen}
         >
           <MenuIcon />
         </IconButton>
@@ -99,6 +99,7 @@ const TopBar: SFC<IProps> = ({
         <Menu
           id="menu-appbar"
           anchorEl={anchorEl}
+          getContentAnchorEl={undefined}
           anchorOrigin={{
             vertical: "bottom",
             horizontal: "right"

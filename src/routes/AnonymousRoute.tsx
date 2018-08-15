@@ -6,7 +6,7 @@ import { Redirect, Route } from "react-router-dom";
 import { isUserAuthenticated } from "lib/authApi";
 
 interface IProps {
-  component: ComponentType<any>;
+  component: ComponentType<RouteProps>;
   path: string;
 }
 
