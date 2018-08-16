@@ -7,7 +7,6 @@
       "es2017",
       "dom"
     ] /* Specify library files to be included in the compilation:  */,
-    "allowSyntheticDefaultImports": true,
     "allowJs": false /* Allow javascript files to be compiled. */,
     // "checkJs": true,                       /* Report errors in .js files. */
     "jsx": "react" /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */,
@@ -37,7 +36,7 @@
 
     /* Module Resolution Options */
     "moduleResolution": "node" /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */,
-    "baseUrl": "./src" /* Base directory to resolve non-absolute module names. */
+    "baseUrl": "./src" /* Base directory to resolve non-absolute module names. */,
     //"paths": {
     //"material-ui/*": ["node_modules/matrial-ui/index.d.ts"]
     //} /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
@@ -49,7 +48,8 @@
     //"types": [
     //"material-ui"
     //] /* Type declaration files to be included in compilation. */
-    // "allowSyntheticDefaultImports": true,  /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
+    "esModuleInterop": true /*Emit __importStar and __importDefault helpers for runtime babel ecosystem compatibility and enable --allowSyntheticDefaultImports for typesystem compatibility.*/,
+    "allowSyntheticDefaultImports": true /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
     // "preserveSymlinks": true,              /* Do not resolve the real path of symlinks. */
 
     /* Source Map Options */

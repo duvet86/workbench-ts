@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { ChangeEvent, Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -40,16 +39,6 @@ interface IStoreState {
 }
 
 class IntervalTypeSelectorContainer extends Component<Props> {
-  public static propTypes = {
-    className: PropTypes.string,
-    dispatchIntervalTypesRequest: PropTypes.func.isRequired,
-    dispatchOnIntervalTypeChange: PropTypes.func.isRequired,
-    error: PropTypes.object,
-    interval: PropTypes.object.isRequired,
-    intervalTypes: PropTypes.array.isRequired,
-    isLoading: PropTypes.bool.isRequired
-  };
-
   public componentDidMount() {
     this.props.dispatchIntervalTypesRequest();
   }

@@ -1,5 +1,4 @@
-import PropTypes from "prop-types";
-import React, { ChangeEvent, StatelessComponent } from "react";
+import React, { ChangeEvent, SFC } from "react";
 
 import { IInterval, IIntervalTypes } from "common/intervalSelector/types";
 
@@ -37,7 +36,7 @@ interface IIntervalTypeProps {
   onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
 }
 
-const IntervalTypeSelector: StatelessComponent<IIntervalTypeProps> = ({
+const IntervalTypeSelector: SFC<IIntervalTypeProps> = ({
   className,
   intervalTypes,
   interval,
@@ -61,12 +60,5 @@ const IntervalTypeSelector: StatelessComponent<IIntervalTypeProps> = ({
     </Select>
   </FormControl>
 );
-
-IntervalTypeSelector.propTypes = {
-  className: PropTypes.string,
-  interval: PropTypes.object.isRequired,
-  intervalTypes: PropTypes.array.isRequired,
-  onChange: PropTypes.func.isRequired
-};
 
 export default IntervalTypeSelector;

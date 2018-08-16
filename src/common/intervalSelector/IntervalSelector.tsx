@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { SFC } from "react";
 
 import {
@@ -77,9 +76,5 @@ const IntervalSelector: SFC<WithStyles<typeof styles>> = ({ classes }) => (
     </FormControl>
   </div>
 );
-
-IntervalSelector.propTypes = {
-  classes: PropTypes.object.isRequired
-};
 
 export default withStyles(styles)(IntervalSelector);
