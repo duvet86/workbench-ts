@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { ComponentType, SFC } from "react";
 
 import { createStyles, Theme, withStyles } from "@material-ui/core/styles";
@@ -19,8 +18,6 @@ import ClearIcon from "@material-ui/icons/Clear";
 import VirtualizedSelect, {
   VirtualizedOptionRenderOptions
 } from "react-virtualized-select";
-
-import { ValueComponentType } from "react-select";
 
 interface IArrowRendererProps {
   isOpen: boolean;
@@ -199,17 +196,13 @@ const OptionRenderer = (
 const ArrowRenderer: SFC<IArrowRendererProps> = ({ isOpen }) =>
   isOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />;
 
-ArrowRenderer.propTypes = {
-  isOpen: PropTypes.bool.isRequired
-};
-
 const NoClearRenderer = () => <span />;
 const ClearRenderer = () => <ClearIcon />;
 
-const SelectedValueComponent: (
+const SelectedValueComponent = (
   OptionsIcon: ComponentType<SvgIconProps>,
   iconClassName: string
-) => ValueComponentType = (OptionsIcon, iconClassName) => ({ children }) => (
+) => ({ children }: { children: React.ReactNode }) => (
   <div className="Select-value">
     {OptionsIcon && (
       <ListItemIcon>
@@ -239,10 +232,6 @@ const SelectWrapped: SFC<any> = ({
   />
 );
 
-SelectWrapped.propTypes = {
-  classes: PropTypes.object.isRequired
-};
-
 const SelectInput: SFC<ISelectInput> = ({
   value,
   inputLabel,
@@ -268,14 +257,5 @@ const SelectInput: SFC<ISelectInput> = ({
     {helperText && <FormHelperText>{helperText}</FormHelperText>}
   </FormControl>
 );
-
-SelectInput.propTypes = {
-  classes: PropTypes.object.isRequired,
-  options: PropTypes.array.isRequired,
-  handleChange: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
-  OptionsIcon: PropTypes.func,
-  iconClassName: PropTypes.string
-};
 
 export default withStyles(styles)(SelectInput);

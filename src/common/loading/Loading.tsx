@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { SFC } from "react";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
@@ -54,13 +53,6 @@ const Loading: SFC<IProps> = ({
 
   // When the loader has finished.
   return children;
-};
-
-Loading.propTypes = {
-  children: PropTypes.any.isRequired,
-  classes: PropTypes.object.isRequired,
-  error: PropTypes.object,
-  isLoading: PropTypes.bool.isRequired
 };
 
 export default withStyles(styles)(Loading);

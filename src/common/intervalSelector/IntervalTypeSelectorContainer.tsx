@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { IntervalAction } from "common/intervalSelector/actions";
-import { IInterval, IIntervalTypes } from "common/intervalSelector/types";
+import { IInterval, IIntervalTypesDtc } from "common/intervalSelector/types";
 
 import {
   intervalTypesRequest,
@@ -24,7 +24,7 @@ interface IDispatchProps {
 interface IStateProps {
   error?: any;
   interval: IInterval;
-  intervalTypes: IIntervalTypes[];
+  intervalTypes: IIntervalTypesDtc[];
   isLoading: boolean;
 }
 
@@ -33,7 +33,7 @@ type Props = IStateProps & IDispatchProps & IOwnProps;
 interface IStoreState {
   intervalReducer: {
     isLoading: boolean;
-    intervalTypes: IIntervalTypes;
+    intervalTypes: IIntervalTypesDtc;
     interval: IInterval;
   };
 }

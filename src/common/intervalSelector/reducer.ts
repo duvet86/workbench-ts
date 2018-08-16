@@ -5,12 +5,12 @@ import {
   IntervalAction
 } from "common/intervalSelector/actions";
 
-import { IIntervalTypes } from "common/intervalSelector/types";
+import { IIntervalTypesDtc } from "common/intervalSelector/types";
 
 interface IState {
   error: any;
   isLoading: boolean;
-  intervalTypes: IIntervalTypes[];
+  intervalTypes: IIntervalTypesDtc[];
   interval: {
     type: string;
   };

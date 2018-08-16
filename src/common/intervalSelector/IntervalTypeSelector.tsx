@@ -1,6 +1,6 @@
 import React, { ChangeEvent, SFC } from "react";
 
-import { IInterval, IIntervalTypes } from "common/intervalSelector/types";
+import { IInterval, IIntervalTypesDtc } from "common/intervalSelector/types";
 
 import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
@@ -31,7 +31,7 @@ import Select from "@material-ui/core/Select";
 
 interface IIntervalTypeProps {
   className?: string;
-  intervalTypes: IIntervalTypes[];
+  intervalTypes: IIntervalTypesDtc[];
   interval: IInterval;
   onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
 }

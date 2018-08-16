@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { ChangeEventHandler, SFC } from "react";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
@@ -97,13 +96,5 @@ const SearchableList: SFC<IProps> = ({
     </List>
   </Paper>
 );
-
-SearchableList.propTypes = {
-  classes: PropTypes.object.isRequired,
-  label: PropTypes.string.isRequired,
-  onItemClick: PropTypes.func.isRequired,
-  searchableColumns: PropTypes.array.isRequired,
-  totItems: PropTypes.number.isRequired
-};
 
 export default withStyles(styles)(SearchableList);

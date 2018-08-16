@@ -14,6 +14,8 @@ import Canvas from "workbench/canvas/Canvas";
 
 import IntervalSelector from "common/intervalSelector/IntervalSelector";
 
+import SelectInput2 from "common/select/SelectInput2";
+
 interface IProps extends WithStyles<typeof styles> {
   connectDropTarget: ConnectDropTarget;
   moveOperatorInCanvas: () => void;
@@ -81,7 +83,7 @@ class Workbench extends Component<IProps> {
 
     return (
       <div id={CANVAS_DRAGGABLE_CONTAINER_ID} className={classes.container}>
-        <IntervalSelector />
+        <SelectInput2 />
         <div id={CANVAS_DRAGGABLE_ID} className={classes.draggableItem}>
           {connectDropTarget(
             <span>

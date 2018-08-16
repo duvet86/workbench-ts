@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { Fragment, SFC } from "react";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
@@ -45,12 +44,5 @@ const BackgroundLoading: SFC<IProps> = ({
     {children}
   </Fragment>
 );
-
-BackgroundLoading.propTypes = {
-  children: PropTypes.any.isRequired,
-  classes: PropTypes.object.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  pastDelay: PropTypes.bool.isRequired
-};
 
 export default withStyles(styles)(BackgroundLoading);

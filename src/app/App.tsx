@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { Fragment, SFC } from "react";
 import { Location } from "history";
 import { DragDropContextProvider } from "react-dnd";
@@ -45,12 +44,5 @@ const App: SFC<IProps> = ({
   ) : (
     <div>Workbench features are not enabled.</div>
   );
-
-App.propTypes = {
-  classes: PropTypes.object.isRequired,
-  handleDrawerOpen: PropTypes.func.isRequired,
-  isQesEnabled: PropTypes.bool.isRequired,
-  open: PropTypes.bool.isRequired
-};
 
 export default withStyles(styles)(App);

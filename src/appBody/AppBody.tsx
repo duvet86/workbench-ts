@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { SFC } from "react";
 import { Route, Switch } from "react-router-dom";
 
@@ -49,9 +48,5 @@ const AppBody: SFC<WithStyles<typeof styles>> = ({ classes }) => (
     </Grid>
   </Grid>
 );
-
-AppBody.propTypes = {
-  classes: PropTypes.object.isRequired
-};
 
 export default withStyles(styles)(AppBody);

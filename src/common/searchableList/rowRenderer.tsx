@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { SFC } from "react";
 
 import { IColumn } from "common/searchableList/types";
 
@@ -28,7 +28,7 @@ const rowRenderer: (
   classes: IClasses,
   columns: IColumn[],
   onItemClick: (column: IColumn) => void
-) => StatelessComponent<IProps> = (classes, columns, onItemClick) => ({
+) => SFC<IProps> = (classes, columns, onItemClick) => ({
   index,
   key,
   style

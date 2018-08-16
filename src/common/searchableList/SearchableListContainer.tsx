@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { ChangeEvent, Component } from "react";
 
 import SearchableList from "common/searchableList/SearchableList";
@@ -8,7 +7,7 @@ import { IColumn } from "common/searchableList/types";
 interface IProps {
   label: string;
   items: IColumn[];
-  onItemClick: (item: any) => void;
+  onItemClick: (item: IColumn) => void;
 }
 
 interface IState {
@@ -17,12 +16,6 @@ interface IState {
 }
 
 class SearchableListContainer extends Component<IProps, IState> {
-  public static propTypes = {
-    items: PropTypes.array.isRequired,
-    label: PropTypes.string.isRequired,
-    onItemClick: PropTypes.func.isRequired
-  };
-
   public static getDerivedStateFromProps(nextProps: IProps, prevState: IState) {
     if (nextProps.items.length !== prevState.searchableColumns.length) {
       return {

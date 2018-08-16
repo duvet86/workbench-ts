@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { Component } from "react";
 
 import Loading from "common/loading/Loading";
@@ -15,13 +14,6 @@ interface IState {
 }
 
 class LoadingContainer extends Component<IProps, Readonly<IState>> {
-  public static propTypes = {
-    children: PropTypes.any.isRequired,
-    delay: PropTypes.number,
-    error: PropTypes.object,
-    isLoading: PropTypes.bool.isRequired
-  };
-
   public readonly state = {
     pastDelay: false
   };

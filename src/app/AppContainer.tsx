@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -34,12 +33,6 @@ interface ILocalState {
 }
 
 class AppContainer extends Component<Props, ILocalState> {
-  public static propTypes = {
-    dispatchQesEnabledRequest: PropTypes.func.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    isQesEnabled: PropTypes.bool.isRequired
-  };
-
   public readonly state = {
     open: true
   };

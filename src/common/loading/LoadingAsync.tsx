@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { SFC } from "react";
 import { LoadingComponentProps } from "react-loadable";
 
@@ -24,12 +23,6 @@ const LoadingAsync: SFC<LoadingComponentProps> = ({
 
   // When the loader has just started
   return null;
-};
-
-LoadingAsync.propTypes = {
-  error: PropTypes.object,
-  pastDelay: PropTypes.bool.isRequired,
-  timedOut: PropTypes.bool.isRequired
 };
 
 export default LoadingAsync;

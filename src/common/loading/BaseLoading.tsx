@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { SFC } from "react";
 
 import {
@@ -24,9 +23,5 @@ const BaseLoading: SFC<WithStyles<typeof styles>> = ({ classes }) => (
     <LinearProgress variant="query" />
   </div>
 );
-
-BaseLoading.propTypes = {
-  classes: PropTypes.object.isRequired
-};
 
 export default withStyles(styles)(BaseLoading);

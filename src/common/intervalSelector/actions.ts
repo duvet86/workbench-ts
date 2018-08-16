@@ -1,5 +1,5 @@
 import { Action } from "redux";
-import { IInterval, IIntervalTypes } from "common/intervalSelector/types";
+import { IInterval, IIntervalTypesDtc } from "common/intervalSelector/types";
 
 export const enum IntervalActionTypes {
   INTERVALTYPE_REQUEST = "INTERVALTYPE_REQUEST",
@@ -14,7 +14,7 @@ interface IIntervalTypesRequest extends Action {
 
 interface IIntervalTypesSuccess extends Action {
   type: IntervalActionTypes.INTERVALTYPE_SUCCESS;
-  intervalTypes: IIntervalTypes[];
+  intervalTypes: IIntervalTypesDtc[];
 }
 
 interface IIntervalTypesError extends Action {
@@ -38,7 +38,7 @@ export const intervalTypesRequest = (): IIntervalTypesRequest => ({
 });
 
 export const intervalTypesSuccess = (
-  intervalTypes: IIntervalTypes[]
+  intervalTypes: IIntervalTypesDtc[]
 ): IIntervalTypesSuccess => ({
   intervalTypes,
   type: IntervalActionTypes.INTERVALTYPE_SUCCESS
