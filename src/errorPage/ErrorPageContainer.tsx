@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { SFC } from "react";
 import { Redirect } from "react-router-dom";
 
@@ -26,10 +25,6 @@ const ErrorPageContainer: SFC<IProps> = ({ error, ...props }) =>
   ) : (
     <ErrorPage error={error} {...props} />
   );
-
-ErrorPageContainer.propTypes = {
-  error: PropTypes.object
-};
 
 const mapStateToProps = ({ errorReducer: { error } }: IStoreState) => ({
   error

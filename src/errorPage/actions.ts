@@ -10,6 +10,6 @@ export interface IErrorAction extends Action {
 }
 
 export const triggerError = (error: any): IErrorAction => ({
-  error,
-  type: ErrorActionTypes.ERROR_TRIGGER
+  type: ErrorActionTypes.ERROR_TRIGGER,
+  error
 });

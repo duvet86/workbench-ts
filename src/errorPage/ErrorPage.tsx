@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { SFC } from "react";
 import { Link } from "react-router-dom";
 
@@ -71,10 +70,5 @@ const ErrorPage: SFC<IProps> = ({ classes, error }) => (
     </Grid>
   </div>
 );
-
-ErrorPage.propTypes = {
-  classes: PropTypes.object.isRequired,
-  error: PropTypes.object
-};
 
 export default withStyles(styles)(ErrorPage);

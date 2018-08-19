@@ -5,7 +5,7 @@ interface IToken {
   token: string;
 }
 
-export const storeToken = (token: string): void =>
+export const storeToken = (token: string) =>
   sessionStorage.setItem(
     TOKEN_KEY,
     JSON.stringify({
@@ -14,7 +14,7 @@ export const storeToken = (token: string): void =>
     })
   );
 
-export const clearToken = (): void => sessionStorage.removeItem(TOKEN_KEY);
+export const clearToken = () => sessionStorage.removeItem(TOKEN_KEY);
 
 export const getToken = (): IToken | null => {
   const tokenKey = sessionStorage.getItem(TOKEN_KEY);

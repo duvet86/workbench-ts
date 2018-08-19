@@ -1,7 +1,7 @@
 import { ErrorActionTypes, IErrorAction } from "errorPage/actions";
 
 interface IState {
-  error?: any;
+  error: any;
 }
 
 function errorPage(
