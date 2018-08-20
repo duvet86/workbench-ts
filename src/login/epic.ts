@@ -1,13 +1,15 @@
-import { push } from "connected-react-router";
-import { Epic, ofType } from "redux-observable";
-import { of } from "rxjs";
+import { push, RouterAction } from "connected-react-router";
+import { ActionsObservable, ofType } from "redux-observable";
+import { of, Observable } from "rxjs";
 import { catchError, flatMap, mergeMap } from "rxjs/operators";
 
 import {
   LoginAction,
   LoginActionTypes,
   loginError,
-  loginSuccess
+  loginSuccess,
+  ILoginSuccess,
+  ILoginError
 } from "login/actions";
 
 import { getTokenAsync } from "lib/authApi";
@@ -18,7 +20,9 @@ function storeTokenAndTriggerLogingSucces(token: string) {
   return loginSuccess();
 }
 
-export const loginEpic: Epic<LoginAction, any> = action$ =>
+export const loginEpic = (
+  action$: ActionsObservable<LoginAction>
+): Observable<(ILoginSuccess & RouterAction) | ILoginError> =>
   action$.pipe(
     ofType(LoginActionTypes.LOGIN_REQUEST),
     mergeMap(({ username, password }: { username: string; password: string }) =>

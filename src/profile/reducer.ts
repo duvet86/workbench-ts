@@ -1,10 +1,10 @@
 import { ProfileActionTypes, ProfileAction } from "profile/actions";
 
+import { IUserInfo } from "profile/types";
+
 interface IState {
   isLoading: boolean;
-  userInfo?: {
-    Profile: { UserName: string };
-  };
+  userInfo?: IUserInfo;
 }
 
 function profile(

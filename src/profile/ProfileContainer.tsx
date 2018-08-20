@@ -1,12 +1,13 @@
-import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { ProfileAction, profileRequest } from "profile/actions";
+import { IProfileRequest, profileRequest } from "profile/actions";
 
 import { LoadingContainer } from "common/loading";
 import Profile from "profile/Profile";
+
+import { IUserInfo } from "profile/types";
 
 interface IDispatchProps {
   dispatchLoadProfile: () => void;
@@ -14,9 +15,7 @@ interface IDispatchProps {
 
 interface IStateProps {
   isLoading: boolean;
-  userInfo: {
-    Profile: { UserName: string };
-  };
+  userInfo: IUserInfo;
   error: any;
 }
 
@@ -27,12 +26,6 @@ interface IStoreState {
 }
 
 class ProfileContainer extends Component<Props> {
-  public static propTypes = {
-    isLoading: PropTypes.bool.isRequired,
-    error: PropTypes.object,
-    userInfo: PropTypes.object
-  };
-
   public componentDidMount() {
     this.props.dispatchLoadProfile();
   }
@@ -54,7 +47,7 @@ const mapStateToProps = ({
   error
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<ProfileAction>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<IProfileRequest>) => ({
   dispatchLoadProfile: () => {
     dispatch(profileRequest());
   }

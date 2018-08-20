@@ -1,9 +1,8 @@
-import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { LoginAction, loginRequest } from "login/actions";
+import { ILoginRequest, loginRequest } from "login/actions";
 
 import { LoadingContainer } from "common/loading";
 import Login from "login/Login";
@@ -14,7 +13,7 @@ interface IDispatchProps {
 
 interface IStateProps {
   isLoading: boolean;
-  error?: any;
+  error: any;
 }
 
 type Props = IStateProps & IDispatchProps;
@@ -24,12 +23,6 @@ interface IStoreState {
 }
 
 class LoginContainer extends Component<Props> {
-  public static propTypes = {
-    submitHandler: PropTypes.func.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    error: PropTypes.object
-  };
-
   public componentDidMount() {
     document.body.style.backgroundColor = "#eee";
   }
@@ -56,7 +49,7 @@ const mapStateToProps = ({
   error
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<LoginAction>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<ILoginRequest>) => ({
   submitHandler: (username: string, password: string) => {
     dispatch(loginRequest(username, password));
   }

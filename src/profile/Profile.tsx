@@ -1,16 +1,14 @@
 import PropTypes from "prop-types";
 import React, { SFC } from "react";
 
+import { IUserInfo } from "profile/types";
+
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
 
 interface IProps extends WithStyles<typeof styles> {
-  userInfo: {
-    Profile: {
-      UserName: string;
-    };
-  };
+  userInfo: IUserInfo;
 }
 
 const styles = createStyles({

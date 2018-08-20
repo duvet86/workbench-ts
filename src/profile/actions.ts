@@ -1,5 +1,7 @@
 import { Action } from "redux";
 
+import { IUserInfo } from "profile/types";
+
 export const enum ProfileActionTypes {
   PROFILE_REQUEST = "PROFILE_REQUEST",
   PROFILE_SUCCESS = "PROFILE_SUCCESS",
@@ -12,7 +14,7 @@ export interface IProfileRequest extends Action {
 
 export interface IProfileSuccess extends Action {
   type: ProfileActionTypes.PROFILE_SUCCESS;
-  userInfo: any;
+  userInfo: IUserInfo;
 }
 
 export interface IProfileError extends Action {
@@ -26,8 +28,7 @@ export const profileRequest = (): IProfileRequest => ({
   type: ProfileActionTypes.PROFILE_REQUEST
 });
 
-// TODO: fix me.
-export const profileSuccess = (userInfo: any): IProfileSuccess => ({
+export const profileSuccess = (userInfo: IUserInfo): IProfileSuccess => ({
   type: ProfileActionTypes.PROFILE_SUCCESS,
   userInfo
 });

@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { SFC } from "react";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
@@ -18,9 +17,5 @@ const Pagebuilder: SFC<WithStyles<typeof styles>> = ({ classes }) => (
     </Grid>
   </Grid>
 );
-
-Pagebuilder.propTypes = {
-  classes: PropTypes.object.isRequired
-};
 
 export default withStyles(styles)(Pagebuilder);

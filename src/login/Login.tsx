@@ -1,10 +1,13 @@
 import logo from "login/logo.svg";
 
-import PropTypes from "prop-types";
 import React, { ChangeEvent, Component, FormEvent, MouseEvent } from "react";
 
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
-import { Theme } from "@material-ui/core/styles/createMuiTheme";
+import {
+  createStyles,
+  Theme,
+  withStyles,
+  WithStyles
+} from "@material-ui/core/styles";
 
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
@@ -62,19 +65,11 @@ const styles = ({ spacing: { unit } }: Theme) =>
   });
 
 class Login extends Component<IProps, IState> {
-  public static propTypes = {
-    classes: PropTypes.object.isRequired,
-    submitHandler: PropTypes.func.isRequired
+  public readonly state = {
+    username: "",
+    password: "",
+    showPassword: false
   };
-
-  constructor(props: IProps) {
-    super(props);
-    this.state = {
-      username: "",
-      password: "",
-      showPassword: false
-    };
-  }
 
   public render() {
     const { classes } = this.props;
@@ -149,10 +144,10 @@ class Login extends Component<IProps, IState> {
     );
   }
 
-  private handleChange = (prop: "username" | "password") => (
-    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  private handleChange = (prop: string) => (
+    event: ChangeEvent<HTMLInputElement>
   ) => {
-    // TODO: fix me.
+    // TODO: fix me: typescript issue.
     this.setState({ [prop]: event.target.value } as any);
   };
 

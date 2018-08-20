@@ -1,6 +1,8 @@
-import { from } from "rxjs";
+import { from, Observable } from "rxjs";
 
 import { getWithJwtAsync } from "lib/http";
 
-export const getUserInfoAsync = () =>
+import { IUserInfo } from "profile/types";
+
+export const getUserInfoAsync = (): Observable<IUserInfo> =>
   from(getWithJwtAsync("api/platform/myprofile"));
