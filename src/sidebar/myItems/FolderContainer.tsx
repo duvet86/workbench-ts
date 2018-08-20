@@ -1,5 +1,4 @@
 import { Location } from "history";
-import PropTypes from "prop-types";
 import React, { Component } from "react";
 
 import Folder from "sideBar/myItems/Folder";
@@ -18,11 +17,6 @@ interface IState {
 }
 
 class FolderContainer extends Component<IProps, IState> {
-  public static propTypes = {
-    Label: PropTypes.string.isRequired,
-    Children: PropTypes.array.isRequired
-  };
-
   public readonly state = {
     expanded: false
   };

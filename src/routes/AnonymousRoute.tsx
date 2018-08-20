@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { ComponentType, SFC } from "react";
 import { RouteProps } from "react-router";
 import { Redirect, Route } from "react-router-dom";
@@ -24,10 +23,6 @@ const AnonymousRoute: SFC<IProps> = ({ component, ...props }) => {
     );
 
   return <Route exact {...props} render={boundRender} />;
-};
-
-AnonymousRoute.propTypes = {
-  component: PropTypes.oneOfType([PropTypes.func, PropTypes.element]).isRequired
 };
 
 export default AnonymousRoute;

@@ -1,5 +1,6 @@
-import PropTypes from "prop-types";
 import React, { Fragment, SFC } from "react";
+
+import { IFolderChild } from "sidebar/myItems/types";
 
 import {
   createStyles,
@@ -23,8 +24,7 @@ interface IProps extends WithStyles<typeof styles> {
   label: string;
   handleClick: () => void;
   expanded: boolean;
-  // TODO: Fix me.
-  children: any;
+  children: IFolderChild[];
 }
 
 const styles = (theme: Theme) =>
@@ -63,7 +63,7 @@ const Folder: SFC<IProps> = ({
       <List disablePadding>
         {children.map(
           // TODO: Fix me.
-          ({ ChildType, ...rest }: any) =>
+          ({ ChildType, ...rest }) =>
             ChildType === "F" ? (
               <Folder key={rest.ChildFolderId} {...rest.ChildFolder} />
             ) : (
@@ -75,13 +75,5 @@ const Folder: SFC<IProps> = ({
     <Divider />
   </Fragment>
 );
-
-Folder.propTypes = {
-  classes: PropTypes.object.isRequired,
-  label: PropTypes.string.isRequired,
-  children: PropTypes.array.isRequired,
-  handleClick: PropTypes.func.isRequired,
-  expanded: PropTypes.bool.isRequired
-};
 
 export default withStyles(styles)(Folder);

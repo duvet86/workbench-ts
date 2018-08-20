@@ -2,12 +2,13 @@ import { from } from "rxjs";
 
 import { getWithJwtAsync } from "lib/http";
 
-// TODO: fix me;
+import { IFolderChild } from "sidebar/myItems/types";
+
 export const getMyItemsAsync = () =>
   from(
     Promise.all([
-      getWithJwtAsync("api/useritems/myitems"),
-      getWithJwtAsync("api/useritems/sharedwithme")
+      getWithJwtAsync<IFolderChild[]>("api/useritems/myitems"),
+      getWithJwtAsync<IFolderChild[]>("api/useritems/sharedwithme")
     ]).then(arrayResponse => ({
       myItems: arrayResponse[0],
       sharedWithMe: arrayResponse[1]

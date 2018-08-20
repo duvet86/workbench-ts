@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { ComponentType, SFC } from "react";
 import { RouteProps } from "react-router";
 import { Redirect, Route } from "react-router";
@@ -6,7 +5,7 @@ import { Redirect, Route } from "react-router";
 import { isUserAuthenticated } from "lib/authApi";
 
 interface IProps {
-  component: ComponentType<any>;
+  component: ComponentType<RouteProps>;
   path: string;
 }
 
@@ -24,10 +23,6 @@ const AuthenticatedRoute: SFC<IProps> = ({ component, ...props }) => {
     );
 
   return <Route exact {...props} render={boundRender} />;
-};
-
-AuthenticatedRoute.propTypes = {
-  component: PropTypes.oneOfType([PropTypes.func, PropTypes.element]).isRequired
 };
 
 export default AuthenticatedRoute;
