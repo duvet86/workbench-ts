@@ -1,8 +1,9 @@
 import { Location } from "history";
-import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+
+import { IFolderChild } from "sidebar/myItems/types";
 
 import { MyItemsAction, myItemsRequest } from "sideBar/myItems/actions";
 
@@ -16,16 +17,10 @@ interface IDispatchProps {
 interface IStateProps {
   isLoading: boolean;
   items: {
-    myItems: Array<{
-      ChildType: string;
-      ChildFolderId?: string;
-      ChildFolder?: any;
-      ChildItemId?: string;
-      ChildItem?: any;
-    }>;
+    myItems: IFolderChild[];
   };
-  error?: any;
   location: Location;
+  error: any;
 }
 
 type Props = IStateProps & IDispatchProps;
@@ -35,14 +30,6 @@ interface IStoreState {
 }
 
 class MyItemsListContainer extends Component<Props> {
-  public static propTypes = {
-    dispatchLoadMyItems: PropTypes.func.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    location: PropTypes.object.isRequired,
-    items: PropTypes.object,
-    error: PropTypes.object
-  };
-
   public componentDidMount() {
     this.props.dispatchLoadMyItems();
   }

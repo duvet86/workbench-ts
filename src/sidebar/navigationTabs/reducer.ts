@@ -2,7 +2,7 @@ import { TabsActionTypes, TabsAction } from "sideBar/navigationTabs/actions";
 
 interface IState {
   selectedTab: number;
-  tabsState: [boolean, boolean, boolean];
+  tabsEnabled: [boolean, boolean, boolean];
 }
 
 function navigationTabs(
@@ -10,28 +10,28 @@ function navigationTabs(
   // Suppose we are on "/".
   state: IState = {
     selectedTab: 0,
-    tabsState: [false, true, true]
+    tabsEnabled: [false, true, true]
   },
   action: TabsAction
 ) {
-  const tabsState = action.tabsState || state.tabsState;
+  const tabsEnabled = action.tabsEnabled || state.tabsEnabled;
 
   switch (action.type) {
     case TabsActionTypes.MYITEMS_SHOW:
       return {
         selectedTab: 0,
-        tabsState
+        tabsEnabled
       };
 
     case TabsActionTypes.FILTERS_SHOW:
       return {
         selectedTab: 1,
-        tabsState
+        tabsEnabled
       };
     case TabsActionTypes.TOOLS_SHOW:
       return {
         selectedTab: 2,
-        tabsState
+        tabsEnabled
       };
 
     default:

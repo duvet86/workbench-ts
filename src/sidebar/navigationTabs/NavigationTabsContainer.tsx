@@ -1,5 +1,4 @@
 import { Location } from "history";
-import PropTypes from "prop-types";
 import React, { ChangeEvent, Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -12,18 +11,18 @@ import {
 } from "sideBar/navigationTabs/actions";
 import NavigationTabs from "sideBar/navigationTabs/NavigationTabs";
 
-type TabsState = [boolean, boolean, boolean];
+type TabsEnabled = [boolean, boolean, boolean];
 
 interface IDispatchProps {
-  dispatchShowMyItems: (tabsState?: TabsState) => void;
-  dispatchShowFilters: (tabsState?: TabsState) => void;
-  dispatchShowMyTools: (tabsState?: TabsState) => void;
+  dispatchShowMyItems: (tabsEnabled?: TabsEnabled) => void;
+  dispatchShowFilters: (tabsEnabled?: TabsEnabled) => void;
+  dispatchShowMyTools: (tabsEnabled?: TabsEnabled) => void;
 }
 
 interface IStateProps {
   location: Location;
   selectedTab: number;
-  tabsState: TabsState;
+  tabsEnabled: TabsEnabled;
 }
 
 type Props = IStateProps & IDispatchProps;
@@ -33,15 +32,6 @@ interface IStoreState {
 }
 
 class NavigationTabsContainer extends Component<Props> {
-  public static propTypes = {
-    location: PropTypes.object.isRequired,
-    selectedTab: PropTypes.number.isRequired,
-    tabsState: PropTypes.array.isRequired,
-    dispatchShowMyItems: PropTypes.func.isRequired,
-    dispatchShowFilters: PropTypes.func.isRequired,
-    dispatchShowMyTools: PropTypes.func.isRequired
-  };
-
   public componentDidMount() {
     const {
       location: { pathname },
@@ -60,18 +50,18 @@ class NavigationTabsContainer extends Component<Props> {
   }
 
   public render() {
-    const { selectedTab, tabsState } = this.props;
+    const { selectedTab, tabsEnabled } = this.props;
 
     return (
       <NavigationTabs
         selectedTab={selectedTab}
-        tabsState={tabsState}
+        tabsEnabled={tabsEnabled}
         handleChange={this.handleChange}
       />
     );
   }
 
-  private handleChange = (_: ChangeEvent<{}>, value: number) => {
+  private handleChange = (_: ChangeEvent, value: number) => {
     const {
       dispatchShowMyItems,
       dispatchShowFilters,
@@ -93,21 +83,21 @@ class NavigationTabsContainer extends Component<Props> {
 }
 
 const mapStateToProps = ({
-  navigationTabsReducer: { selectedTab, tabsState }
+  navigationTabsReducer: { selectedTab, tabsEnabled }
 }: IStoreState) => ({
   selectedTab,
-  tabsState
+  tabsEnabled
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<TabsAction>) => ({
-  dispatchShowMyItems: (tabsState?: TabsState) => {
-    dispatch(showMyItems(tabsState));
+  dispatchShowMyItems: (tabsEnabled?: TabsEnabled) => {
+    dispatch(showMyItems(tabsEnabled));
   },
-  dispatchShowFilters: (tabsState?: TabsState) => {
-    dispatch(showFilters(tabsState));
+  dispatchShowFilters: (tabsEnabled?: TabsEnabled) => {
+    dispatch(showFilters(tabsEnabled));
   },
-  dispatchShowMyTools: (tabsState?: TabsState) => {
-    dispatch(showTools(tabsState));
+  dispatchShowMyTools: (tabsEnabled?: TabsEnabled) => {
+    dispatch(showTools(tabsEnabled));
   }
 });
 

@@ -6,19 +6,15 @@ import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
 import List from "@material-ui/core/List";
 
+import { IFolderChild } from "sidebar/myItems/types";
+
 import FolderContainer from "sideBar/myItems/FolderContainer";
 import Item from "sideBar/myItems/Item";
 
 // TODO: Fix me.
 interface IProps extends WithStyles<typeof styles> {
   items: {
-    myItems: Array<{
-      ChildType: string;
-      ChildFolderId?: string;
-      ChildFolder?: any;
-      ChildItemId?: string;
-      ChildItem?: any;
-    }>;
+    myItems: IFolderChild[];
   };
   location: Location;
 }

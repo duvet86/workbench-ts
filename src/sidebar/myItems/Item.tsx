@@ -1,5 +1,4 @@
-import PropTypes from "prop-types";
-import React, { Fragment, SFC } from "react";
+import React, { SFC } from "react";
 import { NavLink } from "react-router-dom";
 
 import {
@@ -9,15 +8,14 @@ import {
   WithStyles
 } from "@material-ui/core/styles";
 
-import Divider from "@material-ui/core/Divider";
-import ListItem from "@material-ui/core/ListItem";
+import ListItem, { ListItemProps } from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 
 import Dashboard from "@material-ui/icons/Dashboard";
 
 interface IProps extends WithStyles<typeof styles> {
-  ItemId: string;
-  Label: string;
+  itemId: string;
+  label: string;
   nested?: boolean;
 }
 
@@ -35,33 +33,32 @@ const styles = ({ typography }: Theme) =>
     }
   });
 
-const workbenchLink = (itemId: string) => () => (
-  <NavLink to={`/workbench/${itemId}`} />
-);
-
-const Item: SFC<IProps> = ({ classes, ItemId, Label, nested }) => (
-  <Fragment>
-    <ListItem
-      component={workbenchLink(ItemId)}
-      className={nested ? classes.listItemOpen : undefined}
-    >
-      <Dashboard className={classes.icon} />
-      <ListItemText
-        primary={Label}
-        classes={{
-          primary: classes.heading
-        }}
-      />
-    </ListItem>
-    <Divider />
-  </Fragment>
-);
-
-Item.propTypes = {
-  classes: PropTypes.object.isRequired,
-  ItemId: PropTypes.string.isRequired,
-  Label: PropTypes.string.isRequired,
-  nested: PropTypes.bool
+const workbenchLink = (itemId: string) => ({
+  children,
+  className
+}: ListItemProps) => {
+  return (
+    <NavLink className={className} to={`/workbench/${itemId}`}>
+      {children}
+    </NavLink>
+  );
 };
+
+const Item: SFC<IProps> = ({ classes, itemId, label, nested }) => (
+  <ListItem
+    divider
+    button
+    component={workbenchLink(itemId)}
+    className={nested ? classes.listItemOpen : undefined}
+  >
+    <Dashboard className={classes.icon} />
+    <ListItemText
+      primary={label}
+      classes={{
+        primary: classes.heading
+      }}
+    />
+  </ListItem>
+);
 
 export default withStyles(styles)(Item);

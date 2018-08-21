@@ -1,22 +1,16 @@
 import { MyItemsActionTypes, MyItemsAction } from "sideBar/myItems/actions";
 
+import { IFolderChild } from "sidebar/myItems/types";
+
 interface IState {
   isLoading: boolean;
-  items?: {
-    myItems: Array<{
-      ChildType: string;
-      ChildFolderId?: string;
-      ChildFolder?: any;
-      ChildItemId?: string;
-      ChildItem?: any;
-    }>;
-  };
+  items: IFolderChild[];
 }
 
 function myItems(
   state: IState = {
     isLoading: true,
-    items: undefined
+    items: []
   },
   action: MyItemsAction
 ) {

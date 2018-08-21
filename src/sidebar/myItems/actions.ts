@@ -1,8 +1,10 @@
 import { Action } from "redux";
 
+import { IFolderChild } from "sidebar/myItems/types";
+
 interface IItems {
-  myItems: any[];
-  sharedWithMe: any[];
+  myItems: IFolderChild[];
+  sharedWithMe: IFolderChild[];
 }
 
 export const enum MyItemsActionTypes {
@@ -15,7 +17,6 @@ export interface IMyItemsRequest extends Action {
   type: MyItemsActionTypes.MY_ITEMS_REQUEST;
 }
 
-// TODO: fix me.
 export interface IMyItemsSuccess extends Action {
   type: MyItemsActionTypes.MY_ITEMS_SUCCESS;
   items: IItems;

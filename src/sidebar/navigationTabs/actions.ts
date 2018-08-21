@@ -6,36 +6,36 @@ export const enum TabsActionTypes {
   TOOLS_SHOW = "TOOLS_SHOW"
 }
 
-type TabsState = [boolean, boolean, boolean];
+type TabsEnabled = [boolean, boolean, boolean];
 
 export interface IShowMyItems extends Action {
   type: TabsActionTypes.MYITEMS_SHOW;
-  tabsState?: TabsState;
+  tabsEnabled?: TabsEnabled;
 }
 
 export interface IShowFilters extends Action {
   type: TabsActionTypes.FILTERS_SHOW;
-  tabsState?: TabsState;
+  tabsEnabled?: TabsEnabled;
 }
 
 export interface IShowTools extends Action {
   type: TabsActionTypes.TOOLS_SHOW;
-  tabsState?: TabsState;
+  tabsEnabled?: TabsEnabled;
 }
 
 export type TabsAction = IShowMyItems | IShowFilters | IShowTools;
 
-export const showMyItems = (tabsState?: TabsState): IShowMyItems => ({
+export const showMyItems = (tabsEnabled?: TabsEnabled): IShowMyItems => ({
   type: TabsActionTypes.MYITEMS_SHOW,
-  tabsState
+  tabsEnabled
 });
 
-export const showFilters = (tabsState?: TabsState): IShowFilters => ({
+export const showFilters = (tabsEnabled?: TabsEnabled): IShowFilters => ({
   type: TabsActionTypes.FILTERS_SHOW,
-  tabsState
+  tabsEnabled
 });
 
-export const showTools = (tabsState?: TabsState): IShowTools => ({
+export const showTools = (tabsEnabled?: TabsEnabled): IShowTools => ({
   type: TabsActionTypes.TOOLS_SHOW,
-  tabsState
+  tabsEnabled
 });

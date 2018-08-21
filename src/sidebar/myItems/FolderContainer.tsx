@@ -1,15 +1,14 @@
 import { Location } from "history";
 import React, { Component } from "react";
 
+import { IFolderChild } from "sidebar/myItems/types";
+
 import Folder from "sideBar/myItems/Folder";
 
 interface IProps {
   Label: string;
   location: Location;
-  Children: Array<{
-    ChildType: string;
-    ChildItemId: string;
-  }>;
+  Children: IFolderChild[];
 }
 
 interface IState {

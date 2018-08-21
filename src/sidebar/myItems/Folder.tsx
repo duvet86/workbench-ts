@@ -60,14 +60,25 @@ const Folder: SFC<IProps> = ({
       />
     </ListItem>
     <Collapse in={expanded} timeout="auto" unmountOnExit>
-      <List disablePadding>
+      <List disablePadding component="nav">
         {children.map(
-          // TODO: Fix me.
-          ({ ChildType, ...rest }) =>
+          ({ ChildType, ChildFolderId, ChildFolder, ChildItemId, ChildItem }) =>
             ChildType === "F" ? (
-              <Folder key={rest.ChildFolderId} {...rest.ChildFolder} />
+              <Folder
+                key={ChildFolderId!}
+                classes={classes}
+                label={ChildFolder!.Label}
+                children={ChildFolder!.Children}
+                handleClick={handleClick}
+                expanded={false}
+              />
             ) : (
-              <Item key={rest.ChildItemId} {...rest.ChildItem} nested />
+              <Item
+                key={ChildItemId!}
+                itemId={ChildItem!.ItemId}
+                label={ChildItem!.Label}
+                nested
+              />
             )
         )}
       </List>

@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { ChangeEvent, SFC } from "react";
 
 import {
@@ -15,11 +14,11 @@ import tabButtons from "sideBar/navigationTabs/tabsData";
 
 interface IProps extends WithStyles<typeof styles> {
   selectedTab: number;
-  tabsState: [boolean, boolean, boolean];
+  tabsEnabled: [boolean, boolean, boolean];
   handleChange: (event: ChangeEvent<{}>, value: number) => void;
 }
 
-const styles = ({ breakpoints, spacing }: Theme) =>
+const styles = ({ breakpoints, spacing: { unit } }: Theme) =>
   createStyles({
     tabRoot: {
       minWidth: 0,
@@ -27,8 +26,8 @@ const styles = ({ breakpoints, spacing }: Theme) =>
     },
     labelContainer: {
       [breakpoints.up("md")]: {
-        paddingLeft: spacing.unit * 2,
-        paddingRight: spacing.unit * 2
+        paddingLeft: unit * 2,
+        paddingRight: unit * 2
       }
     },
     textColorPrimary: {
@@ -39,7 +38,7 @@ const styles = ({ breakpoints, spacing }: Theme) =>
 const NavigationTabs: SFC<IProps> = ({
   classes,
   selectedTab,
-  tabsState,
+  tabsEnabled,
   handleChange
 }) => (
   <Tabs
@@ -49,26 +48,21 @@ const NavigationTabs: SFC<IProps> = ({
     indicatorColor="primary"
     textColor="primary"
   >
-    {tabButtons.filter((_, index) => !tabsState[index]).map(({ id, label }) => (
-      <Tab
-        key={id}
-        label={label}
-        classes={{
-          root: classes.tabRoot,
-          labelContainer: classes.labelContainer,
-          textColorPrimary: classes.textColorPrimary
-        }}
-      />
-    ))}
+    {tabButtons
+      .filter((_, index) => !tabsEnabled[index])
+      .map(({ id, label }) => (
+        <Tab
+          key={id}
+          label={label}
+          classes={{
+            root: classes.tabRoot,
+            labelContainer: classes.labelContainer,
+            textColorPrimary: classes.textColorPrimary
+          }}
+        />
+      ))}
     />
   </Tabs>
 );
-
-NavigationTabs.propTypes = {
-  classes: PropTypes.object.isRequired,
-  selectedTab: PropTypes.number.isRequired,
-  tabsState: PropTypes.array.isRequired,
-  handleChange: PropTypes.func.isRequired
-};
 
 export default withStyles(styles)(NavigationTabs);
