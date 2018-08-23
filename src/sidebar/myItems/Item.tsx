@@ -1,5 +1,6 @@
 import React, { SFC } from "react";
 import { NavLink } from "react-router-dom";
+import { Location } from "history";
 
 import {
   createStyles,
@@ -17,6 +18,7 @@ interface IProps extends WithStyles<typeof styles> {
   itemId: string;
   label: string;
   nested?: boolean;
+  location: Location;
 }
 
 const styles = ({ typography }: Theme) =>

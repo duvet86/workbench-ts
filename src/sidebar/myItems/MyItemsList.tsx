@@ -11,7 +11,6 @@ import { IFolderChild } from "sidebar/myItems/types";
 import FolderContainer from "sideBar/myItems/FolderContainer";
 import Item from "sideBar/myItems/Item";
 
-// TODO: Fix me.
 interface IProps extends WithStyles<typeof styles> {
   items: {
     myItems: IFolderChild[];
@@ -39,17 +38,19 @@ const styles = createStyles({
 const MyItemsList: SFC<IProps> = ({ classes, items, location }) => (
   <List className={classes.list}>
     {items.myItems.map(
-      ({ ChildType, ...props }) =>
+      ({ ChildType, ChildFolderId, ChildFolder, ChildItemId, ChildItem }) =>
         ChildType === "F" ? (
           <FolderContainer
-            key={props.ChildFolderId}
-            {...props.ChildFolder}
+            key={ChildFolderId}
+            label={ChildFolder.Label}
+            children={ChildFolder.Children}
             location={location}
           />
         ) : (
           <Item
-            key={props.ChildItemId}
-            {...props.ChildItem}
+            key={ChildItemId}
+            itemId={ChildItem.ItemId}
+            label={ChildItem.Label}
             location={location}
           />
         )

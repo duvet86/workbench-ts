@@ -65,18 +65,18 @@ const Folder: SFC<IProps> = ({
           ({ ChildType, ChildFolderId, ChildFolder, ChildItemId, ChildItem }) =>
             ChildType === "F" ? (
               <Folder
-                key={ChildFolderId!}
+                key={ChildFolderId}
                 classes={classes}
-                label={ChildFolder!.Label}
-                children={ChildFolder!.Children}
+                label={ChildFolder.Label}
+                children={ChildFolder.Children}
                 handleClick={handleClick}
                 expanded={false}
               />
             ) : (
               <Item
-                key={ChildItemId!}
-                itemId={ChildItem!.ItemId}
-                label={ChildItem!.Label}
+                key={ChildItemId}
+                itemId={ChildItem.ItemId}
+                label={ChildItem.Label}
                 nested
               />
             )

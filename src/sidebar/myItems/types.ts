@@ -52,11 +52,14 @@ interface IItemDtc {
 
 export interface IFolderChild {
   ContentId: string;
-  FolderId: string | null;
+  FolderId: string;
   ChildType: "F" | "I";
-  ChildFolderId: string | null;
-  ChildItemId: string | null;
-  OwnerUsername: string | null;
-  ChildFolder: IFolderDtc | null;
-  ChildItem: IItemDtc | null;
+
+  ChildFolderId: string;
+  ChildFolder: IFolderDtc;
+
+  ChildItemId: string;
+  ChildItem: IItemDtc;
+
+  OwnerUsername: string;
 }

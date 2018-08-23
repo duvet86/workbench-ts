@@ -1,14 +1,14 @@
-import { Location } from "history";
 import React, { Component } from "react";
+import { Location } from "history";
 
 import { IFolderChild } from "sidebar/myItems/types";
 
 import Folder from "sideBar/myItems/Folder";
 
 interface IProps {
-  Label: string;
+  label: string;
   location: Location;
-  Children: IFolderChild[];
+  children: IFolderChild[];
 }
 
 interface IState {
@@ -21,12 +21,12 @@ class FolderContainer extends Component<IProps, IState> {
   };
 
   public componentDidMount() {
-    const { Children, location } = this.props;
-    if (!Children || Children.length === 0) {
+    const { children, location } = this.props;
+    if (!children || children.length === 0) {
       return;
     }
 
-    const match = Children.some(
+    const match = children.some(
       c =>
         c.ChildType === "I" &&
         `/workbench/${c.ChildItemId}` === location.pathname
@@ -38,13 +38,13 @@ class FolderContainer extends Component<IProps, IState> {
   }
 
   public render() {
-    const { Label, Children } = this.props;
+    const { label, children } = this.props;
     const { expanded } = this.state;
 
     return (
       <Folder
-        label={Label}
-        children={Children}
+        label={label}
+        children={children}
         handleClick={this.handleClick}
         expanded={expanded}
       />
