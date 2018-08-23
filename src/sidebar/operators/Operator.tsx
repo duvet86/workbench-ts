@@ -1,10 +1,9 @@
-import PropTypes from "prop-types";
 import React, { Fragment, SFC } from "react";
 
 import {
   ConnectDragSource,
   DragSource,
-  DragSourceCollector,
+  DragSourceConnector,
   DragSourceSpec
 } from "react-dnd";
 
@@ -39,7 +38,12 @@ interface IHandleProps {
   className: string;
 }
 
-const operatorSource: DragSourceSpec<IHandleProps> = {
+interface IDragObject {
+  type: string;
+  operatorServiceId: string;
+}
+
+const operatorSource: DragSourceSpec<IHandleProps, IDragObject> = {
   beginDrag({ type, operatorServiceId }) {
     return {
       type,
@@ -48,7 +52,7 @@ const operatorSource: DragSourceSpec<IHandleProps> = {
   }
 };
 
-const collect: DragSourceCollector = connect => ({
+const collect = (connect: DragSourceConnector) => ({
   connectDragSource: connect.dragSource()
 });
 
@@ -73,12 +77,19 @@ const styles = ({ typography }: Theme) =>
     }
   });
 
-const Handle: SFC<IHandleProps> = ({
+interface Iasd {
+  connectDragSource: ConnectDragSource;
+  className: any;
+  backgroundColor: string;
+  IconComponent: React.ComponentType<SvgIconProps>;
+}
+
+const Handle = ({
   connectDragSource,
   className,
   backgroundColor,
   IconComponent
-}) =>
+}: Iasd) =>
   connectDragSource(
     <span className={className}>
       <Avatar
@@ -111,13 +122,5 @@ const Operator: SFC<IProps> = ({ classes, label, description, ...props }) => (
     <Divider />
   </Fragment>
 );
-
-Operator.propTypes = {
-  classes: PropTypes.object.isRequired,
-  label: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  backgroundColor: PropTypes.string.isRequired,
-  IconComponent: PropTypes.func.isRequired
-};
 
 export default withStyles(styles)(Operator);

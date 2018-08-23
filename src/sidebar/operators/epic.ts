@@ -1,4 +1,4 @@
-import { Epic, ofType } from "redux-observable";
+import { ActionsObservable, ofType } from "redux-observable";
 import { catchError, map, mergeMap } from "rxjs/operators";
 
 import { handleException } from "errorPage/epic";
@@ -9,12 +9,12 @@ import {
 } from "sideBar/operators/actions";
 import { getOperatorsAsync } from "sideBar/operators/api";
 
-export const operatorsEpic: Epic<IOperatorsRequest, any> = action$ =>
+export const operatorsEpic = (action$: ActionsObservable<IOperatorsRequest>) =>
   action$.pipe(
     ofType(OperatorsActionTypes.OPERATORS_REQUEST),
     mergeMap(() =>
       getOperatorsAsync().pipe(
-        map(response => operatorsSuccess(response)),
+        map(operatorServices => operatorsSuccess(operatorServices)),
         catchError(error => handleException(error))
       )
     )

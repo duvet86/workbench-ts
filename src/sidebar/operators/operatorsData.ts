@@ -1,4 +1,8 @@
-import { SvgIconProps } from "@material-ui/core/SvgIcon";
+import {
+  IOperatorServiceDtc,
+  IOperatorExtraInfo,
+  ElementType
+} from "sidebar/operators/types";
 
 import DefaultIcon from "@material-ui/icons/FiberNew";
 import FilterListIcon from "@material-ui/icons/FilterList";
@@ -9,22 +13,6 @@ import ShareIcon from "@material-ui/icons/Share";
 import SubdirectoryArrowLeftIcon from "@material-ui/icons/SubdirectoryArrowLeft";
 import SubdirectoryArrowRightIcon from "@material-ui/icons/SubdirectoryArrowRight";
 
-export interface IExtraInfo {
-  type?: ElementType;
-  IconComponent: React.ComponentType<SvgIconProps>;
-  backgroundColor: string;
-}
-
-export interface IOperatorExtraInfo {
-  [key: string]: IExtraInfo;
-}
-
-export enum ElementType {
-  NONE = "NONE",
-  QUERY = "QUERY",
-  FILTER = "FILTER"
-}
-
 export const DEFAULTS = {
   backgroundColor: "#000000",
   IconComponent: DefaultIcon
@@ -34,7 +22,7 @@ export const itemType = {
   OPERATOR: "OPERATOR"
 };
 
-export const staticOperatorsList = [
+export const staticOperatorsList: IOperatorServiceDtc[] = [
   {
     OperatorServiceId: "1",
     Label: "Query",

@@ -1,8 +1,9 @@
-import { from } from "rxjs";
+import { from, Observable } from "rxjs";
 
 import { TENANT_ID } from "lib/constants";
 import { getWithJwtAsync } from "lib/http";
 
-// TODO: fix me.
-export const getOperatorsAsync = () =>
+import { IOperatorServiceDtc } from "sidebar/operators/types";
+
+export const getOperatorsAsync = (): Observable<IOperatorServiceDtc[]> =>
   from(getWithJwtAsync(`api/qes/${TENANT_ID}/operatorservices`));

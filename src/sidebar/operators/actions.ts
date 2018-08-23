@@ -1,10 +1,15 @@
 import { Action } from "redux";
 import {
   DEFAULTS,
-  IExtraInfo,
   operatorsExtraInfo,
   staticOperatorsList
 } from "sideBar/operators/operatorsData";
+
+import {
+  IOperatorServiceDtc,
+  IOperatorResult,
+  IExtraInfo
+} from "sidebar/operators/types";
 
 export const enum OperatorsActionTypes {
   OPERATORS_REQUEST = "OPERATORS_REQUEST",
@@ -35,20 +40,8 @@ export const operatorsRequest = (): IOperatorsRequest => ({
   type: OperatorsActionTypes.OPERATORS_REQUEST
 });
 
-export interface IOperatorResult extends IExtraInfo {
-  operatorServiceId: string;
-  label: string;
-  description: string;
-}
-
-interface IInputOperator {
-  OperatorServiceId: string;
-  Label: string;
-  Description: string;
-}
-
 export const operatorsSuccess = (
-  operators: IInputOperator[]
+  operators: IOperatorServiceDtc[]
 ): IOperatorsSuccess => {
   const normalizedOperators = staticOperatorsList.concat(operators).reduce<{
     [key: string]: IOperatorResult;
