@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { SFC } from "react";
 
 import { NavLink } from "react-router-dom";
@@ -43,13 +42,5 @@ const WelcomePageCard: SFC<IProps> = ({
     </Card>
   </NavLink>
 );
-
-WelcomePageCard.propTypes = {
-  classes: PropTypes.object.isRequired,
-  IconComponent: PropTypes.func.isRequired,
-  label: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  to: PropTypes.string.isRequired
-};
 
 export default withStyles(styles)(WelcomePageCard);

@@ -6,7 +6,7 @@ import {
   bottomEndPointConfig,
   connectionConfig
 } from "workbench/utils";
-import { ElementType } from "sideBar/operators/operatorsData";
+import { ElementType } from "sidebar/operators/types";
 
 import QueryElement from "workbench/query/QueryElement";
 import FilterElement from "workbench/filter/FilterElement";

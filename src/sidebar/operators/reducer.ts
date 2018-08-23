@@ -1,8 +1,9 @@
 import {
-  IOperatorResult,
   OperatorsActionTypes,
   OperatorsAction
 } from "sideBar/operators/actions";
+
+import { IOperatorResult } from "sidebar/operators/types";
 
 interface IState {
   isLoading: boolean;

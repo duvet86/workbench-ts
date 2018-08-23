@@ -1,5 +1,4 @@
 import React, { SFC } from "react";
-import PropTypes from "prop-types";
 
 import Grid from "@material-ui/core/Grid";
 
@@ -41,12 +40,5 @@ const ColumnsSelector: SFC<IProps> = ({
     </Grid>
   </Grid>
 );
-
-ColumnsSelector.propTypes = {
-  availableColumns: PropTypes.array.isRequired,
-  selectedColumns: PropTypes.array.isRequired,
-  handleAddQueryColumn: PropTypes.func.isRequired,
-  handleRemoveQueryColumn: PropTypes.func.isRequired
-};
 
 export default ColumnsSelector;

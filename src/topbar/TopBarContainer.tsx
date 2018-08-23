@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { push, RouterAction } from "connected-react-router";
@@ -25,12 +24,6 @@ interface IState {
 }
 
 class TopBarContainer extends Component<Props, IState> {
-  public static propTypes = {
-    dispatchWelcomePage: PropTypes.func.isRequired,
-    dispatchLogout: PropTypes.func.isRequired,
-    dispatchProfileClick: PropTypes.func.isRequired
-  };
-
   public readonly state = {
     anchorEl: undefined
   };

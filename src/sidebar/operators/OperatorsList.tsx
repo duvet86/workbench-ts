@@ -1,9 +1,8 @@
-import PropTypes from "prop-types";
 import React, { SFC } from "react";
 
-import { IOperatorResult } from "sideBar/operators/actions";
-
 import List from "@material-ui/core/List";
+
+import { IOperatorResult } from "sideBar/operators/types";
 
 import Operator from "sideBar/operators/Operator";
 
@@ -18,9 +17,5 @@ const OperatorsList: SFC<IProps> = ({ operators }) => (
     ))}
   </List>
 );
-
-OperatorsList.propTypes = {
-  operators: PropTypes.object
-};
 
 export default OperatorsList;

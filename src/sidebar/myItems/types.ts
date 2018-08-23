@@ -22,7 +22,7 @@ interface IFolderDtc {
   Shares: IShareDtc[];
 }
 
-interface IItemDtc {
+export interface IItemDtc {
   ItemId: string;
   TenantId: string;
   ItemTypeId: string;

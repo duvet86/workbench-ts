@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { ElementType } from "sideBar/operators/operatorsData";
+import { ElementType } from "sideBar/operators/types";
 import { isDrawerOpen } from "workbench/configSwitch/selectors";
 
 import ConfigSwitch from "workbench/configSwitch/ConfigSwitch";
@@ -12,18 +11,19 @@ interface IStateProps {
   isDrawerOpen: boolean;
 }
 
-class ConfigSwitchContainer extends Component<IStateProps> {
-  public static propTypes = {
-    elementType: PropTypes.string.isRequired,
-    isDrawerOpen: PropTypes.bool.isRequired
+interface IStoreState {
+  configSwitchReducer: {
+    elementType: ElementType;
   };
+}
 
+class ConfigSwitchContainer extends Component<IStateProps> {
   public render() {
     return <ConfigSwitch {...this.props} />;
   }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: IStoreState) => ({
   elementType: state.configSwitchReducer.elementType,
   isDrawerOpen: isDrawerOpen(state)
 });

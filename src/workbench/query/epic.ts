@@ -1,4 +1,4 @@
-import { Epic, ofType } from "redux-observable";
+import { ActionsObservable, ofType } from "redux-observable";
 import { mergeMap, map, catchError } from "rxjs/operators";
 
 import { handleException } from "errorPage/epic";
@@ -20,7 +20,9 @@ import {
   getDataServiceDescriptionObs
 } from "workbench/query/api";
 
-export const dataServicesEpic: Epic<DataServicesAction, any> = action$ =>
+export const dataServicesEpic = (
+  action$: ActionsObservable<DataServicesAction>
+) =>
   action$.pipe(
     ofType(DataServicesActionTypes.DATASERVICES_REQUEST),
     mergeMap(() =>
@@ -31,10 +33,9 @@ export const dataServicesEpic: Epic<DataServicesAction, any> = action$ =>
     )
   );
 
-export const filterCapabilitiesEpic: Epic<
-  FilterCapabilitiesAction,
-  any
-> = action$ =>
+export const filterCapabilitiesEpic = (
+  action$: ActionsObservable<FilterCapabilitiesAction>
+) =>
   action$.pipe(
     ofType(FilterCapActionTypes.FILTER_CAPABILITIES_REQUEST),
     mergeMap(() =>
@@ -47,9 +48,9 @@ export const filterCapabilitiesEpic: Epic<
     )
   );
 
-export const serviceDescriptionEpic: Epic<QueryDescribeAction, any> = (
-  action$,
-  state$
+export const serviceDescriptionEpic = (
+  action$: ActionsObservable<FilterCapabilitiesAction>,
+  state$: any
 ) =>
   action$.pipe(
     ofType(QueryDescActionTypes.QUERY_DESCRIBE_REQUEST),

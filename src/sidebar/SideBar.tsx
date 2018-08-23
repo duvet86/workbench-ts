@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { SFC } from "react";
 import { Location } from "history";
 
@@ -43,11 +42,5 @@ const SideBar: SFC<IProps> = ({ classes, open, ...props }) => (
     <SideBarBodyContainer {...props} />
   </Drawer>
 );
-
-SideBar.propTypes = {
-  classes: PropTypes.object.isRequired,
-  open: PropTypes.bool.isRequired,
-  location: PropTypes.object.isRequired
-};
 
 export default withStyles(styles)(SideBar);

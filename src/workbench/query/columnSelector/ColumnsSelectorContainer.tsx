@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -30,14 +29,6 @@ interface IStateProps {
 type Props = IStateProps & IDispatchProps;
 
 class ColumnsSelectorContainer extends Component<Props> {
-  public static propTypes = {
-    elementId: PropTypes.number.isRequired,
-    availableColumns: PropTypes.array.isRequired,
-    selectedColumns: PropTypes.array.isRequired,
-    dispatchAddQueryColumn: PropTypes.func.isRequired,
-    dispatchRemoveQueryColumn: PropTypes.func.isRequired
-  };
-
   public render() {
     const { availableColumns, selectedColumns } = this.props;
 

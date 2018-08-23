@@ -1,7 +1,6 @@
-import { Location } from "history";
-import PropTypes from "prop-types";
 import React, { SFC } from "react";
 import { connect } from "react-redux";
+import { Location } from "history";
 
 import MyItemsListContainer from "sideBar/myItems/MyItemsListContainer";
 import OperatorsListContainer from "sideBar/operators/OperatorsListContainer";
@@ -32,10 +31,6 @@ const SideBarBodyContainer: SFC<IStateProps> = ({ selectedTab, ...props }) => {
   const renderer = () => component;
 
   return <SideBarBody tabRenderer={renderer} />;
-};
-
-SideBarBodyContainer.propTypes = {
-  selectedTab: PropTypes.number.isRequired
 };
 
 const mapStateToProps = ({

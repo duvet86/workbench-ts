@@ -1,5 +1,4 @@
 import React, { SFC } from "react";
-import PropTypes from "prop-types";
 
 import {
   createStyles,
@@ -9,7 +8,7 @@ import {
 } from "@material-ui/core/styles";
 
 import { operatorsExtraInfo } from "sideBar/operators/operatorsData";
-import { ElementType } from "sideBar/operators/operatorsData";
+import { ElementType } from "sideBar/operators/types";
 
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
@@ -22,7 +21,11 @@ interface IProps extends WithStyles<typeof styles> {
   y: number;
 }
 
-const styles = ({ palette }: Theme) =>
+const styles = ({
+  palette: {
+    background: { paper }
+  }
+}: Theme) =>
   createStyles({
     operatorContainer: {
       position: "absolute",
@@ -34,7 +37,7 @@ const styles = ({ palette }: Theme) =>
       border: "1px solid #2c5367",
       width: 130,
       height: 75,
-      backgroundColor: palette.background.paper
+      backgroundColor: paper
     },
     titleContainer: {
       width: "100%",
@@ -82,14 +85,5 @@ const FilterElement: SFC<IProps> = ({
     </Typography>
   </div>
 );
-
-FilterElement.propTypes = {
-  classes: PropTypes.object.isRequired,
-  elementId: PropTypes.string.isRequired,
-  elementLabel: PropTypes.string.isRequired,
-  filterType: PropTypes.string.isRequired,
-  x: PropTypes.number.isRequired,
-  y: PropTypes.number.isRequired
-};
 
 export default withStyles(styles)(FilterElement);

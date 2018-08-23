@@ -1,5 +1,4 @@
 import React, { SFC } from "react";
-import PropTypes from "prop-types";
 
 import {
   createStyles,
@@ -72,14 +71,6 @@ const ConfigActions: SFC<IProps> = ({
       </Button>
     </Grid>
   );
-};
-
-ConfigActions.propTypes = {
-  classes: PropTypes.object.isRequired,
-  currentStep: PropTypes.number.isRequired,
-  completedSteps: PropTypes.array.isRequired,
-  dispatchCloseConfig: PropTypes.func.isRequired,
-  dispatchGoToStep: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(ConfigActions);

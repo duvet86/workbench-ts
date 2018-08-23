@@ -1,5 +1,4 @@
 import React, { SFC } from "react";
-import PropTypes from "prop-types";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
@@ -35,12 +34,5 @@ const SourceSelector: SFC<IProps> = ({
     handleChange={handleChangeDataService}
   />
 );
-
-SourceSelector.propTypes = {
-  classes: PropTypes.object.isRequired,
-  dataServices: PropTypes.array.isRequired,
-  handleChangeDataService: PropTypes.func.isRequired,
-  targetDataViewId: PropTypes.string
-};
 
 export default withStyles(styles)(SourceSelector);

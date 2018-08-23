@@ -77,19 +77,12 @@ const styles = ({ typography }: Theme) =>
     }
   });
 
-interface Iasd {
-  connectDragSource: ConnectDragSource;
-  className: any;
-  backgroundColor: string;
-  IconComponent: React.ComponentType<SvgIconProps>;
-}
-
 const Handle = ({
   connectDragSource,
   className,
   backgroundColor,
   IconComponent
-}: Iasd) =>
+}: IHandleProps) =>
   connectDragSource(
     <span className={className}>
       <Avatar

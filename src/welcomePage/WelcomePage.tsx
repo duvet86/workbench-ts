@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { SFC } from "react";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
@@ -30,9 +29,5 @@ const WelcomePage: SFC<WithStyles<typeof styles>> = ({ classes }) => (
     ))}
   </Grid>
 );
-
-WelcomePage.propTypes = {
-  classes: PropTypes.object.isRequired
-};
 
 export default withStyles(styles)(WelcomePage);

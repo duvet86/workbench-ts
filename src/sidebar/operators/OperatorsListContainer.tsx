@@ -1,13 +1,10 @@
-import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import {
-  IOperatorResult,
-  OperatorsAction,
-  operatorsRequest
-} from "sideBar/operators/actions";
+import { OperatorsAction, operatorsRequest } from "sideBar/operators/actions";
+
+import { IOperatorResult } from "sidebar/operators/types";
 
 import { LoadingContainer } from "common/loading";
 import OperatorsList from "sideBar/operators/OperatorsList";
@@ -29,14 +26,6 @@ interface IStoreState {
 }
 
 class OperatorsListContainer extends Component<Props> {
-  public static propTypes = {
-    isLoading: PropTypes.bool.isRequired,
-    location: PropTypes.object.isRequired,
-    dispatchLoadOperators: PropTypes.func.isRequired,
-    operators: PropTypes.object,
-    error: PropTypes.object
-  };
-
   public componentDidMount() {
     this.props.dispatchLoadOperators();
   }

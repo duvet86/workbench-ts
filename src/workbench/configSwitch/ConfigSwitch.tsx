@@ -1,5 +1,4 @@
 import React, { SFC } from "react";
-import PropTypes from "prop-types";
 
 import {
   createStyles,
@@ -8,7 +7,7 @@ import {
   WithStyles
 } from "@material-ui/core/styles";
 
-import { ElementType } from "sideBar/operators/operatorsData";
+import { ElementType } from "sideBar/operators/types";
 
 import Grid from "@material-ui/core/Grid";
 import Drawer from "@material-ui/core/Drawer";
@@ -57,11 +56,5 @@ const ConfigSwitch: SFC<IProps> = ({ classes, elementType, isDrawerOpen }) => (
     )}
   </Drawer>
 );
-
-ConfigSwitch.propTypes = {
-  classes: PropTypes.object.isRequired,
-  isDrawerOpen: PropTypes.bool.isRequired,
-  elementType: PropTypes.string.isRequired
-};
 
 export default withStyles(styles)(ConfigSwitch);

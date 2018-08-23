@@ -1,5 +1,4 @@
 import React, { SFC } from "react";
-import PropTypes from "prop-types";
 
 import {
   createStyles,
@@ -46,13 +45,5 @@ const ConstraintSelector: SFC<IProps> = ({
     />
   </FormControl>
 );
-
-ConstraintSelector.propTypes = {
-  classes: PropTypes.object.isRequired,
-  displayValue: PropTypes.string.isRequired,
-  constraintId: PropTypes.number.isRequired,
-  dataType: PropTypes.string.isRequired,
-  handledUpdateQueryConstraintValues: PropTypes.func.isRequired
-};
 
 export default withStyles(styles)(ConstraintSelector);

@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { SFC } from "react";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
@@ -18,10 +17,5 @@ const styles = createStyles({
 const SideBarBody: SFC<IProps> = ({ classes, tabRenderer }) => (
   <div className={classes.bodyContainer}>{tabRenderer()}</div>
 );
-
-SideBarBody.propTypes = {
-  classes: PropTypes.object.isRequired,
-  tabRenderer: PropTypes.func.isRequired
-};
 
 export default withStyles(styles)(SideBarBody);

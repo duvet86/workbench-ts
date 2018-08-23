@@ -1,6 +1,5 @@
 import trimbleLogo from "topBar/trimbleLogo.png";
 
-import PropTypes from "prop-types";
 import React, { SFC } from "react";
 import { Link } from "react-router-dom";
 
@@ -26,11 +25,11 @@ interface IProps extends WithStyles<typeof styles> {
   anchorEl?: HTMLElement;
   open: boolean;
   onMenuClickHandler: (event: React.MouseEvent<HTMLElement>) => void;
-  onMenuCloseHandler: React.ReactEventHandler<{}>;
-  onWelcomePageClickHandler: React.ReactEventHandler<{}>;
-  onLogoutClickHandler: React.ReactEventHandler<{}>;
-  onProfileClickHandler: React.ReactEventHandler<{}>;
-  handleDrawerOpen?: React.ReactEventHandler<{}>;
+  onMenuCloseHandler: React.ReactEventHandler;
+  onWelcomePageClickHandler: React.ReactEventHandler;
+  onLogoutClickHandler: React.ReactEventHandler;
+  onProfileClickHandler: React.ReactEventHandler;
+  handleDrawerOpen?: React.ReactEventHandler;
 }
 
 const styles = ({ mixins, zIndex }: Theme) =>
@@ -119,16 +118,5 @@ const TopBar: SFC<IProps> = ({
     </Toolbar>
   </AppBar>
 );
-
-TopBar.propTypes = {
-  classes: PropTypes.object.isRequired,
-  open: PropTypes.bool.isRequired,
-  onMenuClickHandler: PropTypes.func.isRequired,
-  onMenuCloseHandler: PropTypes.func.isRequired,
-  onWelcomePageClickHandler: PropTypes.func.isRequired,
-  onLogoutClickHandler: PropTypes.func.isRequired,
-  onProfileClickHandler: PropTypes.func.isRequired,
-  anchorEl: PropTypes.object
-};
 
 export default withStyles(styles)(TopBar);

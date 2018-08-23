@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -77,18 +76,6 @@ interface IStateProps {
 type Props = IStateProps & IDispatchProps;
 
 class ConstraintSelectorContainer extends Component<Props> {
-  public static propTypes = {
-    elementId: PropTypes.number.isRequired,
-    filterCapabilities: PropTypes.object.isRequired,
-    queryConstraints: PropTypes.array.isRequired,
-    contraintTargets: PropTypes.array.isRequired,
-    dispatchFilterCapabilitiesRequest: PropTypes.func.isRequired,
-    dispatchAddQueryConstraint: PropTypes.func.isRequired,
-    dispatchUpdateQueryConstraintType: PropTypes.func.isRequired,
-    dispatchUpdateQueryConstraintValues: PropTypes.func.isRequired,
-    dispatchRemoveQueryConstraint: PropTypes.func.isRequired
-  };
-
   public componentDidMount() {
     this.props.dispatchFilterCapabilitiesRequest();
   }
