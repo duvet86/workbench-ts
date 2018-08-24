@@ -1,15 +1,8 @@
+import { IDisplayFormat } from "workbench/types";
+
 interface IFilterTypeMapping {
   Type: string;
   Label: string;
-}
-
-interface IDisplayFormat {
-  ReportMetric: string;
-  Uom: string;
-  FormatString: string;
-  Units: string;
-  ConversionFactor?: number;
-  ConversionOffset?: number;
 }
 
 interface IUdsColumnDescriptionDtc {
