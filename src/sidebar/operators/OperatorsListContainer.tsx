@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { OperatorsAction, operatorsRequest } from "sideBar/operators/actions";
+import { OperatorsAction, operatorsRequest } from "sidebar/operators/actions";
 
 import { IOperatorResult } from "sidebar/operators/types";
 
 import { LoadingContainer } from "common/loading";
-import OperatorsList from "sideBar/operators/OperatorsList";
+import OperatorsList from "sidebar/operators/OperatorsList";
 
 interface IDispatchProps {
   dispatchLoadOperators: () => void;

@@ -8,8 +8,8 @@ import List from "@material-ui/core/List";
 
 import { IFolderChild } from "sidebar/myItems/types";
 
-import FolderContainer from "sideBar/myItems/FolderContainer";
-import Item from "sideBar/myItems/Item";
+import FolderContainer from "sidebar/myItems/FolderContainer";
+import Item from "sidebar/myItems/Item";
 
 interface IProps extends WithStyles<typeof styles> {
   items: {

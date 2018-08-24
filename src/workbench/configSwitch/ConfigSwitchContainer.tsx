@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { ElementType } from "sideBar/operators/types";
+import { ElementType } from "sidebar/operators/types";
 import { isDrawerOpen } from "workbench/configSwitch/selectors";
 
 import ConfigSwitch from "workbench/configSwitch/ConfigSwitch";

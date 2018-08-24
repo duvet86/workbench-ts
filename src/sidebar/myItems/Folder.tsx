@@ -18,7 +18,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import FolderIcon from "@material-ui/icons/Folder";
 import FolderOpenIcon from "@material-ui/icons/FolderOpen";
 
-import Item from "sideBar/myItems/Item";
+import Item from "sidebar/myItems/Item";
 
 interface IProps extends WithStyles<typeof styles> {
   label: string;

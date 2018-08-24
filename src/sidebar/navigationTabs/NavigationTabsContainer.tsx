@@ -8,8 +8,8 @@ import {
   showMyItems,
   showTools,
   TabsAction
-} from "sideBar/navigationTabs/actions";
-import NavigationTabs from "sideBar/navigationTabs/NavigationTabs";
+} from "sidebar/navigationTabs/actions";
+import NavigationTabs from "sidebar/navigationTabs/NavigationTabs";
 
 type TabsEnabled = [boolean, boolean, boolean];
 

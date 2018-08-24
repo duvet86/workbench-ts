@@ -5,9 +5,9 @@ import { intervalTypeEpic } from "common/intervalSelector/epic";
 import { loadingEpic } from "common/loading";
 import { loginEpic } from "login/epic";
 import { fetchProfileEpic } from "profile/epic";
-import { myItemsEpic } from "sideBar/myItems/epic";
-import { navigationTabsEpic } from "sideBar/navigationTabs/epic";
-import { operatorsEpic } from "sideBar/operators/epic";
+import { myItemsEpic } from "sidebar/myItems/epic";
+import { navigationTabsEpic } from "sidebar/navigationTabs/epic";
+import { operatorsEpic } from "sidebar/operators/epic";
 import {
   addQueryEpic,
   pushGraphChangesEpic,

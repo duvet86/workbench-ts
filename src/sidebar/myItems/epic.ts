@@ -6,8 +6,8 @@ import {
   MyItemsActionTypes,
   myItemsSuccess,
   MyItemsAction
-} from "sideBar/myItems/actions";
-import { getMyItemsAsync } from "sideBar/myItems/api";
+} from "sidebar/myItems/actions";
+import { getMyItemsAsync } from "sidebar/myItems/api";
 
 export const myItemsEpic = (action$: ActionsObservable<MyItemsAction>) =>
   action$.pipe(

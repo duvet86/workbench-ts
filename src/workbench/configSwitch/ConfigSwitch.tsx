@@ -7,7 +7,7 @@ import {
   WithStyles
 } from "@material-ui/core/styles";
 
-import { ElementType } from "sideBar/operators/types";
+import { ElementType } from "sidebar/operators/types";
 
 import Grid from "@material-ui/core/Grid";
 import Drawer from "@material-ui/core/Drawer";

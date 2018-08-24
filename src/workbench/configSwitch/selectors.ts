@@ -1,5 +1,5 @@
 import { createSelector } from "reselect";
-import { ElementType } from "sideBar/operators/types";
+import { ElementType } from "sidebar/operators/types";
 
 interface IStoreState {
   configSwitchReducer: {

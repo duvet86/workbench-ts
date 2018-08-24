@@ -7,8 +7,8 @@ import {
   WithStyles
 } from "@material-ui/core/styles";
 
-import { operatorsExtraInfo } from "sideBar/operators/operatorsData";
-import { ElementType } from "sideBar/operators/types";
+import { operatorsExtraInfo } from "sidebar/operators/operatorsData";
+import { ElementType } from "sidebar/operators/types";
 
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";

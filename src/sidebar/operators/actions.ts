@@ -3,7 +3,7 @@ import {
   DEFAULTS,
   operatorsExtraInfo,
   staticOperatorsList
-} from "sideBar/operators/operatorsData";
+} from "sidebar/operators/operatorsData";
 
 import {
   IOperatorServiceDtc,

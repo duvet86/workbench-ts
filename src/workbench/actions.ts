@@ -1,7 +1,9 @@
 import { Action } from "redux";
-
 import { normalize } from "normalizr";
+
 import { graphSchema } from "workbench/schema";
+
+import { ISessionDtc, IQueryGraphDataDtc } from "workbench/types";
 
 export const enum SessionActionTypes {
   SESSION_REQUEST = "SESSION_REQUEST",
@@ -13,12 +15,11 @@ export interface ISessionRequest extends Action {
   dataViewId?: string;
 }
 
-// TODO: fix me.
 export interface ISessionSuccess extends Action {
   type: SessionActionTypes.SESSION_SUCCESS;
   payload: {
-    session: any;
-    graph: any;
+    session: ISessionDtc;
+    graph: IQueryGraphDataDtc;
   };
 }
 
@@ -32,7 +33,7 @@ export const sessionRequest = (dataViewId?: string): ISessionRequest => ({
 export const sessionSuccess = ({
   InitialQueryGraph,
   ...rest
-}: any): ISessionSuccess => {
+}: ISessionDtc): ISessionSuccess => {
   const normalizedGraph = normalize(InitialQueryGraph, graphSchema);
 
   return {

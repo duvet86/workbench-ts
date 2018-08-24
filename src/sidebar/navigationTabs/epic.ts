@@ -12,7 +12,7 @@ import {
   showMyItems,
   showTools,
   TabsAction
-} from "sideBar/navigationTabs/actions";
+} from "sidebar/navigationTabs/actions";
 
 interface IRouterAction {
   payload: RouterState;

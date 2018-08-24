@@ -20,7 +20,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { SvgIconProps } from "@material-ui/core/SvgIcon";
 
-import { itemType } from "sideBar/operators/operatorsData";
+import { itemType } from "sidebar/operators/operatorsData";
 
 interface IProps extends WithStyles<typeof styles> {
   label: string;

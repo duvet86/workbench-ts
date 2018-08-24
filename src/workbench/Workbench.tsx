@@ -4,7 +4,7 @@ import { DropTarget, ConnectDropTarget } from "react-dnd";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
-import { itemType } from "sideBar/operators/operatorsData";
+import { itemType } from "sidebar/operators/operatorsData";
 import {
   CANVAS_DRAGGABLE_CONTAINER_ID,
   CANVAS_DRAGGABLE_ID

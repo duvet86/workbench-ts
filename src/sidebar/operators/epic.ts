@@ -6,8 +6,8 @@ import {
   IOperatorsRequest,
   OperatorsActionTypes,
   operatorsSuccess
-} from "sideBar/operators/actions";
-import { getOperatorsAsync } from "sideBar/operators/api";
+} from "sidebar/operators/actions";
+import { getOperatorsAsync } from "sidebar/operators/api";
 
 export const operatorsEpic = (action$: ActionsObservable<IOperatorsRequest>) =>
   action$.pipe(

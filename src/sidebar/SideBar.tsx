@@ -5,8 +5,8 @@ import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
 import Drawer from "@material-ui/core/Drawer";
 
-import NavigationTabsContainer from "sideBar/navigationTabs/NavigationTabsContainer";
-import SideBarBodyContainer from "sideBar/SideBarBodyContainer";
+import NavigationTabsContainer from "sidebar/navigationTabs/NavigationTabsContainer";
+import SideBarBodyContainer from "sidebar/SideBarBodyContainer";
 
 interface IProps extends WithStyles<typeof styles> {
   open: boolean;

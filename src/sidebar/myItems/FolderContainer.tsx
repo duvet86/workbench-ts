@@ -3,7 +3,7 @@ import { Location } from "history";
 
 import { IFolderChild } from "sidebar/myItems/types";
 
-import Folder from "sideBar/myItems/Folder";
+import Folder from "sidebar/myItems/Folder";
 
 interface IProps {
   label: string;

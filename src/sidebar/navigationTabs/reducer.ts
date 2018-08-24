@@ -1,4 +1,4 @@
-import { TabsActionTypes, TabsAction } from "sideBar/navigationTabs/actions";
+import { TabsActionTypes, TabsAction } from "sidebar/navigationTabs/actions";
 
 interface IState {
   selectedTab: number;

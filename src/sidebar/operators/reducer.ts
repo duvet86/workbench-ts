@@ -1,7 +1,7 @@
 import {
   OperatorsActionTypes,
   OperatorsAction
-} from "sideBar/operators/actions";
+} from "sidebar/operators/actions";
 
 import { IOperatorResult } from "sidebar/operators/types";
 

@@ -2,9 +2,9 @@ import React, { SFC } from "react";
 import { connect } from "react-redux";
 import { Location } from "history";
 
-import MyItemsListContainer from "sideBar/myItems/MyItemsListContainer";
-import OperatorsListContainer from "sideBar/operators/OperatorsListContainer";
-import SideBarBody from "sideBar/SideBarBody";
+import MyItemsListContainer from "sidebar/myItems/MyItemsListContainer";
+import OperatorsListContainer from "sidebar/operators/OperatorsListContainer";
+import SideBarBody from "sidebar/SideBarBody";
 
 interface IStateProps {
   selectedTab: 1 | 2 | 3;

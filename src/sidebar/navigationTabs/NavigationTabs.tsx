@@ -10,7 +10,7 @@ import {
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
 
-import tabButtons from "sideBar/navigationTabs/tabsData";
+import tabButtons from "sidebar/navigationTabs/tabsData";
 
 interface IProps extends WithStyles<typeof styles> {
   selectedTab: number;

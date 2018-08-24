@@ -3,7 +3,13 @@ import { from, Observable } from "rxjs";
 import { TENANT_ID } from "lib/constants";
 import { getWithJwtAsync, postWithJwtAsync } from "lib/http";
 
-import { ISessionDtc, IQueryGraphChangesDtc } from "workbench/types";
+import {
+  ISessionDtc,
+  IQueryGraphChangesDtc,
+  IPushQueryGraphResultDtc,
+  IQueryGraphPopDtc,
+  IQueryGraphDataDtc
+} from "workbench/types";
 
 export const getSessionInfoObs = (
   dataViewId?: string
@@ -20,7 +26,7 @@ export const saveGraphObs = (
   tenantId: string,
   sessionId: string,
   queryGraphId: number,
-  graphData: any,
+  graphData: IQueryGraphDataDtc,
   isApplyOnly = false
 ) =>
   from(
@@ -47,7 +53,7 @@ export const pushGraphChangesObs = (
   tenantId: string,
   sessionId: string,
   queryGraphId: number
-) =>
+): Observable<IPushQueryGraphResultDtc> =>
   from(
     postWithJwtAsync(
       `api/qes/${tenantId}/sessions/${sessionId}/querygraph/${queryGraphId}/push`
@@ -58,7 +64,7 @@ export const popGraphChangesObs = (
   tenantId: string,
   sessionId: string,
   queryGraphId: number
-) =>
+): Observable<IQueryGraphPopDtc> =>
   from(
     postWithJwtAsync(
       `api/qes/${tenantId}/sessions/${sessionId}/querygraph/${queryGraphId}/pop`

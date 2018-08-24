@@ -191,7 +191,13 @@ interface IArchivedHistoryEntry {
   AspectId?: number;
 }
 
-interface IQueryGraphDataDtc {
+interface IException {
+  Message: string;
+  StackTrace: string;
+  InnerException: IException;
+}
+
+export interface IQueryGraphDataDtc {
   Type: "Complete" | "Partial";
   Limit: string;
   NextChangeNumber: number;
@@ -206,12 +212,6 @@ interface IQueryGraphDataDtc {
   Connections: IConnection[];
   ArchiveHistory: IArchivedHistoryEntry[];
   LimitExcludedElements: number[];
-}
-
-interface IException {
-  Message: string;
-  StackTrace: string;
-  InnerException: IException;
 }
 
 export interface IDisplayFormat {
@@ -241,4 +241,12 @@ export interface IQueryGraphChangesDtc {
   Cancelled: boolean;
   Exception: IException;
   ChangesGraph: IQueryGraphDataDtc;
+}
+
+export interface IPushQueryGraphResultDtc {
+  HistoryNumber?: number;
+}
+
+export interface IQueryGraphPopDtc {
+  QueryGraphData: IQueryGraphDataDtc;
 }

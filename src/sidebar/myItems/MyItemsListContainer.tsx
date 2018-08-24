@@ -5,10 +5,10 @@ import { Dispatch } from "redux";
 
 import { IFolderChild } from "sidebar/myItems/types";
 
-import { MyItemsAction, myItemsRequest } from "sideBar/myItems/actions";
+import { MyItemsAction, myItemsRequest } from "sidebar/myItems/actions";
 
 import { LoadingContainer } from "common/loading";
-import MyItemsList from "sideBar/myItems/MyItemsList";
+import MyItemsList from "sidebar/myItems/MyItemsList";
 
 interface IDispatchProps {
   dispatchLoadMyItems: () => void;

@@ -2,9 +2,9 @@ import React, { SFC } from "react";
 
 import List from "@material-ui/core/List";
 
-import { IOperatorResult } from "sideBar/operators/types";
+import { IOperatorResult } from "sidebar/operators/types";
 
-import Operator from "sideBar/operators/Operator";
+import Operator from "sidebar/operators/Operator";
 
 interface IProps {
   operators: { [key: string]: IOperatorResult };

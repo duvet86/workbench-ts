@@ -1,4 +1,4 @@
-import { MyItemsActionTypes, MyItemsAction } from "sideBar/myItems/actions";
+import { MyItemsActionTypes, MyItemsAction } from "sidebar/myItems/actions";
 
 import { IFolderChild } from "sidebar/myItems/types";
 
@@ -25,6 +25,12 @@ function myItems(
       return {
         isLoading: false,
         items: action.items
+      };
+
+    case MyItemsActionTypes.MY_ITEMS_ERROR:
+      return {
+        isLoading: false,
+        items: []
       };
 
     default:

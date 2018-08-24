@@ -6,7 +6,7 @@ import HTML5Backend from "react-dnd-html5-backend";
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
 import AppBody from "appBody/AppBody";
-import SideBar from "sideBar/SideBar";
+import SideBar from "sidebar/SideBar";
 import TopBarContainer from "topBar/TopBarContainer";
 
 interface IProps extends WithStyles<typeof styles> {

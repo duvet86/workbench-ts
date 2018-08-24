@@ -8,7 +8,7 @@ import {
   WithStyles
 } from "@material-ui/core/styles";
 
-import { operatorsExtraInfo } from "sideBar/operators/operatorsData";
+import { operatorsExtraInfo } from "sidebar/operators/operatorsData";
 
 import Avatar from "@material-ui/core/Avatar";
 import List from "@material-ui/core/List";
