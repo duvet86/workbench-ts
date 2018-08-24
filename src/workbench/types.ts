@@ -208,6 +208,12 @@ interface IQueryGraphDataDtc {
   LimitExcludedElements: number[];
 }
 
+interface IException {
+  Message: string;
+  StackTrace: string;
+  InnerException: IException;
+}
+
 export interface IDisplayFormat {
   Default: IDisplayFormat;
   ReportMetric: string;
@@ -227,4 +233,12 @@ export interface ISessionDtc {
   UserName: string;
   CacheConfiguration: ICacheConfiguration;
   InitialQueryGraph: IQueryGraphDataDtc;
+}
+
+export interface IQueryGraphChangesDtc {
+  FoundChanges: boolean;
+  Running: boolean;
+  Cancelled: boolean;
+  Exception: IException;
+  ChangesGraph: IQueryGraphDataDtc;
 }

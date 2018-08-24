@@ -1,13 +1,17 @@
-import { from } from "rxjs";
+import { from, Observable } from "rxjs";
 
 import { TENANT_ID } from "lib/constants";
 import { getWithJwtAsync, postWithJwtAsync } from "lib/http";
 
-export const getSessionInfoObs = (dataViewId: string) =>
+import { ISessionDtc, IQueryGraphChangesDtc } from "workbench/types";
+
+export const getSessionInfoObs = (
+  dataViewId?: string
+): Observable<ISessionDtc> =>
   from(
     postWithJwtAsync(
       `api/qes/${TENANT_ID}/sessions${
-        dataViewId ? `?dataViewId=${dataViewId}` : ""
+        dataViewId != null ? `?dataViewId=${dataViewId}` : ""
       }`
     )
   );
@@ -31,7 +35,7 @@ export const getGraphObs = (
   sessionId: string,
   queryGraphId: number,
   nextChangeNumber: number
-) =>
+): Observable<IQueryGraphChangesDtc> =>
   from(
     getWithJwtAsync(
       // tslint:disable-next-line:max-line-length
