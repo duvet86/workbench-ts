@@ -1,4 +1,4 @@
-import { applyMiddleware, compose, createStore } from "redux";
+import { applyMiddleware, compose, createStore, Action } from "redux";
 import { connectRouter, routerMiddleware } from "connected-react-router";
 import { createEpicMiddleware } from "redux-observable";
 
@@ -6,7 +6,7 @@ import history from "lib/history";
 import rootEpic from "rootEpic";
 import rootReducer from "rootReducer";
 
-const epicMiddleware = createEpicMiddleware();
+const epicMiddleware = createEpicMiddleware<Action, Action, any>(); // Replac any with rootState.
 const browserRouterMiddleware = routerMiddleware(history);
 
 const middleware = [epicMiddleware, browserRouterMiddleware];

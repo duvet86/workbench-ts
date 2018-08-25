@@ -1,6 +1,6 @@
 import React, { SFC } from "react";
 
-import { IColumn } from "common/searchableList/types";
+import { IOption } from "common/searchableList/types";
 
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
@@ -26,8 +26,8 @@ interface IClasses {
 
 const rowRenderer: (
   classes: IClasses,
-  columns: IColumn[],
-  onItemClick: (column: IColumn) => void
+  columns: IOption[],
+  onItemClick: (column: IOption) => void
 ) => SFC<IProps> = (classes, columns, onItemClick) => ({
   index,
   key,
@@ -54,8 +54,8 @@ const rowRenderer: (
             primary: classes.listItemTextPrimary
           }}
           className={classes.listItemText}
-          primary={queryColumn.Label}
-          secondary={`(${queryColumn.DataType})`}
+          primary={queryColumn.label}
+          // secondary={`(${queryColumn.DataType})`}
         />
       </ListItem>
       <Divider />

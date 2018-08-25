@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 module.exports = {
   mode: "development",
@@ -13,6 +14,7 @@ module.exports = {
   // Enable sourcemaps for debugging webpack's output.
   devtool: "inline-source-map",
   devServer: {
+    host: "localhost",
     contentBase: "./public",
     hot: true,
     open: true,
@@ -21,7 +23,12 @@ module.exports = {
   },
   plugins: [
     new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new ForkTsCheckerWebpackPlugin({
+      tslint: true,
+      checkSyntacticErrors: true,
+      watch: ["./src"] // optional but improves performance (fewer stat calls)
+    })
   ],
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
