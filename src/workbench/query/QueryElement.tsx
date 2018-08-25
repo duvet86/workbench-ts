@@ -1,5 +1,6 @@
 import React, { SFC } from "react";
-import PropTypes from "prop-types";
+
+import { IUdsColumnDescriptionDtc } from "workbench/query/types";
 
 import {
   createStyles,
@@ -21,17 +22,18 @@ import Typography from "@material-ui/core/Typography";
 import SettingsIcon from "@material-ui/icons/SettingsApplications";
 
 interface IProps extends WithStyles<typeof styles> {
-  columns: Array<{
-    Label: string;
-    ColumnName: string;
-  }>;
+  columns: IUdsColumnDescriptionDtc[];
   elementId: number;
   elementLabel: string;
   x: number;
   y: number;
 }
 
-const styles = ({ palette }: Theme) =>
+const styles = ({
+  palette: {
+    background: { paper }
+  }
+}: Theme) =>
   createStyles({
     operatorContainer: {
       position: "absolute",
@@ -43,7 +45,7 @@ const styles = ({ palette }: Theme) =>
       border: "1px solid #7b582d",
       padding: 5,
       width: 165,
-      backgroundColor: palette.background.paper
+      backgroundColor: paper
     },
     titleContainer: {
       width: "100%",
@@ -123,14 +125,5 @@ const QueryElement: SFC<IProps> = ({
     </div>
   </div>
 );
-
-QueryElement.propTypes = {
-  classes: PropTypes.object.isRequired,
-  elementId: PropTypes.string.isRequired,
-  elementLabel: PropTypes.string.isRequired,
-  columns: PropTypes.array.isRequired,
-  x: PropTypes.number.isRequired,
-  y: PropTypes.number.isRequired
-};
 
 export default withStyles(styles)(QueryElement);

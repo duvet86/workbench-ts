@@ -1,5 +1,6 @@
 import React, { SFC } from "react";
-import PropTypes from "prop-types";
+
+import { IQuery } from "workbench/types";
 
 import Grid from "@material-ui/core/Grid";
 
@@ -11,10 +12,11 @@ import ColumnsSelectorContainer from "workbench/query/columnSelector/ColumnsSele
 import ConstraintSelectorContainer from "workbench/query/constraintSelector/ConstraintSelectorContainer";
 import ConfigActionsContainer from "workbench/query/ConfigActionsContainer";
 
-function getStepContent(
-  currentStep: number,
-  selectedQuery: { ElementId: number; TargetDataViewId: number }
-) {
+function getStepContent(currentStep: number, selectedQuery: IQuery) {
+  if (selectedQuery.TargetDataViewId == null) {
+    throw new Error("TargetDataViewId cannot be null.");
+  }
+
   switch (currentStep) {
     case 0:
       return (
@@ -39,7 +41,7 @@ function getStepContent(
 
 interface IProps {
   isLoading: boolean;
-  selectedQuery: any;
+  selectedQuery: IQuery;
   currentStep: number;
   completedSteps: boolean[];
 }
@@ -65,12 +67,5 @@ const QueryConfig: SFC<IProps> = ({
     />
   </BackgroundLoadingContainer>
 );
-
-QueryConfig.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
-  selectedQuery: PropTypes.object.isRequired,
-  currentStep: PropTypes.number.isRequired,
-  completedSteps: PropTypes.array.isRequired
-};
 
 export default QueryConfig;

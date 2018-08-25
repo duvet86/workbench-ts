@@ -14,13 +14,13 @@ interface IQueryGraphElementBase {
   LastExecuteRecordCount?: number;
   LastExecuteStartTime?: Date;
   State: string;
-  StateReason: string;
+  StateReason?: string;
   ElementType: string;
-  Exception: string;
-  ExceptionSummary: string;
-  ExtraData: object;
-  DependsOn: number[];
-  DependedOnBy: number[];
+  Exception?: string;
+  ExceptionSummary?: string;
+  ExtraData?: object;
+  DependsOn?: number[];
+  DependedOnBy?: number[];
   LayoutX: number;
   LayoutY: number;
 }
@@ -66,32 +66,11 @@ interface IAspect {
   Order?: number;
 }
 
-interface IColumn {
-  ColumnName: string;
-  Label: string;
-  Aggregation: string;
-  UniqueOutputColumnName: string;
-}
-
 interface ISortBy {
   ColumnName: string;
   Aggregation: string;
   Direction: "Ascending" | "Descending";
   Order: number;
-}
-
-interface IConstraint {
-  ConstraintId: number;
-  ConstraintName: string;
-  ColumnName: string;
-  FilterName: string;
-  Expression1: string;
-  Expression2: string;
-  FilterType: string;
-  DataType: string;
-  Values: object[][];
-  ValuesHint: string;
-  ValuesDisplayStringsPreview: string;
 }
 
 interface IQesDataTableColumn {
@@ -109,31 +88,6 @@ interface IQesDataTableColumn {
   IsNumeric: number;
 }
 
-interface IQuery extends IQueryGraphElementBase {
-  Label: string;
-  SubQueryGraphId?: number;
-  DataTableId?: number;
-  DataTableSessionId: string;
-  IsQueryGraphResult: boolean;
-  TargetDataServiceId?: string;
-  TargetDataViewId?: string;
-  ResolvedServiceUrl: string;
-  ResolvedLabel: string;
-  ResolvedDescription: string;
-  ResolvedIconUrl: string;
-  SelectAllColumns?: boolean;
-  Columns: IColumn[];
-  SortBys: ISortBy[];
-  RowLimitMode: "NumberOfRows" | "Percentage";
-  RowLimitValue?: number;
-  Constraints: IConstraint[];
-  ColumnDependencySets: string[][];
-  AvailableFilterDependencySets: string[][];
-  ExpandedSubQueryGraphData: IQueryGraphDataDtc;
-  EnableAggregation: boolean;
-  DataTableDescription: IQesDataTableColumn[];
-}
-
 interface IOperator extends IQueryGraphElementBase {
   OperatorServiceId: string;
   ResolvedServiceLabel: string;
@@ -146,39 +100,6 @@ interface IOperator extends IQueryGraphElementBase {
   DataTableSessionId: string;
   OperatorJson: string;
   DataTableDescription: IQesDataTableColumn[];
-}
-
-interface IInteractiveFilter extends IQueryGraphElementBase {
-  FilterGuid: string;
-  FilterName: string;
-  FilterType: string;
-  Label: string;
-  DataType: string;
-  Required: boolean;
-  SelectAllHasNoEffect: boolean;
-  ValuesHint: string;
-  Values: object[][];
-  FilterJson: string;
-  ResolvedDependsOnFilterNames: string[];
-  HasAllowedValues: boolean;
-}
-
-interface IConnection {
-  ConnectionId: number;
-  FromElementType: string;
-  FromElementId: number;
-  FromColumnName: number;
-  FromFilterName: string;
-  FromConfigJson: string;
-  ToElementType: string;
-  ToElementId: number;
-  ToColumnName: string;
-  ToFilterName: string;
-  ToConstraintId?: number;
-  ToConfigJson: string;
-  ChangeNumber: number;
-  State: string;
-  IsInactive: boolean;
 }
 
 interface IArchivedHistoryEntry {
@@ -195,6 +116,85 @@ interface IException {
   Message: string;
   StackTrace: string;
   InnerException: IException;
+}
+
+export interface IConstraint {
+  ConstraintId: number;
+  ConstraintName: string;
+  ColumnName: string;
+  FilterName: string;
+  Expression1: string;
+  Expression2: string;
+  FilterType: string;
+  DataType: string;
+  Values: object[][];
+  ValuesHint: string;
+  ValuesDisplayStringsPreview: string;
+}
+
+export interface IColumn {
+  ColumnName: string;
+  Label: string;
+  Aggregation: string;
+  UniqueOutputColumnName?: string;
+}
+
+export interface IQuery extends IQueryGraphElementBase {
+  Label: string;
+  SubQueryGraphId?: number;
+  DataTableId?: number;
+  DataTableSessionId?: string;
+  IsQueryGraphResult: boolean;
+  TargetDataServiceId?: string;
+  TargetDataViewId?: string;
+  ResolvedServiceUrl?: string;
+  ResolvedLabel?: string;
+  ResolvedDescription?: string;
+  ResolvedIconUrl?: string;
+  SelectAllColumns?: boolean;
+  Columns: IColumn[];
+  SortBys: ISortBy[];
+  RowLimitMode?: "NumberOfRows" | "Percentage";
+  RowLimitValue?: number;
+  Constraints: IConstraint[];
+  ColumnDependencySets?: string[][];
+  AvailableFilterDependencySets?: string[][];
+  ExpandedSubQueryGraphData?: IQueryGraphDataDtc;
+  EnableAggregation?: boolean;
+  DataTableDescription?: IQesDataTableColumn[];
+}
+
+export interface IInteractiveFilter extends IQueryGraphElementBase {
+  FilterGuid: string;
+  FilterName: string;
+  FilterType: string;
+  Label: string;
+  DataType: string;
+  Required: boolean;
+  SelectAllHasNoEffect: boolean;
+  ValuesHint: string;
+  Values: object[][];
+  FilterJson: string;
+  ResolvedDependsOnFilterNames: string[];
+  HasAllowedValues: boolean;
+}
+
+export interface IConnection {
+  ConnectionId: number;
+  FromElementType: string;
+  FromElementId: number;
+  FromColumnName: number;
+  FromFilterName: string;
+  FromConfigJson: string;
+  ToElementType: string;
+  ToElementId: number;
+  ToColumnName: string;
+  ToFilterName: string;
+  ToConstraintId?: number;
+  ToConfigJson: string;
+  ChangeNumber: number;
+  State: string;
+  IsInactive: boolean;
 }
 
 export interface IQueryGraphDataDtc {

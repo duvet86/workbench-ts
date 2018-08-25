@@ -1,4 +1,4 @@
-import { ActionsObservable, ofType } from "redux-observable";
+import { ActionsObservable, StateObservable, ofType } from "redux-observable";
 import { mergeMap, map, catchError } from "rxjs/operators";
 
 import { handleException } from "errorPage/epic";
@@ -19,6 +19,14 @@ import {
   getFilterCapabilitiesObs,
   getDataServiceDescriptionObs
 } from "workbench/query/api";
+import { ISessionDtc } from "workbench/types";
+
+interface IState {
+  sessionReducer: {
+    session: ISessionDtc;
+  };
+  queryConfigReducer: { elementId: number };
+}
 
 export const dataServicesEpic = (
   action$: ActionsObservable<DataServicesAction>
@@ -49,8 +57,8 @@ export const filterCapabilitiesEpic = (
   );
 
 export const serviceDescriptionEpic = (
-  action$: ActionsObservable<FilterCapabilitiesAction>,
-  state$: any
+  action$: ActionsObservable<QueryDescribeAction>,
+  state$: StateObservable<IState>
 ) =>
   action$.pipe(
     ofType(QueryDescActionTypes.QUERY_DESCRIBE_REQUEST),
@@ -68,8 +76,7 @@ export const serviceDescriptionEpic = (
         QueryGraphId,
         elementId
       ).pipe(
-        // TODO: fix me.
-        map((serviceDescription: { Columns: any[]; AvailableFilters: any[] }) =>
+        map(serviceDescription =>
           queryDescribeSuccess(serviceDescription, elementId)
         ),
         catchError(error => handleException(error, queryConfigError()))

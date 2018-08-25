@@ -1,5 +1,14 @@
 import { Action } from "redux";
 
+import { IPagedCollection } from "types";
+import { IItemDtc } from "sidebar/myItems/types";
+import {
+  IUdsDescriptionDtc,
+  IFilterCapabilitiesDic,
+  IUdsFilterDescriptionDtc,
+  IUdsColumnDescriptionDtc
+} from "workbench/query/types";
+
 export const enum QueryConfigActionTypes {
   QUERY_CONFIG_OPEN = "QUERY_CONFIG_OPEN",
   QUERY_CONFIG_CLOSE = "QUERY_CONFIG_CLOSE",
@@ -58,10 +67,9 @@ interface IDataServicesRequest extends Action {
   type: DataServicesActionTypes.DATASERVICES_REQUEST;
 }
 
-// TODO: fix me.
 interface IDataServicesSuccess extends Action {
   type: DataServicesActionTypes.DATASERVICES_SUCCESS;
-  dataServices: any[];
+  dataServices: IPagedCollection<IItemDtc>;
 }
 
 export type DataServicesAction = IDataServicesRequest | IDataServicesSuccess;
@@ -71,7 +79,7 @@ export const dataServicesRequest = (): IDataServicesRequest => ({
 });
 
 export const dataServicesSuccess = (
-  dataServices: any[]
+  dataServices: IPagedCollection<IItemDtc>
 ): IDataServicesSuccess => ({
   type: DataServicesActionTypes.DATASERVICES_SUCCESS,
   dataServices
@@ -88,7 +96,7 @@ interface IFilterCapabilitiesRequest extends Action {
 
 interface IFilterCapabilitiesSuccess extends Action {
   type: FilterCapActionTypes.FILTER_CAPABILITIES_SUCCESS;
-  filterCapabilities: any[];
+  filterCapabilities: IFilterCapabilitiesDic;
 }
 
 export type FilterCapabilitiesAction =
@@ -100,7 +108,7 @@ export const filterCapabilitiesRequest = (): IFilterCapabilitiesRequest => ({
 });
 
 export const filterCapabilitiesSuccess = (
-  filterCapabilities: any[]
+  filterCapabilities: IFilterCapabilitiesDic
 ): IFilterCapabilitiesSuccess => ({
   type: FilterCapActionTypes.FILTER_CAPABILITIES_SUCCESS,
   filterCapabilities
@@ -117,8 +125,8 @@ interface IQueryDescribeRequest extends Action {
 
 interface IQueryDescribeSuccess extends Action {
   type: QueryDescActionTypes.QUERY_DESCRIBE_SUCCESS;
-  availableColumns: any[];
-  availableFilters: any[];
+  availableColumns: IUdsColumnDescriptionDtc[];
+  availableFilters: IUdsFilterDescriptionDtc[];
   elementId: number;
 }
 
@@ -129,7 +137,7 @@ export const queryDescribeRequest = (): IQueryDescribeRequest => ({
 });
 
 export const queryDescribeSuccess = (
-  { Columns, AvailableFilters }: { Columns: any[]; AvailableFilters: any[] },
+  { Columns, AvailableFilters }: IUdsDescriptionDtc,
   elementId: number
 ): IQueryDescribeSuccess => ({
   type: QueryDescActionTypes.QUERY_DESCRIBE_SUCCESS,

@@ -11,23 +11,33 @@ import {
   QueryConstraintAction
 } from "workbench/actions";
 
+import {
+  ISessionDtc,
+  IQueryGraphDataDtc,
+  IQuery,
+  IInteractiveFilter,
+  IConnection,
+  IColumn,
+  IConstraint
+} from "workbench/types";
+
 interface IState {
   isLoading: boolean;
-  session: any;
-  graph: any;
-  queries: any;
-  filters: any;
-  connections: any;
+  session?: ISessionDtc;
+  graph?: IQueryGraphDataDtc;
+  queries: IQuery[];
+  filters: IInteractiveFilter[];
+  connections: IConnection[];
 }
 
 function session(
   state: IState = {
     isLoading: true,
-    session: {},
-    graph: {},
-    queries: {},
-    filters: {},
-    connections: {}
+    session: undefined,
+    graph: undefined,
+    queries: [],
+    filters: [],
+    connections: []
   },
   action:
     | SessionAction
@@ -89,7 +99,7 @@ function session(
         queries: {
           [action.elementId]: {
             Columns: {
-              $apply: (columns: Array<{ ColumnName: string }>) =>
+              $apply: (columns: IColumn[]) =>
                 columns.filter(
                   ({ ColumnName }) => ColumnName !== action.columnName
                 )
@@ -143,7 +153,7 @@ function session(
         queries: {
           [action.elementId]: {
             Constraints: {
-              $apply: (constraints: Array<{ ConstraintId: number }>) =>
+              $apply: (constraints: IConstraint[]) =>
                 constraints.filter(
                   ({ ConstraintId }) => ConstraintId !== action.constraintId
                 )

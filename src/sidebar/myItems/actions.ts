@@ -1,11 +1,6 @@
 import { Action } from "redux";
 
-import { IFolderChild } from "sidebar/myItems/types";
-
-interface IItems {
-  myItems: IFolderChild[];
-  sharedWithMe: IFolderChild[];
-}
+import { ISideBarItems } from "sidebar/myItems/types";
 
 export const enum MyItemsActionTypes {
   MY_ITEMS_REQUEST = "MY_ITEMS_REQUEST",
@@ -19,7 +14,7 @@ export interface IMyItemsRequest extends Action {
 
 export interface IMyItemsSuccess extends Action {
   type: MyItemsActionTypes.MY_ITEMS_SUCCESS;
-  items: IItems;
+  items: ISideBarItems;
 }
 
 export interface IMyItemsError extends Action {
@@ -33,7 +28,7 @@ export const myItemsRequest = (): IMyItemsRequest => ({
   type: MyItemsActionTypes.MY_ITEMS_REQUEST
 });
 
-export const myItemsSuccess = (items: IItems): IMyItemsSuccess => ({
+export const myItemsSuccess = (items: ISideBarItems): IMyItemsSuccess => ({
   type: MyItemsActionTypes.MY_ITEMS_SUCCESS,
   items
 });

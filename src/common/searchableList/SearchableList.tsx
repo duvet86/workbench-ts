@@ -4,7 +4,7 @@ import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
 import { AutoSizer, List as VirtualizedList } from "react-virtualized";
 
-import { IColumn } from "common/searchableList/types";
+import { IOption } from "common/searchableList/types";
 
 import FormControl from "@material-ui/core/FormControl";
 import IconButton from "@material-ui/core/IconButton";
@@ -22,9 +22,9 @@ import rowRenderer from "common/searchableList/rowRenderer";
 interface IProps extends WithStyles<typeof styles> {
   label: string;
   totItems: number;
-  searchableColumns: IColumn[];
+  searchableItems: IOption[];
   searchString: string;
-  onItemClick: (column: IColumn) => void;
+  onItemClick: (column: IOption) => void;
   handleChange: ChangeEventHandler<HTMLInputElement>;
   handleClickClearIcon: () => void;
 }
@@ -54,7 +54,7 @@ const SearchableList: SFC<IProps> = ({
   classes,
   label,
   totItems,
-  searchableColumns,
+  searchableItems,
   searchString,
   onItemClick,
   handleChange,
@@ -68,7 +68,7 @@ const SearchableList: SFC<IProps> = ({
         <Input
           value={searchString}
           onChange={handleChange}
-          disabled={searchableColumns.length === 0}
+          disabled={searchableItems.length === 0}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
@@ -87,9 +87,9 @@ const SearchableList: SFC<IProps> = ({
           <VirtualizedList
             width={width}
             height={245}
-            rowCount={searchableColumns.length}
+            rowCount={searchableItems.length}
             rowHeight={41}
-            rowRenderer={rowRenderer(classes, searchableColumns, onItemClick)}
+            rowRenderer={rowRenderer(classes, searchableItems, onItemClick)}
           />
         )}
       </AutoSizer>

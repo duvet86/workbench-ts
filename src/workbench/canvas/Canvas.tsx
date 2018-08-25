@@ -1,20 +1,28 @@
 import grid20 from "workbench/canvas/grid20.png";
 
 import React, { SFC } from "react";
-import PropTypes from "prop-types";
+import { jsPlumbInstance as jsInst } from "jsplumb";
+
+import { IQuery, IInteractiveFilter, IConnection } from "workbench/types";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
+
 import ElementContainer from "workbench/canvas/ElementContainer";
 
 interface IProps extends WithStyles<typeof styles> {
   containerId: string;
-  jsPlumbInstance: any;
-  moveOperatorInCanvas: () => void;
-  queries: any[];
-  filters: any[];
-  connections: any[];
+  jsPlumbInstance: jsInst;
+  moveOperatorInCanvas: (
+    type: string,
+    index: number,
+    x: number,
+    y: number
+  ) => void;
+  queries: IQuery[];
+  filters: IInteractiveFilter[];
+  connections: IConnection[];
 }
 
 const styles = createStyles({
@@ -40,36 +48,45 @@ const Canvas: SFC<IProps> = ({
   <Grid id={containerId} container className={classes.container}>
     <Grid item xs={12} className={classes.item}>
       {queries &&
-        queries.map((query, index) => (
-          <ElementContainer
-            key={query.elementId}
-            jsPlumbInstance={jsPlumbInstance}
-            moveOperatorInCanvas={moveOperatorInCanvas}
-            index={index}
-            connections={connections}
-            {...query}
-          />
-        ))}
+        queries.map(
+          (
+            { ElementId, ElementType, Label, LayoutX, LayoutY, Columns },
+            index
+          ) => (
+            <ElementContainer
+              key={ElementId}
+              jsPlumbInstance={jsPlumbInstance}
+              moveOperatorInCanvas={moveOperatorInCanvas}
+              index={index}
+              connections={connections}
+              type={ElementType}
+              elementId={ElementId}
+              elementLabel={Label}
+              columns={Columns}
+              x={LayoutX}
+              y={LayoutY}
+            />
+          )
+        )}
       {filters &&
-        filters.map((filter, index) => (
-          <ElementContainer
-            key={filter.elementId}
-            jsPlumbInstance={jsPlumbInstance}
-            moveOperatorInCanvas={moveOperatorInCanvas}
-            index={index}
-            connections={connections}
-            {...filter}
-          />
-        ))}
+        filters.map(
+          ({ ElementId, FilterType, Label, LayoutX, LayoutY }, index) => (
+            <ElementContainer
+              key={ElementId}
+              jsPlumbInstance={jsPlumbInstance}
+              moveOperatorInCanvas={moveOperatorInCanvas}
+              index={index}
+              connections={connections}
+              type={FilterType}
+              elementId={ElementId}
+              elementLabel={Label}
+              x={LayoutX}
+              y={LayoutY}
+            />
+          )
+        )}
     </Grid>
   </Grid>
 );
-
-Canvas.propTypes = {
-  classes: PropTypes.object.isRequired,
-  containerId: PropTypes.string.isRequired,
-  jsPlumbInstance: PropTypes.object.isRequired,
-  moveOperatorInCanvas: PropTypes.func.isRequired
-};
 
 export default withStyles(styles)(Canvas);

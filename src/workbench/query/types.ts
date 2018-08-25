@@ -5,7 +5,7 @@ interface IFilterTypeMapping {
   Label: string;
 }
 
-interface IUdsColumnDescriptionDtc {
+export interface IUdsColumnDescriptionDtc {
   ColumnIndex: number;
   ColumnName: string;
   Label: string;
@@ -18,14 +18,13 @@ interface IUdsColumnDescriptionDtc {
   ProhibitedAggregations: string[];
   AggregationDisplayFormat: { [QesAggregate: string]: IDisplayFormat };
   IsNumeric: boolean;
-
   IsAggregationRequired: boolean;
   HandleFiltering: boolean;
   HandleAggregation: boolean;
   HandleSorting: boolean;
 }
 
-interface IUdsFilterDescriptionDtc {
+export interface IUdsFilterDescriptionDtc {
   FilterName: string;
   Label: string;
   Description: string;

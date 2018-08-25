@@ -3,7 +3,13 @@ import { normalize } from "normalizr";
 
 import { graphSchema } from "workbench/schema";
 
-import { ISessionDtc, IQueryGraphDataDtc } from "workbench/types";
+import {
+  ISessionDtc,
+  IQueryGraphDataDtc,
+  IQuery,
+  IColumn,
+  IConstraint
+} from "workbench/types";
 
 export const enum SessionActionTypes {
   SESSION_REQUEST = "SESSION_REQUEST",
@@ -82,7 +88,7 @@ export interface IGraphRequest extends Action {
 
 export interface IGraphSuccess extends Action {
   type: GraphActionTypes.GRAPH_SUCCESS;
-  graphData: any;
+  graphData: IQueryGraphDataDtc;
 }
 
 export type GraphAction = IGraphRequest | IGraphSuccess;
@@ -91,7 +97,7 @@ export const graphRequest = (): IGraphRequest => ({
   type: GraphActionTypes.GRAPH_REQUEST
 });
 
-export const graphSuccess = (graphData: any): IGraphSuccess => ({
+export const graphSuccess = (graphData: IQueryGraphDataDtc): IGraphSuccess => ({
   type: GraphActionTypes.GRAPH_SUCCESS,
   graphData
 });
@@ -150,22 +156,13 @@ export const enum QueryActionTypes {
 export interface IAddQuery extends Action {
   type: QueryActionTypes.QUERY_ADD;
   elementId: number;
-  query: {
-    ElementId: number;
-    IsConfigured: boolean;
-    TargetDataServiceId: string;
-    TargetDataViewId: string;
-    // TODO: ElementType fix me.
-    ElementType: string;
-    Columns: any[];
-    Constraints: any[];
-  };
+  query: IQuery;
 }
 
 export interface IUpdateQueryDataService extends Action {
   type: QueryActionTypes.QUERY_DATASERVICE_UPDATE;
   elementId: number;
-  query: any;
+  query: IQuery;
 }
 
 export type QueryAction = IAddQuery | IUpdateQueryDataService;
@@ -174,19 +171,27 @@ export const addQuery = (elementId: number): IAddQuery => ({
   type: QueryActionTypes.QUERY_ADD,
   elementId,
   query: {
+    Label: "New Query",
     ElementId: elementId,
     IsConfigured: false,
     TargetDataServiceId: "",
     TargetDataViewId: "",
     ElementType: "Query",
     Columns: [],
-    Constraints: []
+    SortBys: [],
+    Constraints: [],
+    IsQueryGraphResult: false,
+    ChangeNumber: 0,
+    ForceRun: false,
+    State: "New",
+    LayoutX: 0,
+    LayoutY: 0
   }
 });
 
 export const updateQueryDataService = (
   elementId: number,
-  query: any
+  query: IQuery
 ): IUpdateQueryDataService => ({
   type: QueryActionTypes.QUERY_DATASERVICE_UPDATE,
   elementId,
@@ -201,7 +206,7 @@ export const enum QueryColumnActionTypes {
 export interface IAddQueryColumn extends Action {
   type: QueryColumnActionTypes.QUERY_COLUMN_ADD;
   elementId: number;
-  column: any;
+  column: IColumn;
 }
 
 export interface IRemoveQueryColumn extends Action {
@@ -214,7 +219,7 @@ export type QueryColumnAction = IAddQueryColumn | IRemoveQueryColumn;
 
 export const addQueryColumn = (
   elementId: number,
-  column: any
+  column: IColumn
 ): IAddQueryColumn => ({
   type: QueryColumnActionTypes.QUERY_COLUMN_ADD,
   elementId,
@@ -240,25 +245,21 @@ export const enum QueryConstraintActionTypes {
 export interface IAddQueryConstraint extends Action {
   type: QueryConstraintActionTypes.QUERY_CONSTRAINT_ADD;
   elementId: number;
-  constraint: {
-    ConstraintId: number;
-    Values?: any[];
-    ValuesHint: string;
-  };
+  constraint: IConstraint;
 }
 
 export interface IUpdateQueryConstraintType extends Action {
   type: QueryConstraintActionTypes.QUERY_CONSTRAINT_TYPE;
   elementId: number;
   constraintId: number;
-  constraintType: any;
+  constraintType: string;
 }
 
 export interface IUpdateQueryConstraintValues extends Action {
   type: QueryConstraintActionTypes.QUERY_CONSTRAINT_VALUES;
   elementId: number;
   constraintId: number;
-  vectorValues: any[];
+  vectorValues: object[][];
   valuesHint?: string;
 }
 
@@ -277,7 +278,7 @@ export type QueryConstraintAction =
 export const addQueryConstraint = (
   elementId: number,
   constraintId: number,
-  contraintTarget: any
+  contraintTarget: any // Fix me.
 ): IAddQueryConstraint => ({
   type: QueryConstraintActionTypes.QUERY_CONSTRAINT_ADD,
   elementId,
@@ -292,7 +293,7 @@ export const addQueryConstraint = (
 export const updateQueryConstraintType = (
   elementId: number,
   constraintId: number,
-  constraintType: any
+  constraintType: string
 ): IUpdateQueryConstraintType => ({
   type: QueryConstraintActionTypes.QUERY_CONSTRAINT_TYPE,
   elementId,
@@ -303,7 +304,7 @@ export const updateQueryConstraintType = (
 export const updateQueryConstraintValues = (
   elementId: number,
   constraintId: number,
-  vectorValues: any[],
+  vectorValues: object[][],
   valuesHint?: string
 ): IUpdateQueryConstraintValues => ({
   type: QueryConstraintActionTypes.QUERY_CONSTRAINT_VALUES,

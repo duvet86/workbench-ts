@@ -7,11 +7,12 @@ import {
   IFilterCapabilitiesDic,
   IUdsDescriptionDtc
 } from "workbench/query/types";
+import { IPagedCollection } from "types";
 import { IItemDtc } from "sidebar/myItems/types";
 
 // http://desktop-ejm4rss/dev/api/qes/systemdataviews/demo
 // http://desktop-ejm4rss/dev/api/qes/demo/dataservices
-export const getDataServicesObs = (): Observable<IItemDtc> =>
+export const getDataServicesObs = (): Observable<IPagedCollection<IItemDtc>> =>
   from(getWithJwtAsync(`api/qes/systemdataviews/${TENANT_ID}`));
 
 export const getFilterCapabilitiesObs = (): Observable<
@@ -20,7 +21,7 @@ export const getFilterCapabilitiesObs = (): Observable<
 
 export const getDataServiceDescriptionObs = (
   tenantId: string,
-  sessionId: number,
+  sessionId: string,
   queryGraphId: number,
   elementId: number
 ): Observable<IUdsDescriptionDtc> =>

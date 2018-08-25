@@ -1,5 +1,4 @@
 import React, { SFC } from "react";
-import PropTypes from "prop-types";
 
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
@@ -54,10 +53,6 @@ const HelperText: SFC<IProps> = ({ currentStep }) => {
       </Card>
     </Grid>
   );
-};
-
-HelperText.propTypes = {
-  currentStep: PropTypes.number.isRequired
 };
 
 export default HelperText;

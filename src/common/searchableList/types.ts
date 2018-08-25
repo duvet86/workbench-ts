@@ -1,4 +1,4 @@
-export interface IColumn {
-  Label: string;
-  DataType: string;
+export interface IOption {
+  label: string;
+  value: string;
 }

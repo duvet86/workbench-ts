@@ -1,5 +1,8 @@
 import React, { Fragment, SFC } from "react";
 
+import { IConstraint } from "workbench/types";
+import { IFilterCapabilitiesDic } from "workbench/query/types";
+
 import {
   createStyles,
   Theme,
@@ -20,15 +23,9 @@ import DeleteIcon from "@material-ui/icons/Delete";
 
 import SelectInput from "common/select/SelectInput";
 
-import { DATA_TYPES } from "workbench/utils";
-
 const constraintIconColour = "#2c5367";
 
-// TODO:Fix me. Duplicate in ContraintSelectorContainer.
-interface IContraintTarget {
-  ConstraintId: number;
-  DataType: DATA_TYPES;
-  FilterType: DATA_TYPES;
+interface IContraintTarget extends IConstraint {
   displayValue: string;
   label: string;
   secondaryLabel: string;
@@ -36,33 +33,22 @@ interface IContraintTarget {
 
 interface IProps extends WithStyles<typeof styles> {
   contraintTargets: IContraintTarget[];
-  queryConstraints: Array<{
-    ConstraintId: number;
-    DataType: DATA_TYPES;
-    FilterType: DATA_TYPES;
-    displayValue: string;
-    label: string;
-  }>;
-  filterCapabilities: {
-    [key in DATA_TYPES]: Array<{
-      Type: string;
-      Label: string;
-    }>
-  };
+  queryConstraints: IContraintTarget[];
+  filterCapabilities: IFilterCapabilitiesDic;
   handledAddQueryConstraint: (target: IContraintTarget) => void;
   handledUpdateQueryConstraintType: (
     constraintId: number
   ) => React.ChangeEventHandler<HTMLSelectElement>;
   handledUpdateQueryConstraintValues: (
     constraintId: number,
-    dataType: DATA_TYPES
+    dataType: string
   ) => React.ChangeEventHandler<HTMLInputElement>;
   handledRemoveQueryConstraint: (
     constraintId: number
   ) => React.MouseEventHandler;
 }
 
-const styles = ({ spacing }: Theme) =>
+const styles = ({ spacing: { unit } }: Theme) =>
   createStyles({
     constraintTargetSelect: {
       marginBottom: 30
@@ -75,19 +61,19 @@ const styles = ({ spacing }: Theme) =>
       alignItems: "center"
     },
     targetLabel: {
-      flexBasis: `${spacing.unit * 2}%`,
-      margin: spacing.unit
+      flexBasis: `${unit * 2}%`,
+      margin: unit
     },
     typeSelect: {
-      flexBasis: `${spacing.unit * 2}%`,
-      margin: spacing.unit
+      flexBasis: `${unit * 2}%`,
+      margin: unit
     },
     valueInput: {
       flexGrow: 1,
-      margin: spacing.unit
+      margin: unit
     },
     constraintIcon: {
-      margin: spacing.unit,
+      margin: unit,
       fill: constraintIconColour
     }
   });

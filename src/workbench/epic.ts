@@ -1,8 +1,10 @@
 import { denormalize } from "normalizr";
-import { Epic, ofType } from "redux-observable";
+import { ActionsObservable, StateObservable, ofType } from "redux-observable";
+import { Observable } from "rxjs";
 import { catchError, map, mergeMap } from "rxjs/operators";
 
 import { handleException } from "errorPage/epic";
+import { IErrorAction } from "errorPage/actions";
 import {
   GraphPushActionTypes,
   GraphSaveActionTypes,
@@ -14,7 +16,8 @@ import {
   SessionAction,
   GraphSaveChangesAction,
   GraphPushAction,
-  QueryAction
+  QueryAction,
+  ISessionSuccess
 } from "workbench/actions";
 import {
   getSessionInfoObs,
@@ -30,7 +33,27 @@ import {
   QueryDescribeAction
 } from "workbench/query/actions";
 
-export const sessionEpic: Epic<SessionAction, any> = action$ =>
+import {
+  ISessionDtc,
+  IQueryGraphDataDtc,
+  IQuery,
+  IInteractiveFilter,
+  IConnection
+} from "workbench/types";
+
+interface IState {
+  sessionReducer: {
+    session: ISessionDtc;
+    graph: IQueryGraphDataDtc;
+    queries: IQuery[];
+    filters: IInteractiveFilter[];
+    connections: IConnection[];
+  };
+}
+
+export const sessionEpic = (
+  action$: ActionsObservable<SessionAction>
+): Observable<IErrorAction | ISessionSuccess> =>
   action$.pipe(
     ofType(SessionActionTypes.SESSION_REQUEST),
     mergeMap(({ dataViewId }: { dataViewId: string }) =>
@@ -41,9 +64,9 @@ export const sessionEpic: Epic<SessionAction, any> = action$ =>
     )
   );
 
-export const saveGraphEpic: Epic<GraphSaveChangesAction, any> = (
-  action$,
-  state$
+export const saveGraphEpic = (
+  action$: ActionsObservable<GraphSaveChangesAction>,
+  state$: StateObservable<IState>
 ) =>
   action$.pipe(
     ofType(GraphSaveActionTypes.GRAPH_SAVE_REQUEST),
@@ -62,7 +85,7 @@ export const saveGraphEpic: Epic<GraphSaveChangesAction, any> = (
     })
   );
 
-// export const getGraphEpic: Epic<GraphAction, any> = action$ =>
+// export const getGraphEpic = action$ =>
 //   action$.pipe(
 //     ofType(GRAPH_REQUEST),
 //     mergeMap(() =>
@@ -73,9 +96,9 @@ export const saveGraphEpic: Epic<GraphSaveChangesAction, any> = (
 //     )
 //   );
 
-export const pushGraphChangesEpic: Epic<GraphPushAction, any> = (
-  action$,
-  state$
+export const pushGraphChangesEpic = (
+  action$: ActionsObservable<GraphPushAction>,
+  state$: StateObservable<IState>
 ) =>
   action$.pipe(
     ofType(GraphPushActionTypes.GRAPH_PUSH_REQUEST),
@@ -108,10 +131,9 @@ export const pushGraphChangesEpic: Epic<GraphPushAction, any> = (
 //     })
 //   );
 
-export const addQueryEpic: Epic<
-  QueryAction | QueryConfigAction,
-  any
-> = action$ =>
+export const addQueryEpic = (
+  action$: ActionsObservable<QueryAction | QueryConfigAction>
+) =>
   action$.pipe(
     ofType(QueryActionTypes.QUERY_ADD),
     map(({ elementId }: { elementId: number }) => openQueryConfig(elementId))
@@ -122,10 +144,10 @@ interface IDataservice {
   query: { TargetDataViewId: number };
 }
 
-export const updateQueryDataServiceEpic: Epic<
-  QueryAction | QueryDescribeAction,
-  any
-> = (action$, state$) =>
+export const updateQueryDataServiceEpic = (
+  action$: ActionsObservable<QueryAction | QueryDescribeAction>,
+  state$: StateObservable<IState>
+) =>
   action$.pipe(
     ofType(QueryActionTypes.QUERY_DATASERVICE_UPDATE),
     mergeMap(({ elementId, query: { TargetDataViewId } }: IDataservice) => {

@@ -24,7 +24,7 @@ interface IDispatchProps {
 
 interface IStateProps {
   elementId: number;
-  targetDataViewId: number;
+  targetDataViewId: string;
   dataServices: any[];
 }
 

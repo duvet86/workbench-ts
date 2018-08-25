@@ -13,17 +13,21 @@ import {
   getQueryColumns
 } from "workbench/query/selectors";
 
+import { IColumn } from "workbench/types";
+import { IUdsColumnDescriptionDtc } from "workbench/query/types";
+import { IOption } from "common/searchableList/types";
+
 import ColumnsSelector from "workbench/query/columnSelector/ColumnsSelector";
 
 interface IDispatchProps {
-  dispatchAddQueryColumn: (elementId: number, column: any) => void;
-  dispatchRemoveQueryColumn: (elementId: number, column: any) => void;
+  dispatchAddQueryColumn: (elementId: number, column: IColumn) => void;
+  dispatchRemoveQueryColumn: (elementId: number, columnName: string) => void;
 }
 
 interface IStateProps {
   elementId: number;
-  availableColumns: any[];
-  selectedColumns: any[];
+  availableColumns: IUdsColumnDescriptionDtc[];
+  selectedColumns: IColumn[];
 }
 
 type Props = IStateProps & IDispatchProps;
@@ -42,18 +46,19 @@ class ColumnsSelectorContainer extends Component<Props> {
     );
   }
 
-  private handleAddQueryColumn = (column: any) => {
+  private handleAddQueryColumn = ({ label }: IOption) => {
     const { elementId, dispatchAddQueryColumn } = this.props;
-    dispatchAddQueryColumn(elementId, column);
+    const queryColumn = {
+      ColumnName: label,
+      Label: label,
+      Aggregation: "None"
+    };
+    dispatchAddQueryColumn(elementId, queryColumn);
   };
 
-  private handleRemoveQueryColumn = ({
-    ColumnName
-  }: {
-    ColumnName: string;
-  }) => {
+  private handleRemoveQueryColumn = ({ label }: IOption) => {
     const { elementId, dispatchRemoveQueryColumn } = this.props;
-    dispatchRemoveQueryColumn(elementId, ColumnName);
+    dispatchRemoveQueryColumn(elementId, label);
   };
 }
 
@@ -63,10 +68,10 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<QueryColumnAction>) => ({
-  dispatchAddQueryColumn: (elementId: number, column: any) =>
+  dispatchAddQueryColumn: (elementId: number, column: IColumn) =>
     dispatch(addQueryColumn(elementId, column)),
-  dispatchRemoveQueryColumn: (elementId: number, column: any) =>
-    dispatch(removeQueryColumn(elementId, column))
+  dispatchRemoveQueryColumn: (elementId: number, columnName: string) =>
+    dispatch(removeQueryColumn(elementId, columnName))
 });
 
 export default connect(

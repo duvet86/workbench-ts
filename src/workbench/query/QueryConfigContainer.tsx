@@ -1,26 +1,19 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { getQuery, getCompletedSteps } from "workbench/query/selectors";
+import { IQuery } from "workbench/types";
+import { getQuery, getCompletedSteps, IState } from "workbench/query/selectors";
 
 import QueryConfig from "workbench/query/QueryConfig";
 
-interface IStoreState {
+interface IProps {
   isLoading: boolean;
-  selectedQuery: any;
+  selectedQuery: IQuery;
   currentStep: number;
   completedSteps: boolean[];
 }
 
-class QueryConfigContainer extends Component<IStoreState> {
-  public static propTypes = {
-    isLoading: PropTypes.bool.isRequired,
-    selectedQuery: PropTypes.object.isRequired,
-    currentStep: PropTypes.number.isRequired,
-    completedSteps: PropTypes.array.isRequired
-  };
-
+class QueryConfigContainer extends Component<IProps> {
   public render() {
     const {
       isLoading,
@@ -40,7 +33,7 @@ class QueryConfigContainer extends Component<IStoreState> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: IState) => ({
   isLoading: state.queryConfigReducer.isLoading,
   selectedQuery: getQuery(state),
   currentStep: state.queryConfigReducer.currentStep,

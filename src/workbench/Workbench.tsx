@@ -1,10 +1,12 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { DropTarget, ConnectDropTarget } from "react-dnd";
+import { DropTarget, ConnectDropTarget, DropTargetSpec } from "react-dnd";
+import { jsPlumbInstance as jsInst } from "jsplumb";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
+import { ISessionDtc } from "workbench/types";
 import { itemType } from "sidebar/operators/operatorsData";
+
 import {
   CANVAS_DRAGGABLE_CONTAINER_ID,
   CANVAS_DRAGGABLE_ID
@@ -15,9 +17,9 @@ import Canvas from "workbench/canvas/Canvas";
 interface IProps extends WithStyles<typeof styles> {
   connectDropTarget: ConnectDropTarget;
   moveOperatorInCanvas: () => void;
-  jsPlumbInstance: any;
-  jsPlumbCanvasInstance: any;
-  session: any;
+  jsPlumbInstance: jsInst;
+  jsPlumbCanvasInstance: jsInst;
+  session: ISessionDtc;
 }
 
 interface IDropProps {
@@ -40,8 +42,8 @@ const styles = createStyles({
   }
 });
 
-const operatorTarget = {
-  drop(props: IDropProps) {
+const operatorTarget: DropTargetSpec<IDropProps> = {
+  drop(props) {
     // const { type, operatorServiceId } = monitor.getItem();
     // const clientOffset = monitor.getClientOffset();
     // const containerCoordinates = findDOMNode(component).getBoundingClientRect();
@@ -57,13 +59,6 @@ const operatorTarget = {
 };
 
 class Workbench extends Component<IProps> {
-  public static propTypes = {
-    classes: PropTypes.object.isRequired,
-    dispatchAddQuery: PropTypes.func.isRequired,
-    session: PropTypes.object,
-    graph: PropTypes.object
-  };
-
   public componentDidMount() {
     this.props.jsPlumbCanvasInstance.draggable(CANVAS_DRAGGABLE_ID);
   }
@@ -71,10 +66,10 @@ class Workbench extends Component<IProps> {
   public render() {
     const {
       classes,
-      connectDropTarget
-      // moveOperatorInCanvas,
-      // jsPlumbInstance,
-      // session
+      connectDropTarget,
+      moveOperatorInCanvas,
+      jsPlumbInstance,
+      session
     } = this.props;
 
     return (
@@ -82,12 +77,12 @@ class Workbench extends Component<IProps> {
         <div id={CANVAS_DRAGGABLE_ID} className={classes.draggableItem}>
           {connectDropTarget(
             <span>
-              {/* <Canvas
+              <Canvas
                 containerId={DROPPABLE_CANVAS_ID}
                 jsPlumbInstance={jsPlumbInstance}
                 moveOperatorInCanvas={moveOperatorInCanvas}
                 session={session}
-              /> */}
+              />
             </span>
           )}
         </div>

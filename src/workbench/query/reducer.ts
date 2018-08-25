@@ -11,22 +11,35 @@ import {
   QueryDescribeAction
 } from "workbench/query/actions";
 
-// TODO: fix me.
+import { IPagedCollection } from "types";
+import { IItemDtc } from "sidebar/myItems/types";
+import {
+  IUdsColumnDescriptionDtc,
+  IUdsFilterDescriptionDtc,
+  IFilterCapabilitiesDic
+} from "workbench/query/types";
+
 interface IInitialState {
   currentStep: number;
   isLoading: boolean;
   elementId: number;
-  dataServices: any[];
-  availableColumns: any[];
-  availableFilters: any[];
-  filterCapabilities: any;
+  dataServices: IPagedCollection<IItemDtc>;
+  availableColumns: IUdsColumnDescriptionDtc[];
+  availableFilters: IUdsFilterDescriptionDtc[];
+  filterCapabilities: IFilterCapabilitiesDic;
 }
 
 const initialState: IInitialState = {
   currentStep: 0,
   isLoading: true,
   elementId: 0,
-  dataServices: [],
+  dataServices: {
+    Items: [],
+    PageNumber: 0,
+    PageSize: 0,
+    PageCount: 0,
+    ItemCount: 0
+  },
   availableColumns: [],
   availableFilters: [],
   filterCapabilities: {}

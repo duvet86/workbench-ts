@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -21,12 +20,6 @@ interface IProps {
 type Props = IProps & IDispatchProps;
 
 class StepperHeaderContainer extends Component<Props> {
-  public static propTypes = {
-    currentStep: PropTypes.number.isRequired,
-    completedSteps: PropTypes.array.isRequired,
-    dispatchGoToStep: PropTypes.func.isRequired
-  };
-
   public render() {
     const { currentStep, completedSteps, dispatchGoToStep } = this.props;
 

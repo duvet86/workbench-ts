@@ -1,9 +1,17 @@
+import { EndpointOptions, ConnectParams } from "jsplumb";
+
+import { IConstraint } from "workbench/types";
+
 import SaveIcon from "@material-ui/icons/Save";
 import ShareIcon from "@material-ui/icons/Share";
 import UndoIcon from "@material-ui/icons/Undo";
 import RedoIcon from "@material-ui/icons/Redo";
 import OpenWithIcon from "@material-ui/icons/OpenWith";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
+
+interface IContraintDisplayValue extends IConstraint {
+  displayValue: any;
+}
 
 export enum DATA_TYPES {
   NOTSPECIFIED = "NotSpecified",
@@ -71,36 +79,45 @@ export const connectionConfig = {
   overlays: [["Arrow", { location: 0.9 }]]
 };
 
-export const topEndPointConfig = {
+export const topEndPointConfig: EndpointOptions = {
+  id: "topEndPointConfig",
+  scope: "",
   anchor: "Top",
-  endpoint: ["Dot", { radius: 5, cssClass: "topendpoint" }],
+  // endpoint: ["Dot", { radius: 5, cssClass: "topendpoint" }], Fix me.
   isTarget: true,
   isSource: false,
-  maxConnections: -1
+  maxConnections: -1,
+  parameters: {},
+  reattachConnections: false,
+  type: "Dot"
 };
 
-export const bottomEndPointConfig = {
+export const bottomEndPointConfig: EndpointOptions = {
+  id: "bottomEndPointConfig",
+  scope: "",
   anchor: "Bottom",
-  endpoint: [
-    "Rectangle",
-    { width: 10, height: 10, cssClass: "bottomendpoint" }
-  ],
+  // endpoint: [
+  //   "Rectangle",
+  //   { width: 10, height: 10, cssClass: "bottomendpoint" } Fix me.
+  // ],
   isTarget: false,
   isSource: true,
-  maxConnections: -1
+  maxConnections: -1,
+  parameters: {},
+  reattachConnections: false,
+  type: "Dot"
 };
 
-// TODO: fix me.
-interface IContraint {
-  DataType: DATA_TYPES;
-  Values: any[];
-  displayValue?: any;
-}
-
-export function setConstraintDisplayValue(constraint: IContraint) {
+export function getConstraintDisplayValue(constraint: IConstraint) {
+  const constraintDsiplayValue: IContraintDisplayValue = Object.assign(
+    {
+      displayValue: ""
+    },
+    constraint
+  );
   switch (constraint.DataType) {
     case DATA_TYPES.INTERVALVALUE:
-      constraint.displayValue = constraint.Values && {
+      constraintDsiplayValue.displayValue = constraint.Values && {
         intervalType: constraint.Values[0][0],
         intervalString: constraint.Values[0][1],
         intervalLabel: constraint.Values[0][2]
@@ -114,7 +131,7 @@ export function setConstraintDisplayValue(constraint: IContraint) {
     case DATA_TYPES.BOOLVALUE:
     case DATA_TYPES.INTVALUE:
     case DATA_TYPES.DOUBLEVALUE:
-      constraint.displayValue = constraint.Values
+      constraintDsiplayValue.displayValue = constraint.Values
         ? constraint.Values[0][0]
         : "";
       break;
@@ -134,27 +151,21 @@ export function setConstraintDisplayValue(constraint: IContraint) {
     //   };
     //   break;
     default:
-      constraint.displayValue = "";
+      constraintDsiplayValue.displayValue = "";
       break;
   }
 
-  return constraint;
+  return constraintDsiplayValue;
 }
 
-// interface IInterval {
-//   intervalType: string;
-//   intervalString: string;
-//   intervalLabel: string;
-// }
-
 interface IConstraintVectorValue {
-  vectorValues: any | any[];
+  vectorValues: object[][];
   valuesHint?: string;
 }
 
 export function getConstraintVectorValue(
   dataType: DATA_TYPES,
-  values: any,
+  values: any, // Fix me.
   valuesHint?: string
 ) {
   const valuesObj: IConstraintVectorValue = {

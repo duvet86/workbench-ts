@@ -1,5 +1,4 @@
 import React, { Fragment, SFC } from "react";
-import PropTypes from "prop-types";
 
 import {
   createStyles,
@@ -93,15 +92,6 @@ const StepperHeader: SFC<IProps> = ({
       </Grid>
     </Fragment>
   );
-};
-
-StepperHeader.propTypes = {
-  classes: PropTypes.object.isRequired,
-  title: PropTypes.string.isRequired,
-  stepLabels: PropTypes.array.isRequired,
-  currentStep: PropTypes.number.isRequired,
-  completedSteps: PropTypes.array.isRequired,
-  dispatchGoToStep: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(StepperHeader);

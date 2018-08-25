@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { jsPlumb } from "jsplumb";
+import { jsPlumb, jsPlumbInstance as jsInst } from "jsplumb";
 import { match as Match } from "react-router";
 
 import { CANVAS_DRAGGABLE_CONTAINER_ID } from "workbench/utils";
@@ -12,6 +11,13 @@ import {
   SessionAction,
   QueryAction
 } from "workbench/actions";
+import {
+  ISessionDtc,
+  IQueryGraphDataDtc,
+  IQuery,
+  IInteractiveFilter,
+  IConnection
+} from "workbench/types";
 
 import { LoadingContainer } from "common/loading";
 import WorkbenchToolbar from "workbench/toolBar/WorkbenchToolbar";
@@ -29,11 +35,11 @@ interface IDispatchProps {
 
 interface IProps {
   isLoading: boolean;
-  session: any;
-  graph: any;
-  queries: any[];
-  filters: any[];
-  connections: any[];
+  session: ISessionDtc;
+  graph: IQueryGraphDataDtc;
+  queries: IQuery[];
+  filters: IInteractiveFilter[];
+  connections: IConnection[];
 }
 
 type Props = IDispatchProps & IProps & IRouterProps;
@@ -43,26 +49,14 @@ interface IStoreState {
 }
 
 interface ILocalState {
-  jsPlumbCanvasInstance?: any;
-  jsPlumbInstance?: any;
+  jsPlumbCanvasInstance?: jsInst;
+  jsPlumbInstance?: jsInst;
 }
 
 const DROPPABLE_CANVAS_ID = "droppable-canvas";
 
 class WorkbenchContainer extends Component<Props, ILocalState> {
-  public static propTypes = {
-    isLoading: PropTypes.bool.isRequired,
-    dispatchSessionRequest: PropTypes.func.isRequired,
-    dispatchAddQuery: PropTypes.func.isRequired,
-    // dispatchCanvasOperatorMove: PropTypes.func.isRequired,
-    session: PropTypes.object.isRequired,
-    graph: PropTypes.object.isRequired,
-    queries: PropTypes.object.isRequired,
-    filters: PropTypes.object.isRequired,
-    connections: PropTypes.object.isRequired
-  };
-
-  public readonly state = {
+  public readonly state: ILocalState = {
     jsPlumbCanvasInstance: undefined,
     jsPlumbInstance: undefined
   };
@@ -93,7 +87,7 @@ class WorkbenchContainer extends Component<Props, ILocalState> {
     const { jsPlumbCanvasInstance, jsPlumbInstance } = this.state;
 
     return (
-      <LoadingContainer isLoading={isLoading || !jsPlumbCanvasInstance}>
+      <LoadingContainer isLoading={isLoading || jsPlumbCanvasInstance != null}>
         <WorkbenchToolbar />
         <ConfigSwitchContainer />
         <Workbench

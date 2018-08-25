@@ -54,12 +54,14 @@ export interface IFolderChild {
   ContentId: string;
   FolderId: string;
   ChildType: "F" | "I";
-
   ChildFolderId: string;
   ChildFolder: IFolderDtc;
-
   ChildItemId: string;
   ChildItem: IItemDtc;
-
   OwnerUsername: string;
+}
+
+export interface ISideBarItems {
+  myItems: IFolderChild[];
+  sharedWithMe: IFolderChild[];
 }

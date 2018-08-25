@@ -1,41 +1,47 @@
 import { createSelector } from "reselect";
-import { setConstraintDisplayValue, DATA_TYPES } from "workbench/utils";
 
-const dataServicesSelector = (state: any) =>
+import { getConstraintDisplayValue, DATA_TYPES } from "workbench/utils";
+import { IPagedCollection } from "types";
+import { IQuery, IColumn, IInteractiveFilter } from "workbench/types";
+import { IItemDtc } from "sidebar/myItems/types";
+
+export interface IState {
+  queryConfigReducer: {
+    isLoading: boolean;
+    currentStep: number;
+    dataServices: IPagedCollection<IItemDtc>;
+    elementId: number;
+    availableColumns: IColumn[];
+    availableFilters: IInteractiveFilter[];
+  };
+  sessionReducer: {
+    queries: IQuery[];
+  };
+}
+
+const dataServicesSelector = (state: IState) =>
   state.queryConfigReducer.dataServices;
-
-interface IDataServiceInput {
-  ItemId: number;
-  Label: string;
-}
-
-interface IDataServiceOutput {
-  value: number;
-  label: string;
-}
 
 export const getDataServices = createSelector(
   dataServicesSelector,
   dataServices =>
-    dataServices
-      .map(({ ItemId, Label }: IDataServiceInput) => ({
-        value: ItemId,
-        label: Label
-      }))
-      .sort((a: IDataServiceOutput, b: IDataServiceOutput) => {
-        if (a.label < b.label) {
-          return -1;
-        }
-        if (a.label > b.label) {
-          return 1;
-        }
-        return 0;
-      })
+    dataServices.Items.map(({ ItemId, Label }) => ({
+      value: ItemId,
+      label: Label
+    })).sort((a, b) => {
+      if (a.label < b.label) {
+        return -1;
+      }
+      if (a.label > b.label) {
+        return 1;
+      }
+      return 0;
+    })
 );
 
-const elementIdSelector = (state: any) => state.queryConfigReducer.elementId;
-const querySelector = (state: any) => state.sessionReducer.queries;
-const availableColumnsSelector = (state: any) =>
+const elementIdSelector = (state: IState) => state.queryConfigReducer.elementId;
+const querySelector = (state: IState) => state.sessionReducer.queries;
+const availableColumnsSelector = (state: IState) =>
   state.queryConfigReducer.availableColumns;
 
 export const getAvailableColumns = createSelector(
@@ -43,9 +49,7 @@ export const getAvailableColumns = createSelector(
   querySelector,
   availableColumnsSelector,
   (elementId, queries, availableColumns) =>
-    availableColumns.filter(
-      (ac: any) => !queries[elementId].Columns.includes(ac)
-    )
+    availableColumns.filter(ac => !queries[elementId].Columns.includes(ac))
 );
 
 export const getQuery = createSelector(
@@ -63,7 +67,7 @@ export const getQueryColumns = createSelector(
 export const getCompletedSteps = createSelector(
   elementIdSelector,
   querySelector,
-  (elementId: number, queries: any[]) => {
+  (elementId, queries) => {
     const selectedQuery = queries[elementId];
 
     if (selectedQuery.Columns.length > 0) {
@@ -77,100 +81,69 @@ export const getCompletedSteps = createSelector(
   }
 );
 
-const availableFiltersSelector = (state: any) =>
-  state.queryConfigReducer.availableFilters;
+// const availableFiltersSelector = (state: IState) =>
+//   state.queryConfigReducer.availableFilters;
 
-const noteSupportedDataTypes = ["DateTimeValue", "DateValue", "TimeValue"];
+// const noteSupportedDataTypes = ["DateTimeValue", "DateValue", "TimeValue"];
 
-interface IFilterInput {
-  Label: string;
-  FilterName: string;
-  DataType: DATA_TYPES;
-  ToColumnName: string;
-}
+// // NOTE: date types are not supported yet.
+// export const getConstraintTargets = createSelector(
+//   availableColumnsSelector,
+//   availableFiltersSelector,
+//   elementIdSelector,
+//   querySelector,
+//   (columns, filters, elementId, queries) => {
+//     const filtersSelect = filters.map(
+//       ({ Label, FilterName, DataType, ToColumnName }) => ({
+//         FilterName,
+//         ToColumnName,
+//         value: {
+//           label: Label,
+//           FilterName,
+//           DataType
+//         },
+//         label: Label + " (F)",
+//         secondaryLabel: `(${DataType})`
+//       })
+//     );
 
-interface IColumn {
-  Label: string;
-  DataType: DATA_TYPES;
-  ColumnName: string;
-  ToColumnName: string;
-}
+//     const columnsSelect = columns
+//       .filter(({ DataType }) => !noteSupportedDataTypes.includes(DataType))
+//       .filter(
+//         ({ ColumnName }) =>
+//           !filters.some(
+//             ({ ToColumnName }) => ToColumnName && ToColumnName === ColumnName
+//           )
+//       )
+//       .map(({ Label, ColumnName, DataType }) => ({
+//         ColumnName,
+//         value: {
+//           label: Label,
+//           ColumnName,
+//           DataType
+//         },
+//         label: Label,
+//         secondaryLabel: `(${DataType})`
+//       }));
 
-interface IConstraint {
-  FilterName: string;
-  ColumnName: string;
-}
-
-// NOTE: date types are not supported yet.
-export const getConstraintTargets = createSelector(
-  availableColumnsSelector,
-  availableFiltersSelector,
-  elementIdSelector,
-  querySelector,
-  (columns, filters, elementId, queries) => {
-    const filtersSelect = filters.map(
-      ({ Label, FilterName, DataType, ToColumnName }: IFilterInput) => ({
-        FilterName,
-        ToColumnName,
-        value: {
-          label: Label,
-          FilterName,
-          DataType
-        },
-        label: Label + " (F)",
-        secondaryLabel: `(${DataType})`
-      })
-    );
-
-    const columnsSelect = columns
-      .filter(
-        ({ DataType }: IColumn) => !noteSupportedDataTypes.includes(DataType)
-      )
-      .filter(
-        ({ ColumnName }: IColumn) =>
-          !filters.some(
-            ({ ToColumnName }: IColumn) =>
-              ToColumnName && ToColumnName === ColumnName
-          )
-      )
-      .map(({ Label, ColumnName, DataType }: IColumn) => ({
-        ColumnName,
-        value: {
-          label: Label,
-          ColumnName,
-          DataType
-        },
-        label: Label,
-        secondaryLabel: `(${DataType})`
-      }));
-
-    return []
-      .concat(filtersSelect, columnsSelect)
-      .filter(
-        (availConstraint: IConstraint) =>
-          !queries[elementId].Constraints.some(
-            (queryConstraint: IConstraint) =>
-              (availConstraint.FilterName &&
-                availConstraint.FilterName === queryConstraint.FilterName) ||
-              (availConstraint.ColumnName &&
-                availConstraint.ColumnName === queryConstraint.ColumnName)
-          )
-      );
-  }
-);
-
-// Duplicate.
-interface IContraint {
-  DataType: DATA_TYPES;
-  Values: any[];
-  displayValue?: any;
-}
+//     return []
+//       .concat(filtersSelect, columnsSelect)
+//       .filter(
+//         availConstraint =>
+//           !queries[elementId].Constraints.some(
+//             queryConstraint =>
+//               (availConstraint.FilterName &&
+//                 availConstraint.FilterName === queryConstraint.FilterName) ||
+//               (availConstraint.ColumnName &&
+//                 availConstraint.ColumnName === queryConstraint.ColumnName)
+//           )
+//       );
+//   }
+// );
 
 export const getQueryConstraints = createSelector(
   elementIdSelector,
   querySelector,
   (elementId, queries) =>
-    queries[elementId].Constraints.map((c: IContraint) =>
-      setConstraintDisplayValue(c)
-    )
+    queries[elementId].Constraints.map(c => getConstraintDisplayValue(c))
 );

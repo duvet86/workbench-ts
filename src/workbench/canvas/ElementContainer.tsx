@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
+import { DragEventCallbackOptions, jsPlumbInstance as jsInst } from "jsplumb";
 
 import {
   topEndPointConfig,
@@ -7,41 +7,30 @@ import {
   connectionConfig
 } from "workbench/utils";
 import { ElementType } from "sidebar/operators/types";
+import { IColumn, IConnection } from "workbench/types";
 
 import QueryElement from "workbench/query/QueryElement";
 import FilterElement from "workbench/filter/FilterElement";
 
 interface IProps {
-  jsPlumbInstance: any;
-  moveOperatorInCanvas: (type: string, index: number, ...pos: any[]) => void; // spread workaround
-  connections: any[];
+  jsPlumbInstance: jsInst;
+  moveOperatorInCanvas: (
+    type: string,
+    index: number,
+    x: number,
+    y: number
+  ) => void;
+  connections: IConnection[];
   index: number;
   type: string;
   elementId: number;
   elementLabel: string;
-  filterType: ElementType;
   x: number;
   y: number;
-  columns: Array<{
-    Label: string;
-    ColumnName: string;
-  }>;
+  columns?: IColumn[];
 }
 
 class ElementContainer extends Component<IProps> {
-  public static propTypes = {
-    jsPlumbInstance: PropTypes.object.isRequired,
-    moveOperatorInCanvas: PropTypes.func.isRequired,
-    connections: PropTypes.array.isRequired,
-    index: PropTypes.number.isRequired,
-    type: PropTypes.string.isRequired,
-    elementId: PropTypes.string.isRequired,
-    elementLabel: PropTypes.string.isRequired,
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired,
-    columns: PropTypes.array.isRequired
-  };
-
   public componentDidMount() {
     const {
       jsPlumbInstance,
@@ -52,29 +41,29 @@ class ElementContainer extends Component<IProps> {
       elementId
     } = this.props;
 
-    jsPlumbInstance.addEndpoint(elementId, topEndPointConfig);
-    jsPlumbInstance.addEndpoint(elementId, bottomEndPointConfig);
+    jsPlumbInstance.addEndpoint(elementId.toString(), topEndPointConfig);
+    jsPlumbInstance.addEndpoint(elementId.toString(), bottomEndPointConfig);
 
     jsPlumbInstance.draggable(elementId, {
-      containment: true,
-      stop: ({ pos }: { pos: { x: number; y: number } }) => {
-        moveOperatorInCanvas(type, index, ...(pos as any)); // spread workaround
+      containment: "true",
+      stop: ({ pos }: DragEventCallbackOptions) => {
+        moveOperatorInCanvas(type, index, ...pos);
       }
     });
 
-    this.makeConnections(jsPlumbInstance, connections);
+    // this.makeConnections(jsPlumbInstance, connections);
   }
 
   public componentDidUpdate() {
-    this.props.jsPlumbInstance.revalidate();
+    this.props.jsPlumbInstance.revalidate("");
   }
 
-  public componentWillReceiveProps(nextProps: IProps) {
-    if (this.props.connections.length !== nextProps.connections.length) {
-      const { jsPlumbInstance, connections } = nextProps;
-      this.makeConnections(jsPlumbInstance, connections);
-    }
-  }
+  // public componentWillReceiveProps(nextProps: IProps) {
+  //   if (this.props.connections.length !== nextProps.connections.length) {
+  //     const { jsPlumbInstance, connections } = nextProps;
+  //     this.makeConnections(jsPlumbInstance, connections);
+  //   }
+  // }
 
   public render() {
     const {
