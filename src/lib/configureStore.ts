@@ -6,7 +6,7 @@ import history from "lib/history";
 import rootEpic from "rootEpic";
 import rootReducer from "rootReducer";
 
-const epicMiddleware = createEpicMiddleware<Action, Action, any>(); // Replac any with rootState.
+const epicMiddleware = createEpicMiddleware<Action, Action, any>(); // Fix me: Replace any with rootState.
 const browserRouterMiddleware = routerMiddleware(history);
 
 const middleware = [epicMiddleware, browserRouterMiddleware];
