@@ -231,7 +231,7 @@ export interface ISessionDtc {
   SessionDatabaseId: string;
   DataViewId?: string;
   UserName: string;
-  CacheConfiguration: ICacheConfiguration;
+  CacheConfiguration?: ICacheConfiguration;
   InitialQueryGraph: IQueryGraphDataDtc;
 }
 

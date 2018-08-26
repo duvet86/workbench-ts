@@ -1,7 +1,6 @@
 import { createSelector } from "reselect";
 
-import { getConstraintDisplayValue, DATA_TYPES } from "workbench/utils";
-import { IPagedCollection } from "types";
+import { getConstraintDisplayValue } from "workbench/utils";
 import { IQuery, IColumn, IInteractiveFilter } from "workbench/types";
 import { IItemDtc } from "sidebar/myItems/types";
 
@@ -9,7 +8,7 @@ export interface IState {
   queryConfigReducer: {
     isLoading: boolean;
     currentStep: number;
-    dataServices: IPagedCollection<IItemDtc>;
+    dataServices: IItemDtc[];
     elementId: number;
     availableColumns: IColumn[];
     availableFilters: IInteractiveFilter[];
@@ -25,18 +24,20 @@ const dataServicesSelector = (state: IState) =>
 export const getDataServices = createSelector(
   dataServicesSelector,
   dataServices =>
-    dataServices.Items.map(({ ItemId, Label }) => ({
-      value: ItemId,
-      label: Label
-    })).sort((a, b) => {
-      if (a.label < b.label) {
-        return -1;
-      }
-      if (a.label > b.label) {
-        return 1;
-      }
-      return 0;
-    })
+    dataServices
+      .map(({ ItemId, Label }) => ({
+        value: ItemId,
+        label: Label
+      }))
+      .sort((a, b) => {
+        if (a.label < b.label) {
+          return -1;
+        }
+        if (a.label > b.label) {
+          return 1;
+        }
+        return 0;
+      })
 );
 
 const elementIdSelector = (state: IState) => state.queryConfigReducer.elementId;

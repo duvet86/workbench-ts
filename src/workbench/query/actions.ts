@@ -1,6 +1,5 @@
 import { Action } from "redux";
 
-import { IPagedCollection } from "types";
 import { IItemDtc } from "sidebar/myItems/types";
 import {
   IUdsDescriptionDtc,
@@ -69,7 +68,7 @@ interface IDataServicesRequest extends Action {
 
 interface IDataServicesSuccess extends Action {
   type: DataServicesActionTypes.DATASERVICES_SUCCESS;
-  dataServices: IPagedCollection<IItemDtc>;
+  dataServices: IItemDtc[];
 }
 
 export type DataServicesAction = IDataServicesRequest | IDataServicesSuccess;
@@ -79,7 +78,7 @@ export const dataServicesRequest = (): IDataServicesRequest => ({
 });
 
 export const dataServicesSuccess = (
-  dataServices: IPagedCollection<IItemDtc>
+  dataServices: IItemDtc[]
 ): IDataServicesSuccess => ({
   type: DataServicesActionTypes.DATASERVICES_SUCCESS,
   dataServices

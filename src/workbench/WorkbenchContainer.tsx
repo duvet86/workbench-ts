@@ -87,7 +87,7 @@ class WorkbenchContainer extends Component<Props, ILocalState> {
     const { jsPlumbCanvasInstance, jsPlumbInstance } = this.state;
 
     return (
-      <LoadingContainer isLoading={isLoading || jsPlumbCanvasInstance != null}>
+      <LoadingContainer isLoading={isLoading || jsPlumbCanvasInstance == null}>
         <WorkbenchToolbar />
         <ConfigSwitchContainer />
         <Workbench

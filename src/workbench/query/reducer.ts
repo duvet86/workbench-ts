@@ -11,7 +11,6 @@ import {
   QueryDescribeAction
 } from "workbench/query/actions";
 
-import { IPagedCollection } from "types";
 import { IItemDtc } from "sidebar/myItems/types";
 import {
   IUdsColumnDescriptionDtc,
@@ -23,7 +22,7 @@ interface IInitialState {
   currentStep: number;
   isLoading: boolean;
   elementId: number;
-  dataServices: IPagedCollection<IItemDtc>;
+  dataServices: IItemDtc[];
   availableColumns: IUdsColumnDescriptionDtc[];
   availableFilters: IUdsFilterDescriptionDtc[];
   filterCapabilities: IFilterCapabilitiesDic;
@@ -33,13 +32,7 @@ const initialState: IInitialState = {
   currentStep: 0,
   isLoading: true,
   elementId: 0,
-  dataServices: {
-    Items: [],
-    PageNumber: 0,
-    PageSize: 0,
-    PageCount: 0,
-    ItemCount: 0
-  },
+  dataServices: [],
   availableColumns: [],
   availableFilters: [],
   filterCapabilities: {}

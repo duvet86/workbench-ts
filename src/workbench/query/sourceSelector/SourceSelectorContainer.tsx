@@ -8,24 +8,24 @@ import {
   DataServicesAction
 } from "workbench/query/actions";
 
-import { getDataServices } from "workbench/query/selectors";
+import { IItemDtc } from "sidebar/myItems/types";
+
+import { getDataServices, IState } from "workbench/query/selectors";
 
 import SourceSelector from "workbench/query/sourceSelector/SourceSelector";
 
 interface IDispatchProps {
   dispatchDataServicesRequest: () => void;
-  dispatchDescribeQuery: (
+  dispatchUpdateDataService: (
     elementId: number,
-    query: {
-      TargetDataViewId: number;
-    }
+    targetDataViewId: number
   ) => void;
 }
 
 interface IStateProps {
   elementId: number;
   targetDataViewId: string;
-  dataServices: any[];
+  dataServices: IItemDtc[];
 }
 
 type Props = IStateProps & IDispatchProps;
@@ -47,16 +47,14 @@ class SourceSelectorContainer extends Component<Props> {
     );
   }
 
-  private handleChangeDataService = (selectedDataServiceId: number) => {
-    const { elementId, dispatchDescribeQuery } = this.props;
+  private handleChangeDataService = (targetDataViewId: number) => {
+    const { elementId, dispatchUpdateDataService } = this.props;
 
-    dispatchDescribeQuery(elementId, {
-      TargetDataViewId: selectedDataServiceId
-    });
+    dispatchUpdateDataService(elementId, targetDataViewId);
   };
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: IState) => ({
   dataServices: getDataServices(state)
 });
 
@@ -64,8 +62,8 @@ const mapDispatchToProps = (
   dispatch: Dispatch<DataServicesAction | QueryAction>
 ) => ({
   dispatchDataServicesRequest: () => dispatch(dataServicesRequest()),
-  dispatchDescribeQuery: (elementId: number, query: any) =>
-    dispatch(updateQueryDataService(elementId, query))
+  dispatchUpdateDataService: (elementId: number, targetDataViewId: number) =>
+    dispatch(updateQueryDataService(elementId, targetDataViewId))
 });
 
 export default connect(

@@ -1,14 +1,15 @@
 import React, { SFC } from "react";
 
+import { IItemDtc } from "sidebar/myItems/types";
+import SelectInput from "common/select/SelectInput";
+
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
 import StorageIcon from "@material-ui/icons/Storage";
 
-import SelectInput from "common/select/SelectInput";
-
 interface IProps extends WithStyles<typeof styles> {
   targetDataViewId: number;
-  dataServices: any[];
+  dataServices: IItemDtc[];
   handleChangeDataService: (selectedDataServiceId: number) => void;
 }
 
