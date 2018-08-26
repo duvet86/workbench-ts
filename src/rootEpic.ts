@@ -22,26 +22,22 @@ import {
 } from "workbench/query/epic";
 
 const epics = [
-  // loadingEpic,
-  // loginEpic,
-  // appEpic,
-  // fetchProfileEpic,
-  // myItemsEpic,
-  // navigationTabsEpic,
-  // operatorsEpic,
-  // sessionEpic,
-
-  saveGraphEpic
-  // pushGraphChangesEpic,
-  // addQueryEpic,
-
-  // dataServicesEpic,
-  // filterCapabilitiesEpic,
-
-  // updateQueryDataServiceEpic,
-  // serviceDescriptionEpic,
-
-  // intervalTypeEpic
+  loadingEpic,
+  loginEpic,
+  appEpic,
+  fetchProfileEpic,
+  myItemsEpic,
+  navigationTabsEpic,
+  operatorsEpic,
+  sessionEpic,
+  saveGraphEpic,
+  pushGraphChangesEpic,
+  addQueryEpic,
+  dataServicesEpic,
+  filterCapabilitiesEpic,
+  updateQueryDataServiceEpic,
+  serviceDescriptionEpic,
+  intervalTypeEpic
 ];
 
 export default combineEpics(...epics);

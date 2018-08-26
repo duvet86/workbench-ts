@@ -1,4 +1,5 @@
 import { denormalize } from "normalizr";
+import { RouterAction } from "connected-react-router";
 import { ActionsObservable, StateObservable, ofType } from "redux-observable";
 import { Observable } from "rxjs";
 import { catchError, map, mergeMap } from "rxjs/operators";
@@ -30,7 +31,9 @@ import {
   openQueryConfig,
   queryDescribeRequest,
   QueryConfigAction,
-  QueryDescribeAction
+  QueryDescribeAction,
+  IQueryDescribeRequest,
+  IOpenQueryConfig
 } from "workbench/query/actions";
 
 import {
@@ -53,7 +56,7 @@ interface IState {
 
 export const sessionEpic = (
   action$: ActionsObservable<SessionAction>
-): Observable<IErrorAction | ISessionSuccess> =>
+): Observable<RouterAction | IErrorAction | ISessionSuccess> =>
   action$.pipe(
     ofType(SessionActionTypes.SESSION_REQUEST),
     mergeMap(({ dataViewId }: { dataViewId: string }) =>
@@ -133,62 +136,61 @@ export const pushGraphChangesEpic = (
 
 export const addQueryEpic = (
   action$: ActionsObservable<QueryAction | QueryConfigAction>
-) =>
+): Observable<IOpenQueryConfig> =>
   action$.pipe(
     ofType(QueryActionTypes.QUERY_ADD),
     map(({ elementId }: { elementId: number }) => openQueryConfig(elementId))
   );
 
-interface IDataservice {
+interface IDataserviceUpdate {
   elementId: number;
-  query: { TargetDataViewId: number };
+  query: IQuery;
 }
 
 export const updateQueryDataServiceEpic = (
   action$: ActionsObservable<QueryAction | QueryDescribeAction>,
   state$: StateObservable<IState>
-) =>
+): Observable<RouterAction | IErrorAction | IQueryDescribeRequest> =>
   action$.pipe(
     ofType(QueryActionTypes.QUERY_DATASERVICE_UPDATE),
-    mergeMap(({ elementId, query: { TargetDataViewId } }: IDataservice) => {
-      if (!TargetDataViewId) {
-        return [openQueryConfig(elementId)];
-      }
+    mergeMap(
+      ({ elementId, query: { TargetDataViewId } }: IDataserviceUpdate) => {
+        if (!TargetDataViewId) {
+          return [openQueryConfig(elementId)];
+        }
 
-      const {
-        sessionReducer: {
-          session: { TenantId, SessionId, QueryGraphId },
-          graph,
+        const {
+          sessionReducer: {
+            session: { TenantId, SessionId, QueryGraphId },
+            graph,
+            queries,
+            filters,
+            connections
+          }
+        } = state$.value;
+
+        const denormalizedGraph = denormalize(graph, graphSchema, {
           queries,
           filters,
           connections
-        }
-      } = state$.value;
+        });
 
-      const denormalizedGraph = denormalize(graph, graphSchema, {
-        queries,
-        filters,
-        connections
-      });
-
-      return saveGraphObs(
-        TenantId,
-        SessionId,
-        QueryGraphId,
-        denormalizedGraph
-      ).pipe(
-        mergeMap(() =>
-          getGraphObs(
-            TenantId,
-            SessionId,
-            QueryGraphId,
-            graph.NextChangeNumber
-          ).pipe(
-            map(() => queryDescribeRequest()),
-            catchError(error => handleException(error))
-          )
-        ),
-        catchError(error => handleException(error))
-      );
-    })
+        return saveGraphObs(
+          TenantId,
+          SessionId,
+          QueryGraphId,
+          denormalizedGraph
+        ).pipe(
+          mergeMap(() =>
+            getGraphObs(
+              TenantId,
+              SessionId,
+              QueryGraphId,
+              graph.NextChangeNumber
+            ).pipe(map(() => queryDescribeRequest()))
+          ),
+          catchError(error => handleException(error))
+        );
+      }
+    )
   );

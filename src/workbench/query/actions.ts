@@ -119,7 +119,7 @@ export const enum QueryDescActionTypes {
   QUERY_DESCRIBE_SUCCESS = "QUERY_DESCRIBE_SUCCESS"
 }
 
-interface IQueryDescribeRequest extends Action {
+export interface IQueryDescribeRequest extends Action {
   type: QueryDescActionTypes.QUERY_DESCRIBE_REQUEST;
 }
 
