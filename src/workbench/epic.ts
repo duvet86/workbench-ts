@@ -5,6 +5,15 @@ import { Observable } from "rxjs";
 import { catchError, map, mergeMap } from "rxjs/operators";
 
 import { handleException } from "errorPage/epic";
+
+import {
+  getSessionInfoObs,
+  pushGraphChangesObs,
+  saveGraphObs,
+  getGraphObs
+} from "workbench/api";
+import { graphSchema } from "workbench/schema";
+
 import { IErrorAction } from "errorPage/actions";
 import {
   GraphPushActionTypes,
@@ -19,15 +28,10 @@ import {
   GraphPushAction,
   QueryAction,
   ISessionSuccess,
-  IUpdateQueryDataService
+  IUpdateQueryDataService,
+  ISessionRequest,
+  IAddQuery
 } from "workbench/actions";
-import {
-  getSessionInfoObs,
-  pushGraphChangesObs,
-  saveGraphObs,
-  getGraphObs
-} from "workbench/api";
-import { graphSchema } from "workbench/schema";
 import {
   openQueryConfig,
   queryDescribeRequest,
@@ -43,8 +47,8 @@ export const sessionEpic = (
   action$: ActionsObservable<SessionAction>
 ): Observable<RouterAction | IErrorAction | ISessionSuccess> =>
   action$.pipe(
-    ofType(SessionActionTypes.SESSION_REQUEST),
-    mergeMap(({ dataViewId }: { dataViewId: string }) =>
+    ofType<ISessionRequest>(SessionActionTypes.SESSION_REQUEST),
+    mergeMap(({ dataViewId }) =>
       getSessionInfoObs(dataViewId).pipe(
         map(response => sessionSuccess(response)),
         catchError(error => handleException(error))
@@ -132,8 +136,8 @@ export const addQueryEpic = (
   action$: ActionsObservable<QueryAction | QueryConfigAction>
 ): Observable<IOpenQueryConfig> =>
   action$.pipe(
-    ofType(QueryActionTypes.QUERY_ADD),
-    map(({ elementId }: { elementId: number }) => openQueryConfig(elementId))
+    ofType<IAddQuery>(QueryActionTypes.QUERY_ADD),
+    map(({ elementId }) => openQueryConfig(elementId))
   );
 
 export const updateQueryDataServiceEpic = (
@@ -142,8 +146,8 @@ export const updateQueryDataServiceEpic = (
 ): Observable<RouterAction | IErrorAction | IQueryDescribeRequest> =>
   action$.pipe(
     ofType<IUpdateQueryDataService>(QueryActionTypes.QUERY_DATASERVICE_UPDATE),
-    mergeMap(({ elementId, query: { TargetDataViewId } }) => {
-      if (TargetDataViewId == null) {
+    mergeMap(({ elementId, targetDataViewId }) => {
+      if (targetDataViewId == null) {
         return [openQueryConfig(elementId)];
       }
 

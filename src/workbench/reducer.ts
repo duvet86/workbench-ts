@@ -78,7 +78,7 @@ function session(
         queries: {
           [action.elementId]: {
             $merge: {
-              ...action.query,
+              TargetDataViewId: action.targetDataViewId,
               Columns: [],
               Constraints: []
             }

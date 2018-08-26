@@ -18,7 +18,7 @@ interface IDispatchProps {
   dispatchDataServicesRequest: () => void;
   dispatchUpdateDataService: (
     elementId: number,
-    targetDataViewId: number
+    targetDataViewId: string
   ) => void;
 }
 
@@ -47,7 +47,7 @@ class SourceSelectorContainer extends Component<Props> {
     );
   }
 
-  private handleChangeDataService = (targetDataViewId: number) => {
+  private handleChangeDataService = (targetDataViewId: string) => {
     const { elementId, dispatchUpdateDataService } = this.props;
 
     dispatchUpdateDataService(elementId, targetDataViewId);
@@ -62,7 +62,7 @@ const mapDispatchToProps = (
   dispatch: Dispatch<DataServicesAction | QueryAction>
 ) => ({
   dispatchDataServicesRequest: () => dispatch(dataServicesRequest()),
-  dispatchUpdateDataService: (elementId: number, targetDataViewId: number) =>
+  dispatchUpdateDataService: (elementId: number, targetDataViewId: string) =>
     dispatch(updateQueryDataService(elementId, targetDataViewId))
 });
 

@@ -9,7 +9,8 @@ import {
   loginError,
   loginSuccess,
   ILoginSuccess,
-  ILoginError
+  ILoginError,
+  ILoginRequest
 } from "login/actions";
 
 import { getTokenAsync } from "lib/authApi";
@@ -24,8 +25,8 @@ export const loginEpic = (
   action$: ActionsObservable<LoginAction>
 ): Observable<(ILoginSuccess & RouterAction) | ILoginError> =>
   action$.pipe(
-    ofType(LoginActionTypes.LOGIN_REQUEST),
-    mergeMap(({ username, password }: { username: string; password: string }) =>
+    ofType<ILoginRequest>(LoginActionTypes.LOGIN_REQUEST),
+    mergeMap(({ username, password }) =>
       getTokenAsync(username, password).pipe(
         flatMap(token => [
           // Fire 2 actions, one after the other
