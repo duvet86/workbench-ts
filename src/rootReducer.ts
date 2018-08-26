@@ -13,7 +13,7 @@ import configSwitchReducer from "workbench/configSwitch/reducer";
 import queryConfigReducer from "workbench/query/reducer";
 import sessionReducer from "workbench/reducer";
 
-export default combineReducers({
+const c = combineReducers({
   loadingReducer,
   errorReducer,
   loginReducer,
@@ -27,3 +27,7 @@ export default combineReducers({
   queryConfigReducer,
   intervalReducer
 });
+
+export type RootState = ReturnType<typeof c>;
+
+export default c;

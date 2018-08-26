@@ -1,17 +1,17 @@
 import { LoginActionTypes, LoginAction } from "login/actions";
 
-interface IState {
+interface ILoginState {
   isLoading: boolean;
   error: any;
 }
 
 function login(
-  state: IState = {
+  state: ILoginState = {
     isLoading: false,
-    error: null
+    error: undefined
   },
   action: LoginAction
-) {
+): ILoginState {
   switch (action.type) {
     case LoginActionTypes.LOGIN_REQUEST:
       return {

@@ -5,18 +5,18 @@ import {
 
 import { IOperatorResult } from "sidebar/operators/types";
 
-interface IState {
+interface IOperatorsState {
   isLoading: boolean;
   operators?: { [key: string]: IOperatorResult };
 }
 
 function operators(
-  state: IState = {
+  state: IOperatorsState = {
     isLoading: true,
     operators: undefined
   },
   action: OperatorsAction
-) {
+): IOperatorsState {
   switch (action.type) {
     case OperatorsActionTypes.OPERATORS_REQUEST:
       return {

@@ -4,9 +4,9 @@ import { createEpicMiddleware } from "redux-observable";
 
 import history from "lib/history";
 import rootEpic from "rootEpic";
-import rootReducer from "rootReducer";
+import rootReducer, { RootState } from "rootReducer";
 
-const epicMiddleware = createEpicMiddleware<Action, Action, any>(); // Fix me: Replace any with rootState.
+const epicMiddleware = createEpicMiddleware<Action, Action, RootState>();
 const browserRouterMiddleware = routerMiddleware(history);
 
 const middleware = [epicMiddleware, browserRouterMiddleware];

@@ -5,19 +5,17 @@ import {
   IntervalAction
 } from "common/intervalSelector/actions";
 
-import { IIntervalTypesDtc } from "common/intervalSelector/types";
+import { IIntervalTypesDtc, IInterval } from "common/intervalSelector/types";
 
-interface IState {
-  error: any;
+interface IIntervalState {
   isLoading: boolean;
   intervalTypes: IIntervalTypesDtc[];
-  interval: {
-    type: string;
-  };
+  interval: IInterval;
+  error: any;
 }
 
 function interval(
-  state: IState = {
+  state: IIntervalState = {
     error: null,
     interval: {
       type: "DATEOP"
@@ -26,7 +24,7 @@ function interval(
     isLoading: true
   },
   action: IntervalAction
-) {
+): IIntervalState {
   switch (action.type) {
     case IntervalActionTypes.INTERVALTYPE_REQUEST:
       return {

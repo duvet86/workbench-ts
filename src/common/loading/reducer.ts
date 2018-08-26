@@ -1,15 +1,15 @@
 import { DelayActionTypes, LoadingAction } from "common/loading/actions";
 
-interface IState {
+interface ILoadingState {
   pastDelay: boolean;
 }
 
 function loading(
-  state: IState = {
+  state: ILoadingState = {
     pastDelay: false
   },
   action: LoadingAction
-) {
+): ILoadingState {
   switch (action.type) {
     case DelayActionTypes.DELAY_START:
       return {

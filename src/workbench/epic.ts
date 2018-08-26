@@ -18,7 +18,8 @@ import {
   GraphSaveChangesAction,
   GraphPushAction,
   QueryAction,
-  ISessionSuccess
+  ISessionSuccess,
+  IUpdateQueryDataService
 } from "workbench/actions";
 import {
   getSessionInfoObs,
@@ -31,28 +32,12 @@ import {
   openQueryConfig,
   queryDescribeRequest,
   QueryConfigAction,
-  QueryDescribeAction,
   IQueryDescribeRequest,
-  IOpenQueryConfig
+  IOpenQueryConfig,
+  QueryDescribeAction
 } from "workbench/query/actions";
 
-import {
-  ISessionDtc,
-  IQueryGraphDataDtc,
-  IQuery,
-  IInteractiveFilter,
-  IConnection
-} from "workbench/types";
-
-interface IState {
-  sessionReducer: {
-    session: ISessionDtc;
-    graph: IQueryGraphDataDtc;
-    queries: IQuery[];
-    filters: IInteractiveFilter[];
-    connections: IConnection[];
-  };
-}
+import { RootState } from "rootReducer";
 
 export const sessionEpic = (
   action$: ActionsObservable<SessionAction>
@@ -69,17 +54,22 @@ export const sessionEpic = (
 
 export const saveGraphEpic = (
   action$: ActionsObservable<GraphSaveChangesAction>,
-  state$: StateObservable<IState>
+  state$: StateObservable<RootState>
 ) =>
   action$.pipe(
     ofType(GraphSaveActionTypes.GRAPH_SAVE_REQUEST),
     mergeMap(() => {
       const {
-        sessionReducer: {
-          session: { TenantId, SessionId, QueryGraphId },
-          graph
-        }
+        sessionReducer: { session, graph }
       } = state$.value;
+
+      if (session == null || graph == null) {
+        throw new Error(
+          "serviceDescriptionEpic: session or graph cannot be null."
+        );
+      }
+
+      const { TenantId, SessionId, QueryGraphId } = session;
 
       return saveGraphObs(TenantId, SessionId, QueryGraphId, graph, true).pipe(
         map(() => graphSaveChangesSuccess()),
@@ -101,16 +91,20 @@ export const saveGraphEpic = (
 
 export const pushGraphChangesEpic = (
   action$: ActionsObservable<GraphPushAction>,
-  state$: StateObservable<IState>
+  state$: StateObservable<RootState>
 ) =>
   action$.pipe(
     ofType(GraphPushActionTypes.GRAPH_PUSH_REQUEST),
     mergeMap(() => {
       const {
-        sessionReducer: {
-          session: { TenantId, SessionId, QueryGraphId }
-        }
+        sessionReducer: { session }
       } = state$.value;
+
+      if (session == null) {
+        throw new Error("serviceDescriptionEpic: session cannot be null.");
+      }
+
+      const { TenantId, SessionId, QueryGraphId } = session;
 
       return pushGraphChangesObs(TenantId, SessionId, QueryGraphId).pipe(
         map(() => graphPushSuccess()),
@@ -142,55 +136,49 @@ export const addQueryEpic = (
     map(({ elementId }: { elementId: number }) => openQueryConfig(elementId))
   );
 
-interface IDataserviceUpdate {
-  elementId: number;
-  query: IQuery;
-}
-
 export const updateQueryDataServiceEpic = (
   action$: ActionsObservable<QueryAction | QueryDescribeAction>,
-  state$: StateObservable<IState>
+  state$: StateObservable<RootState>
 ): Observable<RouterAction | IErrorAction | IQueryDescribeRequest> =>
   action$.pipe(
-    ofType(QueryActionTypes.QUERY_DATASERVICE_UPDATE),
-    mergeMap(
-      ({ elementId, query: { TargetDataViewId } }: IDataserviceUpdate) => {
-        if (!TargetDataViewId) {
-          return [openQueryConfig(elementId)];
-        }
+    ofType<IUpdateQueryDataService>(QueryActionTypes.QUERY_DATASERVICE_UPDATE),
+    mergeMap(({ elementId, query: { TargetDataViewId } }) => {
+      if (TargetDataViewId == null) {
+        return [openQueryConfig(elementId)];
+      }
 
-        const {
-          sessionReducer: {
-            session: { TenantId, SessionId, QueryGraphId },
-            graph,
-            queries,
-            filters,
-            connections
-          }
-        } = state$.value;
+      const {
+        sessionReducer: { session, graph, queries, filters, connections }
+      } = state$.value;
 
-        const denormalizedGraph = denormalize(graph, graphSchema, {
-          queries,
-          filters,
-          connections
-        });
-
-        return saveGraphObs(
-          TenantId,
-          SessionId,
-          QueryGraphId,
-          denormalizedGraph
-        ).pipe(
-          mergeMap(() =>
-            getGraphObs(
-              TenantId,
-              SessionId,
-              QueryGraphId,
-              graph.NextChangeNumber
-            ).pipe(map(() => queryDescribeRequest()))
-          ),
-          catchError(error => handleException(error))
+      if (session == null || graph == null) {
+        throw new Error(
+          "serviceDescriptionEpic: session or graph cannot be null."
         );
       }
-    )
+
+      const denormalizedGraph = denormalize(graph, graphSchema, {
+        queries,
+        filters,
+        connections
+      });
+
+      const { TenantId, SessionId, QueryGraphId } = session;
+      return saveGraphObs(
+        TenantId,
+        SessionId,
+        QueryGraphId,
+        denormalizedGraph
+      ).pipe(
+        mergeMap(() =>
+          getGraphObs(
+            TenantId,
+            SessionId,
+            QueryGraphId,
+            graph.NextChangeNumber
+          ).pipe(map(() => queryDescribeRequest()))
+        ),
+        catchError(error => handleException(error))
+      );
+    })
   );

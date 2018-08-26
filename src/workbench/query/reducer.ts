@@ -18,7 +18,7 @@ import {
   IFilterCapabilitiesDic
 } from "workbench/query/types";
 
-interface IInitialState {
+interface IQueryState {
   currentStep: number;
   isLoading: boolean;
   elementId: number;
@@ -28,7 +28,7 @@ interface IInitialState {
   filterCapabilities: IFilterCapabilitiesDic;
 }
 
-const initialState: IInitialState = {
+const initialState: IQueryState = {
   currentStep: 0,
   isLoading: true,
   elementId: 0,
@@ -39,7 +39,7 @@ const initialState: IInitialState = {
 };
 
 function queryConfig(
-  state = { ...initialState },
+  state: IQueryState = { ...initialState },
   action:
     | QueryConfigAction
     | IGoToStep
@@ -47,7 +47,7 @@ function queryConfig(
     | FilterCapabilitiesAction
     | QueryAction
     | QueryDescribeAction
-) {
+): IQueryState {
   switch (action.type) {
     case QueryConfigActionTypes.QUERY_CONFIG_OPEN:
       return {

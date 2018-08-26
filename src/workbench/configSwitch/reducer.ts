@@ -5,16 +5,16 @@ import {
   QueryConfigAction
 } from "workbench/query/actions";
 
-interface IState {
+interface IConfigSwitchState {
   elementType: ElementType;
 }
 
 function configSwitch(
-  state: IState = {
+  state: IConfigSwitchState = {
     elementType: ElementType.NONE
   },
   action: QueryConfigAction | ILogout
-) {
+): IConfigSwitchState {
   switch (action.type) {
     case QueryConfigActionTypes.QUERY_CONFIG_OPEN:
       return {

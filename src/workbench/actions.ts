@@ -162,7 +162,7 @@ export interface IAddQuery extends Action {
 export interface IUpdateQueryDataService extends Action {
   type: QueryActionTypes.QUERY_DATASERVICE_UPDATE;
   elementId: number;
-  targetDataViewId: number;
+  query: IQuery;
 }
 
 export type QueryAction = IAddQuery | IUpdateQueryDataService;
@@ -191,11 +191,11 @@ export const addQuery = (elementId: number): IAddQuery => ({
 
 export const updateQueryDataService = (
   elementId: number,
-  targetDataViewId: number
+  query: IQuery
 ): IUpdateQueryDataService => ({
   type: QueryActionTypes.QUERY_DATASERVICE_UPDATE,
   elementId,
-  targetDataViewId
+  query
 });
 
 export const enum QueryColumnActionTypes {

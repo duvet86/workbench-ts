@@ -2,18 +2,18 @@ import { ProfileActionTypes, ProfileAction } from "profile/actions";
 
 import { IUserInfo } from "profile/types";
 
-interface IState {
+interface IProfileState {
   isLoading: boolean;
   userInfo?: IUserInfo;
 }
 
 function profile(
-  state: IState = {
+  state: IProfileState = {
     isLoading: true,
     userInfo: undefined
   },
   action: ProfileAction
-) {
+): IProfileState {
   switch (action.type) {
     case ProfileActionTypes.PROFILE_REQUEST:
       return {

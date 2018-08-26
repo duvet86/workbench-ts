@@ -19,14 +19,8 @@ import {
   getFilterCapabilitiesObs,
   getDataServiceDescriptionObs
 } from "workbench/query/api";
-import { ISessionDtc } from "workbench/types";
 
-interface IState {
-  sessionReducer: {
-    session: ISessionDtc;
-  };
-  queryConfigReducer: { elementId: number };
-}
+import { RootState } from "rootReducer";
 
 export const dataServicesEpic = (
   action$: ActionsObservable<DataServicesAction>
@@ -58,18 +52,21 @@ export const filterCapabilitiesEpic = (
 
 export const serviceDescriptionEpic = (
   action$: ActionsObservable<QueryDescribeAction>,
-  state$: StateObservable<IState>
+  state$: StateObservable<RootState>
 ) =>
   action$.pipe(
     ofType(QueryDescActionTypes.QUERY_DESCRIBE_REQUEST),
     mergeMap(() => {
       const {
-        sessionReducer: {
-          session: { TenantId, SessionId, QueryGraphId }
-        },
+        sessionReducer: { session },
         queryConfigReducer: { elementId }
       } = state$.value;
 
+      if (session == null) {
+        throw new Error("serviceDescriptionEpic: session cannot be null.");
+      }
+
+      const { TenantId, SessionId, QueryGraphId } = session;
       return getDataServiceDescriptionObs(
         TenantId,
         SessionId,

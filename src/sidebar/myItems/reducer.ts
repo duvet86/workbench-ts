@@ -2,18 +2,18 @@ import { MyItemsActionTypes, MyItemsAction } from "sidebar/myItems/actions";
 
 import { ISideBarItems } from "sidebar/myItems/types";
 
-interface IState {
+interface IMyItemsState {
   isLoading: boolean;
   items?: ISideBarItems;
 }
 
 function myItems(
-  state: IState = {
+  state: IMyItemsState = {
     isLoading: true,
     items: undefined
   },
   action: MyItemsAction
-) {
+): IMyItemsState {
   switch (action.type) {
     case MyItemsActionTypes.MY_ITEMS_REQUEST:
       return {

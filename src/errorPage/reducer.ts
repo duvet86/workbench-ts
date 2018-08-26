@@ -1,15 +1,15 @@
 import { ErrorActionTypes, IErrorAction } from "errorPage/actions";
 
-interface IState {
+interface IErrorState {
   error: any;
 }
 
 function errorPage(
-  state: IState = {
+  state: IErrorState = {
     error: undefined
   },
   action: IErrorAction
-) {
+): IErrorState {
   switch (action.type) {
     case ErrorActionTypes.ERROR_TRIGGER:
       return {

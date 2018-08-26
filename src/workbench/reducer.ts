@@ -21,8 +21,9 @@ import {
   IConstraint
 } from "workbench/types";
 
-interface IState {
+interface ISessionState {
   isLoading: boolean;
+  dataViewId?: string;
   session?: ISessionDtc;
   graph?: IQueryGraphDataDtc;
   queries: IQuery[];
@@ -31,7 +32,7 @@ interface IState {
 }
 
 function session(
-  state: IState = {
+  state: ISessionState = {
     isLoading: true,
     session: undefined,
     graph: undefined,
@@ -44,7 +45,7 @@ function session(
     | QueryAction
     | QueryColumnAction
     | QueryConstraintAction
-) {
+): ISessionState {
   switch (action.type) {
     case SessionActionTypes.SESSION_REQUEST:
       return {
@@ -77,7 +78,7 @@ function session(
         queries: {
           [action.elementId]: {
             $merge: {
-              TargetDataViewId: action.targetDataViewId,
+              ...action.query,
               Columns: [],
               Constraints: []
             }

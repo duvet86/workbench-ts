@@ -1,6 +1,6 @@
 import { TabsActionTypes, TabsAction } from "sidebar/navigationTabs/actions";
 
-interface IState {
+interface ITabsState {
   selectedTab: number;
   tabsEnabled: [boolean, boolean, boolean];
 }
@@ -8,12 +8,12 @@ interface IState {
 function navigationTabs(
   // Only myItems enabled at the beginning.
   // Suppose we are on "/".
-  state: IState = {
+  state: ITabsState = {
     selectedTab: 0,
     tabsEnabled: [false, true, true]
   },
   action: TabsAction
-) {
+): ITabsState {
   const tabsEnabled = action.tabsEnabled || state.tabsEnabled;
 
   switch (action.type) {
