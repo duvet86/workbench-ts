@@ -1,15 +1,11 @@
-import React, { ComponentType, SFC } from "react";
+import React, { SFC } from "react";
 import { RouteProps } from "react-router";
 import { Redirect, Route } from "react-router";
 
 import { isUserAuthenticated } from "lib/authApi";
+import { IRouteProps } from "routes/types";
 
-interface IProps {
-  component: ComponentType<RouteProps>;
-  path: string;
-}
-
-const AuthenticatedRoute: SFC<IProps> = ({ component, ...props }) => {
+const AuthenticatedRoute: SFC<IRouteProps> = ({ component, ...props }) => {
   const boundRender = (routeProps: RouteProps) =>
     isUserAuthenticated() ? (
       React.createElement(component, routeProps)

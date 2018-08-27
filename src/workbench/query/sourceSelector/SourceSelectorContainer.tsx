@@ -2,33 +2,24 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
+import { RootState } from "rootReducer";
 import { updateQueryDataService, QueryAction } from "workbench/actions";
 import {
   dataServicesRequest,
   DataServicesAction
 } from "workbench/query/actions";
-
-import { IItemDtc } from "sidebar/myItems/types";
-
-import { getDataServices, IState } from "workbench/query/selectors";
+import { getDataServices } from "workbench/query/selectors";
 
 import SourceSelector from "workbench/query/sourceSelector/SourceSelector";
 
-interface IDispatchProps {
-  dispatchDataServicesRequest: () => void;
-  dispatchUpdateDataService: (
-    elementId: number,
-    targetDataViewId: string
-  ) => void;
-}
-
-interface IStateProps {
+interface IOwnProps {
   elementId: number;
   targetDataViewId: string;
-  dataServices: IItemDtc[];
 }
 
-type Props = IStateProps & IDispatchProps;
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps> &
+  IOwnProps;
 
 class SourceSelectorContainer extends Component<Props> {
   public componentDidMount() {
@@ -54,7 +45,7 @@ class SourceSelectorContainer extends Component<Props> {
   };
 }
 
-const mapStateToProps = (state: IState) => ({
+const mapStateToProps = (state: RootState) => ({
   dataServices: getDataServices(state)
 });
 

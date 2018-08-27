@@ -7,14 +7,15 @@ import { IOperatorResult } from "sidebar/operators/types";
 import Operator from "sidebar/operators/Operator";
 
 interface IProps {
-  operators: { [key: string]: IOperatorResult };
+  operators?: { [key: string]: IOperatorResult };
 }
 
 const OperatorsList: SFC<IProps> = ({ operators }) => (
   <List>
-    {Object.keys(operators).map(key => (
-      <Operator key={key} {...operators[key]} />
-    ))}
+    {operators &&
+      Object.keys(operators).map(key => (
+        <Operator key={key} {...operators[key]} />
+      ))}
   </List>
 );
 

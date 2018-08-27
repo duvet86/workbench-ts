@@ -1,13 +1,9 @@
 import { createSelector } from "reselect";
+
+import { RootState } from "rootReducer";
 import { ElementType } from "sidebar/operators/types";
 
-interface IStoreState {
-  configSwitchReducer: {
-    elementType: ElementType;
-  };
-}
-
-const elementTypeSelector = (state: IStoreState) =>
+const elementTypeSelector = (state: RootState) =>
   state.configSwitchReducer.elementType;
 
 export const isDrawerOpen = createSelector(

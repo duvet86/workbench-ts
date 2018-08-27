@@ -10,8 +10,6 @@ interface IErrorResponse {
   error: any;
 }
 
-// TODO remove any, fix types.
-
 // Same as:
 // Observable.of(
 //   someAction(xhr),

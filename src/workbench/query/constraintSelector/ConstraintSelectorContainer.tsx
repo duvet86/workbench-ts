@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { getConstraintVectorValue, DATA_TYPES } from "workbench/utils";
-
+import { RootState } from "rootReducer";
+import { DATA_TYPES } from "workbench/utils";
 import {
   addQueryConstraint,
   updateQueryConstraintType,
@@ -15,7 +15,6 @@ import {
   filterCapabilitiesRequest,
   FilterCapabilitiesAction
 } from "workbench/query/actions";
-
 import {
   getQueryConstraints
   // getConstraintTargets
@@ -23,57 +22,13 @@ import {
 
 import ConstraintSelector from "workbench/query/constraintSelector/ConstraintSelector";
 
-interface IDispatchProps {
-  dispatchFilterCapabilitiesRequest: () => void;
-  dispatchAddQueryConstraint: (
-    elementId: number,
-    constraintId: number,
-    constraintTarget: any
-  ) => void;
-  dispatchUpdateQueryConstraintType: (
-    elementId: number,
-    constraintId: number,
-    constraintType: DATA_TYPES
-  ) => void;
-  // dispatchUpdateQueryConstraintValues: (
-  //   elementId: number,
-  //   constraintId: number,
-  //   constraintValues: any[]
-  // ) => void;
-  dispatchRemoveQueryConstraint: (
-    elementId: number,
-    constraintId: number
-  ) => void;
-}
-
-// interface IContraintTarget {
-//   ConstraintId: number;
-//   DataType: DATA_TYPES;
-//   FilterType: DATA_TYPES;
-//   displayValue: string;
-//   label: string;
-//   secondaryLabel: string;
-// }
-
-interface IStateProps {
+interface IOwnProps {
   elementId: number;
-  filterCapabilities: {
-    [key in DATA_TYPES]: Array<{
-      Type: string;
-      Label: string;
-    }>
-  };
-  queryConstraints: Array<{
-    ConstraintId: number;
-    DataType: DATA_TYPES;
-    FilterType: DATA_TYPES;
-    displayValue: string;
-    label: string;
-  }>;
-  // contraintTargets: IContraintTarget[];
 }
 
-type Props = IStateProps & IDispatchProps;
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps> &
+  IOwnProps;
 
 class ConstraintSelectorContainer extends Component<Props> {
   public componentDidMount() {
@@ -156,7 +111,7 @@ class ConstraintSelectorContainer extends Component<Props> {
   };
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: RootState) => ({
   queryConstraints: getQueryConstraints(state),
   filterCapabilities: state.queryConfigReducer.filterCapabilities
   // contraintTargets: getConstraintTargets(state)

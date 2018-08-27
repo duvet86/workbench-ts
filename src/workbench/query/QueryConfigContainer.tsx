@@ -1,19 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { IQuery } from "workbench/types";
-import { getQuery, getCompletedSteps, IState } from "workbench/query/selectors";
+import { RootState } from "rootReducer";
+import { getQuery, getCompletedSteps } from "workbench/query/selectors";
 
 import QueryConfig from "workbench/query/QueryConfig";
 
-interface IProps {
-  isLoading: boolean;
-  selectedQuery: IQuery;
-  currentStep: number;
-  completedSteps: boolean[];
-}
-
-class QueryConfigContainer extends Component<IProps> {
+class QueryConfigContainer extends Component<
+  ReturnType<typeof mapStateToProps>
+> {
   public render() {
     const {
       isLoading,
@@ -33,7 +28,7 @@ class QueryConfigContainer extends Component<IProps> {
   }
 }
 
-const mapStateToProps = (state: IState) => ({
+const mapStateToProps = (state: RootState) => ({
   isLoading: state.queryConfigReducer.isLoading,
   selectedQuery: getQuery(state),
   currentStep: state.queryConfigReducer.currentStep,

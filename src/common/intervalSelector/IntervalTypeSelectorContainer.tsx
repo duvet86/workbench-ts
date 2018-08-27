@@ -2,9 +2,9 @@ import React, { ChangeEvent, Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
+import { RootState } from "rootReducer";
 import { IntervalAction } from "common/intervalSelector/actions";
-import { IInterval, IIntervalTypesDtc } from "common/intervalSelector/types";
-
+import { IInterval } from "common/intervalSelector/types";
 import {
   intervalTypesRequest,
   intervalUpdate
@@ -16,27 +16,9 @@ interface IOwnProps {
   className?: string;
 }
 
-interface IDispatchProps {
-  dispatchIntervalTypesRequest: () => void;
-  dispatchOnIntervalTypeChange: (newInterval: IInterval) => void;
-}
-
-interface IStateProps {
-  error?: any;
-  interval: IInterval;
-  intervalTypes: IIntervalTypesDtc[];
-  isLoading: boolean;
-}
-
-type Props = IStateProps & IDispatchProps & IOwnProps;
-
-interface IStoreState {
-  intervalReducer: {
-    isLoading: boolean;
-    intervalTypes: IIntervalTypesDtc;
-    interval: IInterval;
-  };
-}
+type Props = ReturnType<typeof mapDispatchToProps> &
+  ReturnType<typeof mapStateToProps> &
+  IOwnProps;
 
 class IntervalTypeSelectorContainer extends Component<Props> {
   public componentDidMount() {
@@ -63,7 +45,7 @@ class IntervalTypeSelectorContainer extends Component<Props> {
 
 const mapStateToProps = ({
   intervalReducer: { isLoading, intervalTypes, interval }
-}: IStoreState) => ({
+}: RootState) => ({
   interval,
   intervalTypes,
   isLoading

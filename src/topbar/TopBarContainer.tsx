@@ -7,17 +7,11 @@ import { clearToken } from "lib/sessionStorageApi";
 
 import TopBar from "topBar/TopBar";
 
-interface IDispatchProps {
-  dispatchWelcomePage: () => void;
-  dispatchLogout: () => void;
-  dispatchProfileClick: () => void;
-}
-
-interface IProps {
+interface IOwnProps {
   handleDrawerOpen: () => void;
 }
 
-type Props = IDispatchProps & IProps;
+type Props = ReturnType<typeof mapDispatchToProps> & IOwnProps;
 
 interface IState {
   anchorEl?: HTMLElement;

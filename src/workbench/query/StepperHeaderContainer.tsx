@@ -8,16 +8,12 @@ import StepperHeader from "workbench/query/StepperHeader";
 
 const stepLabels = ["Source", "Columns", "Constraints", "Summary"];
 
-interface IDispatchProps {
-  dispatchGoToStep: (step: number) => void;
-}
-
-interface IProps {
+interface IOwnProps {
   currentStep: number;
   completedSteps: boolean[];
 }
 
-type Props = IProps & IDispatchProps;
+type Props = ReturnType<typeof mapDispatchToProps> & IOwnProps;
 
 class StepperHeaderContainer extends Component<Props> {
   public render() {

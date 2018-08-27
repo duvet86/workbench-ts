@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { SFC } from "react";
 
 import { IUserInfo } from "profile/types";
@@ -29,10 +28,5 @@ const Profile: SFC<IProps> = ({
     </Grid>
   </Grid>
 );
-
-Profile.propTypes = {
-  classes: PropTypes.object.isRequired,
-  userInfo: PropTypes.object.isRequired
-};
 
 export default withStyles(styles)(Profile);

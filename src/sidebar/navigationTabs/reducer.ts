@@ -1,7 +1,7 @@
 import { TabsActionTypes, TabsAction } from "sidebar/navigationTabs/actions";
 
 interface ITabsState {
-  selectedTab: number;
+  selectedTab: 0 | 1 | 2;
   tabsEnabled: [boolean, boolean, boolean];
 }
 

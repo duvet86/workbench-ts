@@ -3,33 +3,25 @@ import React, { ChangeEvent, Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
+import { RootState } from "rootReducer";
 import {
   showFilters,
   showMyItems,
   showTools,
   TabsAction
 } from "sidebar/navigationTabs/actions";
+
 import NavigationTabs from "sidebar/navigationTabs/NavigationTabs";
 
 type TabsEnabled = [boolean, boolean, boolean];
 
-interface IDispatchProps {
-  dispatchShowMyItems: (tabsEnabled?: TabsEnabled) => void;
-  dispatchShowFilters: (tabsEnabled?: TabsEnabled) => void;
-  dispatchShowMyTools: (tabsEnabled?: TabsEnabled) => void;
-}
-
-interface IStateProps {
+interface IOwnProps {
   location: Location;
-  selectedTab: number;
-  tabsEnabled: TabsEnabled;
 }
 
-type Props = IStateProps & IDispatchProps;
-
-interface IStoreState {
-  navigationTabsReducer: IStateProps;
-}
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps> &
+  IOwnProps;
 
 class NavigationTabsContainer extends Component<Props> {
   public componentDidMount() {
@@ -84,7 +76,7 @@ class NavigationTabsContainer extends Component<Props> {
 
 const mapStateToProps = ({
   navigationTabsReducer: { selectedTab, tabsEnabled }
-}: IStoreState) => ({
+}: RootState) => ({
   selectedTab,
   tabsEnabled
 });

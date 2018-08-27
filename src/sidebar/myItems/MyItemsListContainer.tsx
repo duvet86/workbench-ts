@@ -3,31 +3,19 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { IFolderChild } from "sidebar/myItems/types";
-
+import { RootState } from "rootReducer";
 import { MyItemsAction, myItemsRequest } from "sidebar/myItems/actions";
 
 import { LoadingContainer } from "common/loading";
 import MyItemsList from "sidebar/myItems/MyItemsList";
 
-interface IDispatchProps {
-  dispatchLoadMyItems: () => void;
-}
-
-interface IStateProps {
-  isLoading: boolean;
-  items: {
-    myItems: IFolderChild[];
-  };
+interface IOwnProps {
   location: Location;
-  error: any;
 }
 
-type Props = IStateProps & IDispatchProps;
-
-interface IStoreState {
-  myItemsReducer: IStateProps;
-}
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps> &
+  IOwnProps;
 
 class MyItemsListContainer extends Component<Props> {
   public componentDidMount() {
@@ -45,11 +33,10 @@ class MyItemsListContainer extends Component<Props> {
 }
 
 const mapStateToProps = ({
-  myItemsReducer: { isLoading, items, error }
-}: IStoreState) => ({
+  myItemsReducer: { isLoading, items }
+}: RootState) => ({
   isLoading,
-  items,
-  error
+  items
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<MyItemsAction>) => ({

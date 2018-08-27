@@ -2,28 +2,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
+import { RootState } from "rootReducer";
 import { IProfileRequest, profileRequest } from "profile/actions";
 
 import { LoadingContainer } from "common/loading";
 import Profile from "profile/Profile";
 
-import { IUserInfo } from "profile/types";
-
-interface IDispatchProps {
-  dispatchLoadProfile: () => void;
-}
-
-interface IStateProps {
-  isLoading: boolean;
-  userInfo: IUserInfo;
-  error: any;
-}
-
-type Props = IStateProps & IDispatchProps;
-
-interface IStoreState {
-  profileReducer: IStateProps;
-}
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>;
 
 class ProfileContainer extends Component<Props> {
   public componentDidMount() {
@@ -40,11 +26,10 @@ class ProfileContainer extends Component<Props> {
 }
 
 const mapStateToProps = ({
-  profileReducer: { isLoading, userInfo, error }
-}: IStoreState) => ({
+  profileReducer: { isLoading, userInfo }
+}: RootState) => ({
   isLoading,
-  userInfo,
-  error
+  userInfo
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<IProfileRequest>) => ({

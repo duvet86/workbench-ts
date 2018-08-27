@@ -1,29 +1,20 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { ElementType } from "sidebar/operators/types";
+import { RootState } from "rootReducer";
 import { isDrawerOpen } from "workbench/configSwitch/selectors";
 
 import ConfigSwitch from "workbench/configSwitch/ConfigSwitch";
 
-interface IStateProps {
-  elementType: ElementType;
-  isDrawerOpen: boolean;
-}
-
-interface IStoreState {
-  configSwitchReducer: {
-    elementType: ElementType;
-  };
-}
-
-class ConfigSwitchContainer extends Component<IStateProps> {
+class ConfigSwitchContainer extends Component<
+  ReturnType<typeof mapStateToProps>
+> {
   public render() {
     return <ConfigSwitch {...this.props} />;
   }
 }
 
-const mapStateToProps = (state: IStoreState) => ({
+const mapStateToProps = (state: RootState) => ({
   elementType: state.configSwitchReducer.elementType,
   isDrawerOpen: isDrawerOpen(state)
 });

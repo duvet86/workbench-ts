@@ -2,35 +2,28 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
+import { RootState } from "rootReducer";
 import {
   addQueryColumn,
   removeQueryColumn,
   QueryColumnAction
 } from "workbench/actions";
-
 import {
   getAvailableColumns,
   getQueryColumns
 } from "workbench/query/selectors";
-
 import { IColumn } from "workbench/types";
-import { IUdsColumnDescriptionDtc } from "workbench/query/types";
 import { IOption } from "common/searchableList/types";
 
 import ColumnsSelector from "workbench/query/columnSelector/ColumnsSelector";
 
-interface IDispatchProps {
-  dispatchAddQueryColumn: (elementId: number, column: IColumn) => void;
-  dispatchRemoveQueryColumn: (elementId: number, columnName: string) => void;
-}
-
-interface IStateProps {
+interface IOwnProps {
   elementId: number;
-  availableColumns: IUdsColumnDescriptionDtc[];
-  selectedColumns: IColumn[];
 }
 
-type Props = IStateProps & IDispatchProps;
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps> &
+  IOwnProps;
 
 class ColumnsSelectorContainer extends Component<Props> {
   public render() {
@@ -62,7 +55,7 @@ class ColumnsSelectorContainer extends Component<Props> {
   };
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: RootState) => ({
   availableColumns: getAvailableColumns(state),
   selectedColumns: getQueryColumns(state)
 });

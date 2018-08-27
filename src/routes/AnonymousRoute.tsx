@@ -3,13 +3,9 @@ import { RouteProps } from "react-router";
 import { Redirect, Route } from "react-router-dom";
 
 import { isUserAuthenticated } from "lib/authApi";
+import { IRouteProps } from "routes/types";
 
-interface IProps {
-  component: ComponentType<RouteProps>;
-  path: string;
-}
-
-const AnonymousRoute: SFC<IProps> = ({ component, ...props }) => {
+const AnonymousRoute: SFC<IRouteProps> = ({ component, ...props }) => {
   const boundRender = (routeProps: RouteProps) =>
     !isUserAuthenticated() ? (
       React.createElement(component, routeProps)

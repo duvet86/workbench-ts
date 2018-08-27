@@ -2,25 +2,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
+import { RootState } from "rootReducer";
 import { ILoginRequest, loginRequest } from "login/actions";
 
 import { LoadingContainer } from "common/loading";
 import Login from "login/Login";
 
-interface IDispatchProps {
-  submitHandler: (username: string, password: string) => void;
-}
-
-interface IStateProps {
-  isLoading: boolean;
-  error: any;
-}
-
-type Props = IStateProps & IDispatchProps;
-
-interface IStoreState {
-  loginReducer: IStateProps;
-}
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>;
 
 class LoginContainer extends Component<Props> {
   public componentDidMount() {
@@ -44,7 +33,7 @@ class LoginContainer extends Component<Props> {
 
 const mapStateToProps = ({
   loginReducer: { isLoading, error }
-}: IStoreState) => ({
+}: RootState) => ({
   isLoading,
   error
 });

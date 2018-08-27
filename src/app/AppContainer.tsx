@@ -3,30 +3,14 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { Location } from "history";
 
+import { RootState } from "rootReducer";
 import { QesEnabledAction, qesEnabledRequest } from "app/actions";
 
 import App from "app/App";
 import { LoadingContainer } from "common/loading";
 
-interface IDispatchProps {
-  dispatchQesEnabledRequest: () => void;
-}
-
-interface IProps {
-  isLoading: boolean;
-  isQesEnabled: boolean;
-  location: Location;
-}
-
-type Props = IDispatchProps & IProps;
-
-interface IStoreState {
-  appReducer: {
-    isLoading: boolean;
-    isQesEnabled: boolean;
-    error: any;
-  };
-}
+type Props = ReturnType<typeof mapDispatchToProps> &
+  ReturnType<typeof mapStateToProps>;
 
 interface ILocalState {
   open: boolean;
@@ -61,9 +45,8 @@ class AppContainer extends Component<Props, ILocalState> {
 }
 
 const mapStateToProps = ({
-  appReducer: { isLoading, isQesEnabled, error }
-}: IStoreState) => ({
-  error,
+  appReducer: { isLoading, isQesEnabled }
+}: RootState) => ({
   isLoading,
   isQesEnabled
 });

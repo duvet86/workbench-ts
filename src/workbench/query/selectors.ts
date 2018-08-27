@@ -1,24 +1,9 @@
 import { createSelector } from "reselect";
 
+import { RootState } from "rootReducer";
 import { getConstraintDisplayValue } from "workbench/utils";
-import { IQuery, IColumn, IInteractiveFilter } from "workbench/types";
-import { IItemDtc } from "sidebar/myItems/types";
 
-export interface IState {
-  queryConfigReducer: {
-    isLoading: boolean;
-    currentStep: number;
-    dataServices: IItemDtc[];
-    elementId: number;
-    availableColumns: IColumn[];
-    availableFilters: IInteractiveFilter[];
-  };
-  sessionReducer: {
-    queries: IQuery[];
-  };
-}
-
-const dataServicesSelector = (state: IState) =>
+const dataServicesSelector = (state: RootState) =>
   state.queryConfigReducer.dataServices;
 
 export const getDataServices = createSelector(
@@ -40,9 +25,10 @@ export const getDataServices = createSelector(
       })
 );
 
-const elementIdSelector = (state: IState) => state.queryConfigReducer.elementId;
-const querySelector = (state: IState) => state.sessionReducer.queries;
-const availableColumnsSelector = (state: IState) =>
+const elementIdSelector = (state: RootState) =>
+  state.queryConfigReducer.elementId;
+const querySelector = (state: RootState) => state.sessionReducer.queries;
+const availableColumnsSelector = (state: RootState) =>
   state.queryConfigReducer.availableColumns;
 
 export const getAvailableColumns = createSelector(
@@ -50,7 +36,12 @@ export const getAvailableColumns = createSelector(
   querySelector,
   availableColumnsSelector,
   (elementId, queries, availableColumns) =>
-    availableColumns.filter(ac => !queries[elementId].Columns.includes(ac))
+    availableColumns.filter(
+      ac =>
+        !queries[elementId].Columns.map(c => c.ColumnName).includes(
+          ac.ColumnName
+        )
+    )
 );
 
 export const getQuery = createSelector(

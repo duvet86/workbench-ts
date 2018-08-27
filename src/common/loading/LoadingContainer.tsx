@@ -3,10 +3,9 @@ import React, { Component } from "react";
 import Loading from "common/loading/Loading";
 
 interface IProps {
-  children: React.ReactNode;
-  delay?: number;
-  error?: object;
   isLoading: boolean;
+  delay?: number;
+  error?: any;
 }
 
 interface IState {

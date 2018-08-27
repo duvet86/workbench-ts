@@ -11,17 +11,12 @@ import {
 
 import ConfigActions from "workbench/query/ConfigActions";
 
-interface IDispatchProps {
-  dispatchGoToStep: (step: number) => void;
-  dispatchCloseQueryConfig: () => void;
-}
-
-interface IProps {
+interface IOwnProps {
   currentStep: number;
   completedSteps: boolean[];
 }
 
-type Props = IProps & IDispatchProps;
+type Props = IOwnProps & ReturnType<typeof mapDispatchToProps>;
 
 class ConfigActionsContainer extends Component<Props> {
   public render() {

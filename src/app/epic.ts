@@ -14,7 +14,7 @@ export const appEpic = (action$: ActionsObservable<QesEnabledAction>) =>
     ofType(QesEnabledActionTypes.QES_ENABLED_REQUEST),
     mergeMap(() =>
       getQesEnabledAsync().pipe(
-        map((isQesEnabled: boolean) => qesEnabledSuccess(isQesEnabled)),
+        map(isQesEnabled => qesEnabledSuccess(isQesEnabled)),
         catchError(error => handleException(error))
       )
     )

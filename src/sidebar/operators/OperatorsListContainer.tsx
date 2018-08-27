@@ -2,28 +2,15 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
+import { RootState } from "rootReducer";
 import { OperatorsAction, operatorsRequest } from "sidebar/operators/actions";
-
 import { IOperatorResult } from "sidebar/operators/types";
 
 import { LoadingContainer } from "common/loading";
 import OperatorsList from "sidebar/operators/OperatorsList";
 
-interface IDispatchProps {
-  dispatchLoadOperators: () => void;
-}
-
-interface IStateProps {
-  isLoading: boolean;
-  operators: { [key: string]: IOperatorResult };
-  error: any;
-}
-
-type Props = IStateProps & IDispatchProps;
-
-interface IStoreState {
-  operatorsReducer: IStateProps;
-}
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>;
 
 class OperatorsListContainer extends Component<Props> {
   public componentDidMount() {
@@ -42,11 +29,10 @@ class OperatorsListContainer extends Component<Props> {
 }
 
 const mapStateToProps = ({
-  operatorsReducer: { isLoading, operators, error }
-}: IStoreState) => ({
+  operatorsReducer: { isLoading, operators }
+}: RootState) => ({
   operators,
-  isLoading,
-  error
+  isLoading
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<OperatorsAction>) => ({

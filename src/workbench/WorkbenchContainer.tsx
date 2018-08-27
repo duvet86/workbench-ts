@@ -4,6 +4,7 @@ import { Dispatch } from "redux";
 import { jsPlumb, jsPlumbInstance as jsInst } from "jsplumb";
 import { match as Match } from "react-router";
 
+import { RootState } from "rootReducer";
 import { CANVAS_DRAGGABLE_CONTAINER_ID } from "workbench/utils";
 import {
   sessionRequest,
@@ -28,25 +29,9 @@ interface IRouterProps {
   match: Match<{ id: string }>;
 }
 
-interface IDispatchProps {
-  dispatchSessionRequest: (dataViewId?: string) => void;
-  dispatchAddQuery: (elementId: number) => void;
-}
-
-interface IProps {
-  isLoading: boolean;
-  session: ISessionDtc;
-  graph: IQueryGraphDataDtc;
-  queries: IQuery[];
-  filters: IInteractiveFilter[];
-  connections: IConnection[];
-}
-
-type Props = IDispatchProps & IProps & IRouterProps;
-
-interface IStoreState {
-  sessionReducer: IProps;
-}
+type Props = ReturnType<typeof mapDispatchToProps> &
+  ReturnType<typeof mapStateToProps> &
+  IRouterProps;
 
 interface ILocalState {
   jsPlumbCanvasInstance?: jsInst;
@@ -112,8 +97,7 @@ class WorkbenchContainer extends Component<Props, ILocalState> {
   };
 }
 
-const mapStateToProps = ({ sessionReducer: { ...state } }: IStoreState) =>
-  state;
+const mapStateToProps = ({ sessionReducer: { ...state } }: RootState) => state;
 
 const mapDispatchToProps = (
   dispatch: Dispatch<SessionAction | QueryAction>

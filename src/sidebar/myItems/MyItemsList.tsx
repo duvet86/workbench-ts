@@ -1,5 +1,4 @@
 import { Location } from "history";
-import PropTypes from "prop-types";
 import React, { SFC } from "react";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
@@ -57,11 +56,5 @@ const MyItemsList: SFC<IProps> = ({ classes, items, location }) => (
     )}
   </List>
 );
-
-MyItemsList.propTypes = {
-  classes: PropTypes.object.isRequired,
-  items: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired
-};
 
 export default withStyles(styles)(MyItemsList);

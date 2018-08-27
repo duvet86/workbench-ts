@@ -1,5 +1,4 @@
 import React, { SFC } from "react";
-import PropTypes from "prop-types";
 
 import {
   createStyles,
@@ -44,9 +43,5 @@ const WorkbenchToolbar: SFC<WithStyles<typeof styles>> = ({ classes }) => (
     </Toolbar>
   </Paper>
 );
-
-WorkbenchToolbar.propTypes = {
-  classes: PropTypes.object.isRequired
-};
 
 export default withStyles(styles)(WorkbenchToolbar);

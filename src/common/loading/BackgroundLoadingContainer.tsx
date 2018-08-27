@@ -2,26 +2,18 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
+import { RootState } from "rootReducer";
 import { LoadingAction, startDelay } from "common/loading/actions";
+
 import BackgroundLoading from "common/loading/BackgroundLoading";
 
-interface IDispatchProps {
-  dispatchStartDelay: () => void;
-}
-
-interface IStateProps {
+interface IOwnProps {
   isLoading: boolean;
-  pastDelay: boolean;
-  children: React.ReactNode;
 }
 
-type Props = IStateProps & IDispatchProps;
-
-interface IStoreState {
-  loadingReducer: {
-    pastDelay: boolean;
-  };
-}
+type Props = ReturnType<typeof mapDispatchToProps> &
+  ReturnType<typeof mapStateToProps> &
+  IOwnProps;
 
 class BackgroundLoadingContainer extends Component<Props> {
   public componentWillReceiveProps(nextProps: Props) {
@@ -35,7 +27,7 @@ class BackgroundLoadingContainer extends Component<Props> {
   }
 }
 
-const mapStateToProps = ({ loadingReducer: { pastDelay } }: IStoreState) => ({
+const mapStateToProps = ({ loadingReducer: { pastDelay } }: RootState) => ({
   pastDelay
 });
 
