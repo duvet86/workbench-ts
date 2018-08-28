@@ -19,7 +19,7 @@ class ProfileContainer extends Component<Props> {
   public render() {
     return (
       <LoadingContainer isLoading={this.props.isLoading}>
-        <Profile {...this.props} />
+        {this.props.userInfo && <Profile userInfo={this.props.userInfo} />}
       </LoadingContainer>
     );
   }

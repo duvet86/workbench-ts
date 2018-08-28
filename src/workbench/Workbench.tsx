@@ -4,7 +4,12 @@ import { jsPlumbInstance as jsInst } from "jsplumb";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
-import { ISessionDtc } from "workbench/types";
+import {
+  ISessionDtc,
+  IQuery,
+  IInteractiveFilter,
+  IConnection
+} from "workbench/types";
 import { itemType } from "sidebar/operators/operatorsData";
 
 import {
@@ -20,6 +25,9 @@ interface IProps extends WithStyles<typeof styles> {
   jsPlumbInstance: jsInst;
   jsPlumbCanvasInstance: jsInst;
   session: ISessionDtc;
+  queries: IQuery[];
+  filters: IInteractiveFilter[];
+  connections: IConnection[];
 }
 
 interface IDropProps {
@@ -69,7 +77,10 @@ class Workbench extends Component<IProps> {
       connectDropTarget,
       moveOperatorInCanvas,
       jsPlumbInstance,
-      session
+      session,
+      queries,
+      filters,
+      connections
     } = this.props;
 
     return (
@@ -81,7 +92,9 @@ class Workbench extends Component<IProps> {
                 containerId={DROPPABLE_CANVAS_ID}
                 jsPlumbInstance={jsPlumbInstance}
                 moveOperatorInCanvas={moveOperatorInCanvas}
-                session={session}
+                queries={queries}
+                filters={filters}
+                connections={connections}
               />
             </span>
           )}

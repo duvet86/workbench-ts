@@ -13,7 +13,7 @@ import {
   getQueryColumns
 } from "workbench/query/selectors";
 import { IColumn } from "workbench/types";
-import { IOption } from "common/searchableList/types";
+import { IOption } from "common/select/types";
 
 import ColumnsSelector from "workbench/query/columnSelector/ColumnsSelector";
 

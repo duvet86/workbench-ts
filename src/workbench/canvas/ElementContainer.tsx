@@ -78,7 +78,7 @@ class ElementContainer extends Component<IProps> {
       case ElementType.QUERY:
         return <QueryElement {...props} />;
       case ElementType.FILTER:
-        return <FilterElement {...props} />;
+        return <FilterElement filterType={type} {...props} />;
       default:
         return null;
     }

@@ -8,7 +8,6 @@ import {
 } from "@material-ui/core/styles";
 
 import { operatorsExtraInfo } from "sidebar/operators/operatorsData";
-import { ElementType } from "sidebar/operators/types";
 
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
@@ -16,7 +15,7 @@ import Typography from "@material-ui/core/Typography";
 interface IProps extends WithStyles<typeof styles> {
   elementId: number;
   elementLabel: string;
-  filterType: ElementType;
+  filterType: string;
   x: number;
   y: number;
 }

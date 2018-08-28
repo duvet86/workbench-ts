@@ -37,7 +37,6 @@ interface ISelectInput {
 
 interface IOptionRenderer {
   label: string;
-  secondaryLabel: string;
 }
 
 const ITEM_HEIGHT = 48;
@@ -187,7 +186,7 @@ const OptionRenderer = (
         }}
       >
         <div style={{ marginRight: 15 }}>{option.label}</div>
-        <Typography variant="caption">{option.secondaryLabel}</Typography>
+        <Typography variant="caption">secondaryLabel</Typography>
       </div>
     </MenuItem>
   );
@@ -249,10 +248,10 @@ const SelectInput: SFC<ISelectInput> = ({
       id="select-input"
       name="select-input"
       placeholder=""
-      inputProps={{
-        simpleValue: true,
-        ...props
-      }}
+      // inputProps={{
+      //   simpleValue: true,
+      //   ...props
+      // }}
     />
     {helperText && <FormHelperText>{helperText}</FormHelperText>}
   </FormControl>

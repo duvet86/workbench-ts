@@ -1,6 +1,6 @@
 import React, { SFC } from "react";
 
-import { IOption } from "common/searchableList/types";
+import { IOption } from "common/select/types";
 
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";

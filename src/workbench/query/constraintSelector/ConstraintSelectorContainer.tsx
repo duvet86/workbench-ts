@@ -43,17 +43,18 @@ class ConstraintSelectorContainer extends Component<Props> {
     } = this.props;
 
     return (
-      <ConstraintSelector
-        queryConstraints={queryConstraints}
-        filterCapabilities={filterCapabilities}
-        // contraintTargets={contraintTargets}
-        // handledAddQueryConstraint={this.handledAddQueryConstraint}
-        handledUpdateQueryConstraintType={this.handledUpdateQueryConstraintType}
-        // handledUpdateQueryConstraintValues={
-        //   this.handledUpdateQueryConstraintValues
-        // }
-        handledRemoveQueryConstraint={this.handledRemoveQueryConstraint}
-      />
+      <div>ConstraintSelector</div>
+      // <ConstraintSelector
+      //   queryConstraints={queryConstraints}
+      //   filterCapabilities={filterCapabilities}
+      //   // contraintTargets={contraintTargets}
+      //   // handledAddQueryConstraint={this.handledAddQueryConstraint}
+      //   handledUpdateQueryConstraintType={this.handledUpdateQueryConstraintType}
+      //   // handledUpdateQueryConstraintValues={
+      //   //   this.handledUpdateQueryConstraintValues
+      //   // }
+      //   handledRemoveQueryConstraint={this.handledRemoveQueryConstraint}
+      // />
     );
   }
 

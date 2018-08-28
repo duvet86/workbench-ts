@@ -7,7 +7,6 @@ import BaseLoading from "common/loading/BaseLoading";
 interface IProps extends WithStyles<typeof styles> {
   isLoading: boolean;
   pastDelay: boolean;
-  children: React.ReactNode;
 }
 
 const styles = createStyles({

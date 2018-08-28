@@ -1,6 +1,6 @@
 import React, { ChangeEvent, Component } from "react";
 
-import { IOption } from "common/searchableList/types";
+import { IOption } from "common/select/types";
 
 import SearchableList from "common/searchableList/SearchableList";
 
@@ -41,7 +41,7 @@ class SearchableListContainer extends Component<IProps, IState> {
       <SearchableList
         label={label}
         totItems={items.length}
-        searchableColumns={searchableItems}
+        searchableItems={searchableItems}
         searchString={searchString}
         onItemClick={onItemClick}
         handleChange={this.handleChange}

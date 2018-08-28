@@ -9,8 +9,13 @@ import { QesEnabledAction, qesEnabledRequest } from "app/actions";
 import App from "app/App";
 import { LoadingContainer } from "common/loading";
 
+interface IOwnProps {
+  location: Location;
+}
+
 type Props = ReturnType<typeof mapDispatchToProps> &
-  ReturnType<typeof mapStateToProps>;
+  ReturnType<typeof mapStateToProps> &
+  IOwnProps;
 
 interface ILocalState {
   open: boolean;

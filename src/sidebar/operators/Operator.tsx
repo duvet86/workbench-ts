@@ -24,7 +24,7 @@ import { itemType } from "sidebar/operators/operatorsData";
 
 interface IProps extends WithStyles<typeof styles> {
   label: string;
-  description: string;
+  description?: string;
   backgroundColor: string;
   IconComponent: React.ComponentType<SvgIconProps>;
 }

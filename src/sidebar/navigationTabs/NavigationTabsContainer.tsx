@@ -53,7 +53,7 @@ class NavigationTabsContainer extends Component<Props> {
     );
   }
 
-  private handleChange = (_: ChangeEvent, value: number) => {
+  private handleChange = (_: ChangeEvent<{}>, value: number) => {
     const {
       dispatchShowMyItems,
       dispatchShowFilters,

@@ -10,6 +10,7 @@ import OpenWithIcon from "@material-ui/icons/OpenWith";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 
 interface IContraintDisplayValue extends IConstraint {
+  label: string;
   displayValue: any;
 }
 
@@ -111,6 +112,7 @@ export const bottomEndPointConfig: EndpointOptions = {
 export function getConstraintDisplayValue(constraint: IConstraint) {
   const constraintDsiplayValue: IContraintDisplayValue = Object.assign(
     {
+      label: constraint.ColumnName,
       displayValue: ""
     },
     constraint

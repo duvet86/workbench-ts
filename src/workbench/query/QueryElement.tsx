@@ -1,6 +1,6 @@
 import React, { SFC } from "react";
 
-import { IUdsColumnDescriptionDtc } from "workbench/query/types";
+import { IColumn } from "workbench/types";
 
 import {
   createStyles,
@@ -22,7 +22,7 @@ import Typography from "@material-ui/core/Typography";
 import SettingsIcon from "@material-ui/icons/SettingsApplications";
 
 interface IProps extends WithStyles<typeof styles> {
-  columns: IUdsColumnDescriptionDtc[];
+  columns?: IColumn[];
   elementId: number;
   elementLabel: string;
   x: number;
@@ -109,18 +109,19 @@ const QueryElement: SFC<IProps> = ({
       </Typography>
       <Divider />
       <List className={classes.list}>
-        {columns.map(({ Label, ColumnName }) => (
-          <ListItem key={ColumnName} className={classes.listItem} dense>
-            <ListItemIcon className={classes.itemIcon}>
-              <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText
-              className={classes.listItem}
-              classes={{ primary: classes.primary }}
-              primary={Label}
-            />
-          </ListItem>
-        ))}
+        {columns &&
+          columns.map(({ Label, ColumnName }) => (
+            <ListItem key={ColumnName} className={classes.listItem} dense>
+              <ListItemIcon className={classes.itemIcon}>
+                <SettingsIcon />
+              </ListItemIcon>
+              <ListItemText
+                className={classes.listItem}
+                classes={{ primary: classes.primary }}
+                primary={Label}
+              />
+            </ListItem>
+          ))}
       </List>
     </div>
   </div>

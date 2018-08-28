@@ -4,7 +4,7 @@ import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
 import { AutoSizer, List as VirtualizedList } from "react-virtualized";
 
-import { IOption } from "common/searchableList/types";
+import { IOption } from "common/select/types";
 
 import FormControl from "@material-ui/core/FormControl";
 import IconButton from "@material-ui/core/IconButton";

@@ -2,7 +2,7 @@ import React, { SFC } from "react";
 
 import { IColumn } from "workbench/types";
 import { IUdsColumnDescriptionDtc } from "workbench/query/types";
-import { IOption } from "common/searchableList/types";
+import { IOption } from "common/select/types";
 
 import Grid from "@material-ui/core/Grid";
 

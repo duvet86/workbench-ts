@@ -28,7 +28,6 @@ const constraintIconColour = "#2c5367";
 interface IContraintTarget extends IConstraint {
   displayValue: string;
   label: string;
-  secondaryLabel: string;
 }
 
 interface IProps extends WithStyles<typeof styles> {

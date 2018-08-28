@@ -50,7 +50,6 @@ const MyItemsList: SFC<IProps> = ({ classes, items, location }) => (
             key={ChildItemId}
             itemId={ChildItem.ItemId}
             label={ChildItem.Label}
-            location={location}
           />
         )
     )}
