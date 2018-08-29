@@ -1,7 +1,6 @@
 import {
   IOperatorServiceDtc,
-  IOperatorExtraInfo,
-  ElementType
+  IOperatorExtraInfo
 } from "sidebar/operators/types";
 
 import DefaultIcon from "@material-ui/icons/FiberNew";
@@ -18,18 +17,14 @@ export const DEFAULTS = {
   IconComponent: DefaultIcon
 };
 
-export const itemType = {
-  OPERATOR: "OPERATOR"
-};
-
 export const staticOperatorsList: IOperatorServiceDtc[] = [
   {
-    OperatorServiceId: "1",
+    OperatorServiceId: "QUERY",
     Label: "Query",
     Description: "Query your data"
   },
   {
-    OperatorServiceId: "2",
+    OperatorServiceId: "FILTER",
     Label: "Filter",
     Description: "Filter your data"
   }
@@ -37,14 +32,12 @@ export const staticOperatorsList: IOperatorServiceDtc[] = [
 
 export const operatorsExtraInfo: IOperatorExtraInfo = {
   // Data Query.
-  1: {
-    type: ElementType.QUERY,
+  QUERY: {
     IconComponent: SearchIcon,
     backgroundColor: "#7b582d"
   },
   // Filter.
-  2: {
-    type: ElementType.FILTER,
+  FILTER: {
     IconComponent: FilterListIcon,
     backgroundColor: "#2c5367"
   },

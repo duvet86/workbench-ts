@@ -15,7 +15,7 @@ import Typography from "@material-ui/core/Typography";
 interface IProps extends WithStyles<typeof styles> {
   elementId: number;
   elementLabel: string;
-  filterType: string;
+  // filterType: string;
   x: number;
   y: number;
 }
@@ -59,7 +59,7 @@ const FilterElement: SFC<IProps> = ({
   classes,
   elementId,
   elementLabel,
-  filterType,
+  // filterType,
   x,
   y
 }) => (
@@ -79,9 +79,9 @@ const FilterElement: SFC<IProps> = ({
         {elementLabel}
       </Typography>
     </div>
-    <Typography className={classes.filterType} variant="body2" noWrap>
+    {/* <Typography className={classes.filterType} variant="body2" noWrap>
       {filterType}
-    </Typography>
+    </Typography> */}
   </div>
 );
 

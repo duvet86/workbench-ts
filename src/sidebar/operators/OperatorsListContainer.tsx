@@ -4,7 +4,6 @@ import { Dispatch } from "redux";
 
 import { RootState } from "rootReducer";
 import { OperatorsAction, operatorsRequest } from "sidebar/operators/actions";
-import { IOperatorResult } from "sidebar/operators/types";
 
 import { LoadingContainer } from "common/loading";
 import OperatorsList from "sidebar/operators/OperatorsList";

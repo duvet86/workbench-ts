@@ -17,9 +17,9 @@ export interface IOperatorServiceDtc {
 }
 
 export interface IExtraInfo {
-  type?: ElementType;
-  IconComponent: React.ComponentType<SvgIconProps>;
+  elementType?: ElementType;
   backgroundColor: string;
+  IconComponent: React.ComponentType<SvgIconProps>;
 }
 
 export interface IOperatorExtraInfo {

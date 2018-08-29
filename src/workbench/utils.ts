@@ -29,11 +29,6 @@ export enum DATA_TYPES {
   MULTISELECT = "MultiSelect"
 }
 
-export const CANVAS_DRAGGABLE_CONTAINER_ID = "draggable-container-canvas";
-export const CANVAS_DRAGGABLE_ID = "draggable-canvas";
-
-export const getElementId = (id: number) => `canvas-operator-${id}`;
-
 export const toolbarData = [
   {
     id: 1,

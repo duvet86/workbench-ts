@@ -1,11 +1,6 @@
 import React, { Fragment, SFC } from "react";
 
-import {
-  ConnectDragSource,
-  DragSource,
-  DragSourceConnector,
-  DragSourceSpec
-} from "react-dnd";
+import { ElementType } from "sidebar/operators/types";
 
 import {
   createStyles,
@@ -17,44 +12,20 @@ import {
 import Avatar from "@material-ui/core/Avatar";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import { SvgIconProps } from "@material-ui/core/SvgIcon";
 
-import { itemType } from "sidebar/operators/operatorsData";
+import { SvgIconProps } from "@material-ui/core/SvgIcon";
+import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
 
 interface IProps extends WithStyles<typeof styles> {
   label: string;
   description?: string;
   backgroundColor: string;
   IconComponent: React.ComponentType<SvgIconProps>;
-}
-
-interface IHandleProps {
-  connectDragSource: ConnectDragSource;
-  type: string;
-  operatorServiceId: string;
-  backgroundColor: string;
-  IconComponent: React.ComponentType<SvgIconProps>;
-  className: string;
-}
-
-interface IDragObject {
-  type: string;
+  elementType?: ElementType;
   operatorServiceId: string;
 }
-
-const operatorSource: DragSourceSpec<IHandleProps, IDragObject> = {
-  beginDrag({ type, operatorServiceId }) {
-    return {
-      type,
-      operatorServiceId
-    };
-  }
-};
-
-const collect = (connect: DragSourceConnector) => ({
-  connectDragSource: connect.dragSource()
-});
 
 const styles = ({ typography }: Theme) =>
   createStyles({
@@ -68,39 +39,31 @@ const styles = ({ typography }: Theme) =>
       fontWeight: typography.fontWeightRegular
     },
     avatarContainer: {
+      display: "flex",
+      alignItems: "center",
       cursor: "pointer",
       padding: 8,
       borderRadius: 5,
-      "&:hover": {
-        border: "1px solid #003b86"
-      }
+      border: "1px solid #ddd"
     }
   });
 
-const Handle = ({
-  connectDragSource,
-  className,
+const handleDrag = (model: {
+  elementType?: ElementType;
+  operatorServiceId: string;
+}) => (event: React.DragEvent<HTMLDivElement>) => {
+  event.dataTransfer.setData("ELEMENT", JSON.stringify(model));
+};
+
+const Operator: SFC<IProps> = ({
+  classes,
+  label,
+  description,
+  IconComponent,
   backgroundColor,
-  IconComponent
-}: IHandleProps) =>
-  connectDragSource(
-    <span className={className}>
-      <Avatar
-        style={{
-          backgroundColor
-        }}
-      >
-        <IconComponent />
-      </Avatar>
-    </span>
-  );
-
-const DndHandle = DragSource(itemType.OPERATOR, operatorSource, collect)(
-  Handle
-);
-
-// {...props as any} is a workaround for react dnd.
-const Operator: SFC<IProps> = ({ classes, label, description, ...props }) => (
+  elementType,
+  operatorServiceId
+}) => (
   <Fragment>
     <ListItem classes={{ root: classes.listItemRoot }}>
       <ListItemText
@@ -110,7 +73,22 @@ const Operator: SFC<IProps> = ({ classes, label, description, ...props }) => (
           primary: classes.heading
         }}
       />
-      <DndHandle className={classes.avatarContainer} {...props as any} />
+      <div
+        className={classes.avatarContainer}
+        draggable={true}
+        onDragStart={handleDrag({ operatorServiceId, elementType })}
+      >
+        <ListItemIcon>
+          <DragIndicatorIcon />
+        </ListItemIcon>
+        <Avatar
+          style={{
+            backgroundColor
+          }}
+        >
+          <IconComponent />
+        </Avatar>
+      </div>
     </ListItem>
     <Divider />
   </Fragment>

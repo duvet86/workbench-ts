@@ -49,17 +49,14 @@ const Canvas: SFC<IProps> = ({
     <Grid item xs={12} className={classes.item}>
       {queries &&
         queries.map(
-          (
-            { ElementId, ElementType, Label, LayoutX, LayoutY, Columns },
-            index
-          ) => (
+          ({ ElementId, Label, LayoutX, LayoutY, Columns }, index) => (
             <ElementContainer
               key={ElementId}
-              jsPlumbInstance={jsPlumbInstance}
-              moveOperatorInCanvas={moveOperatorInCanvas}
+              // jsPlumbInstance={jsPlumbInstance}
+              // moveOperatorInCanvas={moveOperatorInCanvas}
               index={index}
+              type="QUERY"
               connections={connections}
-              type={ElementType}
               elementId={ElementId}
               elementLabel={Label}
               columns={Columns}
@@ -73,11 +70,11 @@ const Canvas: SFC<IProps> = ({
           ({ ElementId, FilterType, Label, LayoutX, LayoutY }, index) => (
             <ElementContainer
               key={ElementId}
-              jsPlumbInstance={jsPlumbInstance}
-              moveOperatorInCanvas={moveOperatorInCanvas}
+              // jsPlumbInstance={jsPlumbInstance}
+              // moveOperatorInCanvas={moveOperatorInCanvas}
               index={index}
+              type="FILTER"
               connections={connections}
-              type={FilterType}
               elementId={ElementId}
               elementLabel={Label}
               x={LayoutX}
