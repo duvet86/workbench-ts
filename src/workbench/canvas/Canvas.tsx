@@ -1,7 +1,6 @@
 import grid20 from "workbench/canvas/grid20.png";
 
 import React, { SFC } from "react";
-import { jsPlumbInstance as jsInst } from "jsplumb";
 
 import { IQuery, IInteractiveFilter, IConnection } from "workbench/types";
 
@@ -13,7 +12,7 @@ import ElementContainer from "workbench/canvas/ElementContainer";
 
 interface IProps extends WithStyles<typeof styles> {
   containerId: string;
-  jsPlumbInstance: jsInst;
+  jsPlumbInstance: any;
   moveOperatorInCanvas: (
     type: string,
     index: number,

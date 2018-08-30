@@ -1,5 +1,3 @@
-import { EndpointOptions, ConnectParams } from "jsplumb";
-
 import { IConstraint } from "workbench/types";
 
 import SaveIcon from "@material-ui/icons/Save";
@@ -75,7 +73,7 @@ export const connectionConfig = {
   overlays: [["Arrow", { location: 0.9 }]]
 };
 
-export const topEndPointConfig: EndpointOptions = {
+export const topEndPointConfig = {
   id: "topEndPointConfig",
   scope: "",
   anchor: "Top",
@@ -88,7 +86,7 @@ export const topEndPointConfig: EndpointOptions = {
   type: "Dot"
 };
 
-export const bottomEndPointConfig: EndpointOptions = {
+export const bottomEndPointConfig = {
   id: "bottomEndPointConfig",
   scope: "",
   anchor: "Bottom",

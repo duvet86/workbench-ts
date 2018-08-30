@@ -1,7 +1,5 @@
 import React, { Fragment, SFC } from "react";
 import { Location } from "history";
-import { DragDropContextProvider } from "react-dnd";
-import HTML5Backend from "react-dnd-html5-backend";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
@@ -32,15 +30,13 @@ const App: SFC<IProps> = ({
   ...props
 }) =>
   isQesEnabled ? (
-    <DragDropContextProvider backend={HTML5Backend}>
-      <Fragment>
-        <TopBarContainer handleDrawerOpen={handleDrawerOpen} />
-        <div className={classes.bodyContainer}>
-          <SideBar open={open} {...props} />
-          <AppBody />
-        </div>
-      </Fragment>
-    </DragDropContextProvider>
+    <Fragment>
+      <TopBarContainer handleDrawerOpen={handleDrawerOpen} />
+      <div className={classes.bodyContainer}>
+        <SideBar open={open} {...props} />
+        <AppBody />
+      </div>
+    </Fragment>
   ) : (
     <div>Workbench features are not enabled.</div>
   );
