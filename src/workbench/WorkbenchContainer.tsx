@@ -2,8 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { match as Match } from "react-router";
+import {
+  DiagramModel,
+  DiagramEngine,
+  DefaultNodeModel,
+  NodeModel
+} from "storm-react-diagrams";
 
-import DiagramApp from "workbench/canvas/DiagramApp";
 import { RootState } from "rootReducer";
 import {
   sessionRequest,
@@ -24,6 +29,9 @@ import WorkbenchToolbar from "workbench/toolBar/WorkbenchToolbar";
 import Workbench from "workbench/Workbench";
 import ConfigSwitchContainer from "workbench/configSwitch/ConfigSwitchContainer";
 
+import QueryNodeFactory from "workbench/query/canvas/QueryNodeFactory";
+import QueryNodeModel from "workbench/query/canvas/QueryNodeModel";
+
 interface IRouterProps {
   match: Match<{ id: string }>;
 }
@@ -33,29 +41,23 @@ type Props = ReturnType<typeof mapDispatchToProps> &
   IRouterProps;
 
 interface ILocalState {
-  diagramInstance: DiagramApp;
+  node?: NodeModel;
 }
 
 class WorkbenchContainer extends Component<Props, ILocalState> {
-  public readonly state: ILocalState = {
-    diagramInstance: new DiagramApp()
-  };
+  private diagramEngine: DiagramEngine;
+
+  constructor(props: Props) {
+    super(props);
+    this.diagramEngine = new DiagramEngine();
+    // this.diagramEngine.installDefaultFactories();
+    this.diagramEngine.registerNodeFactory(new QueryNodeFactory());
+
+    const model = new DiagramModel();
+    this.diagramEngine.setDiagramModel(model);
+  }
 
   public componentDidMount() {
-    // const instance = jsPlumb.getInstance();
-
-    // instance.ready(() => {
-    //   const jsPlumbCanvasInstance = jsPlumb.getInstance({
-    //     Container: CANVAS_DRAGGABLE_CONTAINER_ID
-    //   });
-
-    //   const jsPlumbInstance = jsPlumb.getInstance({
-    //     Container: DROPPABLE_CANVAS_ID
-    //   });
-
-    //   this.setState({ jsPlumbCanvasInstance, jsPlumbInstance });
-    // });
-
     const { match } = this.props;
     const dataViewId = match.params.id === "new" ? undefined : match.params.id;
 
@@ -64,42 +66,45 @@ class WorkbenchContainer extends Component<Props, ILocalState> {
 
   public render() {
     const {
-      isLoading,
-      dispatchAddQuery,
-      session,
-      graph,
-      queries,
-      connections,
-      filters
+      isLoading
+      // dispatchAddQuery,
+      // session,
+      // graph,
+      // queries,
+      // connections,
+      // filters
     } = this.props;
-    // const { jsPlumbCanvasInstance, jsPlumbInstance } = this.state;
-
     return (
       <LoadingContainer isLoading={isLoading}>
         <WorkbenchToolbar />
         <ConfigSwitchContainer />
         <Workbench
-          diagramInstance={this.state.diagramInstance}
-          // jsPlumbCanvasInstance={jsPlumbCanvasInstance}
-          // jsPlumbInstance={jsPlumbInstance}
+          diagramEngine={this.diagramEngine}
+          handleDrop={this.handleDrop}
+          // session={session}
+          // queries={queries}
+          // connections={connections}
+          // filters={filters}
           // dispatchAddQuery={dispatchAddQuery}
-          moveOperatorInCanvas={this.moveOperatorInCanvas}
-          session={session}
-          queries={queries}
-          connections={connections}
-          filters={filters}
         />
       </LoadingContainer>
     );
   }
 
-  private moveOperatorInCanvas = (
-    type: string,
-    index: number,
-    x: number,
-    y: number
-  ) => {
-    // this.props.dispatchCanvasOperatorMove(type, index, x, y);
+  private handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    const data = JSON.parse(event.dataTransfer.getData("ELEMENT"));
+
+    const node = new QueryNodeModel();
+
+    const points = this.diagramEngine.getRelativeMousePoint(event);
+    node.x = points.x;
+    node.y = points.y;
+    this.diagramEngine.getDiagramModel().addNode(node);
+
+    // Updating the state triggers a re render.
+    this.setState({
+      node
+    });
   };
 }
 
