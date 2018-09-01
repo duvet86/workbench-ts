@@ -1,15 +1,22 @@
 import { NodeModel } from "storm-react-diagrams";
+
 import QueryPortModel from "workbench/query/canvas/QueryPortModel";
+import { IQuery } from "workbench/types";
 
 export default class QueryNodeModel extends NodeModel {
-  private label: string;
+  private queryInfo: IQuery;
 
-  constructor(label: string, x: number, y: number) {
+  constructor(queryInfo: IQuery) {
     super("query");
 
     this.addPort(new QueryPortModel("top"));
     this.addPort(new QueryPortModel("bottom"));
-    this.label = label;
-    this.setPosition(x, y);
+    this.setPosition(queryInfo.LayoutX, queryInfo.LayoutY);
+
+    this.queryInfo = queryInfo;
+  }
+
+  public getQueryInfo() {
+    return this.queryInfo;
   }
 }

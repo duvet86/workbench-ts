@@ -10,13 +10,6 @@ import {
   SessionAction,
   QueryAction
 } from "workbench/actions";
-import {
-  ISessionDtc,
-  IQueryGraphDataDtc,
-  IQuery,
-  IInteractiveFilter,
-  IConnection
-} from "workbench/types";
 
 import { LoadingContainer } from "common/loading";
 import WorkbenchToolbar from "workbench/toolBar/WorkbenchToolbar";
@@ -53,13 +46,13 @@ class WorkbenchContainer extends Component<Props> {
       <LoadingContainer isLoading={isLoading}>
         <WorkbenchToolbar />
         <ConfigSwitchContainer />
-        <CanvasContainer
+        {/* <CanvasContainer
           // session={session}
           queries={queries}
           connections={connections}
           // filters={filters}
           // dispatchAddQuery={dispatchAddQuery}
-        />
+        /> */}
       </LoadingContainer>
     );
   }

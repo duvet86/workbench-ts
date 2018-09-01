@@ -26,9 +26,9 @@ interface ISessionState {
   dataViewId?: string;
   session?: ISessionDtc;
   graph?: IQueryGraphDataDtc;
-  queries: IQuery[];
-  filters: IInteractiveFilter[];
-  connections: IConnection[];
+  queries: { [id: string]: IQuery };
+  filters: { [id: string]: IInteractiveFilter };
+  connections: { [id: string]: IConnection };
 }
 
 function session(
@@ -36,9 +36,9 @@ function session(
     isLoading: true,
     session: undefined,
     graph: undefined,
-    queries: [],
-    filters: [],
-    connections: []
+    queries: {},
+    filters: {},
+    connections: {}
   },
   action:
     | SessionAction

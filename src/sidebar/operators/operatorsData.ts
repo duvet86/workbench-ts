@@ -11,6 +11,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import ShareIcon from "@material-ui/icons/Share";
 import SubdirectoryArrowLeftIcon from "@material-ui/icons/SubdirectoryArrowLeft";
 import SubdirectoryArrowRightIcon from "@material-ui/icons/SubdirectoryArrowRight";
+import LinkIcon from "@material-ui/icons/Link";
 
 export const DEFAULTS = {
   backgroundColor: "#000000",
@@ -55,6 +56,11 @@ export const operatorsExtraInfo: IOperatorExtraInfo = {
   "447a2ad9-6201-4c24-88d9-7dd2b761482f": {
     IconComponent: ShareIcon,
     backgroundColor: "#458159"
+  },
+  // Link.
+  "51574f40-5959-4550-b599-15d11721e8d9": {
+    IconComponent: LinkIcon,
+    backgroundColor: "#00c0ff"
   },
   // Pivot.
   "e27b60fb-e3f4-4619-82db-e7b1ecf572b2": {

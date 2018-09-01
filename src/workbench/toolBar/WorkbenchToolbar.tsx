@@ -18,7 +18,7 @@ const styles = ({ spacing }: Theme) =>
     root: {
       position: "absolute",
       right: 0,
-      marginRight: 5,
+      marginRight: 10,
       marginTop: 10,
       zIndex: 1
     },

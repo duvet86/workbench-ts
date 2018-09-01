@@ -1,45 +1,86 @@
 import "storm-react-diagrams/dist/style.min.css";
 
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import { match as Match } from "react-router";
 import { DiagramModel, DiagramEngine, NodeModel } from "storm-react-diagrams";
 
-import { IQuery, IConnection } from "workbench/types";
+import { RootState } from "rootReducer";
+import {
+  sessionRequest,
+  addQuery,
+  SessionAction,
+  QueryAction
+} from "workbench/actions";
+
 import QueryNodeFactory from "workbench/query/canvas/QueryNodeFactory";
 import QueryNodeModel from "workbench/query/canvas/QueryNodeModel";
+import QueryPortModel from "workbench/query/canvas/QueryPortModel";
+import QueryPortFactory from "workbench/query/canvas/QueryPortFactory";
 
+import { LoadingContainer } from "common/loading";
 import Canvas from "workbench/Canvas";
 
-interface IProps {
-  queries: IQuery[];
-  connections: IConnection[];
+interface IRouterProps {
+  match: Match<{ id: string }>;
 }
+
+type Props = ReturnType<typeof mapDispatchToProps> &
+  ReturnType<typeof mapStateToProps> &
+  IRouterProps;
 
 interface ILocalState {
   node: NodeModel;
 }
 
-export default class CanvasContainer extends Component<IProps, ILocalState> {
+class CanvasContainer extends Component<Props, ILocalState> {
   private diagramEngine: DiagramEngine;
+  private activeModel: DiagramModel;
 
-  constructor(props: IProps) {
+  constructor(props: Props) {
     super(props);
     this.diagramEngine = new DiagramEngine();
-    // this.diagramEngine.installDefaultFactories();
+
+    this.diagramEngine.installDefaultFactories();
+    this.diagramEngine.registerPortFactory(
+      new QueryPortFactory(new QueryPortModel())
+    );
     this.diagramEngine.registerNodeFactory(new QueryNodeFactory());
 
-    const model = new DiagramModel();
-    this.diagramEngine.setDiagramModel(model);
+    this.activeModel = new DiagramModel();
+    this.diagramEngine.setDiagramModel(this.activeModel);
+  }
 
-    const nodes = props.queries.map(
-      ({ Label, LayoutX, LayoutY }) =>
-        new QueryNodeModel(Label, LayoutX, LayoutY)
-    );
+  public componentDidMount() {
+    const { match } = this.props;
+    const dataViewId = match.params.id === "new" ? undefined : match.params.id;
 
-    model.addAll(...nodes);
+    this.props.dispatchSessionRequest(dataViewId);
+  }
+
+  public componentDidUpdate(prevProps: Props) {
+    const currentSession = this.props.session;
+    if (currentSession == null) {
+      return;
+    }
+
+    const prevSession = prevProps.session;
+    if (
+      prevSession == null ||
+      currentSession.SessionId !== prevSession.SessionId
+    ) {
+      const nodes = Object.keys(this.props.queries).map(
+        id => new QueryNodeModel(this.props.queries[id])
+      );
+
+      this.activeModel.addAll(...nodes);
+    }
   }
 
   public render() {
     const {
+      isLoading
       // dispatchAddQuery,
       // session,
       // graph,
@@ -47,17 +88,20 @@ export default class CanvasContainer extends Component<IProps, ILocalState> {
       // connections,
       // filters
     } = this.props;
+
     return (
-      <Canvas
-        diagramEngine={this.diagramEngine}
-        handleDragOver={this.handleDragOver}
-        handleDrop={this.handleDrop}
-        // session={session}
-        // queries={queries}
-        // connections={connections}
-        // filters={filters}
-        // dispatchAddQuery={dispatchAddQuery}
-      />
+      <LoadingContainer isLoading={isLoading}>
+        <Canvas
+          diagramEngine={this.diagramEngine}
+          handleDragOver={this.handleDragOver}
+          handleDrop={this.handleDrop}
+          // session={session}
+          // queries={queries}
+          // connections={connections}
+          // filters={filters}
+          // dispatchAddQuery={dispatchAddQuery}
+        />
+      </LoadingContainer>
     );
   }
 
@@ -66,16 +110,29 @@ export default class CanvasContainer extends Component<IProps, ILocalState> {
   };
 
   private handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
-    const data = JSON.parse(event.dataTransfer.getData("ELEMENT"));
-
-    const points = this.diagramEngine.getRelativeMousePoint(event);
-
-    const node = new QueryNodeModel("Pippo", points.x, points.y);
-    this.diagramEngine.getDiagramModel().addNode(node);
-
-    // Updating the state triggers a re render.
-    this.setState({
-      node
-    });
+    // const data = JSON.parse(event.dataTransfer.getData("ELEMENT"));
+    // const points = this.diagramEngine.getRelativeMousePoint(event);
+    // const node = new QueryNodeModel("Pippo", points.x, points.y);
+    // this.diagramEngine.getDiagramModel().addNode(node);
+    // // Updating the state triggers a re render.
+    // this.setState({
+    //   node
+    // });
   };
 }
+
+const mapStateToProps = ({ sessionReducer: { ...state } }: RootState) => state;
+
+const mapDispatchToProps = (
+  dispatch: Dispatch<SessionAction | QueryAction>
+) => ({
+  dispatchSessionRequest: (dataViewId?: string) => {
+    dispatch(sessionRequest(dataViewId));
+  },
+  dispatchAddQuery: (elementId: number) => dispatch(addQuery(elementId))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CanvasContainer);

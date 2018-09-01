@@ -41,6 +41,10 @@ class FolderContainer extends Component<IProps, IState> {
     const { label, children } = this.props;
     const { expanded } = this.state;
 
+    if (children.length === 0) {
+      return null;
+    }
+
     return (
       <Folder
         label={label}

@@ -21,6 +21,6 @@ export default class QueryNodeFactory extends AbstractNodeFactory {
   }
 
   public getNewInstance() {
-    return new QueryNodeModel("", 0, 0);
+    return new NodeModel();
   }
 }
