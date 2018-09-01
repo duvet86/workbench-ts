@@ -8,6 +8,7 @@ import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 interface IProps extends WithStyles<typeof styles> {
   diagramEngine: DiagramEngine;
   handleDrop: (event: React.DragEvent<HTMLDivElement>) => void;
+  handleDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
 }
 
 const styles = createStyles({
@@ -47,11 +48,12 @@ const styles = createStyles({
   }
 });
 
-const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
-  event.preventDefault();
-};
-
-const Workbench: SFC<IProps> = ({ classes, diagramEngine, handleDrop }) => (
+const Workbench: SFC<IProps> = ({
+  classes,
+  diagramEngine,
+  handleDragOver,
+  handleDrop
+}) => (
   <div
     className={classes.canvasContainer}
     onDrop={handleDrop}

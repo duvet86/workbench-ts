@@ -13,11 +13,14 @@ export default class QueryNodeFactory extends AbstractNodeFactory {
     super("query");
   }
 
-  public generateReactWidget(_: DiagramEngine, node: NodeModel): JSX.Element {
+  public generateReactWidget(
+    _: DiagramEngine,
+    node: QueryNodeModel
+  ): JSX.Element {
     return <QueryNodeWidget node={node} />;
   }
 
   public getNewInstance() {
-    return new QueryNodeModel();
+    return new QueryNodeModel("", 0, 0);
   }
 }

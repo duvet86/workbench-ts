@@ -1,5 +1,5 @@
 import { Action } from "redux";
-import { ActionsObservable, ofType } from "redux-observable";
+import { ActionsObservable } from "redux-observable";
 import { of, Observable } from "rxjs";
 import { filter, switchMap } from "rxjs/operators";
 
@@ -20,7 +20,11 @@ export const navigationTabsEpic = (
   action$: ActionsObservable<ILocationChangeAction | TabsAction>
 ): Observable<TabsAction> =>
   action$.pipe(
-    ofType<ILocationChangeAction>(LOCATION_CHANGE),
+    // ofType<ILocationChangeAction>(LOCATION_CHANGE),
+    filter(
+      (action): action is ILocationChangeAction =>
+        action.type === LOCATION_CHANGE
+    ),
     filter(
       ({
         payload: {
@@ -32,14 +36,20 @@ export const navigationTabsEpic = (
         pathname === "/workbench/new" ||
         pathname === "/pagebuilder/new"
     ),
-    switchMap(({ payload: { location: { pathname } } }) => {
-      switch (pathname) {
-        case "/workbench/new":
-          return of(showTools([false, false, false]));
-        case "/pagebuilder/new":
-          return of(showFilters([false, false, true]));
-        default:
-          return of(showMyItems([false, true, true]));
+    switchMap<ILocationChangeAction, TabsAction>(
+      ({
+        payload: {
+          location: { pathname }
+        }
+      }) => {
+        switch (pathname) {
+          case "/workbench/new":
+            return of(showTools([false, false, false]));
+          case "/pagebuilder/new":
+            return of(showFilters([false, false, true]));
+          default:
+            return of(showMyItems([false, true, true]));
+        }
       }
-    })
+    )
   );

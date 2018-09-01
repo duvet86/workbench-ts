@@ -2,12 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { match as Match } from "react-router";
-import {
-  DiagramModel,
-  DiagramEngine,
-  DefaultNodeModel,
-  NodeModel
-} from "storm-react-diagrams";
 
 import { RootState } from "rootReducer";
 import {
@@ -26,11 +20,8 @@ import {
 
 import { LoadingContainer } from "common/loading";
 import WorkbenchToolbar from "workbench/toolBar/WorkbenchToolbar";
-import Workbench from "workbench/Workbench";
 import ConfigSwitchContainer from "workbench/configSwitch/ConfigSwitchContainer";
-
-import QueryNodeFactory from "workbench/query/canvas/QueryNodeFactory";
-import QueryNodeModel from "workbench/query/canvas/QueryNodeModel";
+import CanvasContainer from "workbench/CanvasContainer";
 
 interface IRouterProps {
   match: Match<{ id: string }>;
@@ -40,23 +31,7 @@ type Props = ReturnType<typeof mapDispatchToProps> &
   ReturnType<typeof mapStateToProps> &
   IRouterProps;
 
-interface ILocalState {
-  node?: NodeModel;
-}
-
-class WorkbenchContainer extends Component<Props, ILocalState> {
-  private diagramEngine: DiagramEngine;
-
-  constructor(props: Props) {
-    super(props);
-    this.diagramEngine = new DiagramEngine();
-    // this.diagramEngine.installDefaultFactories();
-    this.diagramEngine.registerNodeFactory(new QueryNodeFactory());
-
-    const model = new DiagramModel();
-    this.diagramEngine.setDiagramModel(model);
-  }
-
+class WorkbenchContainer extends Component<Props> {
   public componentDidMount() {
     const { match } = this.props;
     const dataViewId = match.params.id === "new" ? undefined : match.params.id;
@@ -66,46 +41,28 @@ class WorkbenchContainer extends Component<Props, ILocalState> {
 
   public render() {
     const {
-      isLoading
+      isLoading,
       // dispatchAddQuery,
       // session,
       // graph,
-      // queries,
-      // connections,
+      queries,
+      connections
       // filters
     } = this.props;
     return (
       <LoadingContainer isLoading={isLoading}>
         <WorkbenchToolbar />
         <ConfigSwitchContainer />
-        <Workbench
-          diagramEngine={this.diagramEngine}
-          handleDrop={this.handleDrop}
+        <CanvasContainer
           // session={session}
-          // queries={queries}
-          // connections={connections}
+          queries={queries}
+          connections={connections}
           // filters={filters}
           // dispatchAddQuery={dispatchAddQuery}
         />
       </LoadingContainer>
     );
   }
-
-  private handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
-    const data = JSON.parse(event.dataTransfer.getData("ELEMENT"));
-
-    const node = new QueryNodeModel();
-
-    const points = this.diagramEngine.getRelativeMousePoint(event);
-    node.x = points.x;
-    node.y = points.y;
-    this.diagramEngine.getDiagramModel().addNode(node);
-
-    // Updating the state triggers a re render.
-    this.setState({
-      node
-    });
-  };
 }
 
 const mapStateToProps = ({ sessionReducer: { ...state } }: RootState) => state;
