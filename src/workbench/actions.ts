@@ -8,7 +8,9 @@ import {
   IQueryGraphDataDtc,
   IQuery,
   IColumn,
-  IConstraint
+  IConstraint,
+  IInteractiveFilter,
+  IConnection
 } from "workbench/types";
 
 export const enum SessionActionTypes {
@@ -26,6 +28,9 @@ export interface ISessionSuccess extends Action {
   payload: {
     session: ISessionDtc;
     graph: IQueryGraphDataDtc;
+    queries: { [key: string]: IQuery };
+    filters: { [key: string]: IInteractiveFilter };
+    connections: { [key: string]: IConnection };
   };
 }
 
@@ -38,16 +43,19 @@ export const sessionRequest = (dataViewId?: string): ISessionRequest => ({
 
 export const sessionSuccess = ({
   InitialQueryGraph,
-  ...rest
+  ...sessionInfo
 }: ISessionDtc): ISessionSuccess => {
   const normalizedGraph = normalize(InitialQueryGraph, graphSchema);
+  const { queries, filters, connections } = normalizedGraph.entities;
 
   return {
     type: SessionActionTypes.SESSION_SUCCESS,
     payload: {
-      session: { ...rest },
+      session: { ...sessionInfo },
       graph: normalizedGraph.result,
-      ...normalizedGraph.entities
+      queries: queries || {},
+      filters: filters || {},
+      connections: connections || {}
     }
   };
 };

@@ -232,7 +232,7 @@ export interface ISessionDtc {
   DataViewId?: string;
   UserName: string;
   CacheConfiguration?: ICacheConfiguration;
-  InitialQueryGraph: IQueryGraphDataDtc;
+  InitialQueryGraph?: IQueryGraphDataDtc;
 }
 
 export interface IQueryGraphChangesDtc {
