@@ -23,6 +23,12 @@ const query = new schema.Entity(
 
 const filter = new schema.Entity("filters", {}, { idAttribute: "ElementId" });
 
+const connection = new schema.Entity(
+  "connections",
+  {},
+  { idAttribute: "ConnectionId" }
+);
+
 // const test = {
 //   Type: "Partial",
 //   Connections: [],
@@ -129,7 +135,8 @@ const filter = new schema.Entity("filters", {}, { idAttribute: "ElementId" });
 
 export const graphSchema = {
   Queries: [query],
-  InteractiveFilters: [filter]
+  InteractiveFilters: [filter],
+  Connections: [connection]
 };
 
 // const data = normalize(test, graphSchema);

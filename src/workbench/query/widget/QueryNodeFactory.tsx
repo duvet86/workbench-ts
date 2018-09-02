@@ -5,8 +5,8 @@ import {
   NodeModel
 } from "storm-react-diagrams";
 
-import QueryNodeModel from "workbench/query/canvas/QueryNodeModel";
-import QueryNodeWidget from "workbench/query/canvas/QueryNodeWidget";
+import QueryNodeModel from "workbench/query/widget/QueryNodeModel";
+import QueryNodeWidget from "workbench/query/widget/QueryNodeWidget";
 
 export default class QueryNodeFactory extends AbstractNodeFactory {
   constructor() {

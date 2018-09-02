@@ -1,10 +1,10 @@
 import { PortModel, AbstractPortFactory } from "storm-react-diagrams";
 
-export default class QueryPortFactory extends AbstractPortFactory {
+export default class DiagramPortFactory extends AbstractPortFactory {
   private portModel: PortModel;
 
   constructor(portModel: PortModel) {
-    super("query");
+    super("workbench");
     this.portModel = portModel;
   }
 

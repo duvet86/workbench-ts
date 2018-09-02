@@ -8,7 +8,7 @@ import {
   WithStyles
 } from "@material-ui/core/styles";
 
-import QueryNodeModel from "workbench/query/canvas/QueryNodeModel";
+import QueryNodeModel from "workbench/query/widget/QueryNodeModel";
 import { operatorsExtraInfo } from "sidebar/operators/operatorsData";
 
 import Avatar from "@material-ui/core/Avatar";
@@ -32,19 +32,14 @@ const styles = ({
 }: Theme) =>
   createStyles({
     container: {
-      // position: "relative",
-      // width: 100,
-      // height: 100,
       display: "flex",
       alignItems: "center",
       justifyContent: "center"
     },
     operatorContainer: {
-      // position: "absolute",
       display: "flex",
       flexFlow: "column",
       alignItems: "center",
-      // cursor: "all-scroll",
       borderRadius: 5,
       border: "1px solid #7b582d",
       padding: "0px 5px 0px 5px",
@@ -83,13 +78,16 @@ const styles = ({
     },
     topPort: {
       position: "relative",
-      top: -8,
-      backgroundColor: "#ccc"
+      top: -9,
+      backgroundColor: "#ccc",
+      zIndex: -1
     },
     bottomPort: {
       position: "relative",
-      top: 8,
-      backgroundColor: "#ccc"
+      top: 9,
+      backgroundColor: "#ccc",
+      borderRadius: 15,
+      zIndex: -1
     }
   });
 
@@ -105,7 +103,7 @@ const QueryNodeWidget: React.SFC<IProps> = ({ classes, node }) => {
     <div className={classes.container}>
       <div className={classes.operatorContainer}>
         <div className={classes.topPort}>
-          <PortWidget name="top" node={node} />
+          <PortWidget name="to" node={node} />
         </div>
         <div className={classes.titleContainer}>
           <Avatar className={classes.avatar} style={{ backgroundColor }}>
@@ -136,7 +134,7 @@ const QueryNodeWidget: React.SFC<IProps> = ({ classes, node }) => {
           </List>
         </div>
         <div className={classes.bottomPort}>
-          <PortWidget name="bottom" node={node} />
+          <PortWidget name="from" node={node} />
         </div>
       </div>
     </div>

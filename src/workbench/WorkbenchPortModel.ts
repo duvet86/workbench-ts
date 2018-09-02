@@ -5,11 +5,11 @@ import {
   DefaultLinkModel
 } from "storm-react-diagrams";
 
-export default class QueryPortModel extends PortModel {
+export default class WorkbenchPortModel extends PortModel {
   private position: string;
 
-  constructor(pos: "top" | "bottom" = "top") {
-    super(pos, "query");
+  constructor(pos: "from" | "to" = "from") {
+    super(pos, "workbench");
     this.position = pos;
   }
 
@@ -22,6 +22,14 @@ export default class QueryPortModel extends PortModel {
   public deSerialize(data: any, engine: DiagramEngine) {
     super.deSerialize(data, engine);
     this.position = data.position;
+  }
+
+  public link(port: PortModel): LinkModel {
+    const link = this.createLinkModel();
+    link.setSourcePort(this);
+    link.setTargetPort(port);
+
+    return link;
   }
 
   public createLinkModel(): LinkModel {

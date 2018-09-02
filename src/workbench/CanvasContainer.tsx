@@ -14,10 +14,14 @@ import {
   QueryAction
 } from "workbench/actions";
 
-import QueryNodeFactory from "workbench/query/canvas/QueryNodeFactory";
-import QueryNodeModel from "workbench/query/canvas/QueryNodeModel";
-import QueryPortModel from "workbench/query/canvas/QueryPortModel";
-import QueryPortFactory from "workbench/query/canvas/QueryPortFactory";
+import WorkbenchPortFactory from "workbench/WorkbenchPortFactory";
+import WorkbenchPortModel from "workbench/WorkbenchPortModel";
+
+import QueryNodeFactory from "workbench/query/widget/QueryNodeFactory";
+import QueryNodeModel from "workbench/query/widget/QueryNodeModel";
+
+import FilterNodeFactory from "workbench/filter/FilterNodeFactory";
+import FilterNodeModel from "workbench/filter/FilterNodeModel";
 
 import { LoadingContainer } from "common/loading";
 import Canvas from "workbench/Canvas";
@@ -41,12 +45,13 @@ class CanvasContainer extends Component<Props, ILocalState> {
   constructor(props: Props) {
     super(props);
     this.diagramEngine = new DiagramEngine();
-
     this.diagramEngine.installDefaultFactories();
+
     this.diagramEngine.registerPortFactory(
-      new QueryPortFactory(new QueryPortModel())
+      new WorkbenchPortFactory(new WorkbenchPortModel())
     );
     this.diagramEngine.registerNodeFactory(new QueryNodeFactory());
+    this.diagramEngine.registerNodeFactory(new FilterNodeFactory());
 
     this.activeModel = new DiagramModel();
     this.diagramEngine.setDiagramModel(this.activeModel);
@@ -70,11 +75,40 @@ class CanvasContainer extends Component<Props, ILocalState> {
       prevSession == null ||
       currentSession.SessionId !== prevSession.SessionId
     ) {
-      const nodes = Object.keys(this.props.queries).map(
+      const queryNodes = Object.keys(this.props.queries).map(
         id => new QueryNodeModel(this.props.queries[id])
       );
 
-      this.activeModel.addAll(...nodes);
+      const filterNodes = Object.keys(this.props.filters).map(
+        id => new FilterNodeModel(this.props.filters[id])
+      );
+
+      this.activeModel.addAll(...queryNodes);
+      this.activeModel.addAll(...filterNodes);
+
+      const links = [];
+      for (const id of Object.keys(this.props.connections)) {
+        const connection = this.props.connections[id];
+
+        const nodeFrom = this.activeModel.getNode(
+          connection.FromElementId.toString()
+        );
+
+        const nodeTo = this.activeModel.getNode(
+          connection.ToElementId.toString()
+        );
+
+        if (nodeFrom == null || nodeTo == null) {
+          return;
+        }
+
+        const portTo = nodeTo.getPort("to") as WorkbenchPortModel;
+        const portFrom = nodeFrom.getPort("from") as WorkbenchPortModel;
+
+        links.push(portTo.link(portFrom));
+      }
+
+      this.activeModel.addAll(...links);
     }
   }
 
