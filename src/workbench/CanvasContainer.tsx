@@ -102,10 +102,12 @@ class CanvasContainer extends Component<Props, ILocalState> {
           return;
         }
 
-        const portTo = nodeTo.getPort("to") as WorkbenchPortModel;
         const portFrom = nodeFrom.getPort("from") as WorkbenchPortModel;
+        const portTo = nodeTo.getPort("to") as WorkbenchPortModel;
 
-        links.push(portTo.link(portFrom));
+        const link = portFrom.link(portTo);
+
+        links.push(link);
       }
 
       this.activeModel.addAll(...links);

@@ -37,12 +37,13 @@ const styles = ({
     },
     body: {
       display: "flex",
-      maxWidth: 130
+      maxWidth: 130,
+      marginBottom: 5
     },
     avatar: {
       width: 25,
       height: 25,
-      marginRight: 5
+      marginRight: 3
     },
     label: {
       marginTop: 10
