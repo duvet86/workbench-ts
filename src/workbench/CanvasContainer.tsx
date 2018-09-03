@@ -13,9 +13,10 @@ import {
   SessionAction,
   QueryAction
 } from "workbench/actions";
+import { ElementType } from "sidebar/operators/operatorsData";
 
-import WorkbenchPortFactory from "workbench/WorkbenchPortFactory";
-import WorkbenchPortModel from "workbench/WorkbenchPortModel";
+import WidgetPortFactory from "workbench/WidgetPortFactory";
+import WidgetPortModel from "workbench/WidgetPortModel";
 
 import QueryNodeFactory from "workbench/query/widget/QueryNodeFactory";
 import QueryNodeModel from "workbench/query/widget/QueryNodeModel";
@@ -48,7 +49,7 @@ class CanvasContainer extends Component<Props, ILocalState> {
     this.diagramEngine.installDefaultFactories();
 
     this.diagramEngine.registerPortFactory(
-      new WorkbenchPortFactory(new WorkbenchPortModel())
+      new WidgetPortFactory(new WidgetPortModel())
     );
     this.diagramEngine.registerNodeFactory(new QueryNodeFactory());
     this.diagramEngine.registerNodeFactory(new FilterNodeFactory());
@@ -102,8 +103,8 @@ class CanvasContainer extends Component<Props, ILocalState> {
           return;
         }
 
-        const portFrom = nodeFrom.getPort("from") as WorkbenchPortModel;
-        const portTo = nodeTo.getPort("to") as WorkbenchPortModel;
+        const portFrom = nodeFrom.getPort("from") as WidgetPortModel;
+        const portTo = nodeTo.getPort("to") as WidgetPortModel;
 
         const link = portFrom.link(portTo);
 
@@ -135,7 +136,6 @@ class CanvasContainer extends Component<Props, ILocalState> {
           // queries={queries}
           // connections={connections}
           // filters={filters}
-          // dispatchAddQuery={dispatchAddQuery}
         />
       </LoadingContainer>
     );
@@ -146,6 +146,22 @@ class CanvasContainer extends Component<Props, ILocalState> {
   };
 
   private handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    const { graph, dispatchAddQuery } = this.props;
+
+    if (graph == null) {
+      throw new Error("Graph cannot be null.");
+    }
+
+    const operatorServiceId = event.dataTransfer.getData("ELEMENT");
+
+    switch (operatorServiceId) {
+      case ElementType.QUERY:
+        dispatchAddQuery(graph.NextElementId);
+        break;
+      default:
+        break;
+    }
+
     // const data = JSON.parse(event.dataTransfer.getData("ELEMENT"));
     // const points = this.diagramEngine.getRelativeMousePoint(event);
     // const node = new QueryNodeModel("Pippo", points.x, points.y);

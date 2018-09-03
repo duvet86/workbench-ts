@@ -13,6 +13,12 @@ import SubdirectoryArrowLeftIcon from "@material-ui/icons/SubdirectoryArrowLeft"
 import SubdirectoryArrowRightIcon from "@material-ui/icons/SubdirectoryArrowRight";
 import LinkIcon from "@material-ui/icons/Link";
 
+export enum ElementType {
+  NONE = "NONE",
+  QUERY = "QUERY",
+  FILTER = "FILTER"
+}
+
 export const DEFAULTS = {
   backgroundColor: "#000000",
   IconComponent: DefaultIcon
@@ -33,12 +39,12 @@ export const staticOperatorsList: IOperatorServiceDtc[] = [
 
 export const operatorsExtraInfo: IOperatorExtraInfo = {
   // Data Query.
-  QUERY: {
+  [ElementType.QUERY]: {
     IconComponent: SearchIcon,
     backgroundColor: "#7b582d"
   },
   // Filter.
-  FILTER: {
+  [ElementType.FILTER]: {
     IconComponent: FilterListIcon,
     backgroundColor: "#2c5367"
   },

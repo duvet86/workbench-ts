@@ -7,7 +7,7 @@ import {
   WithStyles
 } from "@material-ui/core/styles";
 
-import { ElementType } from "sidebar/operators/types";
+import { ElementType } from "sidebar/operators/operatorsData";
 
 import Grid from "@material-ui/core/Grid";
 import Drawer from "@material-ui/core/Drawer";
@@ -28,7 +28,7 @@ const styles = ({ spacing }: Theme) =>
     form: {
       position: "relative",
       height: "100%",
-      padding: spacing.unit,
+      padding: spacing.unit * 2,
       overflow: "auto",
       marginBottom: 48
     }
@@ -39,7 +39,7 @@ const drawerByType = (elementType: ElementType) => {
     case ElementType.QUERY:
       return <QueryConfigContainer />;
     case ElementType.FILTER:
-      return "FILTER";
+      return "TODO";
     default:
       return null;
   }

@@ -1,5 +1,6 @@
 import { IConstraint } from "workbench/types";
 
+import NewIcon from "@material-ui/icons/RestorePage";
 import SaveIcon from "@material-ui/icons/Save";
 import ShareIcon from "@material-ui/icons/Share";
 import UndoIcon from "@material-ui/icons/Undo";
@@ -28,6 +29,11 @@ export enum DATA_TYPES {
 }
 
 export const toolbarData = [
+  {
+    id: 0,
+    label: "New",
+    IconComponent: NewIcon
+  },
   {
     id: 1,
     label: "Save",
@@ -64,43 +70,6 @@ export const toolbarData = [
     IconComponent: ArrowDownwardIcon
   }
 ];
-
-export const connectionConfig = {
-  detachable: false,
-  anchors: ["Bottom", "Top"],
-  endpoints: ["Blank", "Blank"],
-  connector: ["Flowchart", { cornerRadius: 5 }],
-  overlays: [["Arrow", { location: 0.9 }]]
-};
-
-export const topEndPointConfig = {
-  id: "topEndPointConfig",
-  scope: "",
-  anchor: "Top",
-  // endpoint: ["Dot", { radius: 5, cssClass: "topendpoint" }], Fix me.
-  isTarget: true,
-  isSource: false,
-  maxConnections: -1,
-  parameters: {},
-  reattachConnections: false,
-  type: "Dot"
-};
-
-export const bottomEndPointConfig = {
-  id: "bottomEndPointConfig",
-  scope: "",
-  anchor: "Bottom",
-  // endpoint: [
-  //   "Rectangle",
-  //   { width: 10, height: 10, cssClass: "bottomendpoint" } Fix me.
-  // ],
-  isTarget: false,
-  isSource: true,
-  maxConnections: -1,
-  parameters: {},
-  reattachConnections: false,
-  type: "Dot"
-};
 
 export function getConstraintDisplayValue(constraint: IConstraint) {
   const constraintDsiplayValue: IContraintDisplayValue = Object.assign(

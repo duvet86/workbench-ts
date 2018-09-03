@@ -1,7 +1,5 @@
 import React, { Fragment, SFC } from "react";
 
-import { ElementType } from "sidebar/operators/types";
-
 import {
   createStyles,
   Theme,
@@ -23,7 +21,6 @@ interface IProps extends WithStyles<typeof styles> {
   description?: string;
   backgroundColor: string;
   IconComponent: React.ComponentType<SvgIconProps>;
-  elementType?: ElementType;
   operatorServiceId: string;
 }
 
@@ -48,11 +45,10 @@ const styles = ({ typography }: Theme) =>
     }
   });
 
-const handleDrag = (model: {
-  elementType?: ElementType;
-  operatorServiceId: string;
-}) => (event: React.DragEvent<HTMLDivElement>) => {
-  event.dataTransfer.setData("ELEMENT", JSON.stringify(model));
+const handleDrag = (operatorServiceId: string) => (
+  event: React.DragEvent<HTMLDivElement>
+) => {
+  event.dataTransfer.setData("ELEMENT", operatorServiceId);
 };
 
 const Operator: SFC<IProps> = ({
@@ -61,7 +57,6 @@ const Operator: SFC<IProps> = ({
   description,
   IconComponent,
   backgroundColor,
-  elementType,
   operatorServiceId
 }) => (
   <Fragment>
@@ -76,7 +71,7 @@ const Operator: SFC<IProps> = ({
       <div
         className={classes.avatarContainer}
         draggable={true}
-        onDragStart={handleDrag({ operatorServiceId, elementType })}
+        onDragStart={handleDrag(operatorServiceId)}
       >
         <ListItemIcon>
           <DragIndicatorIcon />

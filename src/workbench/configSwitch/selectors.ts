@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 
 import { RootState } from "rootReducer";
-import { ElementType } from "sidebar/operators/types";
+import { ElementType } from "sidebar/operators/operatorsData";
 
 const elementTypeSelector = (state: RootState) =>
   state.configSwitchReducer.elementType;

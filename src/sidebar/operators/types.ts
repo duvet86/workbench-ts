@@ -1,11 +1,5 @@
 import { SvgIconProps } from "@material-ui/core/SvgIcon";
 
-export enum ElementType {
-  NONE = "NONE",
-  QUERY = "QUERY",
-  FILTER = "FILTER"
-}
-
 export interface IOperatorServiceDtc {
   TenantId?: string;
   OperatorServiceId: string;
@@ -17,7 +11,6 @@ export interface IOperatorServiceDtc {
 }
 
 export interface IExtraInfo {
-  elementType?: ElementType;
   backgroundColor: string;
   IconComponent: React.ComponentType<SvgIconProps>;
 }

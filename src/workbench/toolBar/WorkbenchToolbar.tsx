@@ -1,4 +1,5 @@
 import React, { SFC } from "react";
+import { Link } from "react-router-dom";
 
 import {
   createStyles,
@@ -9,7 +10,7 @@ import {
 
 import Paper from "@material-ui/core/Paper";
 import Toolbar from "@material-ui/core/Toolbar";
-import Button from "@material-ui/core/Button";
+import Button, { ButtonProps } from "@material-ui/core/Button";
 
 import { toolbarData } from "workbench/utils";
 
@@ -31,11 +32,17 @@ const styles = ({ spacing }: Theme) =>
     }
   });
 
+const newWorkbenchLink = ({ className, children }: ButtonProps) => (
+  <Link className={className} to="/workbench/new">
+    {children}
+  </Link>
+);
+
 const WorkbenchToolbar: SFC<WithStyles<typeof styles>> = ({ classes }) => (
   <Paper className={classes.root}>
     <Toolbar className={classes.toolBar} disableGutters>
       {toolbarData.map(({ id, label, IconComponent }) => (
-        <Button key={id} size="small">
+        <Button key={id} size="small" component={newWorkbenchLink}>
           <IconComponent className={classes.leftIcon} />
           {label}
         </Button>

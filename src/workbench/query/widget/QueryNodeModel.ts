@@ -1,6 +1,6 @@
 import { NodeModel } from "storm-react-diagrams";
 
-import WorkbenchPortModel from "workbench/WorkbenchPortModel";
+import WidgetPortModel from "workbench/WidgetPortModel";
 import { IQuery } from "workbench/types";
 
 export default class QueryNodeModel extends NodeModel {
@@ -9,8 +9,8 @@ export default class QueryNodeModel extends NodeModel {
   constructor(queryInfo: IQuery) {
     super("query", queryInfo.ElementId.toString());
 
-    this.addPort(new WorkbenchPortModel("from"));
-    this.addPort(new WorkbenchPortModel("to"));
+    this.addPort(new WidgetPortModel("from"));
+    this.addPort(new WidgetPortModel("to"));
     this.setPosition(queryInfo.LayoutX, queryInfo.LayoutY);
 
     this.queryInfo = queryInfo;

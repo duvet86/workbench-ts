@@ -1,4 +1,4 @@
-import { ElementType } from "sidebar/operators/types";
+import { ElementType } from "sidebar/operators/operatorsData";
 import { LoginActionTypes, ILogout } from "login/actions";
 import {
   QueryConfigActionTypes,

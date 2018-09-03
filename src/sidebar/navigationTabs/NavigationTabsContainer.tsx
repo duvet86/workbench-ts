@@ -26,19 +26,23 @@ type Props = ReturnType<typeof mapStateToProps> &
 class NavigationTabsContainer extends Component<Props> {
   public componentDidMount() {
     const {
-      location: { pathname },
-      dispatchShowFilters,
-      dispatchShowMyTools
+      location: { pathname }
     } = this.props;
 
-    if (pathname.includes("/pagebuilder/")) {
-      return dispatchShowFilters([false, false, true]);
+    this.updateActivetab(pathname);
+  }
+
+  public componentDidUpdate(prevProps: Props) {
+    const {
+      location: { pathname }
+    } = this.props;
+    const {
+      location: { pathname: prevPathname }
+    } = prevProps;
+
+    if (pathname !== prevPathname) {
+      this.updateActivetab(pathname);
     }
-    if (pathname.includes("/workbench/")) {
-      return dispatchShowMyTools([false, false, false]);
-    }
-    // By default it sets the tab to myItems with the others disabled.
-    // See reducer inital state.
   }
 
   public render() {
@@ -51,6 +55,19 @@ class NavigationTabsContainer extends Component<Props> {
         handleChange={this.handleChange}
       />
     );
+  }
+
+  private updateActivetab(pathname: string) {
+    const { dispatchShowFilters, dispatchShowMyTools } = this.props;
+
+    if (pathname.includes("/pagebuilder/")) {
+      return dispatchShowFilters([false, false, true]);
+    }
+    if (pathname.includes("/workbench/")) {
+      return dispatchShowMyTools([false, false, false]);
+    }
+    // By default it sets the tab to myItems with the others disabled.
+    // See reducer inital state.
   }
 
   private handleChange = (_: ChangeEvent<{}>, value: number) => {
