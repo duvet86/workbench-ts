@@ -1,8 +1,6 @@
 import { denormalize } from "normalizr";
-import { RouterAction } from "connected-react-router";
 import { ActionsObservable, StateObservable, ofType } from "redux-observable";
-import { Observable } from "rxjs";
-import { catchError, map, mergeMap, filter } from "rxjs/operators";
+import { catchError, map, mergeMap } from "rxjs/operators";
 
 import { handleException } from "errorPage/epic";
 
@@ -14,7 +12,6 @@ import {
 } from "workbench/api";
 import { graphSchema } from "workbench/schema";
 
-import { IErrorAction } from "errorPage/actions";
 import {
   GraphPushActionTypes,
   GraphSaveActionTypes,
@@ -35,8 +32,6 @@ import {
   openQueryConfig,
   queryDescribeRequest,
   QueryConfigAction,
-  IQueryDescribeRequest,
-  IOpenQueryConfig,
   QueryDescribeAction
 } from "workbench/query/actions";
 
@@ -44,11 +39,7 @@ import { RootState } from "rootReducer";
 
 export const sessionEpic = (action$: ActionsObservable<SessionAction>) =>
   action$.pipe(
-    // ofType<ISessionRequest>(SessionActionTypes.SESSION_REQUEST),
-    filter(
-      (action): action is ISessionRequest =>
-        action.type === SessionActionTypes.SESSION_REQUEST
-    ),
+    ofType<SessionAction, ISessionRequest>(SessionActionTypes.SESSION_REQUEST),
     mergeMap(({ dataViewId }) =>
       getSessionInfoObs(dataViewId).pipe(
         map(response => sessionSuccess(response)),
@@ -137,10 +128,8 @@ export const addQueryEpic = (
   action$: ActionsObservable<QueryAction | QueryConfigAction>
 ) =>
   action$.pipe(
-    // ofType<IAddQuery>(QueryActionTypes.QUERY_ADD),
-    filter(
-      (action): action is IAddQuery =>
-        action.type === QueryActionTypes.QUERY_ADD
+    ofType<QueryAction | QueryConfigAction, IAddQuery>(
+      QueryActionTypes.QUERY_ADD
     ),
     map(({ elementId }) => openQueryConfig(elementId))
   );
@@ -150,10 +139,8 @@ export const updateQueryDataServiceEpic = (
   state$: StateObservable<RootState>
 ) =>
   action$.pipe(
-    // ofType<IUpdateQueryDataService>(QueryActionTypes.QUERY_DATASERVICE_UPDATE),
-    filter(
-      (action): action is IUpdateQueryDataService =>
-        action.type === QueryActionTypes.QUERY_DATASERVICE_UPDATE
+    ofType<QueryAction | QueryDescribeAction, IUpdateQueryDataService>(
+      QueryActionTypes.QUERY_DATASERVICE_UPDATE
     ),
     mergeMap(({ elementId, targetDataViewId }) => {
       if (targetDataViewId == null) {

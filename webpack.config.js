@@ -14,7 +14,6 @@ module.exports = {
   // Enable sourcemaps for debugging webpack's output.
   devtool: "inline-source-map",
   devServer: {
-    host: "localhost",
     contentBase: "./public",
     hot: true,
     open: true,

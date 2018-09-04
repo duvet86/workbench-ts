@@ -1,5 +1,5 @@
 import { Action } from "redux";
-import { ActionsObservable } from "redux-observable";
+import { ActionsObservable, ofType } from "redux-observable";
 import { of, Observable } from "rxjs";
 import { filter, switchMap } from "rxjs/operators";
 
@@ -20,10 +20,8 @@ export const navigationTabsEpic = (
   action$: ActionsObservable<ILocationChangeAction | TabsAction>
 ): Observable<TabsAction> =>
   action$.pipe(
-    // ofType<ILocationChangeAction>(LOCATION_CHANGE),
-    filter(
-      (action): action is ILocationChangeAction =>
-        action.type === LOCATION_CHANGE
+    ofType<ILocationChangeAction | TabsAction, ILocationChangeAction>(
+      LOCATION_CHANGE
     ),
     filter(
       ({
