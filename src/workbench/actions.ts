@@ -175,7 +175,11 @@ export interface IUpdateQueryDataService extends Action {
 
 export type QueryAction = IAddQuery | IUpdateQueryDataService;
 
-export const addQuery = (elementId: number): IAddQuery => ({
+export const addQuery = (
+  elementId: number,
+  x: number,
+  y: number
+): IAddQuery => ({
   type: QueryActionTypes.QUERY_ADD,
   elementId,
   query: {
@@ -192,8 +196,8 @@ export const addQuery = (elementId: number): IAddQuery => ({
     ChangeNumber: 0,
     ForceRun: false,
     State: "New",
-    LayoutX: 0,
-    LayoutY: 0
+    LayoutX: x,
+    LayoutY: y
   }
 });
 

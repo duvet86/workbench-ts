@@ -7,7 +7,7 @@ import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
 import StorageIcon from "@material-ui/icons/Storage";
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   targetDataViewId: string;
   dataServices: IOption[];
   handleChangeDataService: (selectedDataServiceId: string) => void;
@@ -19,22 +19,22 @@ const styles = createStyles({
   }
 });
 
+const OptionsIcon = withStyles(styles)(({ classes }) => (
+  <StorageIcon className={classes.iconColour} />
+));
+
 const SourceSelector: SFC<IProps> = ({
-  classes,
   targetDataViewId,
   dataServices,
   handleChangeDataService
 }) => (
-  <div>SourceSelector</div>
-  // <SelectInput
-  //   noClear
-  //   OptionsIcon={StorageIcon}
-  //   iconClassName={classes.iconColour}
-  //   inputLabel="Click here to select a source..."
-  //   value={targetDataViewId.toString()}
-  //   options={dataServices}
-  //   handleChange={handleChangeDataService}
-  // />
+  <SelectInput
+    OptionsIcon={OptionsIcon}
+    inputLabel="Click here to select a source..."
+    value={targetDataViewId}
+    options={dataServices}
+    handleChange={handleChangeDataService}
+  />
 );
 
-export default withStyles(styles)(SourceSelector);
+export default SourceSelector;

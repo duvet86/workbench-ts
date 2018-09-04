@@ -1,260 +1,240 @@
-import React, { ComponentType, SFC } from "react";
+import React from "react";
+import VirtualList from "react-tiny-virtual-list";
 
-import { createStyles, Theme, withStyles } from "@material-ui/core/styles";
+import {
+  createStyles,
+  Theme,
+  withStyles,
+  WithStyles
+} from "@material-ui/core/styles";
 
 import FormControl from "@material-ui/core/FormControl";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
+import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import { SvgIconProps } from "@material-ui/core/SvgIcon";
 import Typography from "@material-ui/core/Typography";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import IconButton from "@material-ui/core/IconButton";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import { SvgIconProps } from "@material-ui/core/SvgIcon";
 
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import ClearIcon from "@material-ui/icons/Clear";
 
-import VirtualizedSelect, {
-  VirtualizedOptionRenderOptions
-} from "react-virtualized-select";
-
-interface IArrowRendererProps {
-  isOpen: boolean;
-}
-
-interface ISelectInput {
-  classes: any;
-  options: IOptionRenderer[];
-  OptionsIcon: ComponentType<SvgIconProps>;
-  iconClassName?: string;
-  value: string;
-  inputLabel: string;
-  helperText?: string;
-  handleChange: any;
-  noClear?: boolean;
-}
-
-interface IOptionRenderer {
+interface IOption {
   label: string;
 }
 
-const ITEM_HEIGHT = 48;
-const HEIGHT_MULTIPLIER = 8;
+interface IProps<T extends IOption> extends WithStyles<typeof styles> {
+  value: string;
+  options: T[];
+  handleChange: (option: T) => void;
+  OptionsIcon?: React.ComponentType<SvgIconProps>;
+  inputLabel?: string;
+  helperText?: string;
+  noClear?: boolean;
+}
 
-const styles = (theme: Theme) =>
+interface IState<T extends IOption> {
+  anchorEl?: HTMLElement;
+  label: string;
+  selectdIndex?: number;
+  options: T[];
+}
+
+const styles = ({ spacing: { unit } }: Theme) =>
   createStyles({
-    root: {
-      padding: "0 0 0 10px"
+    menuItem: {
+      padding: 0
     },
-    "@global": {
-      ".Select-control": {
-        display: "flex",
-        alignItems: "center",
-        border: 0,
-        height: "auto",
-        background: "transparent",
-        "&:hover": {
-          boxShadow: "none"
-        }
-      },
-      ".Select-multi-value-wrapper": {
-        flexGrow: 1,
-        display: "flex",
-        flexWrap: "wrap"
-      },
-      ".Select--multi .Select-input": {
-        margin: 0
-      },
-      ".Select.has-value.is-clearable.Select--single > .Select-control .Select-value": {
-        padding: 0
-      },
-      ".Select-noresults": {
-        padding: theme.spacing.unit * 2
-      },
-      ".Select-input": {
-        display: "inline-flex !important",
-        padding: 0,
-        height: "auto"
-      },
-      ".Select-input input": {
-        background: "transparent",
-        border: 0,
-        padding: 0,
-        cursor: "default",
-        display: "inline-block",
-        fontFamily: "inherit",
-        fontSize: "inherit",
-        margin: 0,
-        outline: 0
-      },
-      ".Select-placeholder, .Select--single .Select-value": {
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        display: "flex",
-        alignItems: "center",
-        fontFamily: theme.typography.fontFamily,
-        fontSize: theme.typography.pxToRem(16),
-        padding: 0
-      },
-      ".Select-placeholder": {
-        opacity: 0.42,
-        color: theme.palette.common.black
-      },
-      ".Select-menu-outer": {
-        backgroundColor: theme.palette.background.paper,
-        boxShadow: theme.shadows[2],
-        position: "absolute",
-        left: 0,
-        top: `calc(100% + ${theme.spacing.unit}px)`,
-        width: "100%",
-        zIndex: 2,
-        maxHeight: ITEM_HEIGHT * HEIGHT_MULTIPLIER
-      },
-      ".Select.is-focused:not(.is-open) > .Select-control": {
-        boxShadow: "none"
-      },
-      ".Select-menu": {
-        maxHeight: ITEM_HEIGHT * HEIGHT_MULTIPLIER,
-        overflowY: "auto"
-      },
-      ".Select-menu div": {
-        boxSizing: "content-box"
-      },
-      ".Select-arrow-zone, .Select-clear-zone": {
-        color: theme.palette.action.active,
-        cursor: "pointer",
-        height: 21,
-        width: 21,
-        zIndex: 1
-      },
-      // Only for screen readers. We can't use display none.
-      ".Select-aria-only": {
-        position: "absolute",
-        overflow: "hidden",
-        clip: "rect(0 0 0 0)",
-        height: 1,
-        width: 1,
-        margin: -1
-      }
+    labelContainer: {
+      padding: unit * 2
     }
   });
 
-const OptionRenderer = (
-  classes: { root: string },
-  OptionsIcon: ComponentType<SvgIconProps>,
-  iconClassName: string
-) => ({
-  focusOption,
-  key,
-  option,
-  selectValue,
-  style,
-  valueArray
-}: VirtualizedOptionRenderOptions<IOptionRenderer>) => {
-  const handleClick = () => {
-    selectValue(option);
+function renderer<T extends IOption>({
+  classes,
+  options,
+  handleClick,
+  OptionsIcon
+}: {
+  classes: {
+    menuItem: string;
+    labelContainer: string;
   };
-  const handleFocus = () => focusOption(option);
-  const isSelected = valueArray.indexOf(option) >= 0;
-
-  return (
+  options: T[];
+  handleClick: (
+    index: number,
+    options: T
+  ) => React.MouseEventHandler<HTMLButtonElement>;
+  OptionsIcon?: React.ComponentType<SvgIconProps>;
+}) {
+  return ({ index, style }: { index: number; style: any }) => (
     <MenuItem
-      key={key}
-      onFocus={handleFocus}
-      selected={isSelected}
-      onClick={handleClick}
+      key={index}
       component="div"
-      style={{
-        fontWeight: isSelected ? 500 : 400,
-        ...style
-      }}
-      className={classes.root}
+      style={style}
+      className={classes.menuItem}
+      onClick={handleClick(index, options[index])}
     >
       {OptionsIcon && (
         <ListItemIcon>
-          <OptionsIcon className={iconClassName} />
+          <OptionsIcon />
         </ListItemIcon>
       )}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center"
-        }}
-      >
-        <div style={{ marginRight: 15 }}>{option.label}</div>
-        <Typography variant="caption">secondaryLabel</Typography>
-      </div>
+      <div className={classes.labelContainer}>{options[index].label}</div>
     </MenuItem>
   );
-};
+}
 
-const ArrowRenderer: SFC<IArrowRendererProps> = ({ isOpen }) =>
-  isOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />;
+class SelectInput<T extends IOption> extends React.Component<
+  IProps<T>,
+  IState<T>
+> {
+  private textInput: React.RefObject<any>;
 
-const NoClearRenderer = () => <span />;
-const ClearRenderer = () => <ClearIcon />;
+  constructor(props: any) {
+    super(props);
+    this.textInput = React.createRef();
 
-const SelectedValueComponent = (
-  OptionsIcon: ComponentType<SvgIconProps>,
-  iconClassName: string
-) => ({ children }: { children: React.ReactNode }) => (
-  <div className="Select-value">
-    {OptionsIcon && (
-      <ListItemIcon>
-        <OptionsIcon className={iconClassName} />
-      </ListItemIcon>
-    )}
-    {children}
-  </div>
-);
+    this.state = {
+      anchorEl: undefined,
+      selectdIndex: undefined,
+      label: this.props.value,
+      options: [...this.props.options]
+    };
+  }
 
-// TODO: fix me.
-const SelectWrapped: SFC<any> = ({
-  classes,
-  noClear,
-  OptionsIcon,
-  iconClassName,
-  ...rest
-}) => (
-  <VirtualizedSelect
-    maxHeight={ITEM_HEIGHT * HEIGHT_MULTIPLIER}
-    optionRenderer={OptionRenderer(classes, OptionsIcon, iconClassName)}
-    noResultsText={<Typography>{"No results found"}</Typography>}
-    arrowRenderer={ArrowRenderer}
-    clearRenderer={noClear ? NoClearRenderer : ClearRenderer}
-    valueComponent={SelectedValueComponent(OptionsIcon, iconClassName)}
-    {...rest}
-  />
-);
+  public render() {
+    const { anchorEl } = this.state;
+    const {
+      inputLabel,
+      helperText,
+      OptionsIcon,
+      noClear,
+      classes
+    } = this.props;
 
-const SelectInput: SFC<ISelectInput> = ({
-  value,
-  inputLabel,
-  helperText,
-  handleChange,
-  ...props
-}) => (
-  <FormControl fullWidth>
-    {inputLabel && <InputLabel htmlFor="select-input">{inputLabel}</InputLabel>}
-    <Input
-      fullWidth
-      inputComponent={SelectWrapped}
-      value={value}
-      onChange={handleChange}
-      id="select-input"
-      name="select-input"
-      placeholder=""
-      // inputProps={{
-      //   simpleValue: true,
-      //   ...props
-      // }}
-    />
-    {helperText && <FormHelperText>{helperText}</FormHelperText>}
-  </FormControl>
-);
+    return (
+      <div ref={this.textInput}>
+        <FormControl fullWidth>
+          {inputLabel && (
+            <InputLabel htmlFor="select-input">{inputLabel}</InputLabel>
+          )}
+          <Input
+            fullWidth
+            value={this.state.label}
+            onClick={this.handleInputClick}
+            onChange={this.handleInputChange}
+            endAdornment={
+              !noClear && (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="Clear Selected"
+                    onClick={this.handleClickClearSelected}
+                    onMouseDown={this.handleMouseDownPassword}
+                  >
+                    <ClearIcon />
+                  </IconButton>
+                </InputAdornment>
+              )
+            }
+          />
+          {this.textInput.current && (
+            <Menu
+              disableAutoFocus
+              disableAutoFocusItem
+              disableRestoreFocus
+              MenuListProps={{
+                component: "div",
+                disablePadding: true
+              }}
+              getContentAnchorEl={null}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "center"
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "center"
+              }}
+              anchorEl={anchorEl}
+              open={!!anchorEl}
+              onClose={this.handleClose}
+            >
+              <VirtualList
+                width={this.textInput.current.offsetWidth}
+                height={Math.min(this.state.options.length * 40, 300)}
+                itemCount={this.state.options.length}
+                itemSize={40}
+                renderItem={renderer<T>({
+                  classes: this.props.classes,
+                  options: this.state.options,
+                  handleClick: this.handleOptionClick,
+                  OptionsIcon
+                })}
+              />
+              {this.state.options.length === 0 ? (
+                <Typography
+                  color="textSecondary"
+                  className={this.props.classes.labelContainer}
+                >
+                  No items found
+                </Typography>
+              ) : null}
+            </Menu>
+          )}
+          {helperText && <FormHelperText>{helperText}</FormHelperText>}
+        </FormControl>
+      </div>
+    );
+  }
+
+  private handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLDivElement>
+  ) => {
+    event.preventDefault();
+  };
+
+  private handleClickClearSelected = () => {
+    this.setState({
+      options: [...this.props.options],
+      label: "",
+      anchorEl: undefined
+    });
+  };
+
+  private handleInputClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    this.setState({
+      options: [...this.props.options],
+      anchorEl: event.currentTarget
+    });
+  };
+
+  private handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({
+      options: this.props.options.filter(({ label }) =>
+        label.includes(event.target.value)
+      ),
+      label: event.target.value
+    });
+  };
+
+  private handleOptionClick = (index: number, option: T) => () => {
+    this.setState({
+      selectdIndex: index,
+      label: option.label,
+      anchorEl: undefined
+    });
+    this.props.handleChange(option);
+  };
+
+  private handleClose = () => {
+    this.setState({
+      anchorEl: undefined
+    });
+  };
+}
 
 export default withStyles(styles)(SelectInput);

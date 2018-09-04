@@ -153,10 +153,11 @@ class CanvasContainer extends Component<Props, ILocalState> {
     }
 
     const operatorServiceId = event.dataTransfer.getData("ELEMENT");
+    const points = this.diagramEngine.getRelativeMousePoint(event);
 
     switch (operatorServiceId) {
       case ElementType.QUERY:
-        dispatchAddQuery(graph.NextElementId);
+        dispatchAddQuery(graph.NextElementId, points.x, points.y);
         break;
       default:
         break;
@@ -181,7 +182,8 @@ const mapDispatchToProps = (
   dispatchSessionRequest: (dataViewId?: string) => {
     dispatch(sessionRequest(dataViewId));
   },
-  dispatchAddQuery: (elementId: number) => dispatch(addQuery(elementId))
+  dispatchAddQuery: (elementId: number, x: number, y: number) =>
+    dispatch(addQuery(elementId, x, y))
 });
 
 export default connect(
