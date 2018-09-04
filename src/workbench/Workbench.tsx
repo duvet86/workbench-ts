@@ -12,13 +12,13 @@ interface IProps extends WithStyles<typeof styles> {
 }
 
 const styles = createStyles({
-  canvasContainer: {
+  workbench: {
     height: "100%",
     width: "100%",
     border: "3px solid #ccc",
     backgroundColor: "#ccc"
   },
-  canvas: {
+  canvasContainer: {
     borderRadius: 5,
     height: "100%",
     width: "100%",
@@ -52,10 +52,10 @@ const styles = createStyles({
 });
 
 const Workbench: SFC<IProps> = ({ classes, match }) => (
-  <div className={classes.canvasContainer}>
+  <div className={classes.workbench}>
     <WorkbenchToolbar />
     <ConfigSwitchContainer />
-    <div className={classes.canvas}>
+    <div className={classes.canvasContainer}>
       <CanvasContainer match={match} />
     </div>
   </div>
