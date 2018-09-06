@@ -2,7 +2,8 @@ import React, { ChangeEventHandler, SFC } from "react";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
-import { AutoSizer, List as VirtualizedList } from "react-virtualized";
+// import { AutoSizer, List as VirtualizedList } from "react-virtualized";
+import VirtualList from "react-tiny-virtual-list";
 
 import { IOption } from "common/select/types";
 
@@ -82,7 +83,15 @@ const SearchableList: SFC<IProps> = ({
           }
         />
       </FormControl>
-      <AutoSizer disableHeight>
+      <VirtualList
+        width="100%"
+        height={245}
+        itemCount={searchableItems.length}
+        itemSize={41}
+        renderItem={rowRenderer(classes, searchableItems, onItemClick)}
+      />
+      ,
+      {/* <AutoSizer disableHeight>
         {({ width }) => (
           <VirtualizedList
             width={width}
@@ -92,7 +101,7 @@ const SearchableList: SFC<IProps> = ({
             rowRenderer={rowRenderer(classes, searchableItems, onItemClick)}
           />
         )}
-      </AutoSizer>
+      </AutoSizer> */}
     </List>
   </Paper>
 );

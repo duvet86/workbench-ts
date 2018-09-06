@@ -22,25 +22,26 @@ import { SvgIconProps } from "@material-ui/core/SvgIcon";
 
 import ClearIcon from "@material-ui/icons/Clear";
 
-interface IOption {
+export interface IOption {
   label: string;
+  value: string;
 }
 
-interface IProps<T extends IOption> extends WithStyles<typeof styles> {
+interface IProps extends WithStyles<typeof styles> {
   value: string;
-  options: T[];
-  handleChange: (option: T) => void;
+  options: IOption[];
+  handleChange: (option: IOption) => void;
   OptionsIcon?: React.ComponentType<SvgIconProps>;
   inputLabel?: string;
   helperText?: string;
   noClear?: boolean;
 }
 
-interface IState<T extends IOption> {
+interface IState {
   anchorEl?: HTMLElement;
   label: string;
   selectdIndex?: number;
-  options: T[];
+  options: IOption[];
 }
 
 const styles = ({ spacing: { unit } }: Theme) =>
@@ -53,7 +54,7 @@ const styles = ({ spacing: { unit } }: Theme) =>
     }
   });
 
-function renderer<T extends IOption>({
+function renderer({
   classes,
   options,
   handleClick,
@@ -63,10 +64,10 @@ function renderer<T extends IOption>({
     menuItem: string;
     labelContainer: string;
   };
-  options: T[];
+  options: IOption[];
   handleClick: (
     index: number,
-    options: T
+    option: IOption
   ) => React.MouseEventHandler<HTMLButtonElement>;
   OptionsIcon?: React.ComponentType<SvgIconProps>;
 }) {
@@ -88,33 +89,28 @@ function renderer<T extends IOption>({
   );
 }
 
-class SelectInput<T extends IOption> extends React.Component<
-  IProps<T>,
-  IState<T>
-> {
+class SelectInput extends React.Component<IProps, IState> {
   private textInput: React.RefObject<any>;
 
   constructor(props: any) {
     super(props);
     this.textInput = React.createRef();
 
+    const selectedOption = this.props.options.find(
+      ({ value }) => value === this.props.value
+    );
+
     this.state = {
       anchorEl: undefined,
       selectdIndex: undefined,
-      label: this.props.value,
+      label: (selectedOption && selectedOption.label) || "",
       options: [...this.props.options]
     };
   }
 
   public render() {
     const { anchorEl } = this.state;
-    const {
-      inputLabel,
-      helperText,
-      OptionsIcon,
-      noClear,
-      classes
-    } = this.props;
+    const { inputLabel, helperText, OptionsIcon, noClear } = this.props;
 
     return (
       <div ref={this.textInput}>
@@ -168,7 +164,7 @@ class SelectInput<T extends IOption> extends React.Component<
                 height={Math.min(this.state.options.length * 40, 300)}
                 itemCount={this.state.options.length}
                 itemSize={40}
-                renderItem={renderer<T>({
+                renderItem={renderer({
                   classes: this.props.classes,
                   options: this.state.options,
                   handleClick: this.handleOptionClick,
@@ -221,7 +217,7 @@ class SelectInput<T extends IOption> extends React.Component<
     });
   };
 
-  private handleOptionClick = (index: number, option: T) => () => {
+  private handleOptionClick = (index: number, option: IOption) => () => {
     this.setState({
       selectdIndex: index,
       label: option.label,

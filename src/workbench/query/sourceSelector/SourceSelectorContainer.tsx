@@ -10,6 +10,8 @@ import {
 } from "workbench/query/actions";
 import { getDataServices } from "workbench/query/selectors";
 
+import { IOption } from "common/select/SelectInput";
+
 import SourceSelector from "workbench/query/sourceSelector/SourceSelector";
 
 interface IOwnProps {
@@ -38,10 +40,10 @@ class SourceSelectorContainer extends Component<Props> {
     );
   }
 
-  private handleChangeDataService = (targetDataViewId: string) => {
+  private handleChangeDataService = (option: IOption) => {
     const { elementId, dispatchUpdateDataService } = this.props;
 
-    dispatchUpdateDataService(elementId, targetDataViewId);
+    dispatchUpdateDataService(elementId, option.value);
   };
 }
 
