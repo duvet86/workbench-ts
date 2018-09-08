@@ -1,9 +1,10 @@
 import React, { SFC } from "react";
 
-import { IOption } from "common/select/types";
-import SelectInput from "common/select/SelectInput";
+import SelectInputContainer, {
+  IOption
+} from "common/select/SelectInputContainer";
 
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import { createStyles, withStyles } from "@material-ui/core/styles";
 
 import StorageIcon from "@material-ui/icons/Storage";
 
@@ -28,7 +29,7 @@ const SourceSelector: SFC<IProps> = ({
   dataServices,
   handleChangeDataService
 }) => (
-  <SelectInput
+  <SelectInputContainer
     OptionsIcon={OptionsIcon}
     inputLabel="Click here to select a source..."
     value={targetDataViewId}

@@ -18,23 +18,24 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import IconButton from "@material-ui/core/IconButton";
 
+import SelectInputContainer, {
+  IOption
+} from "common/select/SelectInputContainer";
+
 import ConstraintIcon from "@material-ui/icons/FilterList";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-import SelectInput from "common/select/SelectInput";
+type ContraintTarget = IOption & IConstraint;
 
 const constraintIconColour = "#2c5367";
 
-interface IContraintTarget extends IConstraint {
-  displayValue: string;
-  label: string;
-}
-
 interface IProps extends WithStyles<typeof styles> {
-  contraintTargets: IContraintTarget[];
-  queryConstraints: IContraintTarget[];
+  contraintTargets: ContraintTarget[];
+  queryConstraints: ContraintTarget[];
   filterCapabilities: IFilterCapabilitiesDic;
-  handledAddQueryConstraint: (target: IContraintTarget) => void;
+  handledAddQueryConstraint: (
+    target: IOption
+  ) => (event: React.MouseEvent) => void;
   handledUpdateQueryConstraintType: (
     constraintId: number
   ) => React.ChangeEventHandler<HTMLSelectElement>;
@@ -89,9 +90,8 @@ const ConstraintSelector: SFC<IProps> = ({
 }) => (
   <Fragment>
     <div className={classes.constraintTargetSelect}>
-      <SelectInput
+      <SelectInputContainer
         OptionsIcon={ConstraintIcon}
-        iconClassName={classes.constraintIconColour}
         inputLabel="Contraint on..."
         options={contraintTargets}
         value={""}
@@ -100,7 +100,7 @@ const ConstraintSelector: SFC<IProps> = ({
     </div>
     {queryConstraints.length > 0 &&
       queryConstraints.map(
-        ({ ConstraintId, DataType, FilterType, displayValue, label }) => (
+        ({ ConstraintId, DataType, FilterType, value, label }) => (
           <Paper key={ConstraintId} className={classes.paper}>
             <ConstraintIcon className={classes.constraintIcon} />
             <Typography variant="subheading" className={classes.targetLabel}>
@@ -122,7 +122,7 @@ const ConstraintSelector: SFC<IProps> = ({
             <FormControl className={classes.valueInput}>
               <Input
                 autoFocus
-                value={displayValue}
+                value={value}
                 onChange={handledUpdateQueryConstraintValues(
                   ConstraintId,
                   DataType

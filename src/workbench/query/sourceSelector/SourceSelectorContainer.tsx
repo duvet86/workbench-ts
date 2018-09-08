@@ -10,7 +10,7 @@ import {
 } from "workbench/query/actions";
 import { getDataServices } from "workbench/query/selectors";
 
-import { IOption } from "common/select/SelectInput";
+import { IOption } from "common/select/SelectInputContainer";
 
 import SourceSelector from "workbench/query/sourceSelector/SourceSelector";
 

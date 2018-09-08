@@ -2,7 +2,7 @@ import React, { SFC } from "react";
 
 import { IColumn } from "workbench/types";
 import { IUdsColumnDescriptionDtc } from "workbench/query/types";
-import { IOption } from "common/select/types";
+import { IOption } from "common/select/SelectInputContainer";
 
 import Grid from "@material-ui/core/Grid";
 
@@ -11,8 +11,10 @@ import SearchableListContainer from "common/searchableList/SearchableListContain
 interface IProps {
   availableColumns: IUdsColumnDescriptionDtc[];
   selectedColumns: IColumn[];
-  handleAddQueryColumn: (column: IOption) => void;
-  handleRemoveQueryColumn: (column: IOption) => void;
+  handleAddQueryColumn: (column: IOption) => (event: React.MouseEvent) => void;
+  handleRemoveQueryColumn: (
+    column: IOption
+  ) => (event: React.MouseEvent) => void;
 }
 
 const ColumnsSelector: SFC<IProps> = ({
@@ -29,7 +31,7 @@ const ColumnsSelector: SFC<IProps> = ({
           label: Label,
           value: Label
         }))}
-        onItemClick={handleAddQueryColumn}
+        handleItemClick={handleAddQueryColumn}
       />
     </Grid>
     <Grid item xs={6}>
@@ -39,7 +41,7 @@ const ColumnsSelector: SFC<IProps> = ({
           label: Label,
           value: Label
         }))}
-        onItemClick={handleRemoveQueryColumn}
+        handleItemClick={handleRemoveQueryColumn}
       />
     </Grid>
   </Grid>

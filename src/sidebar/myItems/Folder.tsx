@@ -24,7 +24,7 @@ interface IProps extends WithStyles<typeof styles> {
   label: string;
   handleClick: () => void;
   expanded: boolean;
-  children: IFolderChild[];
+  childFolders: IFolderChild[];
 }
 
 const styles = (theme: Theme) =>
@@ -41,7 +41,7 @@ const styles = (theme: Theme) =>
 const Folder: SFC<IProps> = ({
   classes,
   label,
-  children,
+  childFolders,
   handleClick,
   expanded
 }) => (
@@ -61,14 +61,14 @@ const Folder: SFC<IProps> = ({
     </ListItem>
     <Collapse in={expanded} timeout="auto" unmountOnExit>
       <List disablePadding component="nav">
-        {children.map(
+        {childFolders.map(
           ({ ChildType, ChildFolderId, ChildFolder, ChildItemId, ChildItem }) =>
             ChildType === "F" ? (
               <Folder
                 key={ChildFolderId}
                 classes={classes}
                 label={ChildFolder.Label}
-                children={ChildFolder.Children}
+                childFolders={ChildFolder.Children}
                 handleClick={handleClick}
                 expanded={false}
               />

@@ -1,11 +1,15 @@
 import React, { ChangeEventHandler, SFC } from "react";
 
+import {
+  AutoSizer,
+  List as VirtualizedList,
+  ListRowProps
+} from "react-virtualized";
+
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
-// import { AutoSizer, List as VirtualizedList } from "react-virtualized";
-import VirtualList from "react-tiny-virtual-list";
-
-import { IOption } from "common/select/types";
+import { IOption } from "common/select/SelectInputContainer";
+import NoOption from "common/select/NoOption";
 
 import FormControl from "@material-ui/core/FormControl";
 import IconButton from "@material-ui/core/IconButton";
@@ -18,38 +22,40 @@ import Typography from "@material-ui/core/Typography";
 
 import ClearIcon from "@material-ui/icons/Clear";
 
-import rowRenderer from "common/searchableList/rowRenderer";
+import Row from "common/searchableList/Row";
 
 interface IProps extends WithStyles<typeof styles> {
   label: string;
   totItems: number;
   searchableItems: IOption[];
   searchString: string;
-  onItemClick: (column: IOption) => void;
+  handleItemClick: (column: IOption) => (event: React.MouseEvent) => void;
   handleChange: ChangeEventHandler<HTMLInputElement>;
   handleClickClearIcon: () => void;
 }
 
 const styles = createStyles({
-  iconColour: {
-    fill: "#003b86"
-  },
   list: {
     height: "100%"
-  },
-  listItem: {
-    paddingLeft: 15
-  },
-  listItemText: {
-    display: "flex"
-  },
-  listItemTextPrimary: {
-    flexBasis: "35%"
   },
   paper: {
     padding: 10
   }
 });
+
+const noRowsRenderer = () => <NoOption />;
+
+const rowRenderer = (
+  searchableItems: IOption[],
+  handleItemClick: (column: IOption) => (event: React.MouseEvent) => void
+) => ({ index, key, style }: ListRowProps) => {
+  const option = searchableItems[index];
+  const handleClick = handleItemClick(option);
+
+  return (
+    <Row key={key} style={style} option={option} handleClick={handleClick} />
+  );
+};
 
 const SearchableList: SFC<IProps> = ({
   classes,
@@ -57,7 +63,7 @@ const SearchableList: SFC<IProps> = ({
   totItems,
   searchableItems,
   searchString,
-  onItemClick,
+  handleItemClick,
   handleChange,
   handleClickClearIcon
 }) => (
@@ -83,25 +89,18 @@ const SearchableList: SFC<IProps> = ({
           }
         />
       </FormControl>
-      <VirtualList
-        width="100%"
-        height={245}
-        itemCount={searchableItems.length}
-        itemSize={41}
-        renderItem={rowRenderer(classes, searchableItems, onItemClick)}
-      />
-      ,
-      {/* <AutoSizer disableHeight>
+      <AutoSizer disableHeight>
         {({ width }) => (
           <VirtualizedList
             width={width}
             height={245}
             rowCount={searchableItems.length}
             rowHeight={41}
-            rowRenderer={rowRenderer(classes, searchableItems, onItemClick)}
+            rowRenderer={rowRenderer(searchableItems, handleItemClick)}
+            noRowsRenderer={noRowsRenderer}
           />
         )}
-      </AutoSizer> */}
+      </AutoSizer>
     </List>
   </Paper>
 );

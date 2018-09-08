@@ -1,49 +1,46 @@
 import React, { ChangeEvent, Component } from "react";
+import { createSelector } from "reselect";
 
-import { IOption } from "common/select/types";
+import { IOption } from "common/select/SelectInputContainer";
 
 import SearchableList from "common/searchableList/SearchableList";
 
 interface IProps {
   label: string;
   items: IOption[];
-  onItemClick: (item: IOption) => void;
+  handleItemClick: (item: IOption) => (event: React.MouseEvent) => void;
 }
 
 interface IState {
   searchString: string;
-  searchableItems: IOption[];
 }
 
-class SearchableListContainer extends Component<IProps, IState> {
-  public static getDerivedStateFromProps(nextProps: IProps, prevState: IState) {
-    if (nextProps.items.length !== prevState.searchableItems.length) {
-      return {
-        searchableItems: nextProps.items
-      };
-    }
-    return null;
-  }
+const filterTextSelector = (state: IState) => state.searchString;
+const itemsSelector = (_: IState, props: IProps) => props.items;
 
-  constructor(props: IProps) {
-    super(props);
-    this.state = {
-      searchString: "",
-      searchableItems: props.items
-    };
-  }
+export default class SearchableListContainer extends Component<IProps, IState> {
+  public state = {
+    searchString: ""
+  };
+
+  private filterList = createSelector(
+    filterTextSelector,
+    itemsSelector,
+    (filterText, items) => items.filter(item => item.label.includes(filterText))
+  );
 
   public render() {
-    const { label, items, onItemClick } = this.props;
-    const { searchString, searchableItems } = this.state;
+    const { label, handleItemClick } = this.props;
+    const { searchString } = this.state;
+    const filteredList = this.filterList(this.state, this.props);
 
     return (
       <SearchableList
         label={label}
-        totItems={items.length}
-        searchableItems={searchableItems}
+        totItems={filteredList.length}
+        searchableItems={filteredList}
         searchString={searchString}
-        onItemClick={onItemClick}
+        handleItemClick={handleItemClick}
         handleChange={this.handleChange}
         handleClickClearIcon={this.handleClickClearIcon}
       />
@@ -52,21 +49,13 @@ class SearchableListContainer extends Component<IProps, IState> {
 
   private handleClickClearIcon = () => {
     this.setState({
-      searchString: "",
-      searchableItems: this.props.items
+      searchString: ""
     });
   };
 
   private handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     this.setState({
-      searchString: event.target.value,
-      searchableItems: event.target.value
-        ? this.props.items.filter(({ label }) =>
-            label.toLowerCase().includes(event.target.value.toLowerCase())
-          )
-        : this.props.items
+      searchString: event.target.value
     });
   };
 }
-
-export default SearchableListContainer;

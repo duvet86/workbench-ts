@@ -13,7 +13,7 @@ import {
   getQueryColumns
 } from "workbench/query/selectors";
 import { IColumn } from "workbench/types";
-import { IOption } from "common/select/types";
+import { IOption } from "common/select/SelectInputContainer";
 
 import ColumnsSelector from "workbench/query/columnSelector/ColumnsSelector";
 
@@ -39,7 +39,9 @@ class ColumnsSelectorContainer extends Component<Props> {
     );
   }
 
-  private handleAddQueryColumn = ({ label }: IOption) => {
+  private handleAddQueryColumn = ({ label }: IOption) => (
+    _: React.MouseEvent
+  ) => {
     const { elementId, dispatchAddQueryColumn } = this.props;
     const queryColumn = {
       ColumnName: label,
@@ -49,7 +51,9 @@ class ColumnsSelectorContainer extends Component<Props> {
     dispatchAddQueryColumn(elementId, queryColumn);
   };
 
-  private handleRemoveQueryColumn = ({ label }: IOption) => {
+  private handleRemoveQueryColumn = ({ label }: IOption) => (
+    _: React.MouseEvent
+  ) => {
     const { elementId, dispatchRemoveQueryColumn } = this.props;
     dispatchRemoveQueryColumn(elementId, label);
   };

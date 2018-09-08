@@ -42,7 +42,7 @@ const MyItemsList: SFC<IProps> = ({ classes, items, location }) => (
           <FolderContainer
             key={ChildFolderId}
             label={ChildFolder.Label}
-            children={ChildFolder.Children}
+            childFolders={ChildFolder.Children}
             location={location}
           />
         ) : (

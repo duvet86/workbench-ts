@@ -8,7 +8,6 @@ import {
 } from "@material-ui/core/styles";
 
 import Avatar from "@material-ui/core/Avatar";
-import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -60,7 +59,7 @@ const Operator: SFC<IProps> = ({
   operatorServiceId
 }) => (
   <Fragment>
-    <ListItem classes={{ root: classes.listItemRoot }}>
+    <ListItem divider classes={{ root: classes.listItemRoot }}>
       <ListItemText
         primary={label}
         secondary={description}
@@ -85,7 +84,6 @@ const Operator: SFC<IProps> = ({
         </Avatar>
       </div>
     </ListItem>
-    <Divider />
   </Fragment>
 );
 

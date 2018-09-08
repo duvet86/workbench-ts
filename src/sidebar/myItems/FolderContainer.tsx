@@ -8,7 +8,7 @@ import Folder from "sidebar/myItems/Folder";
 interface IProps {
   label: string;
   location: Location;
-  children: IFolderChild[];
+  childFolders: IFolderChild[];
 }
 
 interface IState {
@@ -21,12 +21,12 @@ class FolderContainer extends Component<IProps, IState> {
   };
 
   public componentDidMount() {
-    const { children, location } = this.props;
-    if (!children || children.length === 0) {
+    const { childFolders, location } = this.props;
+    if (!childFolders || childFolders.length === 0) {
       return;
     }
 
-    const match = children.some(
+    const match = childFolders.some(
       c =>
         c.ChildType === "I" &&
         `/workbench/${c.ChildItemId}` === location.pathname
@@ -38,17 +38,17 @@ class FolderContainer extends Component<IProps, IState> {
   }
 
   public render() {
-    const { label, children } = this.props;
+    const { label, childFolders } = this.props;
     const { expanded } = this.state;
 
-    if (children.length === 0) {
+    if (childFolders.length === 0) {
       return null;
     }
 
     return (
       <Folder
         label={label}
-        children={children}
+        childFolders={childFolders}
         handleClick={this.handleClick}
         expanded={expanded}
       />

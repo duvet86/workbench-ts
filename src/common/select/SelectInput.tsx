@@ -1,236 +1,138 @@
 import React from "react";
-import VirtualList from "react-tiny-virtual-list";
 
-import {
-  createStyles,
-  Theme,
-  withStyles,
-  WithStyles
-} from "@material-ui/core/styles";
+import { IOption } from "common/select/SelectInputContainer";
+
+import { List as VirtualizedList, ListRowProps } from "react-virtualized";
 
 import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
 import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import Typography from "@material-ui/core/Typography";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import { SvgIconProps } from "@material-ui/core/SvgIcon";
+
+import Option from "common/select/Option";
+import NoOption from "common/select/NoOption";
 
 import ClearIcon from "@material-ui/icons/Clear";
 
-export interface IOption {
+interface IProps {
   label: string;
-  value: string;
-}
-
-interface IProps extends WithStyles<typeof styles> {
-  value: string;
   options: IOption[];
-  handleChange: (option: IOption) => void;
+  containerRef: React.RefObject<HTMLDivElement>;
+  anchorEl?: HTMLElement;
   OptionsIcon?: React.ComponentType<SvgIconProps>;
   inputLabel?: string;
   helperText?: string;
   noClear?: boolean;
+  handleOptionClick: (option: IOption) => (event: React.MouseEvent) => void;
+  handleInputClick: (event: React.MouseEvent<HTMLDivElement>) => void;
+  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleClickClearSelected: () => void;
+  handleMouseDownPassword: (event: React.MouseEvent<HTMLDivElement>) => void;
+  handleClose: () => void;
 }
 
-interface IState {
-  anchorEl?: HTMLElement;
-  label: string;
-  selectdIndex?: number;
-  options: IOption[];
-}
+const rowRenderer = (
+  options: IOption[],
+  handleOptionClick: (option: IOption) => (event: React.MouseEvent) => void,
+  OptionsIcon?: React.ComponentType<SvgIconProps>
+) => ({ index, key, style }: ListRowProps) => {
+  const option = options[index];
+  const handleClick = handleOptionClick(option);
 
-const styles = ({ spacing: { unit } }: Theme) =>
-  createStyles({
-    menuItem: {
-      padding: 0
-    },
-    labelContainer: {
-      padding: unit * 2
-    }
-  });
-
-function renderer({
-  classes,
-  options,
-  handleClick,
-  OptionsIcon
-}: {
-  classes: {
-    menuItem: string;
-    labelContainer: string;
-  };
-  options: IOption[];
-  handleClick: (
-    index: number,
-    option: IOption
-  ) => React.MouseEventHandler<HTMLButtonElement>;
-  OptionsIcon?: React.ComponentType<SvgIconProps>;
-}) {
-  return ({ index, style }: { index: number; style: any }) => (
-    <MenuItem
-      key={index}
-      component="div"
+  return (
+    <Option
+      key={key}
       style={style}
-      className={classes.menuItem}
-      onClick={handleClick(index, options[index])}
-    >
-      {OptionsIcon && (
-        <ListItemIcon>
-          <OptionsIcon />
-        </ListItemIcon>
-      )}
-      <div className={classes.labelContainer}>{options[index].label}</div>
-    </MenuItem>
+      option={option}
+      handleClick={handleClick}
+      OptionsIcon={OptionsIcon}
+    />
   );
-}
+};
 
-class SelectInput extends React.Component<IProps, IState> {
-  private textInput: React.RefObject<any>;
+const noRowsRenderer = () => <NoOption />;
 
-  constructor(props: any) {
-    super(props);
-    this.textInput = React.createRef();
-
-    const selectedOption = this.props.options.find(
-      ({ value }) => value === this.props.value
-    );
-
-    this.state = {
-      anchorEl: undefined,
-      selectdIndex: undefined,
-      label: (selectedOption && selectedOption.label) || "",
-      options: [...this.props.options]
-    };
-  }
-
-  public render() {
-    const { anchorEl } = this.state;
-    const { inputLabel, helperText, OptionsIcon, noClear } = this.props;
-
-    return (
-      <div ref={this.textInput}>
-        <FormControl fullWidth>
-          {inputLabel && (
-            <InputLabel htmlFor="select-input">{inputLabel}</InputLabel>
-          )}
-          <Input
-            fullWidth
-            value={this.state.label}
-            onClick={this.handleInputClick}
-            onChange={this.handleInputChange}
-            endAdornment={
-              !noClear && (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="Clear Selected"
-                    onClick={this.handleClickClearSelected}
-                    onMouseDown={this.handleMouseDownPassword}
-                  >
-                    <ClearIcon />
-                  </IconButton>
-                </InputAdornment>
-              )
+const SelectInput: React.SFC<IProps> = ({
+  containerRef,
+  inputLabel,
+  helperText,
+  label,
+  options,
+  handleInputClick,
+  handleInputChange,
+  noClear,
+  handleClickClearSelected,
+  handleMouseDownPassword,
+  anchorEl,
+  handleClose,
+  handleOptionClick,
+  OptionsIcon
+}) => (
+  <div ref={containerRef}>
+    <FormControl fullWidth>
+      {inputLabel && (
+        <InputLabel htmlFor="select-input">{inputLabel}</InputLabel>
+      )}
+      <Input
+        fullWidth
+        value={label}
+        onClick={handleInputClick}
+        onChange={handleInputChange}
+        endAdornment={
+          !noClear && (
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="Clear Selected"
+                onClick={handleClickClearSelected}
+                onMouseDown={handleMouseDownPassword}
+              >
+                <ClearIcon />
+              </IconButton>
+            </InputAdornment>
+          )
+        }
+      />
+      <Menu
+        disableAutoFocus
+        disableAutoFocusItem
+        disableRestoreFocus
+        MenuListProps={{
+          component: "div",
+          disablePadding: true
+        }}
+        getContentAnchorEl={null}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center"
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "center"
+        }}
+        anchorEl={anchorEl}
+        open={!!anchorEl}
+        onClose={handleClose}
+      >
+        {containerRef.current && (
+          <VirtualizedList
+            width={containerRef.current.offsetWidth}
+            height={
+              options.length === 0 ? 45 : Math.min(options.length * 40, 300)
             }
+            rowCount={options.length}
+            rowHeight={40}
+            rowRenderer={rowRenderer(options, handleOptionClick, OptionsIcon)}
+            noRowsRenderer={noRowsRenderer}
           />
-          {this.textInput.current && (
-            <Menu
-              disableAutoFocus
-              disableAutoFocusItem
-              disableRestoreFocus
-              MenuListProps={{
-                component: "div",
-                disablePadding: true
-              }}
-              getContentAnchorEl={null}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "center"
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "center"
-              }}
-              anchorEl={anchorEl}
-              open={!!anchorEl}
-              onClose={this.handleClose}
-            >
-              <VirtualList
-                width={this.textInput.current.offsetWidth}
-                height={Math.min(this.state.options.length * 40, 300)}
-                itemCount={this.state.options.length}
-                itemSize={40}
-                renderItem={renderer({
-                  classes: this.props.classes,
-                  options: this.state.options,
-                  handleClick: this.handleOptionClick,
-                  OptionsIcon
-                })}
-              />
-              {this.state.options.length === 0 ? (
-                <Typography
-                  color="textSecondary"
-                  className={this.props.classes.labelContainer}
-                >
-                  No items found
-                </Typography>
-              ) : null}
-            </Menu>
-          )}
-          {helperText && <FormHelperText>{helperText}</FormHelperText>}
-        </FormControl>
-      </div>
-    );
-  }
+        )}
+      </Menu>
+      {helperText && <FormHelperText>{helperText}</FormHelperText>}
+    </FormControl>
+  </div>
+);
 
-  private handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLDivElement>
-  ) => {
-    event.preventDefault();
-  };
-
-  private handleClickClearSelected = () => {
-    this.setState({
-      options: [...this.props.options],
-      label: "",
-      anchorEl: undefined
-    });
-  };
-
-  private handleInputClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    this.setState({
-      options: [...this.props.options],
-      anchorEl: event.currentTarget
-    });
-  };
-
-  private handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      options: this.props.options.filter(({ label }) =>
-        label.includes(event.target.value)
-      ),
-      label: event.target.value
-    });
-  };
-
-  private handleOptionClick = (index: number, option: IOption) => () => {
-    this.setState({
-      selectdIndex: index,
-      label: option.label,
-      anchorEl: undefined
-    });
-    this.props.handleChange(option);
-  };
-
-  private handleClose = () => {
-    this.setState({
-      anchorEl: undefined
-    });
-  };
-}
-
-export default withStyles(styles)(SelectInput);
+export default SelectInput;
