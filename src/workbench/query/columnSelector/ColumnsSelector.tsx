@@ -1,50 +1,77 @@
 import React, { SFC } from "react";
 
-import { IColumn } from "workbench/types";
-import { IUdsColumnDescriptionDtc } from "workbench/query/types";
+import {
+  createStyles,
+  Theme,
+  withStyles,
+  WithStyles
+} from "@material-ui/core/styles";
+
 import { IOption } from "common/select/SelectInputContainer";
-
-import Grid from "@material-ui/core/Grid";
-
 import SearchableListContainer from "common/searchableList/SearchableListContainer";
 
-interface IProps {
-  availableColumns: IUdsColumnDescriptionDtc[];
-  selectedColumns: IColumn[];
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+
+import ArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
+import ArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
+
+interface IProps extends WithStyles<typeof styles> {
+  availableColumns: IOption[];
+  selectedColumns: IOption[];
   handleAddQueryColumn: (column: IOption) => (event: React.MouseEvent) => void;
   handleRemoveQueryColumn: (
     column: IOption
   ) => (event: React.MouseEvent) => void;
 }
 
+const styles = ({ spacing: { unit } }: Theme) =>
+  createStyles({
+    listContainer: {
+      position: "relative"
+    },
+    button: {
+      position: "absolute",
+      right: unit * 2,
+      top: unit * 2
+    }
+  });
+
 const ColumnsSelector: SFC<IProps> = ({
+  classes,
   availableColumns,
   selectedColumns,
   handleAddQueryColumn,
   handleRemoveQueryColumn
 }) => (
   <Grid container spacing={16}>
-    <Grid item xs={6}>
+    <Grid item xs={6} className={classes.listContainer}>
+      {availableColumns.length > 0 && (
+        <Button variant="outlined" color="secondary" className={classes.button}>
+          Add All Columns
+          <ArrowRightIcon />
+        </Button>
+      )}
       <SearchableListContainer
         label="Available Columns"
-        items={availableColumns.map(({ Label }) => ({
-          label: Label,
-          value: Label
-        }))}
+        items={availableColumns}
         handleItemClick={handleAddQueryColumn}
       />
     </Grid>
-    <Grid item xs={6}>
+    <Grid item xs={6} className={classes.listContainer}>
+      {selectedColumns.length > 0 && (
+        <Button variant="outlined" className={classes.button}>
+          <ArrowLeftIcon />
+          Remove All Columns
+        </Button>
+      )}
       <SearchableListContainer
         label="Selected Columns"
-        items={selectedColumns.map(({ Label }) => ({
-          label: Label,
-          value: Label
-        }))}
+        items={selectedColumns}
         handleItemClick={handleRemoveQueryColumn}
       />
     </Grid>
   </Grid>
 );
 
-export default ColumnsSelector;
+export default withStyles(styles)(ColumnsSelector);

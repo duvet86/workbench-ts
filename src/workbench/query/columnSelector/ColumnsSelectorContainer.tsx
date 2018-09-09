@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import { createSelector } from "reselect";
 
 import { RootState } from "rootReducer";
 import {
@@ -12,7 +13,9 @@ import {
   getAvailableColumns,
   getQueryColumns
 } from "workbench/query/selectors";
+
 import { IColumn } from "workbench/types";
+// import { IUdsColumnDescriptionDtc } from "workbench/query/types";
 import { IOption } from "common/select/SelectInputContainer";
 
 import ColumnsSelector from "workbench/query/columnSelector/ColumnsSelector";
@@ -25,37 +28,56 @@ type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   IOwnProps;
 
-class ColumnsSelectorContainer extends Component<Props> {
-  public render() {
-    const { availableColumns, selectedColumns } = this.props;
+const availableColumnsSelector = (props: Props) => props.availableColumns;
+const selectedColumnsSelector = (props: Props) => props.selectedColumns;
 
+class ColumnsSelectorContainer extends Component<Props> {
+  private availableColumnOptions = createSelector(
+    availableColumnsSelector,
+    availableColumns =>
+      availableColumns.map<IOption>(column => ({
+        label: column.Label,
+        value: column.ColumnName
+      }))
+  );
+
+  private selectedColumnOptions = createSelector(
+    selectedColumnsSelector,
+    selectedColumns =>
+      selectedColumns.map<IOption>(column => ({
+        label: column.Label,
+        value: column.ColumnName
+      }))
+  );
+
+  public render() {
     return (
       <ColumnsSelector
-        availableColumns={availableColumns}
-        selectedColumns={selectedColumns}
+        availableColumns={this.availableColumnOptions(this.props)}
+        selectedColumns={this.selectedColumnOptions(this.props)}
         handleAddQueryColumn={this.handleAddQueryColumn}
         handleRemoveQueryColumn={this.handleRemoveQueryColumn}
       />
     );
   }
 
-  private handleAddQueryColumn = ({ label }: IOption) => (
+  private handleAddQueryColumn = ({ value, label }: IOption) => (
     _: React.MouseEvent
   ) => {
     const { elementId, dispatchAddQueryColumn } = this.props;
     const queryColumn = {
-      ColumnName: label,
+      ColumnName: value,
       Label: label,
       Aggregation: "None"
     };
     dispatchAddQueryColumn(elementId, queryColumn);
   };
 
-  private handleRemoveQueryColumn = ({ label }: IOption) => (
+  private handleRemoveQueryColumn = ({ value }: IOption) => (
     _: React.MouseEvent
   ) => {
     const { elementId, dispatchRemoveQueryColumn } = this.props;
-    dispatchRemoveQueryColumn(elementId, label);
+    dispatchRemoveQueryColumn(elementId, value);
   };
 }
 
