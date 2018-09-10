@@ -1,4 +1,5 @@
 import React, { Fragment, SFC } from "react";
+import { Location } from "history";
 
 import { IFolderChild } from "sidebar/myItems/types";
 
@@ -19,8 +20,10 @@ import FolderIcon from "@material-ui/icons/Folder";
 import FolderOpenIcon from "@material-ui/icons/FolderOpen";
 
 import Item from "sidebar/myItems/Item";
+import FolderContainer from "sidebar/myItems/FolderContainer";
 
 interface IProps extends WithStyles<typeof styles> {
+  location: Location;
   label: string;
   handleClick: () => void;
   expanded: boolean;
@@ -40,6 +43,7 @@ const styles = (theme: Theme) =>
 
 const Folder: SFC<IProps> = ({
   classes,
+  location,
   label,
   childFolders,
   handleClick,
@@ -64,13 +68,11 @@ const Folder: SFC<IProps> = ({
         {childFolders.map(
           ({ ChildType, ChildFolderId, ChildFolder, ChildItemId, ChildItem }) =>
             ChildType === "F" ? (
-              <Folder
+              <FolderContainer
                 key={ChildFolderId}
-                classes={classes}
                 label={ChildFolder.Label}
                 childFolders={ChildFolder.Children}
-                handleClick={handleClick}
-                expanded={false}
+                location={location}
               />
             ) : (
               <Item

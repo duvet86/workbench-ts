@@ -38,9 +38,8 @@ class FolderContainer extends Component<IProps, IState> {
   }
 
   public render() {
-    const { label, childFolders } = this.props;
+    const { location, label, childFolders } = this.props;
     const { expanded } = this.state;
-
     if (childFolders.length === 0) {
       return null;
     }
@@ -51,6 +50,7 @@ class FolderContainer extends Component<IProps, IState> {
         childFolders={childFolders}
         handleClick={this.handleClick}
         expanded={expanded}
+        location={location}
       />
     );
   }
