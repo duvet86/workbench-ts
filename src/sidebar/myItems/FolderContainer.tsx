@@ -9,6 +9,7 @@ interface IProps {
   label: string;
   location: Location;
   childFolders: IFolderChild[];
+  nested: number;
 }
 
 interface IState {
@@ -38,7 +39,7 @@ class FolderContainer extends Component<IProps, IState> {
   }
 
   public render() {
-    const { location, label, childFolders } = this.props;
+    const { nested, location, label, childFolders } = this.props;
     const { expanded } = this.state;
     if (childFolders.length === 0) {
       return null;
@@ -46,6 +47,7 @@ class FolderContainer extends Component<IProps, IState> {
 
     return (
       <Folder
+        nested={nested}
         label={label}
         childFolders={childFolders}
         handleClick={this.handleClick}

@@ -11,7 +11,6 @@ import {
 } from "@material-ui/core/styles";
 
 import Collapse from "@material-ui/core/Collapse";
-import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -28,6 +27,7 @@ interface IProps extends WithStyles<typeof styles> {
   handleClick: () => void;
   expanded: boolean;
   childFolders: IFolderChild[];
+  nested: number;
 }
 
 const styles = (theme: Theme) =>
@@ -47,10 +47,17 @@ const Folder: SFC<IProps> = ({
   label,
   childFolders,
   handleClick,
-  expanded
+  expanded,
+  nested,
+  theme
 }) => (
   <Fragment>
-    <ListItem button onClick={handleClick}>
+    <ListItem
+      divider
+      button
+      onClick={handleClick}
+      style={{ paddingLeft: nested * theme!.spacing.unit * 2 }}
+    >
       {expanded ? (
         <FolderOpenIcon className={classes.icon} />
       ) : (
@@ -69,6 +76,7 @@ const Folder: SFC<IProps> = ({
           ({ ChildType, ChildFolderId, ChildFolder, ChildItemId, ChildItem }) =>
             ChildType === "F" ? (
               <FolderContainer
+                nested={nested + 1}
                 key={ChildFolderId}
                 label={ChildFolder.Label}
                 childFolders={ChildFolder.Children}
@@ -76,17 +84,16 @@ const Folder: SFC<IProps> = ({
               />
             ) : (
               <Item
+                nested={nested + 1}
                 key={ChildItemId}
                 itemId={ChildItem.ItemId}
                 label={ChildItem.Label}
-                nested
               />
             )
         )}
       </List>
     </Collapse>
-    <Divider />
   </Fragment>
 );
 
-export default withStyles(styles)(Folder);
+export default withStyles(styles, { withTheme: true })(Folder);

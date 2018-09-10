@@ -40,6 +40,7 @@ const MyItemsList: SFC<IProps> = ({ classes, items, location }) => (
       ({ ChildType, ChildFolderId, ChildFolder, ChildItemId, ChildItem }) =>
         ChildType === "F" ? (
           <FolderContainer
+            nested={1}
             key={ChildFolderId}
             label={ChildFolder.Label}
             childFolders={ChildFolder.Children}
@@ -47,6 +48,7 @@ const MyItemsList: SFC<IProps> = ({ classes, items, location }) => (
           />
         ) : (
           <Item
+            nested={1}
             key={ChildItemId}
             itemId={ChildItem.ItemId}
             label={ChildItem.Label}

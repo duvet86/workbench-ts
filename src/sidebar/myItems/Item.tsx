@@ -16,13 +16,15 @@ import Dashboard from "@material-ui/icons/Dashboard";
 interface IProps extends WithStyles<typeof styles> {
   itemId: string;
   label: string;
-  nested?: boolean;
+  nested: number;
 }
 
 const styles = ({ typography }: Theme) =>
   createStyles({
-    listItemOpen: {
-      paddingLeft: 30
+    item: {
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis"
     },
     icon: {
       color: "#696969"
@@ -35,21 +37,23 @@ const styles = ({ typography }: Theme) =>
 
 const workbenchLink = (itemId: string) => ({
   children,
-  className
+  className,
+  style
 }: ListItemProps) => {
   return (
-    <NavLink className={className} to={`/workbench/${itemId}`}>
+    <NavLink className={className} style={style} to={`/workbench/${itemId}`}>
       {children}
     </NavLink>
   );
 };
 
-const Item: SFC<IProps> = ({ classes, itemId, label, nested }) => (
+const Item: SFC<IProps> = ({ classes, itemId, label, nested, theme }) => (
   <ListItem
     divider
     button
     component={workbenchLink(itemId)}
-    className={nested ? classes.listItemOpen : undefined}
+    className={classes.item}
+    style={{ paddingLeft: nested * theme!.spacing.unit * 2 }}
   >
     <Dashboard className={classes.icon} />
     <ListItemText
@@ -61,4 +65,4 @@ const Item: SFC<IProps> = ({ classes, itemId, label, nested }) => (
   </ListItem>
 );
 
-export default withStyles(styles)(Item);
+export default withStyles(styles, { withTheme: true })(Item);
