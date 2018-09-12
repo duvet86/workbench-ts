@@ -43,7 +43,7 @@ const styles = ({ spacing: { unit } }: Theme) =>
       }
     },
     container: {
-      height: "100%"
+      height: "70%"
     },
     paper: {
       padding: unit * 3
