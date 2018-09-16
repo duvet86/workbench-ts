@@ -25,13 +25,13 @@ import SelectInputContainer, {
 import ConstraintIcon from "@material-ui/icons/FilterList";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-type ContraintTarget = IOption & IConstraint;
+type QueryContraint = IOption & IConstraint;
 
 const constraintIconColour = "#2c5367";
 
 interface IProps extends WithStyles<typeof styles> {
-  contraintTargets: ContraintTarget[];
-  queryConstraints: ContraintTarget[];
+  contraintTargets: IOption[];
+  queryConstraints: QueryContraint[];
   filterCapabilities: IFilterCapabilitiesDic;
   handledAddQueryConstraint: (
     target: IOption

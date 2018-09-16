@@ -1,4 +1,5 @@
 import { IConstraint } from "workbench/types";
+import { IOption } from "common/select/SelectInputContainer";
 
 import NewIcon from "@material-ui/icons/RestorePage";
 import SaveIcon from "@material-ui/icons/Save";
@@ -8,10 +9,7 @@ import RedoIcon from "@material-ui/icons/Redo";
 import OpenWithIcon from "@material-ui/icons/OpenWith";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 
-interface IContraintDisplayValue extends IConstraint {
-  label: string;
-  displayValue: any;
-}
+type QueryContraint = IConstraint & IOption;
 
 export enum DATA_TYPES {
   NOTSPECIFIED = "NotSpecified",
@@ -72,16 +70,16 @@ export const toolbarData = [
 ];
 
 export function getConstraintDisplayValue(constraint: IConstraint) {
-  const constraintDsiplayValue: IContraintDisplayValue = Object.assign(
+  const constraintDsiplayValue: QueryContraint = Object.assign(
     {
       label: constraint.ColumnName,
-      displayValue: ""
+      value: ""
     },
     constraint
   );
   switch (constraint.DataType) {
     case DATA_TYPES.INTERVALVALUE:
-      constraintDsiplayValue.displayValue = constraint.Values && {
+      constraintDsiplayValue.value = constraint.Values && {
         intervalType: constraint.Values[0][0],
         intervalString: constraint.Values[0][1],
         intervalLabel: constraint.Values[0][2]
@@ -95,7 +93,7 @@ export function getConstraintDisplayValue(constraint: IConstraint) {
     case DATA_TYPES.BOOLVALUE:
     case DATA_TYPES.INTVALUE:
     case DATA_TYPES.DOUBLEVALUE:
-      constraintDsiplayValue.displayValue = constraint.Values
+      constraintDsiplayValue.value = constraint.Values
         ? constraint.Values[0][0]
         : "";
       break;
@@ -115,7 +113,7 @@ export function getConstraintDisplayValue(constraint: IConstraint) {
     //   };
     //   break;
     default:
-      constraintDsiplayValue.displayValue = "";
+      constraintDsiplayValue.value = "";
       break;
   }
 

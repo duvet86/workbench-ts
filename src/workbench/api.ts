@@ -20,8 +20,8 @@ export const getSessionInfoObs = (
 ): Observable<ISessionDtc> =>
   from(
     postWithJwtAsync(
-      `api/qes/${TENANT_ID}/sessions${
-        dataViewId != null ? `?dataViewId=${dataViewId}` : ""
+      `api/qes/${TENANT_ID}/sessions?applyOnly=true${
+        dataViewId != null ? `&dataViewId=${dataViewId}` : ""
       }`
     )
   );

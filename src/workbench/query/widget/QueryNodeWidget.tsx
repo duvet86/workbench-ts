@@ -1,6 +1,10 @@
 import React from "react";
 import { PortWidget } from "storm-react-diagrams";
 
+import { IColumn } from "workbench/types";
+import QueryNodeModel from "workbench/query/widget/QueryNodeModel";
+import { operatorsExtraInfo } from "sidebar/operators/operatorsData";
+
 import {
   createStyles,
   Theme,
@@ -8,18 +12,18 @@ import {
   WithStyles
 } from "@material-ui/core/styles";
 
-import QueryNodeModel from "workbench/query/widget/QueryNodeModel";
-import { operatorsExtraInfo } from "sidebar/operators/operatorsData";
+import {
+  AutoSizer,
+  List as VirtualizedList,
+  ListRowProps
+} from "react-virtualized";
+
+import QueryColumn from "workbench/query/widget/QueryColumn";
 
 import Avatar from "@material-ui/core/Avatar";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
-
-import SettingsIcon from "@material-ui/icons/SettingsApplications";
 
 interface IProps extends WithStyles<typeof styles> {
   node: QueryNodeModel;
@@ -59,9 +63,11 @@ const styles = ({
     },
     list: {
       overflow: "auto",
-      maxHeight: 150,
       padding: 0,
-      width: 150
+      width: 150,
+      "&:focus": {
+        outline: 0
+      }
     },
     listItem: {
       padding: 0
@@ -91,6 +97,14 @@ const styles = ({
     }
   });
 
+const rowRenderer = (columns: IColumn[]) => ({
+  index,
+  key,
+  style
+}: ListRowProps) => (
+  <QueryColumn key={key} style={style} label={columns[index].Label} />
+);
+
 const handleWheel = (event: React.WheelEvent) => {
   event.stopPropagation();
 };
@@ -118,19 +132,21 @@ const QueryNodeWidget: React.SFC<IProps> = ({ classes, node }) => {
             Columns
           </Typography>
           <Divider />
-          <List className={classes.list} onWheel={handleWheel}>
-            {Columns.map(({ Label: ColumnLabel, ColumnName }) => (
-              <ListItem key={ColumnName} className={classes.listItem} dense>
-                <ListItemIcon className={classes.itemIcon}>
-                  <SettingsIcon />
-                </ListItemIcon>
-                <ListItemText
-                  className={classes.listItem}
-                  classes={{ primary: classes.primary }}
-                  primary={ColumnLabel}
+          <List className={classes.list} onWheel={handleWheel} component="div">
+            <AutoSizer disableHeight>
+              {({ width }) => (
+                <VirtualizedList
+                  style={{
+                    outline: 0
+                  }}
+                  width={width}
+                  height={Math.min(Columns.length * 20, 150)}
+                  rowCount={Columns.length}
+                  rowHeight={20}
+                  rowRenderer={rowRenderer(Columns)}
                 />
-              </ListItem>
-            ))}
+              )}
+            </AutoSizer>
           </List>
         </div>
         <div className={classes.bottomPort}>

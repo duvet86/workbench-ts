@@ -36,6 +36,8 @@ export interface IUdsFilterDescriptionDtc {
   AllowedValuesQueryGraphId?: number;
   AllowedValuesFilterName: string;
   ResolvedDependsOnFilterNames: string[];
+  // Added by me.
+  ToColumnName?: string;
 }
 
 export interface IFilterCapabilitiesDic {

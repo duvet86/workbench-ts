@@ -47,7 +47,12 @@ const ColumnsSelector: SFC<IProps> = ({
   <Grid container spacing={16}>
     <Grid item xs={6} className={classes.listContainer}>
       {availableColumns.length > 0 && (
-        <Button variant="outlined" color="secondary" className={classes.button}>
+        <Button
+          variant="outlined"
+          color="secondary"
+          size="small"
+          className={classes.button}
+        >
           Add All Columns
           <ArrowRightIcon />
         </Button>
@@ -60,7 +65,7 @@ const ColumnsSelector: SFC<IProps> = ({
     </Grid>
     <Grid item xs={6} className={classes.listContainer}>
       {selectedColumns.length > 0 && (
-        <Button variant="outlined" className={classes.button}>
+        <Button variant="outlined" size="small" className={classes.button}>
           <ArrowLeftIcon />
           Remove All Columns
         </Button>

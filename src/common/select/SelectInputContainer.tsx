@@ -6,7 +6,7 @@ import SelectInput from "common/select/SelectInput";
 
 export interface IOption {
   label: string;
-  value: string;
+  value: any;
 }
 
 interface IProps {
