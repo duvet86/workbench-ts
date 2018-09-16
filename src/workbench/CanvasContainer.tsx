@@ -15,6 +15,8 @@ import {
 } from "workbench/actions";
 import { ElementType } from "sidebar/operators/operatorsData";
 
+import { destroySessionAsync } from "workbench/api";
+
 import WidgetPortFactory from "workbench/WidgetPortFactory";
 import WidgetPortModel from "workbench/WidgetPortModel";
 
@@ -113,6 +115,16 @@ class CanvasContainer extends Component<Props, ILocalState> {
 
       this.activeModel.addAll(...links);
     }
+  }
+
+  public componentWillUnmount() {
+    const {
+      session: { TenantId, SessionId }
+    } = this.props;
+    destroySessionAsync(TenantId, SessionId).catch((e: any) => {
+      // tslint:disable-next-line:no-console
+      console.log(e);
+    });
   }
 
   public render() {

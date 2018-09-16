@@ -72,8 +72,23 @@ export const postAsync = async <T>(
   return handleErrors(response);
 };
 
+export const deleteAsync = async <T>(
+  url: string,
+  headers: HeadersInit
+): Promise<T> => {
+  const response = await fetch(`${BASE_URL}/${url}`, {
+    headers,
+    method: "DELETE"
+  });
+
+  return handleErrors(response);
+};
+
 export const getWithJwtAsync = <T>(url: string) =>
   getAsync<T>(url, getHeader());
 
 export const postWithJwtAsync = <T>(url: string, data?: any) =>
   postAsync<T>(url, data, getHeader());
+
+export const deleteWithJwtAsync = <T>(url: string) =>
+  deleteAsync<T>(url, getHeader());

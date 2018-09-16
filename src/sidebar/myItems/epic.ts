@@ -1,5 +1,7 @@
 import { ActionsObservable, ofType } from "redux-observable";
-import { catchError, map, mergeMap } from "rxjs/operators";
+import { catchError, map, mergeMap, shareReplay } from "rxjs/operators";
+
+import { getData } from "lib/apiCache";
 
 import { handleException } from "errorPage/epic";
 import {
@@ -7,13 +9,13 @@ import {
   myItemsSuccess,
   MyItemsAction
 } from "sidebar/myItems/actions";
-import { getMyItemsAsync } from "sidebar/myItems/api";
+import { getMyItemsObs } from "sidebar/myItems/api";
 
 export const myItemsEpic = (action$: ActionsObservable<MyItemsAction>) =>
   action$.pipe(
     ofType(MyItemsActionTypes.MY_ITEMS_REQUEST),
     mergeMap(() =>
-      getMyItemsAsync().pipe(
+      getData(MyItemsActionTypes.MY_ITEMS_REQUEST, getMyItemsObs).pipe(
         map(response => myItemsSuccess(response)),
         catchError(error => handleException(error))
       )

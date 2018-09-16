@@ -206,10 +206,10 @@ export interface IQueryGraphDataDtc {
   NextAspectId: number;
   Aspect2s: IAspect2[];
   Aspects: IAspect[];
-  Queries: IQuery[];
+  Queries: number[];
   Operators: IOperator[];
-  InteractiveFilters: IInteractiveFilter[];
-  Connections: IConnection[];
+  InteractiveFilters: number[];
+  Connections: number[];
   ArchiveHistory: IArchivedHistoryEntry[];
   LimitExcludedElements: number[];
 }

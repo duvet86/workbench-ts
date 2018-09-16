@@ -1,7 +1,11 @@
 import { from, Observable } from "rxjs";
 
 import { TENANT_ID } from "lib/constants";
-import { getWithJwtAsync, postWithJwtAsync } from "lib/http";
+import {
+  getWithJwtAsync,
+  postWithJwtAsync,
+  deleteWithJwtAsync
+} from "lib/http";
 
 import {
   ISessionDtc,
@@ -21,6 +25,9 @@ export const getSessionInfoObs = (
       }`
     )
   );
+
+export const destroySessionAsync = (tenantId: string, sessionId: string) =>
+  deleteWithJwtAsync(`api/qes/${tenantId}/sessions/${sessionId}`);
 
 export const saveGraphObs = (
   tenantId: string,

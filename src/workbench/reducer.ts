@@ -24,8 +24,8 @@ import {
 interface ISessionState {
   isLoading: boolean;
   dataViewId?: string;
-  session?: ISessionDtc;
-  graph?: IQueryGraphDataDtc;
+  session: ISessionDtc;
+  graph: IQueryGraphDataDtc;
   queries: { [id: string]: IQuery };
   filters: { [id: string]: IInteractiveFilter };
   connections: { [id: string]: IConnection };
@@ -34,8 +34,8 @@ interface ISessionState {
 function session(
   state: ISessionState = {
     isLoading: true,
-    session: undefined,
-    graph: undefined,
+    session: {} as ISessionDtc,
+    graph: {} as IQueryGraphDataDtc,
     queries: {},
     filters: {},
     connections: {}

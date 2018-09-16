@@ -11,7 +11,7 @@ import {
   ILoginRequest
 } from "login/actions";
 
-import { getTokenAsync } from "lib/authApi";
+import { getTokenObs } from "lib/authApi";
 import { storeToken } from "lib/sessionStorageApi";
 
 function storeTokenAndTriggerLogingSucces(token: string) {
@@ -23,7 +23,7 @@ export const loginEpic = (action$: ActionsObservable<LoginAction>) =>
   action$.pipe(
     ofType<LoginAction, ILoginRequest>(LoginActionTypes.LOGIN_REQUEST),
     mergeMap(({ username, password }) =>
-      getTokenAsync(username, password).pipe(
+      getTokenObs(username, password).pipe(
         mergeMap(token => [
           // Fire 2 actions, one after the other
           storeTokenAndTriggerLogingSucces(token),

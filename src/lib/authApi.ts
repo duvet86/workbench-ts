@@ -8,7 +8,7 @@ import { clearToken, getToken } from "lib/sessionStorageApi";
 
 import { logout } from "login/actions";
 
-export const getTokenAsync = (
+export const getTokenObs = (
   userName: string,
   password: string
 ): Observable<string> =>
@@ -28,7 +28,7 @@ export const isUserAuthenticated = () => {
   const jwtToken = getToken();
 
   // if it exists
-  if (jwtToken) {
+  if (jwtToken && !jwtToken.isExpired) {
     // compare the total seconds of the created
     // time of the token vs the ttl (time to live) seconds
     const expiry = jwtToken.createdAt + TIME_TO_LIVE;
