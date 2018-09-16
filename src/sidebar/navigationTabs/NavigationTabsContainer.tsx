@@ -60,10 +60,10 @@ class NavigationTabsContainer extends Component<Props> {
   private updateActivetab(pathname: string) {
     const { dispatchShowFilters, dispatchShowMyTools } = this.props;
 
-    if (pathname.includes("/pagebuilder/")) {
+    if (pathname === "/pagebuilder/new") {
       return dispatchShowFilters([false, false, true]);
     }
-    if (pathname.includes("/workbench/")) {
+    if (pathname === "/workbench/new") {
       return dispatchShowMyTools([false, false, false]);
     }
     // By default it sets the tab to myItems with the others disabled.
