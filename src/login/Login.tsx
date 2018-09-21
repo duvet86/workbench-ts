@@ -23,6 +23,7 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 interface IProps extends WithStyles<typeof styles> {
+  error?: any;
   submitHandler: (username: string, password: string) => void;
 }
 
@@ -61,6 +62,10 @@ const styles = ({ spacing: { unit } }: Theme) =>
     appLogo: {
       animation: "appLogoSpin infinite 20s linear",
       height: "50px"
+    },
+    errorMessage: {
+      marginTop: 10,
+      color: "red"
     }
   });
 
@@ -72,7 +77,7 @@ class Login extends Component<IProps, IState> {
   };
 
   public render() {
-    const { classes } = this.props;
+    const { classes, error } = this.props;
 
     return (
       <Grid
@@ -138,6 +143,11 @@ class Login extends Component<IProps, IState> {
                 Login
               </Button>
             </form>
+            {error && (
+              <Typography className={classes.errorMessage} variant="subheading">
+                Invalid Username or Password
+              </Typography>
+            )}
           </Paper>
         </Grid>
       </Grid>
