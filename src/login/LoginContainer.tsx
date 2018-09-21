@@ -21,11 +21,14 @@ class LoginContainer extends Component<Props> {
   }
 
   public render() {
-    const { isLoading, ...props } = this.props;
+    const { isLoading, error, ...props } = this.props;
 
     return (
-      <LoadingContainer isLoading={isLoading}>
-        <Login {...props} />
+      <LoadingContainer
+        isLoading={isLoading}
+        error={error && error.status !== 401}
+      >
+        <Login {...props} error={error} />
       </LoadingContainer>
     );
   }
