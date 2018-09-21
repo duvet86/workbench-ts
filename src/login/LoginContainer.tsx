@@ -26,7 +26,7 @@ class LoginContainer extends Component<Props> {
     return (
       <LoadingContainer
         isLoading={isLoading}
-        error={error && error.status !== 401}
+        error={(error && error.status !== 401) || null}
       >
         <Login {...props} error={error} />
       </LoadingContainer>
