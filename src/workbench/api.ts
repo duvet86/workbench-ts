@@ -1,6 +1,5 @@
 import { from, Observable } from "rxjs";
 
-import { TENANT_ID } from "lib/constants";
 import {
   getWithJwtAsync,
   postWithJwtAsync,
@@ -20,7 +19,7 @@ export const getSessionInfoObs = (
 ): Observable<ISessionDtc> =>
   from(
     postWithJwtAsync(
-      `api/qes/${TENANT_ID}/sessions?applyOnly=true${
+      `api/qes/${process.env.TENANT_ID}/sessions?applyOnly=true${
         dataViewId != null ? `&dataViewId=${dataViewId}` : ""
       }`
     )

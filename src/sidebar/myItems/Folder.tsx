@@ -21,7 +21,7 @@ import FolderOpenIcon from "@material-ui/icons/FolderOpen";
 import Item from "sidebar/myItems/Item";
 import FolderContainer from "sidebar/myItems/FolderContainer";
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps extends WithStyles<typeof styles, true> {
   location: Location;
   label: string;
   handleClick: () => void;
@@ -56,7 +56,7 @@ const Folder: SFC<IProps> = ({
       divider
       button
       onClick={handleClick}
-      style={{ paddingLeft: nested * theme!.spacing.unit * 2 }}
+      style={{ paddingLeft: nested * theme.spacing.unit * 2 }}
     >
       {expanded ? (
         <FolderOpenIcon className={classes.icon} />

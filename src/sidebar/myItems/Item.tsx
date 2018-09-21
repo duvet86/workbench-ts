@@ -13,7 +13,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 
 import Dashboard from "@material-ui/icons/Dashboard";
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps extends WithStyles<typeof styles, true> {
   itemId: string;
   label: string;
   nested: number;
@@ -53,7 +53,7 @@ const Item: SFC<IProps> = ({ classes, itemId, label, nested, theme }) => (
     button
     component={workbenchLink(itemId)}
     className={classes.item}
-    style={{ paddingLeft: nested * theme!.spacing.unit * 2 }}
+    style={{ paddingLeft: nested * theme.spacing.unit * 2 }}
   >
     <Dashboard className={classes.icon} />
     <ListItemText

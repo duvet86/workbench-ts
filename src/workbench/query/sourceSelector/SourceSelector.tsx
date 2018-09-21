@@ -4,7 +4,7 @@ import SelectInputContainer, {
   IOption
 } from "common/select/SelectInputContainer";
 
-import { createStyles, withStyles } from "@material-ui/core/styles";
+import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
 import StorageIcon from "@material-ui/icons/Storage";
 
@@ -20,9 +20,11 @@ const styles = createStyles({
   }
 });
 
-const OptionsIcon = withStyles(styles)(({ classes }) => (
+const styledIcon: SFC<WithStyles<typeof styles>> = ({ classes }) => (
   <StorageIcon className={classes.iconColour} />
-));
+);
+
+const OptionsIcon = withStyles(styles)(styledIcon);
 
 const SourceSelector: SFC<IProps> = ({
   targetDataViewId,

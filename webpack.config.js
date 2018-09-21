@@ -3,6 +3,7 @@ const webpack = require("webpack");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   mode: "development",
@@ -22,18 +23,19 @@ module.exports = {
     historyApiFallback: true
   },
   plugins: [
+    new Dotenv(),
     new webpack.NamedModulesPlugin(),
     new HtmlWebpackPlugin({
       inject: true,
       template: path.resolve(__dirname, "public/index.html")
     }),
-    new webpack.DefinePlugin({
-      PRODUCTION: JSON.stringify(false),
-      VERSION: JSON.stringify("1"),
-      "process.env": {
-        NODE_ENV: JSON.stringify("development")
-      }
-    }),
+    // new webpack.DefinePlugin({
+    //   PRODUCTION: JSON.stringify(false),
+    //   VERSION: JSON.stringify("1"),
+    //   "process.env": {
+    //     NODE_ENV: JSON.stringify("development")
+    //   }
+    // }),
     new webpack.HotModuleReplacementPlugin(),
     new ForkTsCheckerWebpackPlugin({
       tslint: true,

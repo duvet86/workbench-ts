@@ -2,7 +2,6 @@ import { encode } from "base-64";
 import { push } from "connected-react-router";
 import { from, Observable } from "rxjs";
 
-import { TIME_TO_LIVE } from "lib/constants";
 import { getAsync } from "lib/http";
 import { clearToken, getToken } from "lib/sessionStorageApi";
 
@@ -31,7 +30,7 @@ export const isUserAuthenticated = () => {
   if (jwtToken && !jwtToken.isExpired) {
     // compare the total seconds of the created
     // time of the token vs the ttl (time to live) seconds
-    const expiry = jwtToken.createdAt + TIME_TO_LIVE;
+    const expiry = jwtToken.createdAt + parseInt(process.env.TIME_TO_LIVE!, 10);
 
     // if the token has expired return false
     if (jwtToken.createdAt > expiry) {

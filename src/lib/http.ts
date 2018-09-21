@@ -1,4 +1,3 @@
-import { BASE_URL, TENANT_ID } from "lib/constants";
 import { getToken } from "lib/sessionStorageApi";
 
 const getJwtToken = (): string => {
@@ -21,7 +20,7 @@ const getHeader = (): HeadersInit => {
   return {
     ...getJwtHeaders(token),
     "Content-Type": "application/json",
-    section: TENANT_ID
+    section: process.env.TENANT_ID!
   };
 };
 
@@ -50,7 +49,7 @@ export const getAsync = async <T>(
   url: string,
   headers: HeadersInit
 ): Promise<T> => {
-  const response = await fetch(`${BASE_URL}/${url}`, {
+  const response = await fetch(`${process.env.BASE_URL}/${url}`, {
     headers,
     method: "GET"
   });
@@ -63,7 +62,7 @@ export const postAsync = async <T>(
   data: any,
   headers: HeadersInit
 ): Promise<T> => {
-  const response = await fetch(`${BASE_URL}/${url}`, {
+  const response = await fetch(`${process.env.BASE_URL}/${url}`, {
     body: JSON.stringify(data),
     headers,
     method: "POST"
@@ -76,7 +75,7 @@ export const deleteAsync = async <T>(
   url: string,
   headers: HeadersInit
 ): Promise<T> => {
-  const response = await fetch(`${BASE_URL}/${url}`, {
+  const response = await fetch(`${process.env.BASE_URL}/${url}`, {
     headers,
     method: "DELETE"
   });

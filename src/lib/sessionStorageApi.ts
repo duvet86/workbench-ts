@@ -1,5 +1,3 @@
-import { TOKEN_KEY } from "lib/constants";
-
 interface IToken {
   createdAt: number;
   token: string;
@@ -8,7 +6,7 @@ interface IToken {
 
 export const storeToken = (token: string) =>
   sessionStorage.setItem(
-    TOKEN_KEY,
+    process.env.TOKEN_KEY!,
     JSON.stringify({
       createdAt: Math.floor(Date.now() / 1000),
       token,
@@ -23,7 +21,7 @@ export const storeToken = (token: string) =>
 export const clearToken = () => {
   const token = getToken();
   sessionStorage.setItem(
-    TOKEN_KEY,
+    process.env.TOKEN_KEY!,
     JSON.stringify({
       ...token,
       isExpired: true
@@ -32,7 +30,7 @@ export const clearToken = () => {
 };
 
 export const getToken = (): IToken | null => {
-  const tokenKey = sessionStorage.getItem(TOKEN_KEY);
+  const tokenKey = sessionStorage.getItem(process.env.TOKEN_KEY!);
   if (!tokenKey) {
     return null;
   }

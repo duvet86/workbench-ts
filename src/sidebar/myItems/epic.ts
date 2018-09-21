@@ -1,5 +1,5 @@
 import { ActionsObservable, ofType } from "redux-observable";
-import { catchError, map, mergeMap, shareReplay } from "rxjs/operators";
+import { catchError, map, mergeMap } from "rxjs/operators";
 
 import { getData } from "lib/apiCache";
 
