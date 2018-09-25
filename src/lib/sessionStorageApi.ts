@@ -29,6 +29,10 @@ export const clearToken = () => {
   );
 };
 
+export const removeToken = () => {
+  sessionStorage.removeItem(process.env.TOKEN_KEY!);
+};
+
 export const getToken = (): IToken | null => {
   const tokenKey = sessionStorage.getItem(process.env.TOKEN_KEY!);
   if (!tokenKey) {

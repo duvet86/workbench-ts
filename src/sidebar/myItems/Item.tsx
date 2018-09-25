@@ -13,7 +13,8 @@ import {
 import ListItem, { ListItemProps } from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 
-import Dashboard from "@material-ui/icons/Dashboard";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import DataViewIcon from "@material-ui/icons/VerticalSplit";
 
 interface IProps extends WithStyles<typeof styles, true> {
   itemTypeId: ItemTypeIds;
@@ -70,7 +71,11 @@ const Item: SFC<IProps> = ({
     className={classes.item}
     style={{ paddingLeft: nested * theme.spacing.unit * 2 }}
   >
-    <Dashboard className={classes.icon} />
+    {itemTypeId.toUpperCase() === ItemTypeIds.PAGE_BUILDER ? (
+      <DashboardIcon className={classes.icon} />
+    ) : (
+      <DataViewIcon className={classes.icon} />
+    )}
     <ListItemText
       primary={label}
       classes={{
