@@ -31,7 +31,9 @@ const AppBody: SFC<WithStyles<typeof styles>> = ({ classes }) => (
         <Route
           exact
           path="/pagebuilder/:id"
-          component={loadAsync(() => import("pagebuilder/Pagebuilder"))}
+          component={loadAsync(() =>
+            import("pagebuilder/PagebuilderContainer")
+          )}
         />
         <Route
           exact

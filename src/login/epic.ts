@@ -12,10 +12,9 @@ import {
 } from "login/actions";
 
 import { getTokenObs } from "lib/authApi";
-import { removeToken, storeToken } from "lib/sessionStorageApi";
+import { storeToken } from "lib/sessionStorageApi";
 
 function storeTokenAndTriggerLogingSucces(token: string) {
-  removeToken();
   storeToken(token);
   return loginSuccess();
 }

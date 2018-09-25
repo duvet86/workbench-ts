@@ -14,21 +14,6 @@ export const storeToken = (token: string) =>
     })
   );
 
-// clearToken doesn't really delete the token. It sets an expiry flag.
-// Because same Apis happen on componentWillUnmount (see CanvasContainer)
-// and if a user logs out at that time the page will break not having the token
-// to execute the action.
-export const clearToken = () => {
-  const token = getToken();
-  sessionStorage.setItem(
-    process.env.TOKEN_KEY!,
-    JSON.stringify({
-      ...token,
-      isExpired: true
-    })
-  );
-};
-
 export const removeToken = () => {
   sessionStorage.removeItem(process.env.TOKEN_KEY!);
 };
