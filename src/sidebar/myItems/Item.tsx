@@ -1,6 +1,8 @@
 import React, { SFC } from "react";
 import { NavLink } from "react-router-dom";
 
+import { ItemTypeIds } from "sidebar/myItems/types";
+
 import {
   createStyles,
   Theme,
@@ -14,6 +16,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Dashboard from "@material-ui/icons/Dashboard";
 
 interface IProps extends WithStyles<typeof styles, true> {
+  itemTypeId: ItemTypeIds;
   itemId: string;
   label: string;
   nested: number;
@@ -35,23 +38,35 @@ const styles = ({ typography }: Theme) =>
     }
   });
 
-const workbenchLink = (itemId: string) => ({
+const workbenchLink = (itemTypeId: ItemTypeIds, itemId: string) => ({
   children,
   className,
   style
 }: ListItemProps) => {
+  const link =
+    itemTypeId.toUpperCase() === ItemTypeIds.PAGE_BUILDER
+      ? `/pagebuilder/${itemId}`
+      : `/workbench/${itemId}`;
+
   return (
-    <NavLink className={className} style={style} to={`/workbench/${itemId}`}>
+    <NavLink className={className} style={style} to={link}>
       {children}
     </NavLink>
   );
 };
 
-const Item: SFC<IProps> = ({ classes, itemId, label, nested, theme }) => (
+const Item: SFC<IProps> = ({
+  classes,
+  itemTypeId,
+  itemId,
+  label,
+  nested,
+  theme
+}) => (
   <ListItem
     divider
     button
-    component={workbenchLink(itemId)}
+    component={workbenchLink(itemTypeId, itemId)}
     className={classes.item}
     style={{ paddingLeft: nested * theme.spacing.unit * 2 }}
   >

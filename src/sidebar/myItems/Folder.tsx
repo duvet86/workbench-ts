@@ -86,6 +86,7 @@ const Folder: SFC<IProps> = ({
               <Item
                 nested={nested + 1}
                 key={ChildItemId}
+                itemTypeId={ChildItem.ItemTypeId}
                 itemId={ChildItem.ItemId}
                 label={ChildItem.Label}
               />

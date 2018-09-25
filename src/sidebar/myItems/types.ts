@@ -22,10 +22,16 @@ interface IFolderDtc {
   Shares: IShareDtc[];
 }
 
+export enum ItemTypeIds {
+  SYSTEM_DATAVIEW = "6E564BC0-4D16-4714-9F4B-F8B7C9B25CA6",
+  USER_DATAVIEW = "67B4E477-8498-4DEB-B282-575CCE1403EE",
+  PAGE_BUILDER = "CF84574A-745A-462F-A567-E20F7D57FEF8"
+}
+
 export interface IItemDtc {
   ItemId: string;
   TenantId: string;
-  ItemTypeId: string;
+  ItemTypeId: ItemTypeIds;
   ItemTypelabel: string;
   OwnerUsername: string;
   Label: string;

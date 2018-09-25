@@ -50,6 +50,7 @@ const MyItemsList: SFC<IProps> = ({ classes, items, location }) => (
           <Item
             nested={1}
             key={ChildItemId}
+            itemTypeId={ChildItem.ItemTypeId}
             itemId={ChildItem.ItemId}
             label={ChildItem.Label}
           />

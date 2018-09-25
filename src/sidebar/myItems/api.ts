@@ -2,23 +2,22 @@ import { from } from "rxjs";
 
 import { getWithJwtAsync } from "lib/http";
 
-import { IFolderChild } from "sidebar/myItems/types";
-
-const SYSTEM_DATAVIEW_ITEMTYPEID = "6e564bc0-4d16-4714-9f4b-f8b7c9b25ca6";
-const PAGE_BUILDER_ITEMTYPEID = "CF84574A-745A-462F-A567-E20F7D57FEF8";
+import { IFolderChild, ItemTypeIds } from "sidebar/myItems/types";
 
 export const getMyItemsObs = () =>
   from(
     Promise.all([
       getWithJwtAsync<IFolderChild[]>(
-        `api/useritems/myitems?tenant=${
-          process.env.TENANT_ID
-        }&itemTypeIds=${SYSTEM_DATAVIEW_ITEMTYPEID}&itemTypeIds=${PAGE_BUILDER_ITEMTYPEID}`
+        `api/useritems/myitems?tenant=${process.env.TENANT_ID}&itemTypeIds=${
+          ItemTypeIds.SYSTEM_DATAVIEW
+        }&itemTypeIds=${ItemTypeIds.PAGE_BUILDER}`
       ),
       getWithJwtAsync<IFolderChild[]>(
         `api/useritems/sharedwithme?tenant=${
           process.env.TENANT_ID
-        }&itemTypeIds=${SYSTEM_DATAVIEW_ITEMTYPEID}&itemTypeIds=${PAGE_BUILDER_ITEMTYPEID}`
+        }&itemTypeIds=${ItemTypeIds.SYSTEM_DATAVIEW}&itemTypeIds=${
+          ItemTypeIds.PAGE_BUILDER
+        }`
       )
     ]).then(arrayResponse => ({
       myItems: arrayResponse[0],
