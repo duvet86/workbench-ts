@@ -27,21 +27,41 @@ const styles = (theme: Theme) =>
     },
     bodyContainer: {
       padding: 25
-    }
+    },
+    actionRoot: {
+      "&$selected": {
+        color: theme.palette.secondary.main
+      }
+    },
+    selected: {}
   });
 
 const Pagebuilder: SFC<IProps> = ({ classes, handleChange, value }) => (
   <>
     <Grid container className={classes.bodyContainer}>
       <Grid item xs={12}>
-        {value === 0 && "Item One"}
-        {value === 1 && "Item Two"}
+        {value === 0 && "Pagebuilder Placeholder"}
+        {value === 1 && "Dataview Placeholder"}
       </Grid>
     </Grid>
     <div className={classes.bottomNavContainer}>
       <BottomNavigation value={value} onChange={handleChange} showLabels>
-        <BottomNavigationAction label="Dataview" icon={<DashboardIcon />} />
-        <BottomNavigationAction label="Favorites" icon={<DataViewIcon />} />
+        <BottomNavigationAction
+          classes={{
+            root: classes.actionRoot,
+            selected: classes.selected
+          }}
+          label="Dataview"
+          icon={<DashboardIcon />}
+        />
+        <BottomNavigationAction
+          classes={{
+            root: classes.actionRoot,
+            selected: classes.selected
+          }}
+          label="Workbench"
+          icon={<DataViewIcon />}
+        />
       </BottomNavigation>
     </div>
   </>
