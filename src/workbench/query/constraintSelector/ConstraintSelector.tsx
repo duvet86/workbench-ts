@@ -33,9 +33,7 @@ interface IProps extends WithStyles<typeof styles> {
   contraintTargets: IOption[];
   queryConstraints: QueryContraint[];
   filterCapabilities: IFilterCapabilitiesDic;
-  handledAddQueryConstraint: (
-    target: IOption
-  ) => (event: React.MouseEvent) => void;
+  handledAddQueryConstraint: (target: IOption) => void;
   handledUpdateQueryConstraintType: (
     constraintId: number
   ) => React.ChangeEventHandler<HTMLSelectElement>;
@@ -94,7 +92,6 @@ const ConstraintSelector: SFC<IProps> = ({
         OptionsIcon={ConstraintIcon}
         inputLabel="Contraint on..."
         options={contraintTargets}
-        value={""}
         handleChange={handledAddQueryConstraint}
       />
     </div>

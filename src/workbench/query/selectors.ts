@@ -4,6 +4,13 @@ import { RootState } from "rootReducer";
 import { getConstraintDisplayValue } from "workbench/utils";
 import { IOption } from "common/select/SelectInputContainer";
 
+export interface IConstraintTarget {
+  key: string;
+  label: string;
+  dataType: string;
+  toColumnName?: string;
+}
+
 const dataServicesSelector = (state: RootState) =>
   state.queryConfigReducer.dataServices;
 
@@ -86,7 +93,7 @@ export const getConstraintTargets = createSelector(
   elementIdSelector,
   querySelector,
   (columns, filters, elementId, queries) => {
-    const filtersSelect = filters.map<IOption>(
+    const filtersSelect = filters.map<IOption<IConstraintTarget>>(
       ({ Label, FilterName, DataType, ToColumnName }) => ({
         value: {
           key: FilterName,
@@ -107,7 +114,7 @@ export const getConstraintTargets = createSelector(
               ToColumnName != null && ToColumnName === ColumnName
           )
       )
-      .map<IOption>(({ Label, ColumnName, DataType }) => ({
+      .map<IOption<IConstraintTarget>>(({ Label, ColumnName, DataType }) => ({
         value: {
           key: ColumnName,
           label: Label,

@@ -289,17 +289,17 @@ export type QueryConstraintAction =
 
 export const addQueryConstraint = (
   elementId: number,
-  constraintId: number,
-  contraintTarget: any // Fix me.
+  constraint: IConstraint
 ): IAddQueryConstraint => ({
   type: QueryConstraintActionTypes.QUERY_CONSTRAINT_ADD,
   elementId,
-  constraint: {
-    ConstraintId: constraintId,
-    Values: undefined,
-    ValuesHint: "NoHint",
-    ...contraintTarget
-  }
+  constraint
+  // constraint: {
+  //   ConstraintId: constraintId,
+  //   Values: undefined,
+  //   ValuesHint: "NoHint",
+  //   ...contraintTarget
+  // }
 });
 
 export const updateQueryConstraintType = (

@@ -121,15 +121,16 @@ interface IException {
 export interface IConstraint {
   ConstraintId: number;
   ConstraintName: string;
-  ColumnName: string;
   FilterName: string;
-  Expression1: string;
-  Expression2: string;
-  FilterType: string;
   DataType: string;
-  Values: object[][];
-  ValuesHint: string;
-  ValuesDisplayStringsPreview: string;
+  ColumnName: string;
+
+  Expression1?: string;
+  Expression2?: string;
+  FilterType?: string;
+  Values?: object[][];
+  ValuesHint?: string;
+  ValuesDisplayStringsPreview?: string;
 }
 
 export interface IColumn {

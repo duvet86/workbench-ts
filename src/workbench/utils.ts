@@ -126,7 +126,7 @@ interface IConstraintVectorValue {
 }
 
 export function getConstraintVectorValue(
-  dataType: DATA_TYPES,
+  dataType: string,
   values: any, // Fix me.
   valuesHint?: string
 ) {

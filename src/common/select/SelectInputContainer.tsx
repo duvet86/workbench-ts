@@ -4,15 +4,15 @@ import { Overwrite, StyledComponentProps } from "@material-ui/core";
 
 import SelectInput from "common/select/SelectInput";
 
-export interface IOption {
+export interface IOption<T = any> {
   label: string;
-  value: any;
+  value: T;
 }
 
-interface IProps {
-  value: string;
-  options: IOption[];
-  handleChange: (option: IOption) => void;
+interface IProps<T> {
+  value?: string;
+  options: Array<IOption<T>>;
+  handleChange: (option: IOption<T>) => void;
   OptionsIcon?: React.ComponentType<
     Overwrite<Pick<{}, never>, StyledComponentProps<string>>
   >;
@@ -21,24 +21,26 @@ interface IProps {
   noClear?: boolean;
 }
 
-interface IState {
+interface IState<T> {
   anchorEl?: HTMLElement;
   label: string;
-  options: IOption[];
+  options: Array<IOption<T>>;
 }
 
-export default class SelectInputContainer extends React.Component<
-  IProps,
-  IState
+export default class SelectInputContainer<T> extends React.Component<
+  IProps<T>,
+  IState<T>
 > {
   private containerRef: React.RefObject<HTMLDivElement> = React.createRef();
 
-  constructor(props: IProps) {
+  constructor(props: IProps<T>) {
     super(props);
 
-    const selectedOption = this.props.options.find(
-      ({ value }) => value === props.value
-    );
+    const selectedOption =
+      props.value &&
+      this.props.options.find(
+        ({ value }) => typeof value === "string" && value === props.value
+      );
 
     this.state = {
       anchorEl: undefined,
@@ -101,7 +103,7 @@ export default class SelectInputContainer extends React.Component<
     });
   };
 
-  private handleOptionClick = (option: IOption) => (_: React.MouseEvent) => {
+  private handleOptionClick = (option: IOption<T>) => (_: React.MouseEvent) => {
     this.setState({
       label: option.label,
       anchorEl: undefined

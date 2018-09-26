@@ -3,13 +3,13 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { RootState } from "rootReducer";
-// import { DATA_TYPES } from "workbench/utils";
 
 import {
   getQueryConstraints,
-  getConstraintTargets
+  getConstraintTargets,
+  IConstraintTarget
 } from "workbench/query/selectors";
-
+import { getConstraintVectorValue } from "workbench/utils";
 import {
   addQueryConstraint,
   updateQueryConstraintType,
@@ -21,6 +21,7 @@ import {
   filterCapabilitiesRequest,
   FilterCapabilitiesAction
 } from "workbench/query/actions";
+import { IConstraint } from "workbench/types";
 
 import ConstraintSelector from "workbench/query/constraintSelector/ConstraintSelector";
 import { IOption } from "common/select/SelectInputContainer";
@@ -60,9 +61,7 @@ class ConstraintSelectorContainer extends Component<Props> {
     );
   }
 
-  private handledAddQueryConstraint = (selectedConstraintTarget: IOption) => (
-    event: React.MouseEvent
-  ) => {
+  private handledAddQueryConstraint = (selectedTarget: IOption<IConstraintTarget>) => {
     const {
       elementId,
       queryConstraints,
@@ -70,18 +69,17 @@ class ConstraintSelectorContainer extends Component<Props> {
       filterCapabilities
     } = this.props;
     // For a new constraint default the filterType to the first value
-    // of filter capabilities for the selected dataType.
-    const constraintTarget = {
-      ...selectedConstraintTarget,
-      FilterType:
-        filterCapabilities[selectedConstraintTarget.value.dataType][0].Type
+    // of the filter capabilities for the selected dataType.
+    const constraint: IConstraint = {
+      ConstraintId: queryConstraints.length,
+      ConstraintName: selectedTarget.value.key,
+      FilterName: selectedTarget.value.key,
+      DataType: selectedTarget.value.dataType,
+      ColumnName: selectedTarget.value.key,
+      FilterType: filterCapabilities[selectedTarget.value.dataType][0].Type
     };
 
-    dispatchAddQueryConstraint(
-      elementId,
-      queryConstraints.length,
-      constraintTarget
-    );
+    dispatchAddQueryConstraint(elementId, constraint);
   };
 
   private handledUpdateQueryConstraintType = (constraintId: number) => (
@@ -100,13 +98,13 @@ class ConstraintSelectorContainer extends Component<Props> {
     constraintId: number,
     dataType: string
   ) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    // const { elementId, dispatchUpdateQueryConstraintValues } = this.props;
-    // const valuesObj = getConstraintVectorValue(dataType, event.target.value);
-    // dispatchUpdateQueryConstraintValues(
-    //   elementId,
-    //   constraintId,
-    //   valuesObj.vectorValues
-    // );
+    const { elementId, dispatchUpdateQueryConstraintValues } = this.props;
+    const valuesObj = getConstraintVectorValue(dataType, event.target.value);
+    dispatchUpdateQueryConstraintValues(
+      elementId,
+      constraintId,
+      valuesObj.vectorValues
+    );
   };
 
   private handledRemoveQueryConstraint = (constraintId: number) => () => {
@@ -127,11 +125,8 @@ const mapDispatchToProps = (
 ) => ({
   dispatchFilterCapabilitiesRequest: () =>
     dispatch(filterCapabilitiesRequest()),
-  dispatchAddQueryConstraint: (
-    elementId: number,
-    constraintId: number,
-    constraintTarget: any
-  ) => dispatch(addQueryConstraint(elementId, constraintId, constraintTarget)),
+  dispatchAddQueryConstraint: (elementId: number, constraint: IConstraint) =>
+    dispatch(addQueryConstraint(elementId, constraint)),
   dispatchUpdateQueryConstraintType: (
     elementId: number,
     constraintId: number,
