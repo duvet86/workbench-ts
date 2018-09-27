@@ -91,7 +91,11 @@ module.exports = {
     })
   ],
   optimization: {
-    minimizer: [new TerserPlugin()]
+    minimizer: [
+      new TerserPlugin({
+        sourceMap: true
+      })
+    ]
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
