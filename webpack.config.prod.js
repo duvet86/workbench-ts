@@ -115,36 +115,55 @@ module.exports = {
   module: {
     strictExportPresence: true,
     rules: [
+      // {
+      //   test: /\.tsx?$/,
+      //   enforce: "pre",
+      //   use: [
+      //     { loader: "cache-loader" },
+      //     {
+      //       loader: "thread-loader",
+      //       options: {
+      //         // there should be 1 cpu for the fork-ts-checker-webpack-plugin
+      //         workers: 2
+      //       }
+      //     },
+      //     {
+      //       loader: "tslint-loader",
+      //       options: {
+      //         // tslint errors are displayed by default as warnings
+      //         // set emitErrors to true to display them as errors
+      //         emitErrors: true,
+      //         // tslint does not interrupt the compilation by default
+      //         // if you want any file with tslint errors to fail
+      //         // set failOnHint to true
+      //         failOnHint: true,
+      //         // enables type checked rules like 'for-in-array'
+      //         // uses tsconfig.json from current working directory
+      //         typeCheck: true
+      //       }
+      //     }
+      //   ]
+      // },
       {
         test: /\.tsx?$/,
-        enforce: "pre",
         use: [
+          // { loader: "cache-loader" },
+          // {
+          //   loader: "thread-loader",
+          //   options: {
+          //     // there should be 1 cpu for the fork-ts-checker-webpack-plugin
+          //     workers: 2
+          //   }
+          // },
           {
-            loader: "tslint-loader",
+            loader: "ts-loader",
             options: {
-              // tslint errors are displayed by default as warnings
-              // set emitErrors to true to display them as errors
-              emitErrors: true,
-              // tslint does not interrupt the compilation by default
-              // if you want any file with tslint errors to fail
-              // set failOnHint to true
-              failOnHint: true,
-              // enables type checked rules like 'for-in-array'
-              // uses tsconfig.json from current working directory
-              typeCheck: true
+              transpileOnly: true,
+              reportFiles: ["src/**/*.{ts,tsx}"]
+              // happyPackMode: true // IMPORTANT! use happyPackMode mode to speed-up compilation and reduce errors reported to webpack
             }
           }
-        ]
-      },
-      {
-        test: /\.tsx?$/,
-        use: {
-          loader: "ts-loader",
-          options: {
-            transpileOnly: true,
-            reportFiles: ["src/**/*.{ts,tsx}"]
-          }
-        },
+        ],
         exclude: /node_modules/
       },
       {
