@@ -2,10 +2,11 @@ const path = require("path");
 const webpack = require("webpack");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ManifestPlugin = require("webpack-manifest-plugin");
 const SWPrecacheWebpackPlugin = require("sw-precache-webpack-plugin");
+const Dotenv = require("dotenv-webpack");
 
 module.exports = {
   mode: "production",
@@ -18,19 +19,24 @@ module.exports = {
   // Enable sourcemaps for debugging webpack's output.
   devtool: "source-map",
   plugins: [
+    new Dotenv({
+      path: path.resolve(__dirname, ".prod.env")
+    }),
     new webpack.NamedModulesPlugin(),
     new ForkTsCheckerWebpackPlugin({
       tslint: true,
       checkSyntacticErrors: true,
       watch: ["./src"] // optional but improves performance (fewer stat calls)
     }),
-    new webpack.DefinePlugin({
-      PRODUCTION: JSON.stringify(true),
-      VERSION: JSON.stringify("1"),
-      "process.env": {
-        NODE_ENV: JSON.stringify("production")
-      }
-    }),
+    // new webpack.DefinePlugin({
+    //   "process.env": {
+    //     NODE_ENV: JSON.stringify("production"),
+    //     BASE_URL: JSON.stringify("http://lmarang-au-de01/mine"),
+    //     TENANT_ID: JSON.stringify("demo"),
+    //     TOKEN_KEY: JSON.stringify("token"),
+    //     TIME_TO_LIVE: JSON.stringify(1200)
+    //   }
+    // }),
     new HtmlWebpackPlugin({
       inject: true,
       template: path.resolve(__dirname, "public/index.html"),
@@ -46,9 +52,6 @@ module.exports = {
         minifyCSS: true,
         minifyURLs: true
       }
-    }),
-    new UglifyJsPlugin({
-      sourceMap: true
     }),
     // Generate a manifest file which contains a mapping of all asset filenames
     // to their corresponding output file so that tools can pick it up without
@@ -87,6 +90,9 @@ module.exports = {
       staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/]
     })
   ],
+  optimization: {
+    minimizer: [new TerserPlugin()]
+  },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
     plugins: [new TsconfigPathsPlugin()]

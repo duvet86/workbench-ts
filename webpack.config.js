@@ -3,7 +3,7 @@ const webpack = require("webpack");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const Dotenv = require('dotenv-webpack');
+const Dotenv = require("dotenv-webpack");
 
 module.exports = {
   mode: "development",
@@ -23,7 +23,9 @@ module.exports = {
     historyApiFallback: true
   },
   plugins: [
-    new Dotenv(),
+    new Dotenv({
+      path: path.resolve(__dirname, ".dev.env")
+    }),
     new webpack.NamedModulesPlugin(),
     new HtmlWebpackPlugin({
       inject: true,
