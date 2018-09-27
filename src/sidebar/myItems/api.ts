@@ -10,12 +10,15 @@ export const getMyItemsObs = () =>
       getWithJwtAsync<IFolderChild[]>(
         `api/useritems/myitems?tenant=${process.env.TENANT_ID}&itemTypeIds=${
           ItemTypeIds.SYSTEM_DATAVIEW
-        }&itemTypeIds=${ItemTypeIds.PAGE_BUILDER}`
+        }&itemTypeIds=${ItemTypeIds.USER_DATAVIEW}&itemTypeIds=${
+          ItemTypeIds.PAGE_BUILDER
+        }`
       ),
       getWithJwtAsync<IFolderChild[]>(
         `api/useritems/sharedwithme?tenant=${
           process.env.TENANT_ID
-        }&itemTypeIds=${ItemTypeIds.SYSTEM_DATAVIEW}&itemTypeIds=${
+        }&itemTypeIds=${ItemTypeIds.USER_DATAVIEW}
+        &itemTypeIds=${ItemTypeIds.SYSTEM_DATAVIEW}&itemTypeIds=${
           ItemTypeIds.PAGE_BUILDER
         }`
       )

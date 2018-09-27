@@ -26,7 +26,7 @@ class MyItemsListContainer extends Component<Props> {
     const { items, location } = this.props;
     return (
       <LoadingContainer isLoading={this.props.isLoading}>
-        {items && <MyItemsList items={items} location={location} />}
+        <MyItemsList items={items} location={location} />
       </LoadingContainer>
     );
   }

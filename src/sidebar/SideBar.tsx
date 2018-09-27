@@ -10,6 +10,9 @@ import Button, { ButtonProps } from "@material-ui/core/Button";
 import NavigationTabsContainer from "sidebar/navigationTabs/NavigationTabsContainer";
 import SideBarBodyContainer from "sidebar/SideBarBodyContainer";
 
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import DataViewIcon from "@material-ui/icons/VerticalSplit";
+
 interface IProps extends WithStyles<typeof styles> {
   open: boolean;
   location: Location;
@@ -34,6 +37,9 @@ const styles = createStyles({
     margin: 10,
     display: "flex",
     justifyContent: "space-evenly"
+  },
+  pageIcon: {
+    height: "0.9em"
   }
 });
 
@@ -58,11 +64,13 @@ const SideBar: SFC<IProps> = ({ classes, open, ...props }) => (
     open={open}
   >
     <div className={classes.buttonContainer}>
-      <Button variant="outlined" size="medium" component={nePagebuilderLink}>
-        New Page
-      </Button>
-      <Button variant="outlined" size="medium" component={newWorkbenchLink}>
+      <Button variant="outlined" size="small" component={newWorkbenchLink}>
+        <DataViewIcon />
         New Workbench
+      </Button>
+      <Button variant="outlined" size="small" component={nePagebuilderLink}>
+        <DashboardIcon className={classes.pageIcon} />
+        New Page
       </Button>
     </div>
     <NavigationTabsContainer {...props} />

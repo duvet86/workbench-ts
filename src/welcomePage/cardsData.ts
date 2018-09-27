@@ -1,14 +1,14 @@
-import Build from "@material-ui/icons/Build";
-import ContactPhone from "@material-ui/icons/ContactPhone";
-import Dashboard from "@material-ui/icons/Dashboard";
-import Info from "@material-ui/icons/Info";
-import Person from "@material-ui/icons/Person";
-import Work from "@material-ui/icons/Work";
+import BuildIcon from "@material-ui/icons/Build";
+import ContactPhoneIcon from "@material-ui/icons/ContactPhone";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import InfoIcon from "@material-ui/icons/Info";
+import PersonIcon from "@material-ui/icons/Person";
+import DataViewIcon from "@material-ui/icons/VerticalSplit";
 
 const linksList = [
   {
     id: 1,
-    IconComponent: Work,
+    IconComponent: DataViewIcon,
     label: "New Workbench",
     description:
       "This is where you can query, filter and manipulate your data.",
@@ -16,35 +16,35 @@ const linksList = [
   },
   {
     id: 2,
-    IconComponent: Dashboard,
+    IconComponent: DashboardIcon,
     label: "New Pagebuilder",
     description: "This is where you visualise your queries.",
     to: "/pagebuilder/new"
   },
   {
     id: 3,
-    IconComponent: Build,
+    IconComponent: BuildIcon,
     label: "Configure Session",
     description: "This is where you tune your workbench.",
     to: "/"
   },
   {
     id: 4,
-    IconComponent: Person,
+    IconComponent: PersonIcon,
     label: "Profile",
     description: "This is where you change your personal information.",
     to: "/profile"
   },
   {
     id: 5,
-    IconComponent: ContactPhone,
+    IconComponent: ContactPhoneIcon,
     label: "Contact Us",
     description: "For any trouble or info contact us here.",
     to: "/"
   },
   {
     id: 6,
-    IconComponent: Info,
+    IconComponent: InfoIcon,
     label: "Product Info",
     description: "Product version and info.",
     to: "/"
