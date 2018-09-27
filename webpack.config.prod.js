@@ -7,8 +7,15 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ManifestPlugin = require("webpack-manifest-plugin");
 const SWPrecacheWebpackPlugin = require("sw-precache-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
 
 module.exports = {
+  // Don't attempt to continue if there are any errors.
+  bail: true,
+  // Enable sourcemaps for debugging webpack's output.
+  devtool: "source-map",
   mode: "production",
   entry: { app: "./src/index.tsx" },
   output: {
@@ -16,9 +23,8 @@ module.exports = {
     chunkFilename: "[name].bundle.js",
     path: path.resolve(__dirname, "build")
   },
-  // Enable sourcemaps for debugging webpack's output.
-  devtool: "source-map",
   plugins: [
+    new CleanWebpackPlugin("build"),
     new Dotenv({
       path: path.resolve(__dirname, ".prod.env")
     }),
@@ -88,13 +94,18 @@ module.exports = {
       navigateFallbackWhitelist: [/^(?!\/__).*/],
       // Don't precache sourcemaps (they're large) and build asset manifest:
       staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/]
+    }),
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
+      chunkFilename: "[id].css"
     })
   ],
   optimization: {
     minimizer: [
       new TerserPlugin({
         sourceMap: true
-      })
+      }),
+      new OptimizeCSSAssetsPlugin()
     ]
   },
   resolve: {
@@ -102,7 +113,29 @@ module.exports = {
     plugins: [new TsconfigPathsPlugin()]
   },
   module: {
+    strictExportPresence: true,
     rules: [
+      {
+        test: /\.tsx?$/,
+        enforce: "pre",
+        use: [
+          {
+            loader: "tslint-loader",
+            options: {
+              // tslint errors are displayed by default as warnings
+              // set emitErrors to true to display them as errors
+              emitErrors: true,
+              // tslint does not interrupt the compilation by default
+              // if you want any file with tslint errors to fail
+              // set failOnHint to true
+              failOnHint: true,
+              // enables type checked rules like 'for-in-array'
+              // uses tsconfig.json from current working directory
+              typeCheck: true
+            }
+          }
+        ]
+      },
       {
         test: /\.tsx?$/,
         use: {
@@ -116,12 +149,29 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"]
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          "css-loader"
+        ]
       },
       {
         test: /\.(png|jpg|gif|woff|woff2|eot|ttf|svg)$/,
-        use: "file-loader"
+        loader: "url-loader",
+        options: {
+          limit: 10000
+        }
       }
     ]
+  },
+  // Some libraries import Node modules but don't use them in the browser.
+  // Tell Webpack to provide empty mocks for them so importing them works.
+  node: {
+    dgram: "empty",
+    fs: "empty",
+    net: "empty",
+    tls: "empty",
+    child_process: "empty"
   }
 };
