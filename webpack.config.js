@@ -4,6 +4,7 @@ const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
+const DuplicatePackageCheckerPlugin = require("duplicate-package-checker-webpack-plugin");
 
 module.exports = {
   mode: "development",
@@ -43,6 +44,10 @@ module.exports = {
       tslint: true,
       checkSyntacticErrors: true,
       watch: ["./src"] // optional but improves performance (fewer stat calls)
+    }),
+    new DuplicatePackageCheckerPlugin({
+      verbose: true,
+      emitError: true
     })
   ],
   resolve: {
