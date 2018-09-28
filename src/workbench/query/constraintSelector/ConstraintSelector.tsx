@@ -1,7 +1,13 @@
 import React, { Fragment, SFC } from "react";
 
 import { IConstraint } from "workbench/types";
-import { IFilterCapabilitiesDic } from "workbench/query/types";
+import {
+  IFilterCapabilitiesDic,
+  IAvailableColumns,
+  IAvailableFilters,
+  IUdsFilterDescriptionDtc,
+  IUdsColumnDescriptionDtc
+} from "workbench/query/types";
 
 import {
   createStyles,
@@ -25,13 +31,15 @@ import SelectInputContainer, {
 import ConstraintIcon from "@material-ui/icons/FilterList";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-type QueryContraint = IOption & IConstraint;
-
 const constraintIconColour = "#2c5367";
 
 interface IProps extends WithStyles<typeof styles> {
-  contraintTargets: IOption[];
-  queryConstraints: QueryContraint[];
+  availableConstraintsObj: {
+    availableConstraints: Array<IOption<string>>;
+    filtersDic: IAvailableFilters;
+    columnsDic: IAvailableColumns;
+  };
+  queryConstraints: IConstraint[];
   filterCapabilities: IFilterCapabilitiesDic;
   handledAddQueryConstraint: (target: IOption) => void;
   handledUpdateQueryConstraintType: (
@@ -76,9 +84,16 @@ const styles = ({ spacing: { unit } }: Theme) =>
     }
   });
 
+const getConstraintLabel = (
+  column?: IUdsColumnDescriptionDtc,
+  filter?: IUdsFilterDescriptionDtc
+) => {
+  return (column && column.Label) || (filter && filter.Label);
+};
+
 const ConstraintSelector: SFC<IProps> = ({
   classes,
-  contraintTargets,
+  availableConstraintsObj: { availableConstraints, columnsDic, filtersDic },
   queryConstraints,
   filterCapabilities,
   handledAddQueryConstraint,
@@ -91,17 +106,20 @@ const ConstraintSelector: SFC<IProps> = ({
       <SelectInputContainer
         OptionsIcon={ConstraintIcon}
         inputLabel="Contraint on..."
-        options={contraintTargets}
+        options={availableConstraints}
         handleChange={handledAddQueryConstraint}
       />
     </div>
     {queryConstraints.length > 0 &&
       queryConstraints.map(
-        ({ ConstraintId, DataType, FilterType, value, label }) => (
+        ({ ConstraintId, DataType, FilterType, FilterName, ColumnName }) => (
           <Paper key={ConstraintId} className={classes.paper}>
             <ConstraintIcon className={classes.constraintIcon} />
             <Typography variant="subheading" className={classes.targetLabel}>
-              {label}
+              {getConstraintLabel(
+                columnsDic[ColumnName],
+                filtersDic[FilterName]
+              )}
             </Typography>
             <FormControl className={classes.typeSelect}>
               <Select
@@ -119,7 +137,7 @@ const ConstraintSelector: SFC<IProps> = ({
             <FormControl className={classes.valueInput}>
               <Input
                 autoFocus
-                value={value}
+                value={""}
                 onChange={handledUpdateQueryConstraintValues(
                   ConstraintId,
                   DataType

@@ -15,7 +15,6 @@ import {
 } from "workbench/query/selectors";
 
 import { IColumn } from "workbench/types";
-// import { IUdsColumnDescriptionDtc } from "workbench/query/types";
 import { IOption } from "common/select/SelectInputContainer";
 
 import ColumnsSelector from "workbench/query/columnSelector/ColumnsSelector";

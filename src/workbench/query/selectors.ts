@@ -3,13 +3,7 @@ import { createSelector } from "reselect";
 import { RootState } from "rootReducer";
 import { getConstraintDisplayValue } from "workbench/utils";
 import { IOption } from "common/select/SelectInputContainer";
-
-export interface IConstraintTarget {
-  key: string;
-  label: string;
-  dataType: string;
-  toColumnName?: string;
-}
+import { IAvailableColumns, IAvailableFilters } from "workbench/query/types";
 
 const dataServicesSelector = (state: RootState) =>
   state.queryConfigReducer.dataServices;
@@ -84,55 +78,76 @@ export const getCompletedSteps = createSelector(
 const availableFiltersSelector = (state: RootState) =>
   state.queryConfigReducer.availableFilters;
 
-const noteSupportedDataTypes = ["DateTimeValue", "DateValue", "TimeValue"];
+// True means not supported.
+const noteSupportedDataTypes: { [key: string]: boolean } = {
+  DateTimeValue: true,
+  DateValue: true,
+  TimeValue: true
+};
 
 // NOTE: date types are not supported yet.
-export const getConstraintTargets = createSelector(
+export const getAvailableConstraintsObj = createSelector(
   availableColumnsSelector,
   availableFiltersSelector,
   elementIdSelector,
   querySelector,
   (columns, filters, elementId, queries) => {
-    const filtersSelect = filters.map<IOption<IConstraintTarget>>(
-      ({ Label, FilterName, DataType, ToColumnName }) => ({
-        value: {
-          key: FilterName,
-          label: Label,
-          dataType: DataType,
-          toColumnName: ToColumnName
-        },
+    const optionFilters = filters.map<IOption<string>>(
+      ({ Label, FilterName }) => ({
+        value: FilterName,
         label: Label + " (F)"
       })
     );
 
+    const filtersDic = filters.reduce(
+      (res, f) => {
+        res[f.FilterName] = f;
+        return res;
+      },
+      {} as IAvailableFilters
+    );
+
     const columnsSelect = columns
-      .filter(({ DataType }) => !noteSupportedDataTypes.includes(DataType))
+      // Remove columns that have unsupported dataTypes, see noteSupportedDataTypes obj.
+      .filter(({ DataType }) => !noteSupportedDataTypes[DataType])
+      // Remove columns that are replace by filters.
       .filter(
         ({ ColumnName }) =>
           !filters.some(
             ({ ToColumnName }) =>
               ToColumnName != null && ToColumnName === ColumnName
           )
-      )
-      .map<IOption<IConstraintTarget>>(({ Label, ColumnName, DataType }) => ({
-        value: {
-          key: ColumnName,
-          label: Label,
-          dataType: DataType
-        },
-        label: Label
-      }));
+      );
 
-    return filtersSelect
-      .concat(columnsSelect)
+    const optionColumns = columnsSelect.map<IOption<string>>(
+      ({ Label, ColumnName }) => ({
+        value: ColumnName,
+        label: Label + " (C)"
+      })
+    );
+
+    const columnsDic = columnsSelect.reduce(
+      (res, c) => {
+        res[c.ColumnName] = c;
+        return res;
+      },
+      {} as IAvailableColumns
+    );
+
+    const availableConstraints = optionFilters
+      .concat(optionColumns)
       .filter(
-        availConstraint =>
+        opt =>
           !queries[elementId].Constraints.some(
-            queryConstraint =>
-              availConstraint.value.key === queryConstraint.FilterName ||
-              availConstraint.value.key === queryConstraint.ColumnName
+            qc => opt.value === qc.FilterName || opt.value === qc.ColumnName
           )
       );
+
+    return {
+      availableConstraints,
+      filtersDic,
+      columnsDic
+    };
   }
 );
 

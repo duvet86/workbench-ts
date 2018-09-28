@@ -10,7 +10,7 @@ export interface IOption<T = any> {
 }
 
 interface IProps<T> {
-  value?: string;
+  value?: T;
   options: Array<IOption<T>>;
   handleChange: (option: IOption<T>) => void;
   OptionsIcon?: React.ComponentType<
@@ -38,9 +38,7 @@ export default class SelectInputContainer<T> extends React.Component<
 
     const selectedOption =
       props.value &&
-      this.props.options.find(
-        ({ value }) => typeof value === "string" && value === props.value
-      );
+      this.props.options.find(({ value }) => value === props.value);
 
     this.state = {
       anchorEl: undefined,

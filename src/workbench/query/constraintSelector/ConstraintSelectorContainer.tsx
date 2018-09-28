@@ -6,8 +6,7 @@ import { RootState } from "rootReducer";
 
 import {
   getQueryConstraints,
-  getConstraintTargets,
-  IConstraintTarget
+  getAvailableConstraintsObj
 } from "workbench/query/selectors";
 import { getConstraintVectorValue } from "workbench/utils";
 import {
@@ -43,14 +42,14 @@ class ConstraintSelectorContainer extends Component<Props> {
     const {
       queryConstraints,
       filterCapabilities,
-      contraintTargets
+      availableConstraintsObj
     } = this.props;
 
     return (
       <ConstraintSelector
         queryConstraints={queryConstraints}
         filterCapabilities={filterCapabilities}
-        contraintTargets={contraintTargets}
+        availableConstraintsObj={availableConstraintsObj}
         handledAddQueryConstraint={this.handledAddQueryConstraint}
         handledUpdateQueryConstraintType={this.handledUpdateQueryConstraintType}
         handledUpdateQueryConstraintValues={
@@ -61,22 +60,35 @@ class ConstraintSelectorContainer extends Component<Props> {
     );
   }
 
-  private handledAddQueryConstraint = (selectedTarget: IOption<IConstraintTarget>) => {
+  private handledAddQueryConstraint = (selectedOption: IOption<string>) => {
     const {
       elementId,
       queryConstraints,
       dispatchAddQueryConstraint,
-      filterCapabilities
+      filterCapabilities,
+      availableConstraintsObj: { columnsDic, filtersDic }
     } = this.props;
+
+    const constraintColumn = columnsDic[selectedOption.value];
+    const constraintFilter = filtersDic[selectedOption.value];
+
+    const dataType =
+      (constraintColumn && constraintColumn.DataType) ||
+      (constraintFilter && constraintFilter.DataType);
+
+    const columnName =
+      (constraintColumn && constraintColumn.ColumnName) ||
+      (constraintFilter && constraintFilter.ToColumnName);
+
     // For a new constraint default the filterType to the first value
     // of the filter capabilities for the selected dataType.
     const constraint: IConstraint = {
       ConstraintId: queryConstraints.length,
-      ConstraintName: selectedTarget.value.key,
-      FilterName: selectedTarget.value.key,
-      DataType: selectedTarget.value.dataType,
-      ColumnName: selectedTarget.value.key,
-      FilterType: filterCapabilities[selectedTarget.value.dataType][0].Type
+      ConstraintName: constraintColumn && constraintColumn.ColumnName,
+      FilterName: constraintFilter && constraintFilter.FilterName,
+      DataType: dataType,
+      ColumnName: columnName,
+      FilterType: filterCapabilities[dataType][0].Type
     };
 
     dispatchAddQueryConstraint(elementId, constraint);
@@ -117,7 +129,7 @@ class ConstraintSelectorContainer extends Component<Props> {
 const mapStateToProps = (state: RootState) => ({
   queryConstraints: getQueryConstraints(state),
   filterCapabilities: state.queryConfigReducer.filterCapabilities,
-  contraintTargets: getConstraintTargets(state)
+  availableConstraintsObj: getAvailableConstraintsObj(state)
 });
 
 const mapDispatchToProps = (

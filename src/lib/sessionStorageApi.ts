@@ -1,7 +1,6 @@
 interface IToken {
   createdAt: number;
   token: string;
-  isExpired: boolean;
 }
 
 export const storeToken = (token: string) =>
@@ -9,8 +8,7 @@ export const storeToken = (token: string) =>
     process.env.TOKEN_KEY!,
     JSON.stringify({
       createdAt: Math.floor(Date.now() / 1000),
-      token,
-      isExpired: false
+      token
     })
   );
 

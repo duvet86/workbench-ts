@@ -45,10 +45,7 @@ module.exports = {
       checkSyntacticErrors: true,
       watch: ["./src"] // optional but improves performance (fewer stat calls)
     }),
-    new DuplicatePackageCheckerPlugin({
-      verbose: true,
-      emitError: true
-    })
+    new DuplicatePackageCheckerPlugin()
   ],
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"],

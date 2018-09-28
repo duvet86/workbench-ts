@@ -27,7 +27,7 @@ export const isUserAuthenticated = () => {
   const jwtToken = getToken();
 
   // if it exists
-  if (jwtToken && !jwtToken.isExpired) {
+  if (jwtToken) {
     // compare the total seconds of the created
     // time of the token vs the ttl (time to live) seconds
     const expiry = jwtToken.createdAt + parseInt(process.env.TIME_TO_LIVE!, 10);

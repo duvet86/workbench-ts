@@ -37,7 +37,15 @@ export interface IUdsFilterDescriptionDtc {
   AllowedValuesFilterName: string;
   ResolvedDependsOnFilterNames: string[];
   // Added by me.
-  ToColumnName?: string;
+  ToColumnName: string;
+}
+
+export interface IAvailableColumns {
+  [name: string]: IUdsColumnDescriptionDtc;
+}
+
+export interface IAvailableFilters {
+  [name: string]: IUdsFilterDescriptionDtc;
 }
 
 export interface IFilterCapabilitiesDic {
