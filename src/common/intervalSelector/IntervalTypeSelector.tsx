@@ -7,7 +7,7 @@ import {
   WithStyles
 } from "@material-ui/core/styles";
 
-import { IInterval, IIntervalTypesDtc } from "common/intervalSelector/types";
+import { IIntervalDtc, IIntervalTypesDtc } from "common/intervalSelector/types";
 
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -19,7 +19,7 @@ interface IProps extends WithStyles<typeof styles> {
   className?: string;
   isLoading: boolean;
   intervalTypes: IIntervalTypesDtc[];
-  interval: IInterval;
+  interval: IIntervalDtc;
   onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
 }
 
@@ -50,7 +50,7 @@ const IntervalTypeSelector: SFC<IProps> = ({
       <CircularProgress size={20} className={classes.loading} />
     ) : (
       <Select
-        value={interval.type}
+        value={interval.IntervalType}
         onChange={onChange}
         inputProps={{
           name: "interval"

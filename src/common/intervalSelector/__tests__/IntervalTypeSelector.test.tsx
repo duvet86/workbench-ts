@@ -12,8 +12,9 @@ test("Test", () => {
     }
   ];
   const interval = {
-    type: "type",
-    string: "string"
+    IntervalType: "type",
+    IntervalString: "string",
+    offset: 0
   };
   const onChange = () => {
     return;

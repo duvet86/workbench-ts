@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { RootState } from "rootReducer";
-import { IntervalTypeAction } from "common/intervalSelector/actions";
-import { IInterval } from "common/intervalSelector/types";
+import { IntervalAction } from "common/intervalSelector/actions";
+import { IIntervalDtc } from "common/intervalSelector/types";
 import {
   intervalTypesRequest,
   intervalUpdate
@@ -40,7 +40,10 @@ class IntervalTypeSelectorContainer extends Component<Props> {
   }
 
   private onIntervalTypeChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    this.props.dispatchOnIntervalTypeChange({ type: event.target.value });
+    this.props.dispatchOnIntervalTypeChange({
+      IntervalType: event.target.value,
+      offset: 0
+    });
   };
 }
 
@@ -52,11 +55,11 @@ const mapStateToProps = ({
   isLoading
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<IntervalTypeAction>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<IntervalAction>) => ({
   dispatchIntervalTypesRequest() {
     dispatch(intervalTypesRequest());
   },
-  dispatchOnIntervalTypeChange(newInterval: IInterval) {
+  dispatchOnIntervalTypeChange(newInterval: IIntervalDtc) {
     dispatch(intervalUpdate(newInterval));
   }
 });
