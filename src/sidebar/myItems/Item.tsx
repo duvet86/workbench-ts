@@ -13,8 +13,7 @@ import {
 import ListItem, { ListItemProps } from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import DataViewIcon from "@material-ui/icons/VerticalSplit";
+import { DashboardIcon, DataViewIcon } from "common/icons";
 
 interface IProps extends WithStyles<typeof styles, true> {
   itemTypeId: ItemTypeIds;

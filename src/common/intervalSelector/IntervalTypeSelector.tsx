@@ -1,64 +1,69 @@
 import React, { ChangeEvent, SFC } from "react";
 
+import {
+  createStyles,
+  Theme,
+  withStyles,
+  WithStyles
+} from "@material-ui/core/styles";
+
 import { IInterval, IIntervalTypesDtc } from "common/intervalSelector/types";
 
 import FormControl from "@material-ui/core/FormControl";
-import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
-// interface IBackDropProps {
-//   onClick: (event: MouseEvent<HTMLDivElement>) => void;
-// }
-
-// const CustomBackdropComponent: StatelessComponent<IBackDropProps> = ({
-//   onClick
-// }) => (
-//   <div
-//     style={{
-//       height: "100%",
-//       left: 0,
-//       position: "fixed",
-//       top: 0,
-//       width: "100%",
-//       zIndex: -1
-//     }}
-//     onClick={onClick}
-//     aria-hidden="true"
-//   />
-// );
-
-interface IIntervalTypeProps {
+interface IProps extends WithStyles<typeof styles> {
   className?: string;
+  isLoading: boolean;
   intervalTypes: IIntervalTypesDtc[];
   interval: IInterval;
   onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
 }
 
-const IntervalTypeSelector: SFC<IIntervalTypeProps> = ({
+const styles = ({ spacing: { unit } }: Theme) =>
+  createStyles({
+    loading: {
+      marginTop: unit * 2,
+      marginLeft: unit
+    }
+  });
+
+const IntervalTypeSelector: SFC<IProps> = ({
+  classes,
   className,
+  isLoading,
   intervalTypes,
   interval,
   onChange
 }) => (
   <FormControl className={className}>
-    <InputLabel htmlFor="interval">Interval</InputLabel>
-    <Select
-      // MenuProps={{
-      //   BackdropComponent: CustomBackdropComponent
-      // }}
-      value={interval.type}
-      onChange={onChange}
-      input={<Input name="interval" id="interval" />}
+    <InputLabel
+      htmlFor="interval"
+      style={{ transform: isLoading ? "none" : undefined }}
     >
-      {intervalTypes.map(({ IntervalType, Label }) => (
-        <MenuItem key={IntervalType} value={IntervalType}>
-          {Label}
-        </MenuItem>
-      ))}
-    </Select>
+      Interval
+    </InputLabel>
+    {isLoading ? (
+      <CircularProgress size={20} className={classes.loading} />
+    ) : (
+      <Select
+        value={interval.type}
+        onChange={onChange}
+        inputProps={{
+          name: "interval"
+        }}
+      >
+        {intervalTypes.map(({ IntervalType, Label }) => (
+          <MenuItem key={IntervalType} value={IntervalType}>
+            {Label}
+          </MenuItem>
+        ))}
+      </Select>
+    )}
   </FormControl>
 );
 
-export default IntervalTypeSelector;
+export default withStyles(styles)(IntervalTypeSelector);

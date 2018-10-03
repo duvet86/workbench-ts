@@ -26,10 +26,11 @@ class IntervalTypeSelectorContainer extends Component<Props> {
   }
 
   public render() {
-    const { className, interval, intervalTypes } = this.props;
+    const { className, interval, intervalTypes, isLoading } = this.props;
 
     return (
       <IntervalTypeSelector
+        isLoading={isLoading}
         className={className}
         interval={interval}
         intervalTypes={intervalTypes}

@@ -103,7 +103,7 @@ export default class SelectInputContainer<T> extends React.Component<
 
   private handleOptionClick = (option: IOption<T>) => (_: React.MouseEvent) => {
     this.setState({
-      label: option.label,
+      label: this.props.value != null ? option.label : "",
       anchorEl: undefined
     });
     this.props.handleChange(option);

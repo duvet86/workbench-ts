@@ -1,9 +1,8 @@
 import BuildIcon from "@material-ui/icons/Build";
 import ContactPhoneIcon from "@material-ui/icons/ContactPhone";
-import DashboardIcon from "@material-ui/icons/Dashboard";
 import InfoIcon from "@material-ui/icons/Info";
 import PersonIcon from "@material-ui/icons/Person";
-import DataViewIcon from "@material-ui/icons/VerticalSplit";
+import { DashboardIcon, DataViewIcon } from "common/icons";
 
 const linksList = [
   {

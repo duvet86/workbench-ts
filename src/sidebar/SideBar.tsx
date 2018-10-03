@@ -10,8 +10,7 @@ import Button, { ButtonProps } from "@material-ui/core/Button";
 import NavigationTabsContainer from "sidebar/navigationTabs/NavigationTabsContainer";
 import SideBarBodyContainer from "sidebar/SideBarBodyContainer";
 
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import DataViewIcon from "@material-ui/icons/VerticalSplit";
+import { DashboardIcon, DataViewIcon } from "common/icons";
 
 interface IProps extends WithStyles<typeof styles> {
   open: boolean;

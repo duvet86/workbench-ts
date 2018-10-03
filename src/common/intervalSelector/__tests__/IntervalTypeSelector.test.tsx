@@ -21,6 +21,7 @@ test("Test", () => {
 
   const component = create(
     <IntervalTypeSelector
+      isLoading={false}
       intervalTypes={intervalTypes}
       interval={interval}
       onChange={onChange}

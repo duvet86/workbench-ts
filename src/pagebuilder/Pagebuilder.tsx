@@ -11,8 +11,7 @@ import Grid from "@material-ui/core/Grid";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import DataViewIcon from "@material-ui/icons/VerticalSplit";
+import { DashboardIcon, DataViewIcon } from "common/icons";
 
 interface IProps extends WithStyles<typeof styles> {
   handleChange: (_: ChangeEvent<{}>, value: number) => void;

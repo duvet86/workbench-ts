@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import HelpPageCard from "welcomePage/HelpPageCard";
 
 import linksList from "welcomePage/cardsData";
+import IntervalSelector from "common/intervalSelector/IntervalSelector";
 
 const styles = createStyles({
   container: {
@@ -18,6 +19,7 @@ const styles = createStyles({
 const WelcomePage: SFC<WithStyles<typeof styles>> = ({ classes }) => (
   <Grid container className={classes.container} spacing={16}>
     <Grid item xs={12}>
+      <IntervalSelector />
       <Typography variant="headline" gutterBottom>
         Welcome
       </Typography>

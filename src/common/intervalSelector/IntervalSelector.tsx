@@ -15,10 +15,10 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 
-import ArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
-import ArrowRight from "@material-ui/icons/KeyboardArrowRight";
-
 import IntervalTypeSelectorContainer from "common/intervalSelector/IntervalTypeSelectorContainer";
+
+import ArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
+import ArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 
 const styles = ({ spacing: { unit } }: Theme) =>
   createStyles({
@@ -50,14 +50,14 @@ const IntervalSelector: SFC<WithStyles<typeof styles>> = ({ classes }) => (
         startAdornment={
           <InputAdornment position="start">
             <IconButton aria-label="Toggle password visibility">
-              {<ArrowLeft />}
+              {<ArrowLeftIcon />}
             </IconButton>
           </InputAdornment>
         }
         endAdornment={
           <InputAdornment position="end">
             <IconButton aria-label="Toggle password visibility">
-              {<ArrowRight />}
+              {<ArrowRightIcon />}
             </IconButton>
           </InputAdornment>
         }
