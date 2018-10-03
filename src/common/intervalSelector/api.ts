@@ -9,9 +9,11 @@ export const getIntervalTypesObs = (): Observable<IIntervalTypesDtc[]> =>
 export const resolveIntervalObs = (
   intervalType: string,
   offset: number
-): Observable<IIntervalDtc[]> =>
+): Observable<IIntervalDtc> =>
   from(
-    getWithJwtAsync(
+    getWithJwtAsync<IIntervalDtc[]>(
       `api/platform/interval/${intervalType}/resolve?offset=${offset}`
-    )
+    ).then(intervalArray => {
+      return intervalArray[0];
+    })
   );

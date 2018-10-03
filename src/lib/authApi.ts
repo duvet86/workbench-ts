@@ -3,7 +3,7 @@ import { push } from "connected-react-router";
 import { from, Observable } from "rxjs";
 
 import { getAsync } from "lib/http";
-import { removeToken, getToken } from "lib/sessionStorageApi";
+import { clearToken, getToken } from "lib/sessionStorageApi";
 
 import { logout } from "login/actions";
 
@@ -18,7 +18,7 @@ export const getTokenObs = (
   );
 
 export const deleteTokenAndRedirectLogin = () => {
-  removeToken();
+  clearToken();
   return [logout(), push("/login")];
 };
 
@@ -34,7 +34,7 @@ export const isUserAuthenticated = () => {
 
     // if the token has expired return false
     if (jwtToken.createdAt > expiry) {
-      removeToken();
+      clearToken();
       return false;
     }
 

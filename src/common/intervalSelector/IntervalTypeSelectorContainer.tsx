@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { RootState } from "rootReducer";
-import { IntervalAction } from "common/intervalSelector/actions";
+import { IntervalTypeAction } from "common/intervalSelector/actions";
 import { IInterval } from "common/intervalSelector/types";
 import {
   intervalTypesRequest,
@@ -52,7 +52,7 @@ const mapStateToProps = ({
   isLoading
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<IntervalAction>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<IntervalTypeAction>) => ({
   dispatchIntervalTypesRequest() {
     dispatch(intervalTypesRequest());
   },

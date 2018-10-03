@@ -12,9 +12,8 @@ export const storeToken = (token: string) =>
     })
   );
 
-export const removeToken = () => {
+export const clearToken = () =>
   sessionStorage.removeItem(process.env.TOKEN_KEY!);
-};
 
 export const getToken = (): IToken | null => {
   const tokenKey = sessionStorage.getItem(process.env.TOKEN_KEY!);

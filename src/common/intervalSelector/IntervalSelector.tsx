@@ -27,7 +27,7 @@ const styles = ({ spacing: { unit } }: Theme) =>
     },
     dateSelector: {
       flexBasis: 350,
-      margin: unit
+      margin: `${unit * 3}px ${unit}px ${unit}px ${unit}px`
     },
     intervalTypeSelector: {
       flexBasis: 200,
@@ -43,22 +43,19 @@ const IntervalSelector: SFC<WithStyles<typeof styles>> = ({ classes }) => (
   <div className={classes.container}>
     <IntervalTypeSelectorContainer className={classes.intervalTypeSelector} />
     <FormControl className={classes.dateSelector}>
-      <InputLabel htmlFor="name-input">Name</InputLabel>
       <Input
         type="date"
-        id="name-input"
+        inputProps={{
+          name: "interval-string"
+        }}
         startAdornment={
           <InputAdornment position="start">
-            <IconButton aria-label="Toggle password visibility">
-              {<ArrowLeftIcon />}
-            </IconButton>
+            <IconButton aria-label="Left">{<ArrowLeftIcon />}</IconButton>
           </InputAdornment>
         }
         endAdornment={
           <InputAdornment position="end">
-            <IconButton aria-label="Toggle password visibility">
-              {<ArrowRightIcon />}
-            </IconButton>
+            <IconButton aria-label="Right">{<ArrowRightIcon />}</IconButton>
           </InputAdornment>
         }
       />

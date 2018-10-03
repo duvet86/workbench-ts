@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { push, RouterAction } from "connected-react-router";
 import { Dispatch } from "redux";
 
-import { removeToken } from "lib/sessionStorageApi";
+import { clearToken } from "lib/sessionStorageApi";
 
 import TopBar from "topBar/TopBar";
 
@@ -76,7 +76,7 @@ const mapDispatchToProps = (dispatch: Dispatch<RouterAction>) => ({
     dispatch(push("/"));
   },
   dispatchLogout: () => {
-    removeToken();
+    clearToken();
     dispatch(push("/login"));
   },
   dispatchProfileClick: () => {
