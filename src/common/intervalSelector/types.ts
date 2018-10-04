@@ -14,6 +14,21 @@ export const enum IntervalTypes {
   SHIFTHOUR = "SHIFTHOUR"
 }
 
+export interface ISmartInterval {
+  smartIntervalKey: string | null;
+  intervalString: string | null;
+}
+
+export interface IShiftDtc {
+  DateOp: Date;
+  Shift: string;
+  Description: string;
+  TimeStart: Date;
+  Order: number;
+  Label: string;
+  DurationMinutes: number;
+}
+
 export interface IIntervalTypesDtc {
   IntervalType: string;
   Label: string;
