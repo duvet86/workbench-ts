@@ -37,8 +37,8 @@ const styles = createStyles({
     display: "flex",
     justifyContent: "space-evenly"
   },
-  pageIcon: {
-    height: "0.9em"
+  icon: {
+    marginRight: 5
   }
 });
 
@@ -64,11 +64,11 @@ const SideBar: SFC<IProps> = ({ classes, open, ...props }) => (
   >
     <div className={classes.buttonContainer}>
       <Button variant="outlined" size="small" component={newWorkbenchLink}>
-        <DataViewIcon />
+        <DataViewIcon className={classes.icon} />
         New Workbench
       </Button>
       <Button variant="outlined" size="small" component={nePagebuilderLink}>
-        <DashboardIcon className={classes.pageIcon} />
+        <DashboardIcon className={classes.icon} />
         New Page
       </Button>
     </div>

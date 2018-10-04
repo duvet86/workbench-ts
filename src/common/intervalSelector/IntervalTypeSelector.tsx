@@ -58,7 +58,7 @@ const IntervalTypeSelector: SFC<IProps> = ({
       >
         {intervalTypes.map(({ IntervalType, Label }) => (
           <MenuItem key={IntervalType} value={IntervalType}>
-            {Label}
+            {Label} - {IntervalType}
           </MenuItem>
         ))}
       </Select>
