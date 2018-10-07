@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { SFC, ChangeEvent } from "react";
 
 import {
   createStyles,
@@ -7,31 +7,27 @@ import {
   WithStyles
 } from "@material-ui/core/styles";
 
+import { IIntervalDtc, IIntervalTypesDtc } from "common/intervalSelector/types";
+
 import FormControl from "@material-ui/core/FormControl";
-import IconButton from "@material-ui/core/IconButton";
 import Input from "@material-ui/core/Input";
-import InputAdornment from "@material-ui/core/InputAdornment";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 
-import IntervalTypeSelectorContainer from "common/intervalSelector/IntervalTypeSelectorContainer";
+import IntervalTypeSelector from "common/intervalSelector/IntervalTypeSelector";
+import IntervalStringPicker from "common/intervalSelector/IntervalStringPicker";
 
-import ArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
-import ArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
+interface IProps extends WithStyles<typeof styles> {
+  interval: IIntervalDtc;
+  intervalTypes: IIntervalTypesDtc[];
+  onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
+}
 
 const styles = ({ spacing: { unit } }: Theme) =>
   createStyles({
     container: {
       display: "flex"
-    },
-    dateSelector: {
-      flexBasis: 350,
-      margin: `${unit * 3}px ${unit}px ${unit}px ${unit}px`
-    },
-    intervalTypeSelector: {
-      flexBasis: 200,
-      margin: unit
     },
     smartSelector: {
       flexBasis: 200,
@@ -39,27 +35,19 @@ const styles = ({ spacing: { unit } }: Theme) =>
     }
   });
 
-const IntervalSelector: SFC<WithStyles<typeof styles>> = ({ classes }) => (
+const IntervalSelector: SFC<IProps> = ({
+  classes,
+  intervalTypes,
+  interval,
+  onChange
+}) => (
   <div className={classes.container}>
-    <IntervalTypeSelectorContainer className={classes.intervalTypeSelector} />
-    <FormControl className={classes.dateSelector}>
-      <Input
-        type="date"
-        inputProps={{
-          name: "interval-string"
-        }}
-        startAdornment={
-          <InputAdornment position="start">
-            <IconButton aria-label="Left">{<ArrowLeftIcon />}</IconButton>
-          </InputAdornment>
-        }
-        endAdornment={
-          <InputAdornment position="end">
-            <IconButton aria-label="Right">{<ArrowRightIcon />}</IconButton>
-          </InputAdornment>
-        }
-      />
-    </FormControl>
+    <IntervalTypeSelector
+      options={intervalTypes}
+      value={interval.IntervalType}
+      onChange={onChange}
+    />
+    <IntervalStringPicker intervalStringDate={interval.intervalStringDate} />
     <FormControl className={classes.smartSelector}>
       <InputLabel htmlFor="age-simple">Smart Date</InputLabel>
       <Select value="" input={<Input name="age" id="age-simple" />} autoWidth>

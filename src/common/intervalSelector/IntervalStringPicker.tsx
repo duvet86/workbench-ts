@@ -6,7 +6,6 @@ import {
   withStyles,
   WithStyles
 } from "@material-ui/core/styles";
-import { IIntervalDtc } from "common/intervalSelector/types";
 
 import FormControl from "@material-ui/core/FormControl";
 import IconButton from "@material-ui/core/IconButton";
@@ -17,8 +16,7 @@ import ArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
 import ArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 
 interface IProps extends WithStyles<typeof styles> {
-  isLoading: boolean;
-  interval: IIntervalDtc;
+  intervalStringDate?: string;
 }
 
 const styles = ({ spacing: { unit } }: Theme) =>
@@ -29,13 +27,14 @@ const styles = ({ spacing: { unit } }: Theme) =>
     }
   });
 
-const IntervalStringPicker: SFC<IProps> = ({ classes }) => (
+const IntervalStringPicker: SFC<IProps> = ({ classes, intervalStringDate }) => (
   <FormControl className={classes.dateSelector}>
     <Input
       type="date"
       inputProps={{
         name: "interval-string"
       }}
+      value={intervalStringDate}
       startAdornment={
         <InputAdornment position="start">
           <IconButton aria-label="Left">{<ArrowLeftIcon />}</IconButton>

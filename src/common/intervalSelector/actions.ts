@@ -1,28 +1,34 @@
 import { Action } from "redux";
-import { IIntervalTypesDtc, IIntervalDtc } from "common/intervalSelector/types";
+import {
+  IIntervalTypesDtc,
+  IIntervalDtc,
+  ITypesAndInterval
+} from "common/intervalSelector/types";
 
 export const enum IntervalActionTypes {
-  INTERVALTYPE_REQUEST = "INTERVALTYPE_REQUEST",
-  INTERVALTYPE_SUCCESS = "INTERVALTYPE_SUCCESS",
-  INTERVALTYPE_ERROR = "INTERVALTYPE_ERROR",
+  INIT_INTERVAL_REQUEST = "INIT_INTERVAL_REQUEST",
+  INIT_INTERVAL_SUCCESS = "INIT_INTERVAL_SUCCESS",
+  INIT_INTERVAL_ERROR = "INIT_INTERVAL_ERROR",
   RESOLVE_INTERVAL_REQUEST = "RESOLVE_INTERVAL_REQUEST",
   RESOLVE_INTERVAL_SUCCESS = "RESOLVE_INTERVAL_SUCCESS",
   RESOLVE_INTERVAL_ERROR = "RESOLVE_INTERVAL_ERROR",
   INTERVAL_UPDATE = "INTERVAL_UPDATE"
 }
 
-interface IIntervalTypesRequest extends Action {
-  type: IntervalActionTypes.INTERVALTYPE_REQUEST;
+export interface IInitIntervalRequest extends Action {
+  type: IntervalActionTypes.INIT_INTERVAL_REQUEST;
+  initInterval: IIntervalDtc;
 }
 
-interface IIntervalTypesSuccess extends Action {
-  type: IntervalActionTypes.INTERVALTYPE_SUCCESS;
+export interface IInitIntervalSuccess extends Action {
+  type: IntervalActionTypes.INIT_INTERVAL_SUCCESS;
   intervalTypes: IIntervalTypesDtc[];
+  interval: IIntervalDtc;
 }
 
-interface IIntervalTypesError extends Action {
-  type: IntervalActionTypes.INTERVALTYPE_ERROR;
-  error: object;
+interface IInitIntervalError extends Action {
+  type: IntervalActionTypes.INIT_INTERVAL_ERROR;
+  error: any;
 }
 
 interface IResolveIntervalSuccess extends Action {
@@ -32,7 +38,7 @@ interface IResolveIntervalSuccess extends Action {
 
 interface IResolveIntervalError extends Action {
   type: IntervalActionTypes.RESOLVE_INTERVAL_ERROR;
-  error: object;
+  error: any;
 }
 
 interface IIntervalUpdate extends Action {
@@ -41,29 +47,33 @@ interface IIntervalUpdate extends Action {
 }
 
 export type IntervalAction =
-  | IIntervalTypesRequest
-  | IIntervalTypesSuccess
-  | IIntervalTypesError
-  | IIntervalUpdate
+  | IInitIntervalRequest
+  | IInitIntervalSuccess
+  | IInitIntervalError
   | IResolveIntervalRequest
   | IResolveIntervalSuccess
   | IResolveIntervalError
   | IIntervalUpdate;
 
-export const intervalTypesRequest = (): IIntervalTypesRequest => ({
-  type: IntervalActionTypes.INTERVALTYPE_REQUEST
+export const initIntervalRequest = (
+  initInterval: IIntervalDtc
+): IInitIntervalRequest => ({
+  type: IntervalActionTypes.INIT_INTERVAL_REQUEST,
+  initInterval
 });
 
-export const intervalTypesSuccess = (
-  intervalTypes: IIntervalTypesDtc[]
-): IIntervalTypesSuccess => ({
-  intervalTypes,
-  type: IntervalActionTypes.INTERVALTYPE_SUCCESS
+export const initIntervalSuccess = ({
+  interval,
+  intervalTypes
+}: ITypesAndInterval): IInitIntervalSuccess => ({
+  type: IntervalActionTypes.INIT_INTERVAL_SUCCESS,
+  interval,
+  intervalTypes
 });
 
-export const intervalTypesError = (error: object): IIntervalTypesError => ({
-  error,
-  type: IntervalActionTypes.INTERVALTYPE_ERROR
+export const initIntervalError = (error: any): IInitIntervalError => ({
+  type: IntervalActionTypes.INIT_INTERVAL_ERROR,
+  error
 });
 
 export interface IResolveIntervalRequest extends Action {
@@ -88,7 +98,7 @@ export const resolveIntervalSuccess = (
   interval
 });
 
-export const resolveIntervalError = (error: object): IResolveIntervalError => ({
+export const resolveIntervalError = (error: any): IResolveIntervalError => ({
   error,
   type: IntervalActionTypes.RESOLVE_INTERVAL_ERROR
 });

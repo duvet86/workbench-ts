@@ -38,7 +38,13 @@ export interface IIntervalTypesDtc {
 export interface IIntervalDtc {
   IntervalType: string;
   IntervalString?: string;
-  FullLabel?: string;
-  Label?: string;
+  FullLabel?: string; // Not used.
+  Label?: string; // Not used.
   offset: number;
+  intervalStringDate?: string;
+}
+
+export interface ITypesAndInterval {
+  intervalTypes: IIntervalTypesDtc[];
+  interval: IIntervalDtc;
 }

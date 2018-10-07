@@ -1,4 +1,8 @@
-import { ISmartInterval, IShiftDtc } from "common/intervalSelector/types";
+import {
+  ISmartInterval,
+  IShiftDtc,
+  IIntervalDtc
+} from "common/intervalSelector/types";
 
 const splitSmartInterval = (intervalString: string): ISmartInterval => {
   if (intervalString.substring(0, 2) !== "$$") {
@@ -41,8 +45,16 @@ const parseHourlyString = (intervalString: string) => {
   };
 };
 
-function parseDateOpString(intervalString: string) {
-  const parts = splitSmartInterval(intervalString);
+export const parseDateOpString = ({
+  IntervalType,
+  IntervalString,
+  offset
+}: IIntervalDtc): IIntervalDtc => {
+  if (IntervalString == null) {
+    throw new Error("parseDateOpString: intervalString cannot be null.");
+  }
+
+  const parts = splitSmartInterval(IntervalString);
   if (parts.intervalString == null) {
     throw new Error("parseDateOpString: intervalString cannot be null.");
   }
@@ -52,10 +64,12 @@ function parseDateOpString(intervalString: string) {
   const day = parts.intervalString.substring(6, 8);
 
   return {
-    value: new Date(parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)),
-    label: day + "/" + month + "/" + year
+    IntervalType,
+    IntervalString,
+    offset,
+    intervalStringDate: `${year}-${month}-${day}`
   };
-}
+};
 
 const parseDateOpRangeString = (intervalString: string) => {
   const parts = splitSmartInterval(intervalString);
@@ -206,32 +220,5 @@ const parseShiftString = (intervalString: string, shifts: IShiftDtc[]) => {
     ),
     shiftValue: shift,
     label: day + "/" + month + "/" + year + " (" + shift + ")"
-  };
-};
-
-const parseIntervalString = (intervalString: string, shifts: IShiftDtc[]) => {
-  const year = intervalString.substring(0, 4);
-  const month = intervalString.substring(4, 6);
-  const day = intervalString.substring(6, 8);
-  const shiftKey = intervalString.substring(9, 10);
-  const hour = parseInt(
-    intervalString.substring(11, intervalString.length),
-    10
-  );
-
-  let shift = shifts.find(s => s.Shift === shiftKey);
-  if (shift == null) {
-    shift = shifts[0];
-  }
-
-  if (shift.) {
-    hour = 1;
-  }
-
-  return {
-    dateValue: new Date(year, month, day),
-    shiftValue: shift,
-    hourValue: hour,
-    label: day + "/" + month + "/" + year + " (" + shift + ") Hour " + hour
   };
 };

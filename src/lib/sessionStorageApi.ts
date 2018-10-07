@@ -3,7 +3,8 @@ interface IToken {
   token: string;
 }
 
-export const storeToken = (token: string) =>
+export const storeToken = (token: string) => {
+  clearToken();
   sessionStorage.setItem(
     process.env.TOKEN_KEY!,
     JSON.stringify({
@@ -11,6 +12,7 @@ export const storeToken = (token: string) =>
       token
     })
   );
+};
 
 export const clearToken = () =>
   sessionStorage.removeItem(process.env.TOKEN_KEY!);

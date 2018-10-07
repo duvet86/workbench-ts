@@ -1,35 +1,37 @@
-import { ActionsObservable, ofType } from "redux-observable";
+import { AnyAction } from "redux";
+import { ActionsObservable, ofType, Epic } from "redux-observable";
 import { catchError, map, mergeMap } from "rxjs/operators";
 
 import {
   IntervalAction,
-  intervalTypesSuccess,
+  initIntervalSuccess,
   resolveIntervalSuccess,
   IntervalActionTypes,
-  IResolveIntervalRequest
+  IResolveIntervalRequest,
+  IInitIntervalRequest
 } from "common/intervalSelector/actions";
 import {
-  getIntervalTypesObs,
+  initIntervalObs,
   resolveIntervalObs
 } from "common/intervalSelector/api";
 import { handleException } from "errorPage/epic";
 
-export const intervalTypeEpic = (action$: ActionsObservable<IntervalAction>) =>
+export const initIntervalEpic = (action$: ActionsObservable<AnyAction>) =>
   action$.pipe(
-    ofType(IntervalActionTypes.INTERVALTYPE_REQUEST),
-    mergeMap(() =>
-      getIntervalTypesObs().pipe(
-        map(intervalTypes => intervalTypesSuccess(intervalTypes)),
+    ofType<AnyAction, IInitIntervalRequest>(
+      IntervalActionTypes.INIT_INTERVAL_REQUEST
+    ),
+    mergeMap(({ initInterval }) =>
+      initIntervalObs(initInterval).pipe(
+        map(typesAndInterval => initIntervalSuccess(typesAndInterval)),
         catchError(error => handleException(error))
       )
     )
   );
 
-export const resolveIntervalEpic = (
-  action$: ActionsObservable<IntervalAction>
-) =>
+export const resolveIntervalEpic = (action$: ActionsObservable<AnyAction>) =>
   action$.pipe(
-    ofType<IntervalAction, IResolveIntervalRequest>(
+    ofType<AnyAction, IResolveIntervalRequest>(
       IntervalActionTypes.RESOLVE_INTERVAL_REQUEST
     ),
     mergeMap(({ intervalType, offset }) =>

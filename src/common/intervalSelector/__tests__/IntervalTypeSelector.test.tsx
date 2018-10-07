@@ -11,20 +11,14 @@ test("Test", () => {
       SmartIntervals: [{ Key: "SmartIntervals" }]
     }
   ];
-  const interval = {
-    IntervalType: "type",
-    IntervalString: "string",
-    offset: 0
-  };
   const onChange = () => {
     return;
   };
 
   const component = create(
     <IntervalTypeSelector
-      isLoading={false}
-      intervalTypes={intervalTypes}
-      interval={interval}
+      options={intervalTypes}
+      value="DATEOP"
       onChange={onChange}
     />
   );

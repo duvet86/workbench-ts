@@ -1,5 +1,3 @@
-import update from "immutability-helper";
-
 import {
   IntervalActionTypes,
   IntervalAction
@@ -10,37 +8,35 @@ import { IIntervalTypesDtc, IIntervalDtc } from "common/intervalSelector/types";
 interface IIntervalState {
   isLoading: boolean;
   intervalTypes: IIntervalTypesDtc[];
-  interval: IIntervalDtc;
+  interval?: IIntervalDtc;
   error: any;
 }
 
 function interval(
   state: IIntervalState = {
-    error: null,
-    interval: {
-      IntervalType: "DATEOP",
-      offset: 0
-    },
+    isLoading: true,
+    interval: undefined,
     intervalTypes: [],
-    isLoading: true
+    error: undefined
   },
   action: IntervalAction
 ): IIntervalState {
   switch (action.type) {
-    case IntervalActionTypes.INTERVALTYPE_REQUEST:
+    case IntervalActionTypes.INIT_INTERVAL_REQUEST:
       return {
         ...state,
         isLoading: true
       };
 
-    case IntervalActionTypes.INTERVALTYPE_SUCCESS:
+    case IntervalActionTypes.INIT_INTERVAL_SUCCESS:
       return {
         ...state,
         intervalTypes: action.intervalTypes,
+        interval: action.interval,
         isLoading: false
       };
 
-    case IntervalActionTypes.INTERVALTYPE_ERROR:
+    case IntervalActionTypes.INIT_INTERVAL_ERROR:
       return {
         ...state,
         error: action.error,
@@ -68,13 +64,13 @@ function interval(
       };
 
     case IntervalActionTypes.INTERVAL_UPDATE:
-      return update(state, {
+      return {
+        ...state,
         interval: {
-          $merge: {
-            ...action.newInterval
-          }
+          ...state.interval,
+          ...action.newInterval
         }
-      });
+      };
 
     default:
       return state;

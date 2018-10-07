@@ -2,7 +2,7 @@ import { combineEpics } from "redux-observable";
 
 import { appEpic } from "app/epic";
 import {
-  intervalTypeEpic,
+  initIntervalEpic,
   resolveIntervalEpic
 } from "common/intervalSelector/epic";
 import { loadingEpic } from "common/loading";
@@ -40,7 +40,7 @@ const epics = [
   filterCapabilitiesEpic,
   updateQueryDataServiceEpic,
   serviceDescriptionEpic,
-  intervalTypeEpic,
+  initIntervalEpic,
   resolveIntervalEpic
 ];
 

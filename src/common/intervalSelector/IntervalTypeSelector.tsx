@@ -7,24 +7,25 @@ import {
   WithStyles
 } from "@material-ui/core/styles";
 
-import { IIntervalDtc, IIntervalTypesDtc } from "common/intervalSelector/types";
+import { IIntervalTypesDtc } from "common/intervalSelector/types";
 
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 interface IProps extends WithStyles<typeof styles> {
-  className?: string;
-  isLoading: boolean;
-  intervalTypes: IIntervalTypesDtc[];
-  interval: IIntervalDtc;
+  options: IIntervalTypesDtc[];
+  value: string;
   onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const styles = ({ spacing: { unit } }: Theme) =>
   createStyles({
+    container: {
+      flexBasis: 200,
+      margin: unit
+    },
     loading: {
       marginTop: unit * 2,
       marginLeft: unit
@@ -33,36 +34,25 @@ const styles = ({ spacing: { unit } }: Theme) =>
 
 const IntervalTypeSelector: SFC<IProps> = ({
   classes,
-  className,
-  isLoading,
-  intervalTypes,
-  interval,
+  options,
+  value,
   onChange
 }) => (
-  <FormControl className={className}>
-    <InputLabel
-      htmlFor="interval"
-      style={{ transform: isLoading ? "none" : undefined }}
+  <FormControl className={classes.container}>
+    <InputLabel htmlFor="interval">Interval</InputLabel>
+    <Select
+      value={value}
+      onChange={onChange}
+      inputProps={{
+        name: "interval"
+      }}
     >
-      Interval
-    </InputLabel>
-    {isLoading ? (
-      <CircularProgress size={20} className={classes.loading} />
-    ) : (
-      <Select
-        value={interval.IntervalType}
-        onChange={onChange}
-        inputProps={{
-          name: "interval"
-        }}
-      >
-        {intervalTypes.map(({ IntervalType, Label }) => (
-          <MenuItem key={IntervalType} value={IntervalType}>
-            {Label} - {IntervalType}
-          </MenuItem>
-        ))}
-      </Select>
-    )}
+      {options.map(({ IntervalType, Label }) => (
+        <MenuItem key={IntervalType} value={IntervalType}>
+          {Label}
+        </MenuItem>
+      ))}
+    </Select>
   </FormControl>
 );
 

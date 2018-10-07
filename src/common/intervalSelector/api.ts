@@ -1,10 +1,27 @@
 import { from, Observable } from "rxjs";
 
 import { getWithJwtAsync } from "lib/http";
-import { IIntervalDtc, IIntervalTypesDtc } from "common/intervalSelector/types";
+import {
+  IIntervalDtc,
+  ITypesAndInterval,
+  IIntervalTypesDtc
+} from "common/intervalSelector/types";
 
-export const getIntervalTypesObs = (): Observable<IIntervalTypesDtc[]> =>
-  from(getWithJwtAsync("api/platform/intervaltypes"));
+export const initIntervalObs = ({
+  IntervalType,
+  offset
+}: IIntervalDtc): Observable<ITypesAndInterval> =>
+  from(
+    Promise.all([
+      getWithJwtAsync<IIntervalTypesDtc[]>("api/platform/intervaltypes"),
+      getWithJwtAsync<IIntervalDtc[]>(
+        `api/platform/interval/${IntervalType}/resolve?offset=${offset}`
+      )
+    ]).then(arrayOfResponses => ({
+      intervalTypes: arrayOfResponses[0],
+      interval: arrayOfResponses[1][0]
+    }))
+  );
 
 export const resolveIntervalObs = (
   intervalType: string,
@@ -13,7 +30,5 @@ export const resolveIntervalObs = (
   from(
     getWithJwtAsync<IIntervalDtc[]>(
       `api/platform/interval/${intervalType}/resolve?offset=${offset}`
-    ).then(intervalArray => {
-      return intervalArray[0];
-    })
+    ).then(intervalArray => intervalArray[0])
   );
