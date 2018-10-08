@@ -1,7 +1,11 @@
 import { shareReplay } from "rxjs/operators";
 import { Observable } from "rxjs";
 
-const cache = new Map();
+let cache = new Map();
+
+export const clearCache = () => {
+  cache = new Map();
+};
 
 export const getData = <T>(
   key: string,

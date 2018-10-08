@@ -1,10 +1,11 @@
+import { clearCache } from "lib/apiCache";
+
 interface IToken {
   createdAt: number;
   token: string;
 }
 
 export const storeToken = (token: string) => {
-  clearToken();
   sessionStorage.setItem(
     process.env.TOKEN_KEY!,
     JSON.stringify({
@@ -14,8 +15,10 @@ export const storeToken = (token: string) => {
   );
 };
 
-export const clearToken = () =>
+export const clearToken = () => {
+  clearCache();
   sessionStorage.removeItem(process.env.TOKEN_KEY!);
+};
 
 export const getToken = (): IToken | null => {
   const tokenKey = sessionStorage.getItem(process.env.TOKEN_KEY!);
