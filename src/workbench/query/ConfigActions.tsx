@@ -46,7 +46,7 @@ const ConfigActions: SFC<IProps> = ({
     <Grid item xs={12} className={classes.actionButtons}>
       <Button
         onClick={dispatchCloseConfig}
-        variant="raised"
+        variant="contained"
         className={classes.button}
       >
         Close
@@ -54,7 +54,7 @@ const ConfigActions: SFC<IProps> = ({
       <Button
         disabled={currentStep === 0}
         onClick={handleStep(currentStep - 1)}
-        variant="raised"
+        variant="contained"
         color="secondary"
         className={classes.button}
       >
@@ -63,7 +63,7 @@ const ConfigActions: SFC<IProps> = ({
       <Button
         disabled={!completedSteps[currentStep]}
         onClick={handleStep(currentStep + 1)}
-        variant="raised"
+        variant="contained"
         color="secondary"
         className={classes.button}
       >

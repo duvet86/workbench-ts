@@ -115,7 +115,7 @@ const ConstraintSelector: SFC<IProps> = ({
         ({ ConstraintId, DataType, FilterType, FilterName, ColumnName }) => (
           <Paper key={ConstraintId} className={classes.paper}>
             <ConstraintIcon className={classes.constraintIcon} />
-            <Typography variant="subheading" className={classes.targetLabel}>
+            <Typography variant="subtitle1" className={classes.targetLabel}>
               {getConstraintLabel(
                 columnsDic[ColumnName],
                 filtersDic[FilterName]

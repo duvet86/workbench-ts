@@ -88,7 +88,7 @@ const TopBar: SFC<IProps> = ({
           />
         </Link>
       </div>
-      <Typography variant="title" className={classes.matchColor}>
+      <Typography variant="h6" className={classes.matchColor}>
         CONNECTED MINE ANALYTIC
       </Typography>
       <div>

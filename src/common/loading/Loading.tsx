@@ -34,7 +34,7 @@ const Loading: SFC<IProps> = ({
     // When the loader has errored.
     return (
       <div className={classes.container}>
-        <Typography variant="headline">{JSON.stringify(error)}</Typography>
+        <Typography variant="h5">{JSON.stringify(error)}</Typography>
       </div>
     );
   }

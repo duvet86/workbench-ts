@@ -51,7 +51,7 @@ const ErrorPage: SFC<IProps> = ({ classes, error }) => (
             <Card>
               <CardContent className={classes.cardContent}>
                 <Warning className={classes.icon} />
-                <Typography variant="headline" component="h2">
+                <Typography variant="h5" component="h2">
                   OOOPS SOMETHING WENT WRONG
                 </Typography>
               </CardContent>
@@ -59,7 +59,7 @@ const ErrorPage: SFC<IProps> = ({ classes, error }) => (
                 <Typography>{JSON.stringify(error)}</Typography>
               </CardContent>
               <CardActions className={classes.cardActions}>
-                <Button variant="raised" component={homePageLink}>
+                <Button variant="contained" component={homePageLink}>
                   Back to the Home Page
                 </Button>
               </CardActions>

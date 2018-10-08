@@ -19,7 +19,7 @@ const styles = ({ spacing: { unit } }: Theme) =>
 
 const BaseLoading: SFC<WithStyles<typeof styles>> = ({ classes }) => (
   <div className={classes.laodingContainer}>
-    <Typography variant="title">Loading...</Typography>
+    <Typography variant="h6">Loading...</Typography>
     <LinearProgress variant="query" />
   </div>
 );

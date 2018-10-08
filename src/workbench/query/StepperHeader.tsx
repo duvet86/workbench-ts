@@ -63,7 +63,7 @@ const StepperHeader: SFC<IProps> = ({
     <Fragment>
       <Grid item xs={12} className={classes.gridTitle}>
         <div className={classes.titleContainer}>
-          <Typography variant="title" className={classes.title}>
+          <Typography variant="h6" className={classes.title}>
             {title}
           </Typography>
         </div>
@@ -86,7 +86,7 @@ const StepperHeader: SFC<IProps> = ({
         </Stepper>
       </Grid>
       <Grid item xs={12} className={classes.stepTitle}>
-        <Typography variant="headline">
+        <Typography variant="h5">
           {`Step ${currentStep + 1}: ${stepLabels[currentStep]}`}
         </Typography>
       </Grid>

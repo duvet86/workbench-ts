@@ -33,7 +33,7 @@ const styles = createStyles({
     width: 0
   },
   buttonContainer: {
-    margin: 10,
+    marginTop: 10,
     display: "flex",
     justifyContent: "space-evenly"
   },

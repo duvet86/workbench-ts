@@ -79,11 +79,11 @@ const FilterNodeWidget: React.SFC<IProps> = ({ classes, node }) => {
         <Avatar className={classes.avatar} style={{ backgroundColor }}>
           {React.createElement(IconComponent)}
         </Avatar>
-        <Typography variant="subheading" noWrap>
+        <Typography variant="subtitle1" noWrap>
           {Label}
         </Typography>
       </div>
-      <Typography className={classes.filterType} variant="body2" noWrap>
+      <Typography className={classes.filterType} noWrap>
         {FilterType}
       </Typography>
       <div className={classes.bottomPort}>

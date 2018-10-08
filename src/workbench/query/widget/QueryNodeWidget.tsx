@@ -123,12 +123,12 @@ const QueryNodeWidget: React.SFC<IProps> = ({ classes, node }) => {
           <Avatar className={classes.avatar} style={{ backgroundColor }}>
             {React.createElement(IconComponent)}
           </Avatar>
-          <Typography variant="subheading" noWrap>
+          <Typography variant="subtitle1" noWrap>
             {QueyLabel}
           </Typography>
         </div>
         <div>
-          <Typography variant="body2" noWrap>
+          <Typography noWrap>
             Columns
           </Typography>
           <Divider />

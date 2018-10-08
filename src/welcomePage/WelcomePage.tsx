@@ -28,7 +28,7 @@ const WelcomePage: SFC<WithStyles<typeof styles>> = ({ classes }) => (
         value={{ IntervalType: "DATEOP", offset: 0 }}
         onChange={onChange}
       />
-      <Typography variant="headline" gutterBottom>
+      <Typography variant="h5" gutterBottom>
         Welcome
       </Typography>
     </Grid>

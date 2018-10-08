@@ -5,6 +5,9 @@ import blue from "@material-ui/core/colors/blue";
 
 const configureTheme = () =>
   createMuiTheme({
+    typography: {
+      useNextVariants: true
+    },
     overrides: {
       MuiStepIcon: {
         root: {

@@ -68,7 +68,7 @@ const SearchableList: SFC<IProps> = ({
   handleClickClearIcon
 }) => (
   <Paper className={classes.paper}>
-    <Typography variant="subheading">{`${label} (${totItems})`}</Typography>
+    <Typography variant="subtitle1">{`${label} (${totItems})`}</Typography>
     <List className={classes.list} component="div" disablePadding>
       <FormControl fullWidth>
         <InputLabel>Search</InputLabel>

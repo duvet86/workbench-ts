@@ -34,7 +34,7 @@ const WelcomePageCard: SFC<IProps> = ({
     <Card>
       <CardContent>
         <IconComponent className={classes.iconColor} />
-        <Typography variant="headline" component="h2">
+        <Typography variant="h5" component="h2">
           {label}
         </Typography>
         <Typography component="p">{description}</Typography>

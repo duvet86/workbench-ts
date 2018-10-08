@@ -95,7 +95,7 @@ class Login extends Component<IProps, IState> {
             <Typography component="p" align="center">
               Reactive
             </Typography>
-            <Typography variant="headline" component="h3" align="center">
+            <Typography variant="h5" component="h3" align="center">
               Connected Mine Analitycs
             </Typography>
             <form
@@ -136,7 +136,7 @@ class Login extends Component<IProps, IState> {
               </FormControl>
               <Button
                 type="submit"
-                variant="raised"
+                variant="contained"
                 color="secondary"
                 fullWidth
               >
@@ -144,7 +144,7 @@ class Login extends Component<IProps, IState> {
               </Button>
             </form>
             {error && (
-              <Typography className={classes.errorMessage} variant="subheading">
+              <Typography className={classes.errorMessage} variant="subtitle1">
                 Invalid Username or Password
               </Typography>
             )}
