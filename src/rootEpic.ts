@@ -1,10 +1,6 @@
 import { combineEpics } from "redux-observable";
 
 import { appEpic } from "app/epic";
-import {
-  initIntervalEpic,
-  resolveIntervalEpic
-} from "common/intervalSelector/epic";
 import { loadingEpic } from "common/loading";
 import { loginEpic } from "login/epic";
 import { fetchProfileEpic } from "profile/epic";
@@ -39,9 +35,7 @@ const epics = [
   dataServicesEpic,
   filterCapabilitiesEpic,
   updateQueryDataServiceEpic,
-  serviceDescriptionEpic,
-  initIntervalEpic,
-  resolveIntervalEpic
+  serviceDescriptionEpic
 ];
 
 export default combineEpics(...epics);

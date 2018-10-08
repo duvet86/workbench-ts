@@ -46,5 +46,5 @@ export interface IIntervalDtc {
 
 export interface ITypesAndInterval {
   intervalTypes: IIntervalTypesDtc[];
-  interval: IIntervalDtc;
+  interval?: IIntervalDtc;
 }

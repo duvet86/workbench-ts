@@ -1,7 +1,6 @@
 import { combineReducers } from "redux";
 
 import appReducer from "app/reducer";
-import intervalReducer from "common/intervalSelector/reducer";
 import { loadingReducer } from "common/loading";
 import errorReducer from "errorPage/reducer";
 import loginReducer from "login/reducer";
@@ -24,8 +23,7 @@ const rootReducer = combineReducers({
   operatorsReducer,
   sessionReducer,
   configSwitchReducer,
-  queryConfigReducer,
-  intervalReducer
+  queryConfigReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

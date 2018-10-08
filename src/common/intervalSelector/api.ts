@@ -1,5 +1,3 @@
-import { from, Observable } from "rxjs";
-
 import { getWithJwtAsync } from "lib/http";
 import {
   IIntervalDtc,
@@ -7,28 +5,33 @@ import {
   IIntervalTypesDtc
 } from "common/intervalSelector/types";
 
-export const initIntervalObs = ({
-  IntervalType,
-  offset
-}: IIntervalDtc): Observable<ITypesAndInterval> =>
-  from(
-    Promise.all([
-      getWithJwtAsync<IIntervalTypesDtc[]>("api/platform/intervaltypes"),
-      getWithJwtAsync<IIntervalDtc[]>(
-        `api/platform/interval/${IntervalType}/resolve?offset=${offset}`
-      )
-    ]).then(arrayOfResponses => ({
-      intervalTypes: arrayOfResponses[0],
-      interval: arrayOfResponses[1][0]
-    }))
-  );
+export const initIntervalAsync = (
+  initInterval?: IIntervalDtc
+): Promise<ITypesAndInterval> =>
+  Promise.all([
+    getWithJwtAsync<IIntervalTypesDtc[]>("api/platform/intervaltypes"),
+    initInterval != null
+      ? getWithJwtAsync<IIntervalDtc[] | undefined>(
+          `api/platform/interval/${initInterval.IntervalType}/resolve?offset=${
+            initInterval.offset
+          }`
+        )
+      : undefined
+  ]).then(arrayOfResponses => ({
+    intervalTypes: arrayOfResponses[0],
+    interval:
+      arrayOfResponses[1] != null
+        ? {
+            ...initInterval,
+            ...arrayOfResponses[1][0]
+          }
+        : undefined
+  }));
 
-export const resolveIntervalObs = (
+export const resolveIntervalAsync = (
   intervalType: string,
   offset: number
-): Observable<IIntervalDtc> =>
-  from(
-    getWithJwtAsync<IIntervalDtc[]>(
-      `api/platform/interval/${intervalType}/resolve?offset=${offset}`
-    ).then(intervalArray => intervalArray[0])
-  );
+): Promise<IIntervalDtc> =>
+  getWithJwtAsync<IIntervalDtc[]>(
+    `api/platform/interval/${intervalType}/resolve?offset=${offset}`
+  ).then(intervalArray => intervalArray[0]);

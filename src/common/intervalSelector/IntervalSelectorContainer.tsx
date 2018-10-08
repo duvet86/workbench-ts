@@ -1,41 +1,61 @@
 import React, { ChangeEvent, Component } from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
 
-import { RootState } from "rootReducer";
-import { IntervalAction } from "common/intervalSelector/actions";
-import { IIntervalDtc } from "common/intervalSelector/types";
-import {
-  initIntervalRequest,
-  intervalUpdate
-} from "common/intervalSelector/actions";
-import { getInterval } from "common/intervalSelector/selector";
+import { IIntervalDtc, IIntervalTypesDtc } from "common/intervalSelector/types";
+import { getIntervalDate } from "common/intervalSelector/selector";
+import { initIntervalAsync } from "common/intervalSelector/api";
 
 import LoadingContainer from "common/loading/LoadingContainer";
 import IntervalSelector from "common/intervalSelector/IntervalSelector";
+import { async } from "rxjs/internal/scheduler/async";
 
-interface IOwnProps {
-  value: IIntervalDtc;
+interface IProps {
+  value?: IIntervalDtc;
   onChange: (newInterval: IIntervalDtc) => void;
 }
 
-type Props = ReturnType<typeof mapDispatchToProps> &
-  ReturnType<typeof mapStateToProps> &
-  IOwnProps;
+interface IState {
+  isComponentLoading: boolean;
+  isIntervalStringLoading: boolean;
+  intervalTypes: IIntervalTypesDtc[];
+  intervalStringDate?: string;
+  interval?: IIntervalDtc;
+}
 
-class IntervalSelectorContainer extends Component<Props> {
-  public componentDidMount() {
-    this.props.dispatchInitIntervalRequest(this.props.value);
+class IntervalSelectorContainer extends Component<IProps, IState> {
+  constructor(props: IProps) {
+    super(props);
+
+    this.state = {
+      isComponentLoading: true,
+      isIntervalStringLoading: false,
+      intervalTypes: [],
+      interval: props.value
+    };
+  }
+
+  public async componentDidMount() {
+    const { intervalTypes, interval } = await initIntervalAsync(
+      this.props.value
+    );
+    this.setState({
+      isComponentLoading: false,
+      intervalTypes,
+      interval
+    });
+    if (interval != null) {
+      this.props.onChange(interval);
+    }
   }
 
   public render() {
-    const { interval, intervalTypes, isLoading } = this.props;
+    const { interval, intervalTypes, isComponentLoading } = this.state;
+    const intervalDate = getIntervalDate(interval);
 
     return (
-      <LoadingContainer isLoading={isLoading}>
-        {interval && (
+      <LoadingContainer isLoading={isComponentLoading}>
+        {intervalDate && (
           <IntervalSelector
-            interval={interval}
+            interval={intervalDate}
             intervalTypes={intervalTypes}
             onChange={this.handleIntervalChange}
           />
@@ -44,37 +64,35 @@ class IntervalSelectorContainer extends Component<Props> {
     );
   }
 
-  private handleIntervalChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    const { interval, dispatchIntervalUpdateChange, onChange } = this.props;
+  private handleIntervalChange = async (
+    event: ChangeEvent<HTMLSelectElement>
+  ) => {
+    this.setState({
+      isIntervalStringLoading: true
+    });
+    const { interval } = this.state;
     if (interval == null) {
       return;
     }
+
+    let intervalStringDate;
+    switch (interval.IntervalType) {
+      default:
+        intervalStringDate = "";
+    }
+
     const newInterval = {
       IntervalType: event.target.value,
       IntervalString: interval.IntervalString,
       offset: interval.offset
     };
-    dispatchIntervalUpdateChange(newInterval);
-    onChange(newInterval);
+    this.setState({
+      isIntervalStringLoading: false,
+      intervalStringDate,
+      interval: newInterval
+    });
+    this.props.onChange(newInterval);
   };
 }
 
-const mapStateToProps = (state: RootState) => ({
-  isLoading: state.intervalReducer.isLoading,
-  intervalTypes: state.intervalReducer.intervalTypes,
-  interval: getInterval(state)
-});
-
-const mapDispatchToProps = (dispatch: Dispatch<IntervalAction>) => ({
-  dispatchInitIntervalRequest(initInterval: IIntervalDtc) {
-    dispatch(initIntervalRequest(initInterval));
-  },
-  dispatchIntervalUpdateChange(newInterval: IIntervalDtc) {
-    dispatch(intervalUpdate(newInterval));
-  }
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(IntervalSelectorContainer);
+export default IntervalSelectorContainer;
