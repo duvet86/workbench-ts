@@ -1,6 +1,7 @@
 import { applyMiddleware, compose, createStore, Action } from "redux";
 import { connectRouter, routerMiddleware } from "connected-react-router";
 import { createEpicMiddleware } from "redux-observable";
+import { enableBatching } from "redux-batched-actions";
 
 import history from "lib/history";
 import rootEpic from "rootEpic";
@@ -13,7 +14,7 @@ const middleware = [epicMiddleware, browserRouterMiddleware];
 
 function configureStore() {
   const store = createStore(
-    connectRouter(history)(rootReducer),
+    connectRouter(history)(enableBatching(rootReducer)),
     compose(applyMiddleware(...middleware))
   );
 

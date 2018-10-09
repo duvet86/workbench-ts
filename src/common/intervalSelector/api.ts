@@ -1,4 +1,3 @@
-import store from "lib/configureStore";
 import { getWithJwtAsync } from "lib/http";
 import {
   IIntervalDtc,
@@ -8,22 +7,20 @@ import {
 
 export const initIntervalAsync = (
   initInterval: IIntervalDtc
-): any // Promise<ITypesAndInterval>
- =>
+): Promise<ITypesAndInterval> =>
   Promise.all([
     getWithJwtAsync<IIntervalTypesDtc[]>("api/platform/intervaltypes"),
     resolveIntervalAsync(initInterval.IntervalType, initInterval.offset)
-  ])
-    .then(arrayOfResponses => ({
-      intervalTypes: arrayOfResponses[0],
-      interval: {
-        ...initInterval,
-        ...arrayOfResponses[1]
-      }
-    }))
-    .catch((resp: IErrorResponse) => {
-      store.dispatch(handleException(resp));
-    });
+  ]).then(arrayOfResponses => ({
+    intervalTypes: arrayOfResponses[0],
+    interval: {
+      ...initInterval,
+      ...arrayOfResponses[1]
+    }
+  }));
+// .catch((resp: IErrorResponse) => {
+//   store.dispatch(batchActions(handleException(resp)));
+// });
 
 export const resolveIntervalAsync = (
   intervalType: string,
@@ -32,3 +29,6 @@ export const resolveIntervalAsync = (
   getWithJwtAsync<IIntervalDtc[]>(
     `api/platform/interval/${intervalType}/resolve?offset=${offset}`
   ).then(intervalArray => intervalArray[0]);
+// .catch((resp: IErrorResponse) => {
+//   store.dispatch(batchActions(handleException(resp)));
+// });

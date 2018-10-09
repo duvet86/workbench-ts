@@ -7,7 +7,7 @@ import {
   qesEnabledSuccess
 } from "app/actions";
 import { getQesEnabledAsync } from "app/api";
-import { handleException } from "errorPage/epic";
+import { handleException } from "errorPage/actions";
 
 export const appEpic = (action$: ActionsObservable<QesEnabledAction>) =>
   action$.pipe(

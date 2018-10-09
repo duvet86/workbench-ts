@@ -2,7 +2,7 @@ import { denormalize } from "normalizr";
 import { ActionsObservable, StateObservable, ofType } from "redux-observable";
 import { catchError, map, mergeMap } from "rxjs/operators";
 
-import { handleException } from "errorPage/epic";
+import { handleException } from "errorPage/actions";
 
 import {
   getSessionInfoObs,

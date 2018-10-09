@@ -1,7 +1,7 @@
 import { ActionsObservable, StateObservable, ofType } from "redux-observable";
 import { mergeMap, map, catchError } from "rxjs/operators";
 
-import { handleException } from "errorPage/epic";
+import { handleException } from "errorPage/actions";
 import {
   DataServicesActionTypes,
   FilterCapActionTypes,

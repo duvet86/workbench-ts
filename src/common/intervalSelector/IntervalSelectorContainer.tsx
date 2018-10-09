@@ -1,24 +1,34 @@
 import React, { ChangeEvent, Component } from "react";
+import { Dispatch } from "redux";
+import { connect } from "react-redux";
+import { batchActions } from "redux-batched-actions";
 
 import { IIntervalDtc, IIntervalTypesDtc } from "common/intervalSelector/types";
 import { initIntervalAsync } from "common/intervalSelector/api";
 import { getDefaultInterval } from "common/intervalSelector/utils";
+import {
+  ErrorActions,
+  IErrorResponse,
+  handleException
+} from "errorPage/actions";
 
 import LoadingContainer from "common/loading/LoadingContainer";
 import IntervalSelector from "common/intervalSelector/IntervalSelector";
 
-interface IProps {
+interface IOwnProps {
   initValue?: IIntervalDtc;
   onChange: (newInterval: IIntervalDtc) => void;
 }
+
+type Props = ReturnType<typeof mapDispatchToProps> & IOwnProps;
 
 interface IState {
   intervalTypes: IIntervalTypesDtc[];
   interval?: IIntervalDtc;
 }
 
-class IntervalSelectorContainer extends Component<IProps, IState> {
-  constructor(props: IProps) {
+class IntervalSelectorContainer extends Component<Props, IState> {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -28,23 +38,28 @@ class IntervalSelectorContainer extends Component<IProps, IState> {
   }
 
   public async componentDidMount() {
-    const { initValue, onChange } = this.props;
-    const { intervalTypes, interval } = await initIntervalAsync(
-      initValue || getDefaultInterval()
-    );
+    const { initValue, onChange, dispatchHandleException } = this.props;
 
-    this.setState({
-      intervalTypes,
-      interval
-    });
+    try {
+      const { intervalTypes, interval } = await initIntervalAsync(
+        initValue || getDefaultInterval()
+      );
 
-    if (
-      initValue == null ||
-      (initValue &&
-        initValue.IntervalType === interval.IntervalType &&
-        initValue.IntervalString === interval.IntervalString)
-    ) {
-      onChange(interval);
+      this.setState({
+        intervalTypes,
+        interval
+      });
+
+      if (
+        initValue == null ||
+        (initValue &&
+          initValue.IntervalType === interval.IntervalType &&
+          initValue.IntervalString === interval.IntervalString)
+      ) {
+        onChange(interval);
+      }
+    } catch (e) {
+      dispatchHandleException(e);
     }
   }
 
@@ -87,4 +102,13 @@ class IntervalSelectorContainer extends Component<IProps, IState> {
   };
 }
 
-export default IntervalSelectorContainer;
+const mapDispatchToProps = (dispatch: Dispatch<ErrorActions>) => ({
+  dispatchHandleException: (resp: IErrorResponse) => {
+    dispatch(batchActions(handleException(resp)));
+  }
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(IntervalSelectorContainer);

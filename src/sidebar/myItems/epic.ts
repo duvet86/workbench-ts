@@ -3,7 +3,7 @@ import { catchError, map, mergeMap } from "rxjs/operators";
 
 import { getData } from "lib/apiCache";
 
-import { handleException } from "errorPage/epic";
+import { handleException } from "errorPage/actions";
 import {
   MyItemsActionTypes,
   myItemsSuccess,
