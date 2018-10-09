@@ -2,7 +2,8 @@ import { getWithJwtAsync } from "lib/http";
 import {
   IIntervalDtc,
   ITypesAndInterval,
-  IIntervalTypesDtc
+  IIntervalTypesDtc,
+  ICalendarPeriodDtc
 } from "common/intervalSelector/types";
 
 export const initIntervalAsync = (
@@ -18,17 +19,11 @@ export const initIntervalAsync = (
       ...arrayOfResponses[1]
     }
   }));
-// .catch((resp: IErrorResponse) => {
-//   store.dispatch(batchActions(handleException(resp)));
-// });
 
-export const resolveIntervalAsync = (
-  intervalType: string,
-  offset: number
-): Promise<IIntervalDtc> =>
+export const resolveIntervalAsync = (intervalType: string, offset: number) =>
   getWithJwtAsync<IIntervalDtc[]>(
     `api/platform/interval/${intervalType}/resolve?offset=${offset}`
   ).then(intervalArray => intervalArray[0]);
-// .catch((resp: IErrorResponse) => {
-//   store.dispatch(batchActions(handleException(resp)));
-// });
+
+export const getCalendarPeriodsAsync = () =>
+  getWithJwtAsync<ICalendarPeriodDtc[]>("api/platform/calendarperiods");

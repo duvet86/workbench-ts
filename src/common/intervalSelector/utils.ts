@@ -51,16 +51,8 @@ const parseHourlyString = (intervalString: string) => {
   };
 };
 
-export const parseDateOpString = ({
-  IntervalType,
-  IntervalString,
-  offset
-}: IIntervalDtc): string => {
-  if (IntervalString == null) {
-    throw new Error("parseDateOpString: intervalString cannot be null.");
-  }
-
-  const parts = splitSmartInterval(IntervalString);
+export const parseDateOpString = (intervalString: string): string => {
+  const parts = splitSmartInterval(intervalString);
   if (parts.intervalString == null) {
     throw new Error("parseDateOpString: intervalString cannot be null.");
   }

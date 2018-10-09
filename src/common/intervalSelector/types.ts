@@ -14,6 +14,16 @@ export const enum IntervalTypes {
   SHIFTHOUR = "SHIFTHOUR"
 }
 
+export interface ICalendarPeriodDtc {
+  Operation: string;
+  PeriodName: string;
+  Label: string;
+  PeriodStartDateOp: Date;
+  PeriodStartTimeUtc: Date;
+  PeriodEndDateOp: Date;
+  PeriodEndTimeUtc: Date;
+}
+
 export interface ISmartInterval {
   smartIntervalKey: string | null;
   intervalString: string | null;
