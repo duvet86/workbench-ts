@@ -11,7 +11,7 @@ const browserRouterMiddleware = routerMiddleware(history);
 
 const middleware = [epicMiddleware, browserRouterMiddleware];
 
-export default function configureStore() {
+function configureStore() {
   const store = createStore(
     connectRouter(history)(rootReducer),
     compose(applyMiddleware(...middleware))
@@ -21,3 +21,5 @@ export default function configureStore() {
 
   return store;
 }
+
+export default configureStore();

@@ -1,23 +1,19 @@
 import React, { ChangeEvent, Component } from "react";
 
 import { IIntervalDtc, IIntervalTypesDtc } from "common/intervalSelector/types";
-import { getIntervalDate } from "common/intervalSelector/selector";
 import { initIntervalAsync } from "common/intervalSelector/api";
+import { getDefaultInterval } from "common/intervalSelector/utils";
 
 import LoadingContainer from "common/loading/LoadingContainer";
 import IntervalSelector from "common/intervalSelector/IntervalSelector";
-import { async } from "rxjs/internal/scheduler/async";
 
 interface IProps {
-  value?: IIntervalDtc;
+  initValue?: IIntervalDtc;
   onChange: (newInterval: IIntervalDtc) => void;
 }
 
 interface IState {
-  isComponentLoading: boolean;
-  isIntervalStringLoading: boolean;
   intervalTypes: IIntervalTypesDtc[];
-  intervalStringDate?: string;
   interval?: IIntervalDtc;
 }
 
@@ -26,72 +22,68 @@ class IntervalSelectorContainer extends Component<IProps, IState> {
     super(props);
 
     this.state = {
-      isComponentLoading: true,
-      isIntervalStringLoading: false,
       intervalTypes: [],
-      interval: props.value
+      interval: props.initValue
     };
   }
 
   public async componentDidMount() {
+    const { initValue, onChange } = this.props;
     const { intervalTypes, interval } = await initIntervalAsync(
-      this.props.value
+      initValue || getDefaultInterval()
     );
+
     this.setState({
-      isComponentLoading: false,
       intervalTypes,
       interval
     });
-    if (interval != null) {
-      this.props.onChange(interval);
+
+    if (
+      initValue == null ||
+      (initValue &&
+        initValue.IntervalType === interval.IntervalType &&
+        initValue.IntervalString === interval.IntervalString)
+    ) {
+      onChange(interval);
     }
   }
 
   public render() {
-    const { interval, intervalTypes, isComponentLoading } = this.state;
-    const intervalDate = getIntervalDate(interval);
+    const { interval, intervalTypes } = this.state;
 
     return (
-      <LoadingContainer isLoading={isComponentLoading}>
-        {intervalDate && (
+      <LoadingContainer isLoading={interval == null}>
+        {interval != null && (
           <IntervalSelector
-            interval={intervalDate}
             intervalTypes={intervalTypes}
-            onChange={this.handleIntervalChange}
+            interval={interval}
+            handleIntervalTypeChange={this.handleIntervalTypeChange}
+            handleIntervalChange={this.handleIntervalChange}
           />
         )}
       </LoadingContainer>
     );
   }
 
-  private handleIntervalChange = async (
+  private handleIntervalTypeChange = async (
     event: ChangeEvent<HTMLSelectElement>
   ) => {
-    this.setState({
-      isIntervalStringLoading: true
-    });
     const { interval } = this.state;
     if (interval == null) {
       return;
     }
 
-    let intervalStringDate;
-    switch (interval.IntervalType) {
-      default:
-        intervalStringDate = "";
-    }
-
-    const newInterval = {
-      IntervalType: event.target.value,
-      IntervalString: interval.IntervalString,
-      offset: interval.offset
-    };
     this.setState({
-      isIntervalStringLoading: false,
-      intervalStringDate,
-      interval: newInterval
+      interval: {
+        ...interval,
+        IntervalType: event.target.value
+      }
     });
-    this.props.onChange(newInterval);
+  };
+
+  private handleIntervalChange = (newInterval: IIntervalDtc) => {
+    // tslint:disable-next-line:no-console
+    console.log(newInterval);
   };
 }
 

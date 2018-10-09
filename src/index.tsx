@@ -7,8 +7,8 @@ import { Provider } from "react-redux";
 import { Switch } from "react-router";
 import { ConnectedRouter } from "connected-react-router";
 
-import configureStore from "lib/configureStore";
-import configureTheme from "lib/configureTheme";
+import store from "lib/configureStore";
+import theme from "lib/configureTheme";
 import history from "lib/history";
 import loadAsync from "lib/loadAsync";
 
@@ -17,9 +17,6 @@ import { MuiThemeProvider } from "@material-ui/core/styles";
 
 import AnonymousRoute from "routes/AnonymousRoute";
 import AuthenticatedRoute from "routes/AuthenticatedRoute";
-
-const store = configureStore();
-const theme = configureTheme();
 
 render(
   <Provider store={store}>

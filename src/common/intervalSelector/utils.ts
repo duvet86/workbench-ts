@@ -1,8 +1,14 @@
 import {
   ISmartInterval,
   IShiftDtc,
-  IIntervalDtc
+  IIntervalDtc,
+  IntervalTypes
 } from "common/intervalSelector/types";
+
+export const getDefaultInterval = () => ({
+  IntervalType: IntervalTypes.DATEOP,
+  offset: 0
+});
 
 const splitSmartInterval = (intervalString: string): ISmartInterval => {
   if (intervalString.substring(0, 2) !== "$$") {
@@ -49,7 +55,7 @@ export const parseDateOpString = ({
   IntervalType,
   IntervalString,
   offset
-}: IIntervalDtc): IIntervalDtc => {
+}: IIntervalDtc): string => {
   if (IntervalString == null) {
     throw new Error("parseDateOpString: intervalString cannot be null.");
   }
@@ -63,12 +69,7 @@ export const parseDateOpString = ({
   const month = parts.intervalString.substring(4, 6);
   const day = parts.intervalString.substring(6, 8);
 
-  return {
-    IntervalType,
-    IntervalString,
-    offset,
-    intervalStringDate: `${year}-${month}-${day}`
-  };
+  return `${year}-${month}-${day}`;
 };
 
 const parseDateOpRangeString = (intervalString: string) => {

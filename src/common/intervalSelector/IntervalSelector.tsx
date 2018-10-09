@@ -7,7 +7,7 @@ import {
   WithStyles
 } from "@material-ui/core/styles";
 
-import { IIntervalDtc, IIntervalTypesDtc } from "common/intervalSelector/types";
+import { IIntervalTypesDtc, IIntervalDtc } from "common/intervalSelector/types";
 
 import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
@@ -16,12 +16,13 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 
 import IntervalTypeSelector from "common/intervalSelector/IntervalTypeSelector";
-import IntervalStringPicker from "common/intervalSelector/IntervalStringPicker";
+import IntervalStringPickerContainer from "common/intervalSelector/IntervalStringPickerContainer";
 
 interface IProps extends WithStyles<typeof styles> {
-  interval: IIntervalDtc;
   intervalTypes: IIntervalTypesDtc[];
-  onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
+  interval: IIntervalDtc;
+  handleIntervalTypeChange: (event: ChangeEvent<HTMLSelectElement>) => void;
+  handleIntervalChange: (newInterval: IIntervalDtc) => void;
 }
 
 const styles = ({ spacing: { unit } }: Theme) =>
@@ -39,15 +40,19 @@ const IntervalSelector: SFC<IProps> = ({
   classes,
   intervalTypes,
   interval,
-  onChange
+  handleIntervalTypeChange,
+  handleIntervalChange
 }) => (
   <div className={classes.container}>
     <IntervalTypeSelector
       options={intervalTypes}
       value={interval.IntervalType}
-      onChange={onChange}
+      onChange={handleIntervalTypeChange}
     />
-    <IntervalStringPicker intervalStringDate={interval.intervalStringDate} />
+    <IntervalStringPickerContainer
+      interval={interval}
+      handleIntervalChange={handleIntervalChange}
+    />
     <FormControl className={classes.smartSelector}>
       <InputLabel htmlFor="age-simple">Smart Date</InputLabel>
       <Select value="" input={<Input name="age" id="age-simple" />} autoWidth>

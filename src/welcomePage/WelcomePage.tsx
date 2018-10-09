@@ -24,10 +24,7 @@ const onChange = (val: any) => {
 const WelcomePage: SFC<WithStyles<typeof styles>> = ({ classes }) => (
   <Grid container className={classes.container} spacing={16}>
     <Grid item xs={12}>
-      <IntervalSelectorContainer
-        value={{ IntervalType: "DATEOP", offset: 0 }}
-        onChange={onChange}
-      />
+      <IntervalSelectorContainer onChange={onChange} />
       <Typography variant="h5" gutterBottom>
         Welcome
       </Typography>
