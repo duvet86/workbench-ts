@@ -20,6 +20,7 @@ import IntervalStringPickerContainer from "common/intervalSelector/IntervalStrin
 
 interface IProps extends WithStyles<typeof styles> {
   intervalTypes: IIntervalTypesDtc[];
+  initIntervalType: string;
   interval: IIntervalDtc;
   handleIntervalTypeChange: (event: ChangeEvent<HTMLSelectElement>) => void;
   handleIntervalChange: (newInterval: IIntervalDtc) => void;
@@ -39,6 +40,7 @@ const styles = ({ spacing: { unit } }: Theme) =>
 const IntervalSelector: SFC<IProps> = ({
   classes,
   intervalTypes,
+  initIntervalType,
   interval,
   handleIntervalTypeChange,
   handleIntervalChange
@@ -46,7 +48,7 @@ const IntervalSelector: SFC<IProps> = ({
   <div className={classes.container}>
     <IntervalTypeSelector
       options={intervalTypes}
-      value={interval.IntervalType}
+      value={initIntervalType}
       onChange={handleIntervalTypeChange}
     />
     <IntervalStringPickerContainer

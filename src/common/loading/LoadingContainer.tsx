@@ -24,20 +24,18 @@ class LoadingContainer extends Component<IProps, Readonly<IState>> {
   }
 
   public shouldComponentUpdate(nextProps: IProps, nextState: IState) {
-    if (nextProps.isLoading && !nextState.pastDelay) {
+    if (nextProps.isLoading && !this.state.pastDelay) {
       return false;
     }
     return true;
   }
 
-  public componentWillReceiveProps(nextProps: IProps) {
-    // Reset the pastDelay flag every time the component has finished loading.
-    if (!nextProps.isLoading) {
+  public componentDidUpdate(nextProps: IProps, nextState: IState) {
+    if (!this.props.isLoading && this.state.pastDelay) {
       this.setState({
         pastDelay: false
       });
-    }
-    if (nextProps.isLoading && !this.state.pastDelay) {
+    } else if (nextProps.isLoading && !this.state.pastDelay) {
       this.delay = this.setTimeout(this.props.delay || 200);
     }
   }

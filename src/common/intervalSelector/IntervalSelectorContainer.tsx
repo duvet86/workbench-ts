@@ -24,6 +24,7 @@ type Props = ReturnType<typeof mapDispatchToProps> & IOwnProps;
 
 interface IState {
   intervalTypes: IIntervalTypesDtc[];
+  initIntervalType?: string;
   interval?: IIntervalDtc;
 }
 
@@ -33,6 +34,7 @@ class IntervalSelectorContainer extends Component<Props, IState> {
 
     this.state = {
       intervalTypes: [],
+      initIntervalType: props.initValue && props.initValue.IntervalType,
       interval: props.initValue
     };
   }
@@ -64,18 +66,20 @@ class IntervalSelectorContainer extends Component<Props, IState> {
   }
 
   public render() {
-    const { interval, intervalTypes } = this.state;
+    const { initIntervalType, interval, intervalTypes } = this.state;
 
     return (
       <LoadingContainer isLoading={interval == null}>
-        {interval != null && (
-          <IntervalSelector
-            intervalTypes={intervalTypes}
-            interval={interval}
-            handleIntervalTypeChange={this.handleIntervalTypeChange}
-            handleIntervalChange={this.handleIntervalChange}
-          />
-        )}
+        {interval != null &&
+          initIntervalType != null && (
+            <IntervalSelector
+              intervalTypes={intervalTypes}
+              initIntervalType={initIntervalType}
+              interval={interval}
+              handleIntervalTypeChange={this.handleIntervalTypeChange}
+              handleIntervalChange={this.handleIntervalChange}
+            />
+          )}
       </LoadingContainer>
     );
   }
@@ -89,10 +93,7 @@ class IntervalSelectorContainer extends Component<Props, IState> {
     }
 
     this.setState({
-      interval: {
-        ...interval,
-        IntervalType: event.target.value
-      }
+      initIntervalType: event.target.value
     });
   };
 
