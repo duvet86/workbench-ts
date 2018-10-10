@@ -20,9 +20,26 @@ class LoadingContainer extends Component<IProps, Readonly<IState>> {
   private delay?: number;
 
   public componentDidMount() {
-    this.delay = window.setTimeout(() => {
-      this.setState({ pastDelay: true });
-    }, this.props.delay || 200);
+    this.delay = this.setTimeout(this.props.delay || 200);
+  }
+
+  public shouldComponentUpdate(nextProps: IProps, nextState: IState) {
+    if (nextProps.isLoading && !nextState.pastDelay) {
+      return false;
+    }
+    return true;
+  }
+
+  public componentWillReceiveProps(nextProps: IProps) {
+    // Reset the pastDelay flag every time the component has finished loading.
+    if (!nextProps.isLoading) {
+      this.setState({
+        pastDelay: false
+      });
+    }
+    if (nextProps.isLoading && !this.state.pastDelay) {
+      this.delay = this.setTimeout(this.props.delay || 200);
+    }
   }
 
   public componentWillUnmount() {
@@ -37,12 +54,18 @@ class LoadingContainer extends Component<IProps, Readonly<IState>> {
 
     return (
       <Loading
-        error={error}
         isLoading={isLoading}
         pastDelay={pastDelay}
         children={children}
+        error={error}
       />
     );
+  }
+
+  private setTimeout(delay: number) {
+    return window.setTimeout(() => {
+      this.setState({ pastDelay: true });
+    }, delay);
   }
 }
 

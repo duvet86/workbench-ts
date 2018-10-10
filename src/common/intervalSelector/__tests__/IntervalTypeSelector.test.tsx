@@ -3,7 +3,7 @@ import { create } from "react-test-renderer";
 
 import IntervalTypeSelector from "common/intervalSelector/IntervalTypeSelector";
 
-test("Test", () => {
+test("Test IntervalTypeSelector", () => {
   const intervalTypes = [
     {
       IntervalType: "IntervalType",

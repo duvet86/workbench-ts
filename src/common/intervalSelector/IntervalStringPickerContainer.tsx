@@ -12,6 +12,7 @@ import {
   handleException
 } from "errorPage/actions";
 
+import LoadingContainer from "common/loading/LoadingContainer";
 import DateOpString from "common/intervalSelector/intervalString/DateOpString";
 import CalendarPeriodContainer from "common/intervalSelector/intervalString/CalendarPeriodContainer";
 
@@ -22,7 +23,15 @@ interface IOwnProps {
 
 type Props = ReturnType<typeof mapDispatchToProps> & IOwnProps;
 
-class IntervalStringPickerContainer extends Component<Props> {
+interface IState {
+  isLoading: boolean;
+}
+
+class IntervalStringPickerContainer extends Component<Props, IState> {
+  public state: IState = {
+    isLoading: false
+  };
+
   public async componentDidUpdate(prevProps: Props) {
     const {
       interval,
@@ -34,6 +43,10 @@ class IntervalStringPickerContainer extends Component<Props> {
       return;
     }
 
+    this.setState({
+      isLoading: true
+    });
+
     try {
       const resolvedInterval = await resolveIntervalAsync(
         interval.IntervalType,
@@ -41,6 +54,9 @@ class IntervalStringPickerContainer extends Component<Props> {
       );
 
       handleIntervalChange(resolvedInterval);
+      this.setState({
+        isLoading: false
+      });
     } catch (e) {
       dispatchHandleException(e);
     }
@@ -52,10 +68,24 @@ class IntervalStringPickerContainer extends Component<Props> {
       return null;
     }
 
-    let intervalStringDate = interval.IntervalString;
-    switch (interval.IntervalType) {
+    return (
+      <LoadingContainer isLoading={this.state.isLoading}>
+        {this.getIntervalStringComponent(
+          interval.IntervalType,
+          interval.IntervalString
+        )}
+      </LoadingContainer>
+    );
+  }
+
+  private getIntervalStringComponent(
+    intervalType: string,
+    intervalString: string
+  ) {
+    let intervalStringDate = intervalString;
+    switch (intervalType) {
       case IntervalTypes.DATEOP:
-        intervalStringDate = getDateOpStringDate(interval.IntervalString);
+        intervalStringDate = getDateOpStringDate(intervalString);
         return <DateOpString intervalStringDate={intervalStringDate} />;
       case IntervalTypes.CALENDARPERIOD:
         return (

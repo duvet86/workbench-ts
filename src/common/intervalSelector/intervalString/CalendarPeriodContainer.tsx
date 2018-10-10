@@ -30,6 +30,8 @@ class CalendarPeriodContainer extends Component<Props, IState> {
     calendarPeriods: []
   };
 
+  private isComponentUnmouted = false;
+
   public async componentDidMount() {
     const { dispatchHandleException } = this.props;
     this.setState({
@@ -38,13 +40,20 @@ class CalendarPeriodContainer extends Component<Props, IState> {
 
     try {
       const calendarPeriods = await getCalendarPeriodsAsync();
-      this.setState({
-        calendarPeriods,
-        isLoading: false
-      });
+
+      if (!this.isComponentUnmouted) {
+        this.setState({
+          calendarPeriods,
+          isLoading: false
+        });
+      }
     } catch (e) {
       dispatchHandleException(e);
     }
+  }
+
+  public componentWillUnmount() {
+    this.isComponentUnmouted = true;
   }
 
   public render() {
