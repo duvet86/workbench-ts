@@ -8,7 +8,14 @@ test("Test LoadingContainer", () => {
     <LoadingContainer isLoading={false}>
       <div>Child</div>
     </LoadingContainer>
-  ).root;
+  );
 
-  expect(component.children.length).toEqual(1);
+  const instance = component.root;
+
+  expect(instance.children.length).toEqual(1);
+
+  const childComponent = instance.find(el => {
+    return el.children && el.children[0] === "Child";
+  });
+  expect(childComponent).toBeDefined();
 });
