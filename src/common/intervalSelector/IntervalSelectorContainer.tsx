@@ -97,6 +97,11 @@ class IntervalSelectorContainer extends Component<Props, IState> {
   };
 
   private handleIntervalChange = (newInterval: IIntervalDtc) => {
+    this.setState({
+      interval: {
+        ...newInterval
+      }
+    });
     // tslint:disable-next-line:no-console
     console.log(newInterval);
   };

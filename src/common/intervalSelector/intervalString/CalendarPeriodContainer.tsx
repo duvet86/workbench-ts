@@ -11,7 +11,6 @@ import {
   handleException
 } from "errorPage/actions";
 
-import LoadingContainer from "common/loading/LoadingContainer";
 import CalendarPeriod from "common/intervalSelector/intervalString/CalendarPeriod";
 
 interface IOwnProps {
@@ -53,12 +52,10 @@ class CalendarPeriodContainer extends Component<Props, IState> {
     const { intervalStringDate } = this.props;
 
     return (
-      <LoadingContainer isLoading={isLoading}>
-        <CalendarPeriod
-          calendarPeriods={calendarPeriods}
-          intervalStringDate={intervalStringDate}
-        />
-      </LoadingContainer>
+      <CalendarPeriod
+        calendarPeriods={calendarPeriods}
+        intervalStringDate={intervalStringDate}
+      />
     );
   }
 }
