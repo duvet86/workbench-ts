@@ -8,8 +8,7 @@ test("Test LoadingContainer", () => {
     <LoadingContainer isLoading={false}>
       <div>Child</div>
     </LoadingContainer>
-  );
+  ).root;
 
-  const tree = component.toJSON();
-  expect(tree).toMatchSnapshot();
+  expect(component.children.length).toEqual(1);
 });
