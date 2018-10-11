@@ -24,18 +24,19 @@ class LoadingContainer extends Component<IProps, Readonly<IState>> {
   }
 
   public shouldComponentUpdate(nextProps: IProps, nextState: IState) {
-    if (nextProps.isLoading && !this.state.pastDelay) {
+    if (!this.props.isLoading && nextProps.isLoading && !nextState.pastDelay) {
       return false;
     }
     return true;
   }
 
-  public componentDidUpdate(nextProps: IProps, nextState: IState) {
+  public componentDidUpdate(prevProps: IProps, prevState: IState) {
     if (!this.props.isLoading && this.state.pastDelay) {
       this.setState({
         pastDelay: false
       });
-    } else if (nextProps.isLoading && !this.state.pastDelay) {
+    }
+    if (!prevProps.isLoading && this.props.isLoading && !this.state.pastDelay) {
       this.delay = this.setTimeout(this.props.delay || 200);
     }
   }
@@ -43,6 +44,7 @@ class LoadingContainer extends Component<IProps, Readonly<IState>> {
   public componentWillUnmount() {
     if (this.delay) {
       window.clearTimeout(this.delay);
+      this.delay = undefined;
     }
   }
 
