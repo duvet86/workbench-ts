@@ -23,19 +23,22 @@ class LoadingContainer extends Component<IProps, Readonly<IState>> {
     this.delay = this.setTimeout(this.props.delay || 200);
   }
 
-  public shouldComponentUpdate(nextProps: IProps, nextState: IState) {
-    if (!this.props.isLoading && nextProps.isLoading && !nextState.pastDelay) {
-      this.delay = this.setTimeout(this.props.delay || 200);
-      return false;
-    }
-    return true;
-  }
+  // public shouldComponentUpdate(nextProps: IProps, nextState: IState) {
+  //   if (!this.props.isLoading && nextProps.isLoading && !nextState.pastDelay) {
+  //     this.delay = this.setTimeout(this.props.delay || 200);
+  //     return false;
+  //   }
+  //   return true;
+  // }
 
   public componentDidUpdate(prevProps: IProps, prevState: IState) {
     if (!this.props.isLoading && this.state.pastDelay) {
       this.setState({
         pastDelay: false
       });
+    }
+    if (!prevProps.isLoading && this.props.isLoading && !this.state.pastDelay) {
+      this.delay = this.setTimeout(this.props.delay || 200);
     }
   }
 

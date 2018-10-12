@@ -65,6 +65,7 @@ const styles = ({
       overflow: "auto",
       padding: 0,
       width: 150,
+      marginTop: 3,
       "&:focus": {
         outline: 0
       }
@@ -128,9 +129,7 @@ const QueryNodeWidget: React.SFC<IProps> = ({ classes, node }) => {
           </Typography>
         </div>
         <div>
-          <Typography noWrap>
-            Columns
-          </Typography>
+          <Typography noWrap>Columns</Typography>
           <Divider />
           <List className={classes.list} onWheel={handleWheel} component="div">
             <AutoSizer disableHeight>

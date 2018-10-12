@@ -29,8 +29,6 @@ const styles = createStyles({
     padding: 0
   },
   itemIcon: {
-    width: 10,
-    height: 10,
     marginRight: 5
   },
   primary: {
