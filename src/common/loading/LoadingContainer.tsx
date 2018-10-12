@@ -25,6 +25,7 @@ class LoadingContainer extends Component<IProps, Readonly<IState>> {
 
   public shouldComponentUpdate(nextProps: IProps, nextState: IState) {
     if (!this.props.isLoading && nextProps.isLoading && !nextState.pastDelay) {
+      this.delay = this.setTimeout(this.props.delay || 200);
       return false;
     }
     return true;
@@ -35,9 +36,6 @@ class LoadingContainer extends Component<IProps, Readonly<IState>> {
       this.setState({
         pastDelay: false
       });
-    }
-    if (!prevProps.isLoading && this.props.isLoading && !this.state.pastDelay) {
-      this.delay = this.setTimeout(this.props.delay || 200);
     }
   }
 

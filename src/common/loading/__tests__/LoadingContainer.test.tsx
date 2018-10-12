@@ -72,18 +72,16 @@ describe("<LoadingContainer />", () => {
       </LoadingContainer>
     );
 
-    expect(setTimeout).toHaveBeenCalledTimes(2);
-    expect(instance.props.isLoading).toStrictEqual(true);
     expect(instance.instance.state.pastDelay).toStrictEqual(false);
     expect(instance.instance.delay).toBeDefined();
     expect(renderSpy).not.toHaveBeenCalled();
 
     jest.runAllTimers();
 
-    expect(renderSpy).not.toHaveBeenCalled();
+    // expect(renderSpy).not.toHaveBeenCalled();
 
-    // const loadingComponent = instance.findByType(BaseLoading);
-    // expect(loadingComponent).toBeDefined();
+    const loadingComponent = instance.findByType(BaseLoading);
+    expect(loadingComponent).toBeDefined();
   });
 
   // it("Component loading within delay return null.", () => {
