@@ -4,7 +4,10 @@ import { connect } from "react-redux";
 import { batchActions } from "redux-batched-actions";
 
 import { IIntervalDtc, IIntervalTypesDtc } from "common/intervalSelector/types";
-import { initIntervalAsync } from "common/intervalSelector/api";
+import {
+  initIntervalAsync,
+  resolveIntervalAsync
+} from "common/intervalSelector/api";
 import { getDefaultInterval } from "common/intervalSelector/utils";
 import {
   ErrorActions,
@@ -24,7 +27,7 @@ type Props = ReturnType<typeof mapDispatchToProps> & IOwnProps;
 
 interface IState {
   intervalTypes: IIntervalTypesDtc[];
-  initIntervalType?: string;
+  intervalType?: string;
   interval?: IIntervalDtc;
 }
 
@@ -34,7 +37,7 @@ class IntervalSelectorContainer extends Component<Props, IState> {
 
     this.state = {
       intervalTypes: [],
-      initIntervalType: props.initValue && props.initValue.IntervalType,
+      intervalType: props.initValue && props.initValue.IntervalType,
       interval: props.initValue
     };
   }
@@ -49,6 +52,7 @@ class IntervalSelectorContainer extends Component<Props, IState> {
 
       this.setState({
         intervalTypes,
+        intervalType: interval.IntervalType,
         interval
       });
 
@@ -66,15 +70,15 @@ class IntervalSelectorContainer extends Component<Props, IState> {
   }
 
   public render() {
-    const { initIntervalType, interval, intervalTypes } = this.state;
+    const { intervalType, interval, intervalTypes } = this.state;
 
     return (
-      <LoadingContainer isLoading={interval == null}>
+      <LoadingContainer isLoading={interval == null || intervalType == null}>
         {interval != null &&
-          initIntervalType != null && (
+          intervalType != null && (
             <IntervalSelector
               intervalTypes={intervalTypes}
-              initIntervalType={initIntervalType}
+              initIntervalType={intervalType}
               interval={interval}
               handleIntervalTypeChange={this.handleIntervalTypeChange}
               handleIntervalChange={this.handleIntervalChange}
@@ -87,24 +91,26 @@ class IntervalSelectorContainer extends Component<Props, IState> {
   private handleIntervalTypeChange = async (
     event: ChangeEvent<HTMLSelectElement>
   ) => {
-    const { interval } = this.state;
-    if (interval == null) {
-      return;
-    }
+    try {
+      const resolvedInterval = await resolveIntervalAsync(event.target.value);
 
-    this.setState({
-      initIntervalType: event.target.value
-    });
+      this.setState({
+        intervalType: event.target.value,
+        interval: {
+          ...resolvedInterval
+        }
+      });
+    } catch (e) {
+      this.props.dispatchHandleException(e);
+    }
   };
 
-  private handleIntervalChange = (newInterval: IIntervalDtc) => {
+  private handleIntervalChange = async (newInterval: IIntervalDtc) => {
     this.setState({
       interval: {
         ...newInterval
       }
     });
-    // tslint:disable-next-line:no-console
-    console.log(newInterval);
   };
 }
 

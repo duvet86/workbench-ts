@@ -6,7 +6,7 @@ import {
   withStyles,
   WithStyles
 } from "@material-ui/core/styles";
-import { ICalendarPeriodDtc } from "common/intervalSelector/types";
+import { ICalendarString } from "common/intervalSelector/types";
 
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -17,7 +17,7 @@ import ArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
 import ArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 
 interface IProps extends WithStyles<typeof styles> {
-  calendarPeriods: ICalendarPeriodDtc[];
+  calendarValues: ICalendarString[];
   intervalStringDate: string;
 }
 
@@ -31,7 +31,7 @@ const styles = ({ spacing: { unit } }: Theme) =>
 
 const CalendarPeriod: SFC<IProps> = ({
   classes,
-  calendarPeriods,
+  calendarValues,
   intervalStringDate
 }) => (
   <TextField
@@ -51,9 +51,9 @@ const CalendarPeriod: SFC<IProps> = ({
       )
     }}
   >
-    {calendarPeriods.map(({ Label, PeriodName }) => (
-      <MenuItem key={PeriodName} value={PeriodName}>
-        {Label}
+    {calendarValues.map(({ label, value }) => (
+      <MenuItem key={value} value={value}>
+        {label}
       </MenuItem>
     ))}
   </TextField>

@@ -3,8 +3,12 @@ import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { batchActions } from "redux-batched-actions";
 
-import { ICalendarPeriodDtc } from "common/intervalSelector/types";
-import { getCalendarPeriodsAsync } from "common/intervalSelector/api";
+import {
+  ICalendarPeriodDtc,
+  IntervalTypes,
+  ICalendarString
+} from "common/intervalSelector/types";
+import { getCalendarStringAsync } from "common/intervalSelector/api";
 import {
   ErrorActions,
   IErrorResponse,
@@ -14,37 +18,31 @@ import {
 import CalendarPeriod from "common/intervalSelector/intervalString/CalendarPeriod";
 
 interface IOwnProps {
+  intervalType: IntervalTypes.CALENDARPERIOD | IntervalTypes.CALENDARQUARTER;
   intervalStringDate: string;
 }
 
 interface IState {
-  isLoading: boolean;
-  calendarPeriods: ICalendarPeriodDtc[];
+  calendarValues: ICalendarString[];
 }
 
 type Props = ReturnType<typeof mapDispatchToProps> & IOwnProps;
 
 class CalendarPeriodContainer extends Component<Props, IState> {
   public state: IState = {
-    isLoading: false,
-    calendarPeriods: []
+    calendarValues: []
   };
 
   private isComponentUnmouted = false;
 
   public async componentDidMount() {
-    const { dispatchHandleException } = this.props;
-    this.setState({
-      isLoading: true
-    });
-
+    const { dispatchHandleException, intervalType } = this.props;
     try {
-      const calendarPeriods = await getCalendarPeriodsAsync();
+      const calendarValues = await getCalendarStringAsync(intervalType);
 
       if (!this.isComponentUnmouted) {
         this.setState({
-          calendarPeriods,
-          isLoading: false
+          calendarValues
         });
       }
     } catch (e) {
@@ -57,12 +55,12 @@ class CalendarPeriodContainer extends Component<Props, IState> {
   }
 
   public render() {
-    const { isLoading, calendarPeriods } = this.state;
+    const { calendarValues } = this.state;
     const { intervalStringDate } = this.props;
 
     return (
       <CalendarPeriod
-        calendarPeriods={calendarPeriods}
+        calendarValues={calendarValues}
         intervalStringDate={intervalStringDate}
       />
     );

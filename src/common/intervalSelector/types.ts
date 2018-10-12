@@ -1,3 +1,5 @@
+import { number } from "prop-types";
+
 export const enum IntervalTypes {
   ALLTIME = "ALLTIME",
   BIHOURLY = "BIHOURLY",
@@ -22,6 +24,24 @@ export interface ICalendarPeriodDtc {
   PeriodStartTimeUtc: Date;
   PeriodEndDateOp: Date;
   PeriodEndTimeUtc: Date;
+}
+
+export interface ICalendarQuarterDtc {
+  Operation: string;
+  Label: string;
+  QuarterName: string;
+  FiscalYear: string;
+  QuarterIndex: number;
+  QuarterStartDateOp: Date;
+  QuarterStartTimeUtc: Date;
+  QuarterEndDateOp: Date;
+  QuarterEndTimeUtc: Date;
+}
+
+export interface ICalendarString {
+  operation: string;
+  label: string;
+  value: string;
 }
 
 export interface ISmartInterval {

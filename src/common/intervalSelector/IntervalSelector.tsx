@@ -16,7 +16,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 
 import IntervalTypeSelector from "common/intervalSelector/IntervalTypeSelector";
-import IntervalStringPickerContainer from "common/intervalSelector/IntervalStringPickerContainer";
+import IntervalStringPickerContainer from "./IntervalStringPickerContainer";
 
 interface IProps extends WithStyles<typeof styles> {
   intervalTypes: IIntervalTypesDtc[];

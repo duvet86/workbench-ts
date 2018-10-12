@@ -1,109 +1,38 @@
-import React, { Component } from "react";
-import { Dispatch } from "redux";
-import { connect } from "react-redux";
-import { batchActions } from "redux-batched-actions";
+import React, { SFC } from "react";
 
 import { IIntervalDtc, IntervalTypes } from "common/intervalSelector/types";
 import { getDateOpStringDate } from "common/intervalSelector/selector";
-import { resolveIntervalAsync } from "common/intervalSelector/api";
-import {
-  ErrorActions,
-  IErrorResponse,
-  handleException
-} from "errorPage/actions";
 
-import LoadingContainer from "common/loading/LoadingContainer";
 import DateOpString from "common/intervalSelector/intervalString/DateOpString";
 import CalendarPeriodContainer from "common/intervalSelector/intervalString/CalendarPeriodContainer";
 
-interface IOwnProps {
+interface IProps {
   interval: IIntervalDtc;
   handleIntervalChange: (newInterval: IIntervalDtc) => void;
 }
 
-type Props = ReturnType<typeof mapDispatchToProps> & IOwnProps;
+const IntervalStringPickerContainer: SFC<IProps> = ({ interval }) => {
+  if (interval.IntervalString == null) {
+    return null;
+  }
 
-interface IState {
-  isLoading: boolean;
-}
-
-class IntervalStringPickerContainer extends Component<Props, IState> {
-  public state: IState = {
-    isLoading: false
-  };
-
-  public async componentDidUpdate(prevProps: Props) {
-    const {
-      interval,
-      handleIntervalChange,
-      dispatchHandleException
-    } = this.props;
-
-    if (prevProps.interval.IntervalType === interval.IntervalType) {
-      return;
-    }
-
-    this.setState({
-      isLoading: true
-    });
-
-    try {
-      const resolvedInterval = await resolveIntervalAsync(
-        interval.IntervalType,
-        interval.offset
+  let intervalStringDate = interval.IntervalString;
+  switch (interval.IntervalType) {
+    case IntervalTypes.DATEOP:
+    case IntervalTypes.CALENDARPERIODTODATE:
+      intervalStringDate = getDateOpStringDate(interval.IntervalString);
+      return <DateOpString intervalStringDate={intervalStringDate} />;
+    case IntervalTypes.CALENDARPERIOD:
+    case IntervalTypes.CALENDARQUARTER:
+      return (
+        <CalendarPeriodContainer
+          intervalType={interval.IntervalType}
+          intervalStringDate={intervalStringDate}
+        />
       );
-
-      handleIntervalChange(resolvedInterval);
-      this.setState({
-        isLoading: false
-      });
-    } catch (e) {
-      dispatchHandleException(e);
-    }
-  }
-
-  public render() {
-    const { interval } = this.props;
-    if (interval.IntervalString == null) {
+    default:
       return null;
-    }
-
-    return (
-      <LoadingContainer isLoading={this.state.isLoading}>
-        {this.getIntervalStringComponent(
-          interval.IntervalType,
-          interval.IntervalString
-        )}
-      </LoadingContainer>
-    );
   }
+};
 
-  private getIntervalStringComponent(
-    intervalType: string,
-    intervalString: string
-  ) {
-    let intervalStringDate = intervalString;
-    switch (intervalType) {
-      case IntervalTypes.DATEOP:
-        intervalStringDate = getDateOpStringDate(intervalString);
-        return <DateOpString intervalStringDate={intervalStringDate} />;
-      case IntervalTypes.CALENDARPERIOD:
-        return (
-          <CalendarPeriodContainer intervalStringDate={intervalStringDate} />
-        );
-      default:
-        return null;
-    }
-  }
-}
-
-const mapDispatchToProps = (dispatch: Dispatch<ErrorActions>) => ({
-  dispatchHandleException: (resp: IErrorResponse) => {
-    dispatch(batchActions(handleException(resp)));
-  }
-});
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(IntervalStringPickerContainer);
+export default IntervalStringPickerContainer;
