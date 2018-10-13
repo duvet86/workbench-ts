@@ -66,6 +66,7 @@ const styles = ({
       padding: 0,
       width: 150,
       marginTop: 3,
+      cursor: "default",
       "&:focus": {
         outline: 0
       }
