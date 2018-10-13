@@ -29,7 +29,7 @@ interface IOwnProps {
 type Props = ReturnType<typeof mapDispatchToProps> & IOwnProps;
 
 interface IState {
-  intervalTypes: IIntervalTypesDtc[];
+  intervalTypes: { [key: string]: IIntervalTypesDtc };
   intervalType?: string;
   interval?: IIntervalDtc;
 }
@@ -50,7 +50,7 @@ class IntervalSelectorContainer extends Component<Props, IState> {
     ).pipe(share());
 
     this.state = {
-      intervalTypes: [],
+      intervalTypes: {},
       intervalType: props.initValue && props.initValue.IntervalType,
       interval: props.initValue
     };
@@ -59,30 +59,10 @@ class IntervalSelectorContainer extends Component<Props, IState> {
   public async componentDidMount() {
     const { initValue, onChange, dispatchHandleException } = this.props;
 
+    // Debouncing the next and previous button clicks.
     const debounced = this.nextIntevalClick$.pipe(debounceTime(250));
-
-    this.nextIntevalClick$.pipe(buffer(debounced)).subscribe(async offset => {
-      try {
-        const { interval } = this.state;
-        if (interval == null || interval.IntervalString == null) {
-          return;
-        }
-
-        const { IntervalType, IntervalString } = interval;
-        const nextInterval = await getNextIntervalAsync(
-          IntervalType,
-          IntervalString,
-          offset.reduce((acc, current) => acc + current, 0)
-        );
-
-        this.setState({
-          interval: {
-            ...nextInterval
-          }
-        });
-      } catch (e) {
-        this.props.dispatchHandleException(e);
-      }
+    this.nextIntevalClick$.pipe(buffer(debounced)).subscribe(offset => {
+      this.debounceNextIntervalAsync(offset);
     });
 
     try {
@@ -124,8 +104,9 @@ class IntervalSelectorContainer extends Component<Props, IState> {
             intervalTypes={intervalTypes}
             initIntervalType={intervalType!}
             interval={interval!}
-            handleIntervalTypeChange={this.handleIntervalTypeChange}
-            handleNextIntevalClick={this.handleNextIntevalClick!}
+            onIntervalTypeChange={this.handleIntervalTypeChange}
+            onSmartKeyChange={this.handleSmartKeyChange}
+            onNextIntevalClick={this.handleNextIntevalClick!}
           />
         )}
       </LoadingContainer>
@@ -142,6 +123,55 @@ class IntervalSelectorContainer extends Component<Props, IState> {
         intervalType: event.target.value,
         interval: {
           ...resolvedInterval
+        }
+      });
+    } catch (e) {
+      this.props.dispatchHandleException(e);
+    }
+  };
+
+  private handleSmartKeyChange = async (
+    event: ChangeEvent<HTMLSelectElement>
+  ) => {
+    try {
+      const { interval } = this.state;
+      if (interval == null) {
+        return;
+      }
+      const resolvedInterval = await resolveIntervalAsync(
+        interval.IntervalType,
+        0,
+        event.target.value
+      );
+
+      this.setState({
+        interval: {
+          ...resolvedInterval,
+          smartIntervalKey: event.target.value
+        }
+      });
+    } catch (e) {
+      this.props.dispatchHandleException(e);
+    }
+  };
+
+  private debounceNextIntervalAsync = async (offset: number[]) => {
+    try {
+      const { interval } = this.state;
+      if (interval == null || interval.IntervalString == null) {
+        return;
+      }
+
+      const { IntervalType, IntervalString } = interval;
+      const nextInterval = await getNextIntervalAsync(
+        IntervalType,
+        IntervalString,
+        offset.reduce((acc, current) => acc + current, 0)
+      );
+
+      this.setState({
+        interval: {
+          ...nextInterval
         }
       });
     } catch (e) {

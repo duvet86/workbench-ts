@@ -16,16 +16,25 @@ export const initIntervalAsync = (
     getWithJwtAsync<IIntervalTypesDtc[]>("api/platform/intervaltypes"),
     resolveIntervalAsync(initInterval.IntervalType)
   ]).then(arrayOfResponses => ({
-    intervalTypes: arrayOfResponses[0],
+    intervalTypes: arrayOfResponses[0].reduce(
+      (res, val) => {
+        res[val.IntervalType] = val;
+        return res;
+      },
+      {} as { [key: string]: IIntervalTypesDtc }
+    ),
     interval: arrayOfResponses[1]
   }));
 
 export const resolveIntervalAsync = (
   intervalType: string,
-  offset: number = 0
+  offset: number = 0,
+  smartIntervalKey?: string
 ) =>
   getWithJwtAsync<IIntervalDtc[]>(
-    `api/platform/interval/${intervalType}/resolve?offset=${offset}`
+    `api/platform/interval/${intervalType}/resolve?offset=${offset}${
+      smartIntervalKey != null ? `&smartIntervalKey=${smartIntervalKey}` : ""
+    }`
   ).then(intervalArray => intervalArray[0]);
 
 export const getNextIntervalAsync = (

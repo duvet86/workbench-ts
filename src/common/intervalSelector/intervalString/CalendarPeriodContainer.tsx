@@ -3,11 +3,7 @@ import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { batchActions } from "redux-batched-actions";
 
-import {
-  ICalendarPeriodDtc,
-  IntervalTypes,
-  ICalendarString
-} from "common/intervalSelector/types";
+import { IntervalTypes, ICalendarString } from "common/intervalSelector/types";
 import { getCalendarStringAsync } from "common/intervalSelector/api";
 import {
   ErrorActions,

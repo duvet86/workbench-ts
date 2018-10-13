@@ -7,10 +7,10 @@ import {
   WithStyles
 } from "@material-ui/core/styles";
 
+import { getIntervalTypes } from "common/intervalSelector/selector";
 import { IIntervalTypesDtc, IIntervalDtc } from "common/intervalSelector/types";
 
 import FormControl from "@material-ui/core/FormControl";
-import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
@@ -19,11 +19,12 @@ import IntervalTypeSelector from "common/intervalSelector/IntervalTypeSelector";
 import IntervalStringPickerContainer from "./IntervalStringPickerContainer";
 
 interface IProps extends WithStyles<typeof styles> {
-  intervalTypes: IIntervalTypesDtc[];
+  intervalTypes: { [key: string]: IIntervalTypesDtc };
   initIntervalType: string;
   interval: IIntervalDtc;
-  handleIntervalTypeChange: (event: ChangeEvent<HTMLSelectElement>) => void;
-  handleNextIntevalClick: (offset: number) => () => void;
+  onIntervalTypeChange: (event: ChangeEvent<HTMLSelectElement>) => void;
+  onSmartKeyChange: (event: ChangeEvent<HTMLSelectElement>) => void;
+  onNextIntevalClick: (offset: number) => () => void;
 }
 
 const styles = ({ spacing: { unit } }: Theme) =>
@@ -47,32 +48,44 @@ const IntervalSelector: SFC<IProps> = ({
   intervalTypes,
   initIntervalType,
   interval,
-  handleIntervalTypeChange,
-  handleNextIntevalClick
-}) => (
-  <div className={classes.container}>
-    <IntervalTypeSelector
-      options={intervalTypes}
-      value={initIntervalType}
-      onChange={handleIntervalTypeChange}
-    />
-    <IntervalStringPickerContainer
-      className={classes.stringPickerContainer}
-      interval={interval}
-      handleNextIntevalClick={handleNextIntevalClick}
-    />
-    <FormControl className={classes.smartSelector}>
-      <InputLabel htmlFor="age-simple">Smart Date</InputLabel>
-      <Select value="" input={<Input name="age" id="age-simple" />} autoWidth>
-        <MenuItem value="">
-          <em>None</em>
-        </MenuItem>
-        <MenuItem value={10}>Ten</MenuItem>
-        <MenuItem value={20}>Twenty</MenuItem>
-        <MenuItem value={30}>Thirty</MenuItem>
-      </Select>
-    </FormControl>
-  </div>
-);
+  onIntervalTypeChange,
+  onNextIntevalClick,
+  onSmartKeyChange
+}) => {
+  const smartIntervals = intervalTypes[initIntervalType].SmartIntervals;
+
+  return (
+    <div className={classes.container}>
+      <IntervalTypeSelector
+        options={getIntervalTypes(intervalTypes)}
+        value={initIntervalType}
+        onChange={onIntervalTypeChange}
+      />
+      <IntervalStringPickerContainer
+        className={classes.stringPickerContainer}
+        interval={interval}
+        handleNextIntevalClick={onNextIntevalClick}
+      />
+      {smartIntervals.length > 0 && (
+        <FormControl className={classes.smartSelector}>
+          <InputLabel htmlFor="smartInterval">Smart Date</InputLabel>
+          <Select
+            value={interval.smartIntervalKey || ""}
+            onChange={onSmartKeyChange}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            {smartIntervals.map(({ Key }) => (
+              <MenuItem key={Key} value={Key}>
+                {Key}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      )}
+    </div>
+  );
+};
 
 export default withStyles(styles)(IntervalSelector);

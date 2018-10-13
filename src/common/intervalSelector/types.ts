@@ -68,12 +68,14 @@ export interface IIntervalTypesDtc {
 export interface IIntervalDtc {
   IntervalType: string;
   IntervalString?: string;
+  intervalStringDate?: string;
+  smartIntervalKey?: string;
+
   FullLabel?: string; // Not used.
   Label?: string; // Not used.
-  intervalStringDate?: string;
 }
 
 export interface ITypesAndInterval {
-  intervalTypes: IIntervalTypesDtc[];
+  intervalTypes: { [key: string]: IIntervalTypesDtc };
   interval: IIntervalDtc;
 }

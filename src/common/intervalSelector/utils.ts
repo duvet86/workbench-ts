@@ -6,8 +6,7 @@ import {
 } from "common/intervalSelector/types";
 
 export const getDefaultInterval = () => ({
-  IntervalType: IntervalTypes.DATEOP,
-  offset: 0
+  IntervalType: IntervalTypes.DATEOP
 });
 
 const splitSmartInterval = (intervalString: string): ISmartInterval => {
