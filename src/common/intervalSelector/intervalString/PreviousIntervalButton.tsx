@@ -11,7 +11,7 @@ interface IProps {
 
 const PreviousIntervalButton: SFC<IProps> = ({ onClick }) => (
   <InputAdornment position="start">
-    <IconButton onClick={onClick(1)} aria-label="Left">
+    <IconButton onClick={onClick(-1)} aria-label="Left">
       {<ArrowLeftIcon />}
     </IconButton>
   </InputAdornment>

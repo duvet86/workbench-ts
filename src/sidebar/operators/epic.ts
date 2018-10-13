@@ -1,7 +1,7 @@
 import { ActionsObservable, ofType } from "redux-observable";
 import { catchError, map, mergeMap } from "rxjs/operators";
 
-import { getData } from "lib/apiCache";
+import { getDataObs } from "lib/apiCache";
 
 import { handleException } from "errorPage/actions";
 import {
@@ -15,7 +15,7 @@ export const operatorsEpic = (action$: ActionsObservable<IOperatorsRequest>) =>
   action$.pipe(
     ofType(OperatorsActionTypes.OPERATORS_REQUEST),
     mergeMap(() =>
-      getData(OperatorsActionTypes.OPERATORS_REQUEST, getOperatorsObs).pipe(
+      getDataObs(OperatorsActionTypes.OPERATORS_REQUEST, getOperatorsObs).pipe(
         map(operatorServices => operatorsSuccess(operatorServices)),
         catchError(error => handleException(error))
       )

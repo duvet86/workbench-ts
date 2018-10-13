@@ -2,6 +2,8 @@ import React, { ChangeEvent, Component } from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { batchActions } from "redux-batched-actions";
+import { Observable, Subscriber } from "rxjs";
+import { debounceTime, buffer, share } from "rxjs/operators";
 
 import { IIntervalDtc, IIntervalTypesDtc } from "common/intervalSelector/types";
 import {
@@ -33,8 +35,19 @@ interface IState {
 }
 
 class IntervalSelectorContainer extends Component<Props, IState> {
+  private nextIntevalClick$: Observable<number>;
+  private handleNextIntevalClick?: (offset: number) => () => void;
+
   constructor(props: Props) {
     super(props);
+
+    this.nextIntevalClick$ = Observable.create(
+      (observer: Subscriber<number>) => {
+        this.handleNextIntevalClick = (offset: number) => () => {
+          observer.next(offset);
+        };
+      }
+    ).pipe(share());
 
     this.state = {
       intervalTypes: [],
@@ -45,6 +58,32 @@ class IntervalSelectorContainer extends Component<Props, IState> {
 
   public async componentDidMount() {
     const { initValue, onChange, dispatchHandleException } = this.props;
+
+    const debounced = this.nextIntevalClick$.pipe(debounceTime(250));
+
+    this.nextIntevalClick$.pipe(buffer(debounced)).subscribe(async offset => {
+      try {
+        const { interval } = this.state;
+        if (interval == null || interval.IntervalString == null) {
+          return;
+        }
+
+        const { IntervalType, IntervalString } = interval;
+        const nextInterval = await getNextIntervalAsync(
+          IntervalType,
+          IntervalString,
+          offset.reduce((acc, current) => acc + current, 0)
+        );
+
+        this.setState({
+          interval: {
+            ...nextInterval
+          }
+        });
+      } catch (e) {
+        this.props.dispatchHandleException(e);
+      }
+    });
 
     try {
       const { intervalTypes, interval } = await initIntervalAsync(
@@ -73,18 +112,22 @@ class IntervalSelectorContainer extends Component<Props, IState> {
   public render() {
     const { intervalType, interval, intervalTypes } = this.state;
 
+    const isLoading =
+      interval == null ||
+      intervalType == null ||
+      this.handleNextIntevalClick == null;
+
     return (
-      <LoadingContainer isLoading={interval == null || intervalType == null}>
-        {interval != null &&
-          intervalType != null && (
-            <IntervalSelector
-              intervalTypes={intervalTypes}
-              initIntervalType={intervalType}
-              interval={interval}
-              handleIntervalTypeChange={this.handleIntervalTypeChange}
-              handleNextIntevalClick={this.handleNextIntevalClick}
-            />
-          )}
+      <LoadingContainer isLoading={isLoading}>
+        {!isLoading && (
+          <IntervalSelector
+            intervalTypes={intervalTypes}
+            initIntervalType={intervalType!}
+            interval={interval!}
+            handleIntervalTypeChange={this.handleIntervalTypeChange}
+            handleNextIntevalClick={this.handleNextIntevalClick!}
+          />
+        )}
       </LoadingContainer>
     );
   }
@@ -99,30 +142,6 @@ class IntervalSelectorContainer extends Component<Props, IState> {
         intervalType: event.target.value,
         interval: {
           ...resolvedInterval
-        }
-      });
-    } catch (e) {
-      this.props.dispatchHandleException(e);
-    }
-  };
-
-  private handleNextIntevalClick = (offset: number) => async () => {
-    try {
-      const { interval } = this.state;
-      if (interval == null || interval.IntervalString == null) {
-        return;
-      }
-
-      const { IntervalType, IntervalString } = interval;
-      const nextInterval = await getNextIntervalAsync(
-        IntervalType,
-        IntervalString,
-        offset
-      );
-
-      this.setState({
-        interval: {
-          ...nextInterval
         }
       });
     } catch (e) {
