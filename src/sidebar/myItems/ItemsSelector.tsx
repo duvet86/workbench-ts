@@ -14,7 +14,10 @@ import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import MyItemsIcon from "@material-ui/icons/Folder";
 import SharedWithMeIcon from "@material-ui/icons/FolderShared";
 
-interface IProps extends WithStyles<typeof styles> {}
+interface IProps extends WithStyles<typeof styles> {
+  currentTree: 0 | 1;
+  handleTreeChange: (event: React.ChangeEvent<{}>, value: 0 | 1) => void;
+}
 
 const styles = ({
   palette: {
@@ -30,12 +33,12 @@ const styles = ({
     selected: {}
   });
 
-const ItemsSelector: SFC<IProps> = ({ classes }) => (
-  <BottomNavigation
-    value={0}
-    // onChange={this.handleChange}
-    showLabels
-  >
+const ItemsSelector: SFC<IProps> = ({
+  classes,
+  currentTree,
+  handleTreeChange
+}) => (
+  <BottomNavigation value={currentTree} onChange={handleTreeChange} showLabels>
     <BottomNavigationAction
       classes={{
         root: classes.actionRoot,

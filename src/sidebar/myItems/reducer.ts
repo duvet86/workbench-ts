@@ -1,16 +1,20 @@
 import { MyItemsActionTypes, MyItemsAction } from "sidebar/myItems/actions";
 
-import { ISideBarItems } from "sidebar/myItems/types";
+import { IFolderChild } from "sidebar/myItems/types";
 
 interface IMyItemsState {
   isLoading: boolean;
-  items?: ISideBarItems;
+  currentTree: 0 | 1;
+  myItems: IFolderChild[];
+  sharedWithMe: IFolderChild[];
 }
 
 function myItems(
   state: IMyItemsState = {
     isLoading: true,
-    items: undefined
+    currentTree: 0,
+    myItems: [],
+    sharedWithMe: []
   },
   action: MyItemsAction
 ): IMyItemsState {
@@ -24,7 +28,15 @@ function myItems(
     case MyItemsActionTypes.MY_ITEMS_SUCCESS:
       return {
         isLoading: false,
-        items: action.items
+        currentTree: state.currentTree,
+        myItems: action.items.myItems,
+        sharedWithMe: action.items.sharedWithMe
+      };
+
+    case MyItemsActionTypes.FOLDER_TREE_UPDATE:
+      return {
+        ...state,
+        currentTree: action.currentTree
       };
 
     default:

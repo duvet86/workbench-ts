@@ -63,13 +63,13 @@ const SideBar: SFC<IProps> = ({ classes, open, ...props }) => (
     open={open}
   >
     <div className={classes.buttonContainer}>
-      <Button variant="outlined" size="small" component={newWorkbenchLink}>
-        <DataViewIcon className={classes.icon} />
-        New Workbench
-      </Button>
       <Button variant="outlined" size="small" component={nePagebuilderLink}>
         <DashboardIcon className={classes.icon} />
         New Page
+      </Button>
+      <Button variant="outlined" size="small" component={newWorkbenchLink}>
+        <DataViewIcon className={classes.icon} />
+        New Workbench
       </Button>
     </div>
     <NavigationTabsContainer {...props} />
