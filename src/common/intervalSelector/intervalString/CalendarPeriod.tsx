@@ -1,54 +1,35 @@
 import React, { SFC } from "react";
 
-import {
-  createStyles,
-  Theme,
-  withStyles,
-  WithStyles
-} from "@material-ui/core/styles";
 import { ICalendarString } from "common/intervalSelector/types";
 
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
-import IconButton from "@material-ui/core/IconButton";
-import InputAdornment from "@material-ui/core/InputAdornment";
 
-import ArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
-import ArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
+import PreviousIntervalButton from "common/intervalSelector/intervalString/PreviousIntervalButton";
+import NextIntervalButton from "common/intervalSelector/intervalString/NextIntervalButton";
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
+  className: string;
   calendarValues: ICalendarString[];
   intervalStringDate: string;
+  handleNextIntevalClick: (offset: number) => () => void;
 }
 
-const styles = ({ spacing: { unit } }: Theme) =>
-  createStyles({
-    dateSelector: {
-      flexBasis: 350,
-      margin: `${unit * 3}px ${unit}px ${unit}px ${unit}px`
-    }
-  });
-
 const CalendarPeriod: SFC<IProps> = ({
-  classes,
+  className,
   calendarValues,
-  intervalStringDate
+  intervalStringDate,
+  handleNextIntevalClick
 }) => (
   <TextField
     select
-    className={classes.dateSelector}
+    className={className}
     value={intervalStringDate}
     InputProps={{
       startAdornment: (
-        <InputAdornment position="start">
-          <IconButton aria-label="Left">{<ArrowLeftIcon />}</IconButton>
-        </InputAdornment>
+        <PreviousIntervalButton onClick={handleNextIntevalClick} />
       ),
-      endAdornment: (
-        <InputAdornment position="end">
-          <IconButton aria-label="Right">{<ArrowRightIcon />}</IconButton>
-        </InputAdornment>
-      )
+      endAdornment: <NextIntervalButton onClick={handleNextIntevalClick} />
     }}
   >
     {calendarValues.map(({ label, value }) => (
@@ -59,4 +40,4 @@ const CalendarPeriod: SFC<IProps> = ({
   </TextField>
 );
 
-export default withStyles(styles)(CalendarPeriod);
+export default CalendarPeriod;

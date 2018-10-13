@@ -70,7 +70,6 @@ export interface IIntervalDtc {
   IntervalString?: string;
   FullLabel?: string; // Not used.
   Label?: string; // Not used.
-  offset: number;
   intervalStringDate?: string;
 }
 

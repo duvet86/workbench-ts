@@ -23,12 +23,8 @@ interface IProps extends WithStyles<typeof styles> {
 const styles = ({ spacing: { unit } }: Theme) =>
   createStyles({
     container: {
-      flexBasis: 200,
+      flexGrow: 1,
       margin: unit
-    },
-    loading: {
-      marginTop: unit * 2,
-      marginLeft: unit
     }
   });
 

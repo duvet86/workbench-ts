@@ -23,17 +23,22 @@ interface IProps extends WithStyles<typeof styles> {
   initIntervalType: string;
   interval: IIntervalDtc;
   handleIntervalTypeChange: (event: ChangeEvent<HTMLSelectElement>) => void;
-  handleIntervalChange: (newInterval: IIntervalDtc) => void;
+  handleNextIntevalClick: (offset: number) => () => void;
 }
 
 const styles = ({ spacing: { unit } }: Theme) =>
   createStyles({
     container: {
-      display: "flex"
+      display: "flex",
+      width: "100%"
     },
     smartSelector: {
-      flexBasis: 200,
+      flexGrow: 1,
       margin: unit
+    },
+    stringPickerContainer: {
+      flexGrow: 2,
+      margin: `${unit * 3}px ${unit}px ${unit}px ${unit}px`
     }
   });
 
@@ -43,7 +48,7 @@ const IntervalSelector: SFC<IProps> = ({
   initIntervalType,
   interval,
   handleIntervalTypeChange,
-  handleIntervalChange
+  handleNextIntevalClick
 }) => (
   <div className={classes.container}>
     <IntervalTypeSelector
@@ -52,8 +57,9 @@ const IntervalSelector: SFC<IProps> = ({
       onChange={handleIntervalTypeChange}
     />
     <IntervalStringPickerContainer
+      className={classes.stringPickerContainer}
       interval={interval}
-      handleIntervalChange={handleIntervalChange}
+      handleNextIntevalClick={handleNextIntevalClick}
     />
     <FormControl className={classes.smartSelector}>
       <InputLabel htmlFor="age-simple">Smart Date</InputLabel>

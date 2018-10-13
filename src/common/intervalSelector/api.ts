@@ -14,13 +14,10 @@ export const initIntervalAsync = (
 ): Promise<ITypesAndInterval> =>
   Promise.all([
     getWithJwtAsync<IIntervalTypesDtc[]>("api/platform/intervaltypes"),
-    resolveIntervalAsync(initInterval.IntervalType, initInterval.offset)
+    resolveIntervalAsync(initInterval.IntervalType)
   ]).then(arrayOfResponses => ({
     intervalTypes: arrayOfResponses[0],
-    interval: {
-      ...initInterval,
-      ...arrayOfResponses[1]
-    }
+    interval: arrayOfResponses[1]
   }));
 
 export const resolveIntervalAsync = (
@@ -30,6 +27,15 @@ export const resolveIntervalAsync = (
   getWithJwtAsync<IIntervalDtc[]>(
     `api/platform/interval/${intervalType}/resolve?offset=${offset}`
   ).then(intervalArray => intervalArray[0]);
+
+export const getNextIntervalAsync = (
+  intervalType: string,
+  intervalString: string,
+  offset: number
+) =>
+  getWithJwtAsync<IIntervalDtc>(
+    `api/platform/interval/${intervalType}/next?intervalString=${intervalString}&offset=${offset}`
+  ).then(nextInterval => nextInterval);
 
 export const getCalendarStringAsync = async (
   intervalType: IntervalTypes.CALENDARPERIOD | IntervalTypes.CALENDARQUARTER

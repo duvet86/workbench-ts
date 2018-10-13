@@ -6,7 +6,8 @@ import { batchActions } from "redux-batched-actions";
 import { IIntervalDtc, IIntervalTypesDtc } from "common/intervalSelector/types";
 import {
   initIntervalAsync,
-  resolveIntervalAsync
+  resolveIntervalAsync,
+  getNextIntervalAsync
 } from "common/intervalSelector/api";
 import { getDefaultInterval } from "common/intervalSelector/utils";
 import {
@@ -81,7 +82,7 @@ class IntervalSelectorContainer extends Component<Props, IState> {
               initIntervalType={intervalType}
               interval={interval}
               handleIntervalTypeChange={this.handleIntervalTypeChange}
-              handleIntervalChange={this.handleIntervalChange}
+              handleNextIntevalClick={this.handleNextIntevalClick}
             />
           )}
       </LoadingContainer>
@@ -105,12 +106,28 @@ class IntervalSelectorContainer extends Component<Props, IState> {
     }
   };
 
-  private handleIntervalChange = async (newInterval: IIntervalDtc) => {
-    this.setState({
-      interval: {
-        ...newInterval
+  private handleNextIntevalClick = (offset: number) => async () => {
+    try {
+      const { interval } = this.state;
+      if (interval == null || interval.IntervalString == null) {
+        return;
       }
-    });
+
+      const { IntervalType, IntervalString } = interval;
+      const nextInterval = await getNextIntervalAsync(
+        IntervalType,
+        IntervalString,
+        offset
+      );
+
+      this.setState({
+        interval: {
+          ...nextInterval
+        }
+      });
+    } catch (e) {
+      this.props.dispatchHandleException(e);
+    }
   };
 }
 

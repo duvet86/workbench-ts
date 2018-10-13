@@ -18,8 +18,10 @@ import {
 import CalendarPeriod from "common/intervalSelector/intervalString/CalendarPeriod";
 
 interface IOwnProps {
+  className: string;
   intervalType: IntervalTypes.CALENDARPERIOD | IntervalTypes.CALENDARQUARTER;
   intervalStringDate: string;
+  handleNextIntevalClick: (offset: number) => () => void;
 }
 
 interface IState {
@@ -56,12 +58,18 @@ class CalendarPeriodContainer extends Component<Props, IState> {
 
   public render() {
     const { calendarValues } = this.state;
-    const { intervalStringDate } = this.props;
+    const {
+      className,
+      intervalStringDate,
+      handleNextIntevalClick
+    } = this.props;
 
     return (
       <CalendarPeriod
+        className={className}
         calendarValues={calendarValues}
         intervalStringDate={intervalStringDate}
+        handleNextIntevalClick={handleNextIntevalClick}
       />
     );
   }
