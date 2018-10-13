@@ -4,7 +4,7 @@ import { Location } from "history";
 
 import { RootState } from "rootReducer";
 
-import MyItemsListContainer from "sidebar/myItems/MyItemsListContainer";
+import FolderTreeContainer from "sidebar/myItems/FolderTreeContainer";
 import OperatorsListContainer from "sidebar/operators/OperatorsListContainer";
 import SideBarBody from "sidebar/SideBarBody";
 
@@ -24,7 +24,7 @@ const SideBarBodyContainer: SFC<Props> = ({ selectedTab, ...props }) => {
       component = <OperatorsListContainer {...props} />;
       break;
     default:
-      component = <MyItemsListContainer {...props} />;
+      component = <FolderTreeContainer {...props} />;
       break;
   }
   const renderer = () => component;

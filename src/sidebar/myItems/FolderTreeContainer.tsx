@@ -7,7 +7,8 @@ import { RootState } from "rootReducer";
 import { MyItemsAction, myItemsRequest } from "sidebar/myItems/actions";
 
 import { LoadingContainer } from "common/loading";
-import MyItemsList from "sidebar/myItems/MyItemsList";
+import FolderTree from "sidebar/myItems/FolderTree";
+import ItemsSelector from "sidebar/myItems/ItemsSelector";
 
 interface IOwnProps {
   location: Location;
@@ -17,16 +18,18 @@ type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   IOwnProps;
 
-class MyItemsListContainer extends Component<Props> {
+class FolderTreeContainer extends Component<Props> {
   public componentDidMount() {
     this.props.dispatchLoadMyItems();
   }
 
   public render() {
-    const { items, location } = this.props;
+    const { items, location, isLoading } = this.props;
+
     return (
-      <LoadingContainer isLoading={this.props.isLoading}>
-        <MyItemsList items={items} location={location} />
+      <LoadingContainer isLoading={isLoading || items == null}>
+        <ItemsSelector />
+        {items && <FolderTree items={items.myItems} location={location} />}
       </LoadingContainer>
     );
   }
@@ -48,4 +51,4 @@ const mapDispatchToProps = (dispatch: Dispatch<MyItemsAction>) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(MyItemsListContainer);
+)(FolderTreeContainer);

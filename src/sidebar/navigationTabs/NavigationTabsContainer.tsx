@@ -10,6 +10,7 @@ import {
   showTools,
   TabsAction
 } from "sidebar/navigationTabs/actions";
+import { getVisibleTabs } from "sidebar/selector";
 
 import NavigationTabs from "sidebar/navigationTabs/NavigationTabs";
 
@@ -46,12 +47,12 @@ class NavigationTabsContainer extends Component<Props> {
   }
 
   public render() {
-    const { selectedTab, tabsEnabled } = this.props;
+    const { selectedTab, visibleTabs } = this.props;
 
     return (
       <NavigationTabs
         selectedTab={selectedTab}
-        tabsEnabled={tabsEnabled}
+        visibleTabs={visibleTabs}
         handleChange={this.handleChange}
       />
     );
@@ -102,11 +103,9 @@ class NavigationTabsContainer extends Component<Props> {
   };
 }
 
-const mapStateToProps = ({
-  navigationTabsReducer: { selectedTab, tabsEnabled }
-}: RootState) => ({
-  selectedTab,
-  tabsEnabled
+const mapStateToProps = (state: RootState) => ({
+  selectedTab: state.navigationTabsReducer.selectedTab,
+  visibleTabs: getVisibleTabs(state)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<TabsAction>) => ({
