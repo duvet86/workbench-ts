@@ -61,31 +61,31 @@ export const months = [
 
 export const days = [
   {
-    short: "Su",
+    short: "Sun",
     long: "Sunday"
   },
   {
-    short: "Mo",
+    short: "Mon",
     long: "Monday"
   },
   {
-    short: "Tu",
+    short: "Tue",
     long: "Tuesday"
   },
   {
-    short: "We",
+    short: "Wed",
     long: "Wednesday"
   },
   {
-    short: "Th",
+    short: "Thu",
     long: "Thursday"
   },
   {
-    short: "Fr",
+    short: "Fri",
     long: "Friday"
   },
   {
-    short: "Sa",
+    short: "Sat",
     long: "Saturday"
   }
 ];

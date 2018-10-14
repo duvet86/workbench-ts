@@ -32,6 +32,9 @@ const styles = (theme: Theme) =>
       width: "100%",
       height: 33
     },
+    textContainer: {
+      textAlign: "center"
+    },
     iconButton: {
       zIndex: 2,
       backgroundColor: theme.palette.background.paper,
@@ -71,9 +74,7 @@ const CalendarControl: React.SFC<IProps> = ({
       transKey={transKey}
       className={classes.transitionContainer}
     >
-      <Typography align="center" variant="body1">
-        {children}
-      </Typography>
+      <div className={classes.textContainer}>{children}</div>
     </SlideTransition>
 
     <IconButton

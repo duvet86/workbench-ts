@@ -19,7 +19,7 @@ export interface IProps {
 
 export interface IState {
   mode: "year" | "month";
-  selected: Date;
+  selectedValue: Date;
   month: number;
   year: number;
   yearIndex: number;
@@ -42,7 +42,7 @@ class CalendarContainer extends React.Component<IProps, IState> {
 
     this.state = {
       mode: "month",
-      selected: props.value,
+      selectedValue: props.value,
       month: date.getMonth(),
       year: date.getFullYear(),
       yearIndex: Math.floor(date.getFullYear() / 18)
@@ -51,8 +51,8 @@ class CalendarContainer extends React.Component<IProps, IState> {
 
   public render() {
     const { value, isOpen, dateDisabled, okToConfirm } = this.props;
-    const { selected, year, month, mode, yearIndex } = this.state;
-    const active = okToConfirm ? selected : value;
+    const { selectedValue, year, month, mode, yearIndex } = this.state;
+    const active = okToConfirm ? selectedValue : value;
     const tabIndex = year * 12 + month;
 
     const selectCalendarYear = (currentYear?: number) => () =>
@@ -66,7 +66,7 @@ class CalendarContainer extends React.Component<IProps, IState> {
         onClose={this.handleCancelClick}
         maxWidth="xs"
       >
-        <DialogHeader />
+        <DialogHeader value={selectedValue} />
         <DialogContent>
           <Calendar
             isMobile={this.isMobile}
@@ -107,25 +107,25 @@ class CalendarContainer extends React.Component<IProps, IState> {
   private setToday = () => {
     const now = new Date();
     this.setState({
-      selected: now,
+      selectedValue: now,
       month: now.getMonth(),
       year: now.getFullYear(),
       yearIndex: Math.floor(now.getFullYear() / 18)
     });
   };
 
-  private selectDate = (date: Date, _: React.MouseEvent<HTMLElement>) => {
+  private selectDate = (value: Date, _: React.MouseEvent<HTMLElement>) => {
     const { onClose, okToConfirm } = this.props;
     if (okToConfirm) {
-      this.setState({ selected: date });
+      this.setState({ selectedValue: value });
     } else {
-      onClose(date);
+      onClose(value);
     }
   };
 
   private confirmDate = (_: React.MouseEvent<HTMLElement>) => {
     const { onClose } = this.props;
-    onClose(this.state.selected);
+    onClose(this.state.selectedValue);
   };
 
   private handleCancelClick = (_: React.MouseEvent<HTMLElement>) => {

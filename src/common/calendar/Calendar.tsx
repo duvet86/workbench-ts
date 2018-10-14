@@ -82,7 +82,7 @@ const Calendar: React.SFC<IProps> = ({
           transKey={tabIndex.toString()}
         >
           <Button onClick={showYearsCalendar}>
-            {months[tabIndex % 12].long + ", " + Math.floor(tabIndex / 12)}
+            {`${months[tabIndex % 12].long}, ${Math.floor(tabIndex / 12)}`}
           </Button>
         </CalendarHeader>
         <div>
@@ -111,7 +111,7 @@ const Calendar: React.SFC<IProps> = ({
           transKey={yearIndex.toString()}
         >
           <Button onClick={selectCalendarYear()}>
-            {yearIndex * 18 + " - " + (yearIndex * 18 + 17)}
+            {`${yearIndex * 18} - ${yearIndex * 18 + 17}`}
           </Button>
         </CalendarHeader>
         {yearIndexValid(yearIndex) ? (
