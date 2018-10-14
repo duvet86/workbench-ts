@@ -3,7 +3,7 @@ import React, { SFC } from "react";
 import { IIntervalDtc, IntervalTypes } from "common/intervalSelector/types";
 import { getDateOpStringDate } from "common/intervalSelector/selector";
 
-import DateOp from "common/intervalSelector/intervalString/DateOp";
+import DateOpContainer from "common/intervalSelector/intervalString/DateOpContainer";
 import CalendarPeriodContainer from "common/intervalSelector/intervalString/CalendarPeriodContainer";
 
 interface IProps {
@@ -27,7 +27,7 @@ const IntervalStringPickerContainer: SFC<IProps> = ({
     case IntervalTypes.CALENDARPERIODTODATE:
       intervalStringDate = getDateOpStringDate(interval.IntervalString);
       return (
-        <DateOp
+        <DateOpContainer
           className={className}
           intervalStringDate={intervalStringDate}
           handleNextIntevalClick={handleNextIntevalClick}
