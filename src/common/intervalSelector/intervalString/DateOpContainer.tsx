@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 
+import { parseDateOpDate } from "common/intervalSelector/utils";
+
 import DateOp from "common/intervalSelector/intervalString/DateOp";
 
 interface IProps {
   className: string;
   intervalStringDate: string;
-  handleNextIntevalClick: (offset: number) => () => void;
+  onIntervalStringChange: (intervalString: string) => void;
+  onNextIntevalClick: (offset: number) => () => void;
 }
 
 interface IState {
@@ -18,17 +21,13 @@ class DateOpContainer extends Component<IProps, IState> {
   };
 
   public render() {
-    const {
-      className,
-      intervalStringDate,
-      handleNextIntevalClick
-    } = this.props;
+    const { className, intervalStringDate, onNextIntevalClick } = this.props;
 
     return (
       <DateOp
         className={className}
         intervalStringDate={intervalStringDate}
-        handleNextIntevalClick={handleNextIntevalClick}
+        onNextIntevalClick={onNextIntevalClick}
         isOpen={this.state.isOpen}
         onOpen={this.handleClickOpen}
         onClose={this.handleClose}
@@ -43,8 +42,7 @@ class DateOpContainer extends Component<IProps, IState> {
   };
 
   private handleClose = (value: Date) => {
-    // tslint:disable-next-line:no-console
-    console.log(value);
+    this.props.onIntervalStringChange(parseDateOpDate(value));
     this.setState({ isOpen: false });
   };
 }

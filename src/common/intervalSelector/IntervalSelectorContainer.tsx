@@ -105,6 +105,7 @@ class IntervalSelectorContainer extends Component<Props, IState> {
             initIntervalType={intervalType!}
             interval={interval!}
             onIntervalTypeChange={this.handleIntervalTypeChange}
+            onIntervalStringChange={this.handleIntervalStringChange}
             onSmartKeyChange={this.handleSmartKeyChange}
             onNextIntevalClick={this.handleNextIntevalClick!}
           />
@@ -128,6 +129,20 @@ class IntervalSelectorContainer extends Component<Props, IState> {
     } catch (e) {
       this.props.dispatchHandleException(e);
     }
+  };
+
+  private handleIntervalStringChange = (intervalString: string) => {
+    this.setState((prevState: IState) => {
+      if (prevState.interval != null) {
+        return {
+          interval: {
+            ...prevState.interval,
+            IntervalString: intervalString
+          }
+        };
+      }
+      return prevState;
+    });
   };
 
   private handleSmartKeyChange = async (

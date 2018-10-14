@@ -11,7 +11,7 @@ interface IProps {
   className: string;
   isOpen: boolean;
   intervalStringDate: string;
-  handleNextIntevalClick: (offset: number) => () => void;
+  onNextIntevalClick: (offset: number) => () => void;
   onOpen: () => void;
   onClose: (value: Date) => void;
 }
@@ -19,7 +19,7 @@ interface IProps {
 const DateOp: SFC<IProps> = ({
   className,
   intervalStringDate,
-  handleNextIntevalClick,
+  onNextIntevalClick,
   isOpen,
   onOpen,
   onClose
@@ -28,14 +28,12 @@ const DateOp: SFC<IProps> = ({
     <Input
       type="date"
       inputProps={{
-        name: "interval-string"
+        name: "interval-string",
+        onClick: onOpen
       }}
       value={intervalStringDate}
-      onClick={onOpen}
-      startAdornment={
-        <PreviousIntervalButton onClick={handleNextIntevalClick} />
-      }
-      endAdornment={<NextIntervalButton onClick={handleNextIntevalClick} />}
+      startAdornment={<PreviousIntervalButton onClick={onNextIntevalClick} />}
+      endAdornment={<NextIntervalButton onClick={onNextIntevalClick} />}
     />
     <CalendarContainer
       isOpen={isOpen}

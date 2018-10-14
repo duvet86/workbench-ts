@@ -9,13 +9,15 @@ import CalendarPeriodContainer from "common/intervalSelector/intervalString/Cale
 interface IProps {
   className: string;
   interval: IIntervalDtc;
-  handleNextIntevalClick: (offset: number) => () => void;
+  onIntervalStringChange: (intervalString: string) => void;
+  onNextIntevalClick: (offset: number) => () => void;
 }
 
 const IntervalStringPickerContainer: SFC<IProps> = ({
   className,
   interval,
-  handleNextIntevalClick
+  onIntervalStringChange,
+  onNextIntevalClick
 }) => {
   if (interval.IntervalString == null) {
     return null;
@@ -30,7 +32,8 @@ const IntervalStringPickerContainer: SFC<IProps> = ({
         <DateOpContainer
           className={className}
           intervalStringDate={intervalStringDate}
-          handleNextIntevalClick={handleNextIntevalClick}
+          onIntervalStringChange={onIntervalStringChange}
+          onNextIntevalClick={onNextIntevalClick}
         />
       );
     case IntervalTypes.CALENDARPERIOD:
@@ -40,7 +43,7 @@ const IntervalStringPickerContainer: SFC<IProps> = ({
           className={className}
           intervalType={interval.IntervalType}
           intervalStringDate={intervalStringDate}
-          handleNextIntevalClick={handleNextIntevalClick}
+          handleNextIntevalClick={onNextIntevalClick}
         />
       );
     default:

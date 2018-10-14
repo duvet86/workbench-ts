@@ -10,6 +10,7 @@ import Button from "@material-ui/core/Button";
 import DialogActions from "@material-ui/core/DialogActions";
 
 export interface IProps extends WithStyles<typeof styles> {
+  okToConfirm?: boolean;
   setToday: () => void;
   onCancelClick: (event: React.MouseEvent<HTMLElement>) => void;
   confirmDate: (event: React.MouseEvent<HTMLElement>) => void;
@@ -29,7 +30,8 @@ const CalendarActions: React.SFC<IProps> = ({
   classes,
   setToday,
   onCancelClick,
-  confirmDate
+  confirmDate,
+  okToConfirm
 }) => (
   <DialogActions className={classes.root}>
     <Button size="small" color="secondary" onClick={setToday}>
@@ -45,14 +47,16 @@ const CalendarActions: React.SFC<IProps> = ({
       >
         Cancel
       </Button>
-      <Button
-        size="small"
-        variant="contained"
-        color="secondary"
-        onClick={confirmDate}
-      >
-        Ok
-      </Button>
+      {okToConfirm && (
+        <Button
+          size="small"
+          variant="contained"
+          color="secondary"
+          onClick={confirmDate}
+        >
+          Ok
+        </Button>
+      )}
     </div>
   </DialogActions>
 );

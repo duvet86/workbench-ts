@@ -23,6 +23,7 @@ interface IProps extends WithStyles<typeof styles> {
   initIntervalType: string;
   interval: IIntervalDtc;
   onIntervalTypeChange: (event: ChangeEvent<HTMLSelectElement>) => void;
+  onIntervalStringChange: (intervalString: string) => void;
   onSmartKeyChange: (event: ChangeEvent<HTMLSelectElement>) => void;
   onNextIntevalClick: (offset: number) => () => void;
 }
@@ -49,6 +50,7 @@ const IntervalSelector: SFC<IProps> = ({
   initIntervalType,
   interval,
   onIntervalTypeChange,
+  onIntervalStringChange,
   onNextIntevalClick,
   onSmartKeyChange
 }) => {
@@ -64,7 +66,8 @@ const IntervalSelector: SFC<IProps> = ({
       <IntervalStringPickerContainer
         className={classes.stringPickerContainer}
         interval={interval}
-        handleNextIntevalClick={onNextIntevalClick}
+        onIntervalStringChange={onIntervalStringChange}
+        onNextIntevalClick={onNextIntevalClick}
       />
       {smartIntervals.length > 0 && (
         <FormControl className={classes.smartSelector}>

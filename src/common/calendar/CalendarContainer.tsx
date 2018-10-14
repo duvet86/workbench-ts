@@ -95,6 +95,7 @@ class CalendarContainer extends React.Component<IProps, IState> {
           setToday={this.setToday}
           onCancelClick={this.handleCancelClick}
           confirmDate={this.confirmDate}
+          okToConfirm={okToConfirm}
         />
       </Dialog>
     );
