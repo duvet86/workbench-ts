@@ -7,7 +7,6 @@ import {
 } from "@material-ui/core/styles";
 
 import Typography from "@material-ui/core/Typography";
-import DialogTitle from "@material-ui/core/DialogTitle";
 
 import { days, months } from "common/calendar/utils";
 
@@ -21,7 +20,8 @@ const styles = ({
 }: Theme) =>
   createStyles({
     title: {
-      backgroundColor: primary.main
+      backgroundColor: primary.main,
+      padding: "24px 24px 20px"
     },
     year: {
       color: secondary.contrastText
@@ -33,7 +33,7 @@ const styles = ({
   });
 
 const CalendarDays: React.SFC<IProps> = ({ classes, value }) => (
-  <DialogTitle className={classes.title}>
+  <div className={classes.title}>
     <Typography variant="h6" className={classes.year}>
       {value.getFullYear()}
     </Typography>
@@ -42,7 +42,7 @@ const CalendarDays: React.SFC<IProps> = ({ classes, value }) => (
         months[value.getMonth()].short
       } ${value.getDate()}`}
     </Typography>
-  </DialogTitle>
+  </div>
 );
 
 export default withStyles(styles)(CalendarDays);

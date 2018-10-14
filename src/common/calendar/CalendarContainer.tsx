@@ -5,8 +5,6 @@ import Calendar from "common/calendar/Calendar";
 import DialogHeader from "common/calendar/DialogHeader";
 import CalendarActions from "common/calendar/CalendarActions";
 
-import DialogContent from "@material-ui/core/DialogContent";
-
 export interface IProps {
   isOpen: boolean;
   value: Date;
@@ -67,34 +65,32 @@ class CalendarContainer extends React.Component<IProps, IState> {
         maxWidth="xs"
       >
         <DialogHeader value={selectedValue} />
-        <DialogContent>
-          <Calendar
-            isMobile={this.isMobile}
-            mode={mode}
-            previousMonthValid={this.previousMonthValid}
-            nextMonthValid={this.nextMonthValid}
-            previousMonth={this.previousMonth}
-            nextMonth={this.nextMonth}
-            monthIndexValid={this.monthIndexValid}
-            tabIndex={tabIndex}
-            active={active}
-            dateDisabled={dateDisabled}
-            selectDate={this.selectDate}
-            showYearsCalendar={this.showYearsCalendar}
-            setToday={this.setToday}
-            onCancelClick={this.handleCancelClick}
-            confirmDate={this.confirmDate}
-            previousYearsValid={this.previousYearsValid}
-            previousYears={this.previousYears}
-            nextYearsValid={this.nextYearsValid}
-            nextYears={this.nextYears}
-            yearIndexValid={this.yearIndexValid}
-            yearIndex={yearIndex}
-            selectCalendarYear={selectCalendarYear}
-            year={year}
-            yearInvalid={this.yearInvalid}
-          />
-        </DialogContent>
+        <Calendar
+          isMobile={this.isMobile}
+          mode={mode}
+          previousMonthValid={this.previousMonthValid}
+          nextMonthValid={this.nextMonthValid}
+          previousMonth={this.previousMonth}
+          nextMonth={this.nextMonth}
+          monthIndexValid={this.monthIndexValid}
+          tabIndex={tabIndex}
+          active={active}
+          dateDisabled={dateDisabled}
+          selectDate={this.selectDate}
+          showYearsCalendar={this.showYearsCalendar}
+          setToday={this.setToday}
+          onCancelClick={this.handleCancelClick}
+          confirmDate={this.confirmDate}
+          previousYearsValid={this.previousYearsValid}
+          previousYears={this.previousYears}
+          nextYearsValid={this.nextYearsValid}
+          nextYears={this.nextYears}
+          yearIndexValid={this.yearIndexValid}
+          yearIndex={yearIndex}
+          selectCalendarYear={selectCalendarYear}
+          year={year}
+          yearInvalid={this.yearInvalid}
+        />
         <CalendarActions
           setToday={this.setToday}
           onCancelClick={this.handleCancelClick}

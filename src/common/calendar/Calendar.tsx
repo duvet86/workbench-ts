@@ -1,5 +1,10 @@
 import React from "react";
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import {
+  createStyles,
+  withStyles,
+  WithStyles,
+  Theme
+} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
 import CalendarHeader from "common/calendar/CalendarHeader";
@@ -36,12 +41,14 @@ export interface IProps extends WithStyles<typeof styles> {
   yearInvalid: (currentYear: number) => boolean;
 }
 
-const styles = createStyles({
-  calendarContainer: {
-    minHeight: 375,
-    overflow: "hidden"
-  }
-});
+const styles = ({ spacing: { unit } }: Theme) =>
+  createStyles({
+    calendarContainer: {
+      minHeight: 375,
+      overflow: "hidden",
+      padding: `0 ${unit}px ${unit}px`
+    }
+  });
 
 const Calendar: React.SFC<IProps> = ({
   classes,
