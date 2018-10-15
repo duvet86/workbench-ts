@@ -32,10 +32,10 @@
   dependencies:
     regenerator-runtime "^0.12.0"
 
-"@material-ui/core@^3.2.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-3.2.0.tgz#81e1a4dc66ea666d58da784a4e0addfbef1c3d80"
-  integrity sha512-fThWolLWQoUMV8exLxe9NqfegFFHmV8T7kJBvk3iX47c7TrAw4Vgyvft4CApnQoYIZbrRfPMig5ovYDvmTmMCg==
+"@material-ui/core@^3.2.1":
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-3.2.1.tgz#3c772d5458a5bee2928a773a21ec6dbce36af18f"
+  integrity sha512-bbTYagEYIr/RADd0QiTEXi94Ctsa0RCE4H116fX+hWY6e3pCRW+yCt4y+Pd3l926qNkE8cSEAuVWFrSuvC1gKA==
   dependencies:
     "@babel/runtime" "7.1.2"
     "@types/jss" "^9.5.6"
@@ -7695,10 +7695,10 @@ ts-jest@^23.10.4:
     semver "^5.5"
     yargs-parser "10.x"
 
-ts-loader@^5.2.1:
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-5.2.1.tgz#e6815c631dcafc24319ce8be6f8af94908749cf3"
-  integrity sha512-KC0cOvsFVyxBlg5h9jvaMlIL2tNsyQLvT2/OvIlO0AMUBJ4iXTtOfaDEqvmqv2lM/icekQfDsP2PsYBCDHpuOQ==
+ts-loader@^5.2.2:
+  version "5.2.2"
+  resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-5.2.2.tgz#a707849b08ca754cc46f5c7053e79fe1c84caf0e"
+  integrity sha512-vM/TrEKXBqRYq5yLatsXyKFnYSpv53klmGtrILGlNqcMsxPVi8+e4yr1Agbu9oMZepx/4szDVn5QpFo83IQdQg==
   dependencies:
     chalk "^2.3.0"
     enhanced-resolve "^4.0.0"
