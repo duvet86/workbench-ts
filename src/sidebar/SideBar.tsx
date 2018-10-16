@@ -10,7 +10,7 @@ import Button, { ButtonProps } from "@material-ui/core/Button";
 import NavigationTabsContainer from "sidebar/navigationTabs/NavigationTabsContainer";
 import SideBarBodyContainer from "sidebar/SideBarBodyContainer";
 
-import { DashboardIcon, DataViewIcon } from "common/icons";
+import { HomeIcon } from "common/icons";
 
 interface IProps extends WithStyles<typeof styles> {
   open: boolean;
@@ -33,9 +33,7 @@ const styles = createStyles({
     width: 0
   },
   buttonContainer: {
-    marginTop: 10,
-    display: "flex",
-    justifyContent: "space-evenly"
+    margin: "10px 10px 0 10px"
   },
   icon: {
     marginRight: 5
@@ -48,12 +46,6 @@ const nePagebuilderLink = ({ className, children }: ButtonProps) => (
   </Link>
 );
 
-const newWorkbenchLink = ({ className, children }: ButtonProps) => (
-  <Link className={className} to="/workbench/new">
-    {children}
-  </Link>
-);
-
 const SideBar: SFC<IProps> = ({ classes, open, ...props }) => (
   <Drawer
     classes={{
@@ -62,16 +54,15 @@ const SideBar: SFC<IProps> = ({ classes, open, ...props }) => (
     variant="persistent"
     open={open}
   >
-    <div className={classes.buttonContainer}>
-      <Button variant="outlined" size="small" component={nePagebuilderLink}>
-        <DashboardIcon className={classes.icon} />
-        New Page
-      </Button>
-      <Button variant="outlined" size="small" component={newWorkbenchLink}>
-        <DataViewIcon className={classes.icon} />
-        New Workbench
-      </Button>
-    </div>
+    <Button
+      className={classes.buttonContainer}
+      variant="outlined"
+      size="small"
+      component={nePagebuilderLink}
+    >
+      <HomeIcon className={classes.icon} />
+      Home
+    </Button>
     <NavigationTabsContainer {...props} />
     <SideBarBodyContainer {...props} />
   </Drawer>
