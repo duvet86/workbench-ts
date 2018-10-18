@@ -27,12 +27,14 @@ const styles = ({ typography }: Theme) =>
   createStyles({
     listItemRoot: {
       minHeight: 70,
-      paddingTop: 3,
-      paddingBottom: 3
+      padding: "3px 8px 3px 16px"
     },
     heading: {
       fontSize: typography.pxToRem(15),
       fontWeight: typography.fontWeightRegular
+    },
+    description: {
+      whiteSpace: "initial"
     },
     avatarContainer: {
       display: "flex",
@@ -58,13 +60,14 @@ const Operator: SFC<IProps> = ({
   backgroundColor,
   operatorServiceId
 }) => (
-  <Fragment>
+  <>
     <ListItem divider classes={{ root: classes.listItemRoot }}>
       <ListItemText
         primary={label}
         secondary={description}
         classes={{
-          primary: classes.heading
+          primary: classes.heading,
+          secondary: classes.description
         }}
       />
       <div
@@ -84,7 +87,7 @@ const Operator: SFC<IProps> = ({
         </Avatar>
       </div>
     </ListItem>
-  </Fragment>
+  </>
 );
 
 export default withStyles(styles)(Operator);
