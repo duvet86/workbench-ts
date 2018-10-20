@@ -21,6 +21,9 @@ interface IProps extends WithStyles<typeof styles> {
 
 const styles = ({ breakpoints, spacing: { unit } }: Theme) =>
   createStyles({
+    tabs: {
+      width: 320
+    },
     tabRoot: {
       minWidth: 0,
       maxWidth: "100%"
@@ -44,6 +47,7 @@ const NavigationTabs: SFC<IProps> = ({
 }) => (
   <Tabs
     fullWidth
+    className={classes.tabs}
     value={selectedTab}
     onChange={handleChange}
     indicatorColor="primary"

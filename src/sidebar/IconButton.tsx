@@ -30,6 +30,10 @@ const styles = (theme: Theme) =>
       color: theme.palette.text.primary,
       boxShadow: theme.shadows[1],
       fontSize: 14
+    },
+    listItem: {
+      paddingLeft: 12,
+      paddingRight: 12
     }
   });
 
@@ -46,7 +50,7 @@ const IconButton: SFC<IProps> = ({ classes, tooltip, Icon, link }) => (
     title={tooltip}
     placement="right"
   >
-    <ListItem button component={getLink(link)}>
+    <ListItem button className={classes.listItem} component={getLink(link)}>
       <ListItemIcon>
         <Icon />
       </ListItemIcon>

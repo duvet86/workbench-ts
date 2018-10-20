@@ -25,6 +25,9 @@ const styles = ({
   }
 }: Theme) =>
   createStyles({
+    navigation: {
+      width: 320
+    },
     actionRoot: {
       "&$selected": {
         color: main
@@ -38,7 +41,12 @@ const ItemsSelector: SFC<IProps> = ({
   currentTree,
   handleTreeChange
 }) => (
-  <BottomNavigation value={currentTree} onChange={handleTreeChange} showLabels>
+  <BottomNavigation
+    className={classes.navigation}
+    value={currentTree}
+    onChange={handleTreeChange}
+    showLabels
+  >
     <BottomNavigationAction
       classes={{
         root: classes.actionRoot,

@@ -42,16 +42,15 @@ const styles = (theme: Theme) =>
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen
       }),
-      width: theme.spacing.unit * 7,
       [theme.breakpoints.up("sm")]: {
-        width: theme.spacing.unit * 9
+        width: 51
       }
     },
     buttonsContainer: {
-      width: 70
+      width: 50
     },
     bodyContainer: {
-      width: 300,
+      width: 320,
       borderLeft: "1px solid rgba(0, 0, 0, 0.12)"
     }
   });
