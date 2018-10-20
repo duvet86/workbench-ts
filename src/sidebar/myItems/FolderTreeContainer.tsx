@@ -10,6 +10,7 @@ import {
   updateFolderTree
 } from "sidebar/myItems/actions";
 
+import Divider from "@material-ui/core/Divider";
 import { LoadingContainer } from "common/loading";
 import FolderTree from "sidebar/myItems/FolderTree";
 import ItemsSelector from "sidebar/myItems/ItemsSelector";
@@ -42,6 +43,7 @@ class FolderTreeContainer extends Component<Props> {
           currentTree={currentTree}
           handleTreeChange={this.handleTreeChange}
         />
+        <Divider />
         <FolderTree
           items={currentTree === 0 ? myItems : sharedWithMe}
           location={location}

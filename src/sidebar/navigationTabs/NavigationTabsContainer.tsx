@@ -48,6 +48,9 @@ class NavigationTabsContainer extends Component<Props> {
 
   public render() {
     const { selectedTab, visibleTabs } = this.props;
+    if (visibleTabs.length === 1) {
+      return null;
+    }
 
     return (
       <NavigationTabs
