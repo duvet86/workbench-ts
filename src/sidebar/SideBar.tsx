@@ -65,8 +65,8 @@ const SideBar: SFC<IProps> = ({ theme, classes, open, ...props }) => (
     open={open}
   >
     <div className={classes.buttonsContainer}>
-      {buttons.map(b => (
-        <IconButton {...b} />
+      {buttons.map((b, n) => (
+        <IconButton key={n} {...b} />
       ))}
     </div>
     <div className={classes.bodyContainer}>

@@ -19,7 +19,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 
 import MenuIcon from "@material-ui/icons/Menu";
-import Person from "@material-ui/icons/Person";
+import { ProfileIcon } from "common/icons";
 
 interface IProps extends WithStyles<typeof styles> {
   anchorEl?: HTMLElement;
@@ -32,11 +32,10 @@ interface IProps extends WithStyles<typeof styles> {
   handleDrawerOpen?: React.ReactEventHandler;
 }
 
-const styles = ({ mixins, zIndex }: Theme) =>
+const styles = (theme: Theme) =>
   createStyles({
     appBar: {
-      position: "relative",
-      zIndex: zIndex.drawer + 2
+      zIndex: theme.zIndex.drawer + 1
     },
     trimbleLogo: {
       height: "36px",
@@ -50,11 +49,7 @@ const styles = ({ mixins, zIndex }: Theme) =>
       color: "#01609d"
     },
     toolBar: {
-      justifyContent: "space-between",
-      ...Object.keys(mixins.toolbar).reduce((style, key) => {
-        const value = (mixins.toolbar[key] as number) - 10;
-        return { ...style, [key]: value };
-      }, {})
+      justifyContent: "space-between"
     }
   });
 
@@ -70,8 +65,8 @@ const TopBar: SFC<IProps> = ({
   handleDrawerOpen,
   ...props
 }) => (
-  <AppBar {...props} className={classes.appBar}>
-    <Toolbar className={classes.toolBar}>
+  <AppBar position="relative" className={classes.appBar} {...props}>
+    <Toolbar disableGutters variant="dense" className={classes.toolBar}>
       <div className={classes.iconContainer}>
         <IconButton
           className={classes.matchColor}
@@ -93,7 +88,7 @@ const TopBar: SFC<IProps> = ({
       </Typography>
       <div>
         <Button color="inherit" onClick={onMenuClickHandler}>
-          <Person className={classes.matchColor} />
+          <ProfileIcon className={classes.matchColor} />
         </Button>
         <Menu
           id="menu-appbar"

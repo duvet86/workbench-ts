@@ -8,8 +8,6 @@ interface IProps extends WithStyles<typeof styles> {
 
 const styles = createStyles({
   bodyContainer: {
-    overflow: "auto",
-    marginBottom: 48,
     height: "100%"
   }
 });
