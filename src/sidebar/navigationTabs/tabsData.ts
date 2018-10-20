@@ -1,10 +1,14 @@
 const tabButtons = [
   {
     id: 1,
-    label: "Filters"
+    label: "Menu"
   },
   {
     id: 2,
+    label: "Filters"
+  },
+  {
+    id: 3,
     label: "Tools"
   }
 ];

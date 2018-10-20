@@ -16,9 +16,7 @@ interface IProps extends WithStyles<typeof styles> {
 
 const styles = createStyles({
   list: {
-    padding: 0,
-    height: "100%",
-    overflow: "auto"
+    padding: 0
   },
   listItem: {
     cursor: "pointer"

@@ -7,7 +7,6 @@ import { OperatorsAction, operatorsRequest } from "sidebar/operators/actions";
 
 import { LoadingContainer } from "common/loading";
 import OperatorsList from "sidebar/operators/OperatorsList";
-import OperatorsTabs from "sidebar/operators/OperatorsTabs";
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
@@ -22,10 +21,6 @@ class OperatorsListContainer extends Component<Props> {
 
     return (
       <LoadingContainer isLoading={this.props.isLoading}>
-        <OperatorsTabs
-          currentTree={0}
-          handleTreeChange={() => {}}
-        />
         <OperatorsList {...props} />
       </LoadingContainer>
     );

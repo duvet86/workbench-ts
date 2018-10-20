@@ -12,7 +12,7 @@ import {
 
 import { LoadingContainer } from "common/loading";
 import FolderTree from "sidebar/myItems/FolderTree";
-import FolderTreeTabs from "sidebar/myItems/FolderTreeTabs";
+import ItemsSelector from "sidebar/myItems/ItemsSelector";
 
 interface IOwnProps {
   location: Location;
@@ -38,7 +38,7 @@ class FolderTreeContainer extends Component<Props> {
 
     return (
       <LoadingContainer isLoading={isLoading}>
-        <FolderTreeTabs
+        <ItemsSelector
           currentTree={currentTree}
           handleTreeChange={this.handleTreeChange}
         />
