@@ -60,14 +60,18 @@ class ConstraintSelectorContainer extends Component<Props> {
     );
   }
 
-  private handledAddQueryConstraint = (selectedOption: IOption<string>) => {
+  private handledAddQueryConstraint = (selectedOption?: IOption<string>) => {
     const {
       elementId,
       queryConstraints,
       dispatchAddQueryConstraint,
+      dispatchRemoveQueryConstraint,
       filterCapabilities,
       availableConstraintsObj: { columnsDic, filtersDic }
     } = this.props;
+    if (selectedOption == null) {
+      throw new Error("SelectedOption should never be null.");
+    }
 
     const constraintColumn = columnsDic[selectedOption.value];
     const constraintFilter = filtersDic[selectedOption.value];

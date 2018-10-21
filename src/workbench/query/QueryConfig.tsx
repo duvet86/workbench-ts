@@ -13,16 +13,16 @@ import ConstraintSelectorContainer from "workbench/query/constraintSelector/Cons
 import ConfigActionsContainer from "workbench/query/ConfigActionsContainer";
 
 function getStepContent(currentStep: number, selectedQuery: IQuery) {
-  if (selectedQuery.TargetDataViewId == null) {
-    throw new Error("TargetDataViewId cannot be null.");
-  }
-
   switch (currentStep) {
     case 0:
       return (
         <SourceSelectorContainer
           elementId={selectedQuery.ElementId}
-          targetDataViewId={selectedQuery.TargetDataViewId}
+          targetDataViewId={
+            selectedQuery.TargetDataViewId != null
+              ? selectedQuery.TargetDataViewId
+              : ""
+          }
         />
       );
 

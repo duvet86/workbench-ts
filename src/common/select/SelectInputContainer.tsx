@@ -12,7 +12,7 @@ export interface IOption<T = any> {
 interface IProps<T> {
   value?: T;
   options: Array<IOption<T>>;
-  handleChange: (option: IOption<T>) => void;
+  handleChange: (option?: IOption<T>) => void;
   OptionsIcon?: React.ComponentType<
     Overwrite<Pick<{}, never>, StyledComponentProps<string>>
   >;
@@ -77,12 +77,16 @@ export default class SelectInputContainer<T> extends React.Component<
     event.preventDefault();
   };
 
-  private handleClickClearSelected = () => {
+  private handleClickClearSelected = (
+    event: React.MouseEvent<HTMLDivElement>
+  ) => {
+    event.stopPropagation();
     this.setState({
       options: [...this.props.options],
       label: "",
       anchorEl: undefined
     });
+    this.props.handleChange(undefined);
   };
 
   private handleInputClick = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -90,6 +94,7 @@ export default class SelectInputContainer<T> extends React.Component<
       options: [...this.props.options],
       anchorEl: event.currentTarget
     });
+    this.props.handleChange(undefined);
   };
 
   private handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {

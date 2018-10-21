@@ -11,7 +11,7 @@ import StorageIcon from "@material-ui/icons/Storage";
 interface IProps {
   targetDataViewId: string;
   dataServices: IOption[];
-  handleChangeDataService: (option: IOption) => void;
+  handleChangeDataService: (option?: IOption) => void;
 }
 
 const styles = createStyles({

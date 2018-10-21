@@ -41,7 +41,7 @@ interface IProps extends WithStyles<typeof styles> {
   };
   queryConstraints: IConstraint[];
   filterCapabilities: IFilterCapabilitiesDic;
-  handledAddQueryConstraint: (target: IOption) => void;
+  handledAddQueryConstraint: (target?: IOption) => void;
   handledUpdateQueryConstraintType: (
     constraintId: number
   ) => React.ChangeEventHandler<HTMLSelectElement>;

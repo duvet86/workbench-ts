@@ -52,6 +52,7 @@ function queryConfig(
     case QueryConfigActionTypes.QUERY_CONFIG_OPEN:
       return {
         ...state,
+        isLoading: false,
         elementId: action.elementId
       };
 
@@ -91,7 +92,7 @@ function queryConfig(
     case QueryActionTypes.QUERY_DATASERVICE_UPDATE:
       return {
         ...state,
-        isLoading: true
+        isLoading: action.targetDataViewId != null // Show loading spinner if the targetDataViewId is valid.
       };
 
     case QueryDescActionTypes.QUERY_DESCRIBE_SUCCESS:

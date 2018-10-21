@@ -40,10 +40,13 @@ class SourceSelectorContainer extends Component<Props> {
     );
   }
 
-  private handleChangeDataService = (option: IOption) => {
+  private handleChangeDataService = (option?: IOption) => {
     const { elementId, dispatchUpdateDataService } = this.props;
 
-    dispatchUpdateDataService(elementId, option.value);
+    dispatchUpdateDataService(
+      elementId,
+      option != null ? option.value : undefined
+    );
   };
 }
 
@@ -55,7 +58,7 @@ const mapDispatchToProps = (
   dispatch: Dispatch<DataServicesAction | QueryAction>
 ) => ({
   dispatchDataServicesRequest: () => dispatch(dataServicesRequest()),
-  dispatchUpdateDataService: (elementId: number, targetDataViewId: string) =>
+  dispatchUpdateDataService: (elementId: number, targetDataViewId?: string) =>
     dispatch(updateQueryDataService(elementId, targetDataViewId))
 });
 

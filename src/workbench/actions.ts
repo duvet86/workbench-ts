@@ -170,7 +170,7 @@ export interface IAddQuery extends Action {
 export interface IUpdateQueryDataService extends Action {
   type: QueryActionTypes.QUERY_DATASERVICE_UPDATE;
   elementId: number;
-  targetDataViewId: string;
+  targetDataViewId?: string;
 }
 
 export type QueryAction = IAddQuery | IUpdateQueryDataService;
@@ -203,7 +203,7 @@ export const addQuery = (
 
 export const updateQueryDataService = (
   elementId: number,
-  targetDataViewId: string
+  targetDataViewId?: string
 ): IUpdateQueryDataService => ({
   type: QueryActionTypes.QUERY_DATASERVICE_UPDATE,
   elementId,
@@ -294,12 +294,6 @@ export const addQueryConstraint = (
   type: QueryConstraintActionTypes.QUERY_CONSTRAINT_ADD,
   elementId,
   constraint
-  // constraint: {
-  //   ConstraintId: constraintId,
-  //   Values: undefined,
-  //   ValuesHint: "NoHint",
-  //   ...contraintTarget
-  // }
 });
 
 export const updateQueryConstraintType = (

@@ -30,7 +30,7 @@ interface IProps {
   handleOptionClick: (option: IOption) => (event: React.MouseEvent) => void;
   handleInputClick: (event: React.MouseEvent<HTMLDivElement>) => void;
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleClickClearSelected: () => void;
+  handleClickClearSelected: (event: React.MouseEvent<HTMLDivElement>) => void;
   handleMouseDownPassword: (event: React.MouseEvent<HTMLDivElement>) => void;
   handleClose: () => void;
 }
@@ -83,7 +83,8 @@ const SelectInput: React.SFC<IProps> = ({
         onClick={handleInputClick}
         onChange={handleInputChange}
         endAdornment={
-          !noClear && (
+          !noClear &&
+          label !== "" && (
             <InputAdornment position="end">
               <IconButton
                 aria-label="Clear Selected"
