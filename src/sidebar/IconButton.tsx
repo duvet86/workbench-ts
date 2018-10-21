@@ -1,5 +1,5 @@
 import React, { SFC } from "react";
-import { Link, LinkProps } from "react-router-dom";
+import { NavLink, LinkProps } from "react-router-dom";
 
 import {
   createStyles,
@@ -38,14 +38,13 @@ const styles = (theme: Theme) =>
   });
 
 const getLink = (url: string) => ({ children, ...props }: ButtonProps) => (
-  <Link {...props as LinkProps} to={url}>
+  <NavLink exact to={url} {...props as LinkProps}>
     {children}
-  </Link>
+  </NavLink>
 );
 
 const IconButton: SFC<IProps> = ({ classes, tooltip, Icon, link }) => (
   <Tooltip
-    enterDelay={300}
     classes={{ popper: classes.popper, tooltip: classes.lightTooltip }}
     title={tooltip}
     placement="right"

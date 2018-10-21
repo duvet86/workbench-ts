@@ -28,7 +28,7 @@ const linksList = [
     IconComponent: ConfigureSessionIcon,
     label: "Configure Session",
     description: "This is where you tune your workbench.",
-    to: "/"
+    to: "/configure"
   },
   {
     id: 4,
@@ -42,14 +42,14 @@ const linksList = [
     IconComponent: ContactUsIcon,
     label: "Contact Us",
     description: "For any trouble or info contact us here.",
-    to: "/"
+    to: "/contact"
   },
   {
     id: 6,
     IconComponent: ProductInfoIcon,
     label: "Product Info",
     description: "Product version and info.",
-    to: "/"
+    to: "/info"
   }
 ];
 

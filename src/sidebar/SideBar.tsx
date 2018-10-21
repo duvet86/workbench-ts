@@ -8,6 +8,8 @@ import {
   WithStyles,
   Theme
 } from "@material-ui/core/styles";
+import linksList from "common/linksList";
+import { HomeIcon } from "common/icons";
 
 import Drawer from "@material-ui/core/Drawer";
 
@@ -15,7 +17,7 @@ import NavigationTabsContainer from "sidebar/navigationTabs/NavigationTabsContai
 import SideBarBodyContainer from "sidebar/SideBarBodyContainer";
 import IconButton from "sidebar/IconButton";
 
-import { buttons } from "sidebar/utils";
+export const drawerBodyWidth = 312;
 
 interface IProps extends WithStyles<typeof styles, true> {
   open: boolean;
@@ -28,7 +30,7 @@ const styles = (theme: Theme) =>
       overflow: "hidden",
       position: "relative",
       whiteSpace: "nowrap",
-      width: 370,
+      width: 362,
       transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen
@@ -50,7 +52,7 @@ const styles = (theme: Theme) =>
       width: 50
     },
     bodyContainer: {
-      width: 320,
+      width: drawerBodyWidth,
       borderLeft: "1px solid rgba(0, 0, 0, 0.12)"
     }
   });
@@ -64,8 +66,9 @@ const SideBar: SFC<IProps> = ({ theme, classes, open, ...props }) => (
     open={open}
   >
     <div className={classes.buttonsContainer}>
-      {buttons.map((b, n) => (
-        <IconButton key={n} {...b} />
+      <IconButton tooltip="Home" Icon={HomeIcon} link="/" />
+      {linksList.map(({ id, label, IconComponent, to }) => (
+        <IconButton key={id} tooltip={label} Icon={IconComponent} link={to} />
       ))}
     </div>
     <div className={classes.bodyContainer}>

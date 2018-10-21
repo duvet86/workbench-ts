@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 
 import HelpPageCard from "welcomePage/HelpPageCard";
 
-import linksList from "welcomePage/cardsData";
+import linksList from "common/linksList";
 
 const styles = createStyles({
   container: {

@@ -1,4 +1,3 @@
-import { Location } from "history";
 import React, { SFC } from "react";
 
 import {
@@ -7,6 +6,7 @@ import {
   WithStyles,
   Theme
 } from "@material-ui/core/styles";
+import { drawerBodyWidth } from "sidebar/SideBar";
 
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
@@ -26,7 +26,7 @@ const styles = ({
 }: Theme) =>
   createStyles({
     navigation: {
-      width: 320
+      width: drawerBodyWidth
     },
     actionRoot: {
       "&$selected": {

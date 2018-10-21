@@ -6,6 +6,7 @@ import {
   withStyles,
   WithStyles
 } from "@material-ui/core/styles";
+import { drawerBodyWidth } from "sidebar/SideBar";
 
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
@@ -22,7 +23,7 @@ interface IProps extends WithStyles<typeof styles> {
 const styles = ({ breakpoints, spacing: { unit } }: Theme) =>
   createStyles({
     tabs: {
-      width: 320
+      width: drawerBodyWidth
     },
     tabRoot: {
       minWidth: 0,
