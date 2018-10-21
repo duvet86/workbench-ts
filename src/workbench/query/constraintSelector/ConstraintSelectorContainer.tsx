@@ -65,7 +65,6 @@ class ConstraintSelectorContainer extends Component<Props> {
       elementId,
       queryConstraints,
       dispatchAddQueryConstraint,
-      dispatchRemoveQueryConstraint,
       filterCapabilities,
       availableConstraintsObj: { columnsDic, filtersDic }
     } = this.props;

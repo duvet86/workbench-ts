@@ -94,7 +94,6 @@ export default class SelectInputContainer<T> extends React.Component<
       options: [...this.props.options],
       anchorEl: event.currentTarget
     });
-    this.props.handleChange(undefined);
   };
 
   private handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,6 +103,7 @@ export default class SelectInputContainer<T> extends React.Component<
       ),
       label: event.target.value
     });
+    this.props.handleChange(undefined);
   };
 
   private handleOptionClick = (option: IOption<T>) => (_: React.MouseEvent) => {
