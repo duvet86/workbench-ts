@@ -66,9 +66,9 @@ const SideBar: SFC<IProps> = ({ theme, classes, open, ...props }) => (
     open={open}
   >
     <div className={classes.buttonsContainer}>
-      <IconButton tooltip="Home" Icon={HomeIcon} link="/" />
-      {linksList.map(({ id, label, IconComponent, to }) => (
-        <IconButton key={id} tooltip={label} Icon={IconComponent} link={to} />
+      <IconButton Icon={HomeIcon} link="/" />
+      {linksList.map(({ id, IconComponent, to }) => (
+        <IconButton key={id} Icon={IconComponent} link={to} />
       ))}
     </div>
     <div className={classes.bodyContainer}>

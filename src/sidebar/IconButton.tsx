@@ -11,11 +11,9 @@ import { SvgIconProps } from "@material-ui/core/SvgIcon";
 
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import Tooltip from "@material-ui/core/Tooltip";
 import { ButtonProps } from "@material-ui/core/Button";
 
 interface IProps extends WithStyles<typeof styles> {
-  tooltip: string;
   Icon: React.ComponentType<SvgIconProps>;
   link: string;
 }
@@ -43,18 +41,12 @@ const getLink = (url: string) => ({ children, ...props }: ButtonProps) => (
   </NavLink>
 );
 
-const IconButton: SFC<IProps> = ({ classes, tooltip, Icon, link }) => (
-  <Tooltip
-    classes={{ popper: classes.popper, tooltip: classes.lightTooltip }}
-    title={tooltip}
-    placement="right"
-  >
-    <ListItem button className={classes.listItem} component={getLink(link)}>
-      <ListItemIcon>
-        <Icon />
-      </ListItemIcon>
-    </ListItem>
-  </Tooltip>
+const IconButton: SFC<IProps> = ({ classes, Icon, link }) => (
+  <ListItem button className={classes.listItem} component={getLink(link)}>
+    <ListItemIcon>
+      <Icon />
+    </ListItemIcon>
+  </ListItem>
 );
 
 export default withStyles(styles)(IconButton);
