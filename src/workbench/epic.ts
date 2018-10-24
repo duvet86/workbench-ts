@@ -1,6 +1,7 @@
 import { denormalize } from "normalizr";
 import { ActionsObservable, StateObservable, ofType } from "redux-observable";
 import { catchError, map, mergeMap } from "rxjs/operators";
+import { Action } from "redux";
 
 import { handleException } from "errorPage/actions";
 
@@ -21,23 +22,15 @@ import {
   sessionSuccess,
   SessionActionTypes,
   SessionAction,
-  GraphSaveChangesAction,
-  GraphPushAction,
-  QueryAction,
   IUpdateQueryDataService,
   ISessionRequest,
   IAddQuery
 } from "workbench/actions";
-import {
-  openQueryConfig,
-  queryDescribeRequest,
-  QueryConfigAction,
-  QueryDescribeAction
-} from "workbench/query/actions";
+import { openQueryConfig, queryDescribeRequest } from "workbench/query/actions";
 
 import { RootState } from "rootReducer";
 
-export const sessionEpic = (action$: ActionsObservable<SessionAction>) =>
+export const sessionEpic = (action$: ActionsObservable<Action>) =>
   action$.pipe(
     ofType<SessionAction, ISessionRequest>(SessionActionTypes.SESSION_REQUEST),
     mergeMap(({ dataViewId }) =>
@@ -49,7 +42,7 @@ export const sessionEpic = (action$: ActionsObservable<SessionAction>) =>
   );
 
 export const saveGraphEpic = (
-  action$: ActionsObservable<GraphSaveChangesAction>,
+  action$: ActionsObservable<Action>,
   state$: StateObservable<RootState>
 ) =>
   action$.pipe(
@@ -86,7 +79,7 @@ export const saveGraphEpic = (
 //   );
 
 export const pushGraphChangesEpic = (
-  action$: ActionsObservable<GraphPushAction>,
+  action$: ActionsObservable<Action>,
   state$: StateObservable<RootState>
 ) =>
   action$.pipe(
@@ -124,22 +117,18 @@ export const pushGraphChangesEpic = (
 //     })
 //   );
 
-export const addQueryEpic = (
-  action$: ActionsObservable<QueryAction | QueryConfigAction>
-) =>
+export const addQueryEpic = (action$: ActionsObservable<Action>) =>
   action$.pipe(
-    ofType<QueryAction | QueryConfigAction, IAddQuery>(
-      QueryActionTypes.QUERY_ADD
-    ),
+    ofType<Action, IAddQuery>(QueryActionTypes.QUERY_ADD),
     map(({ elementId }) => openQueryConfig(elementId))
   );
 
 export const updateQueryDataServiceEpic = (
-  action$: ActionsObservable<QueryAction | QueryDescribeAction>,
+  action$: ActionsObservable<Action>,
   state$: StateObservable<RootState>
 ) =>
   action$.pipe(
-    ofType<QueryAction | QueryDescribeAction, IUpdateQueryDataService>(
+    ofType<Action, IUpdateQueryDataService>(
       QueryActionTypes.QUERY_DATASERVICE_UPDATE
     ),
     mergeMap(({ elementId, targetDataViewId }) => {

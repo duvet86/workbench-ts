@@ -1,5 +1,6 @@
 import { ActionsObservable, StateObservable, ofType } from "redux-observable";
 import { mergeMap, map, catchError } from "rxjs/operators";
+import { Action } from "redux";
 
 import { handleException } from "errorPage/actions";
 import {
@@ -9,10 +10,7 @@ import {
   queryConfigError,
   filterCapabilitiesSuccess,
   dataServicesSuccess,
-  queryDescribeSuccess,
-  DataServicesAction,
-  FilterCapabilitiesAction,
-  QueryDescribeAction
+  queryDescribeSuccess
 } from "workbench/query/actions";
 import {
   getDataServicesObs,
@@ -22,9 +20,7 @@ import {
 
 import { RootState } from "rootReducer";
 
-export const dataServicesEpic = (
-  action$: ActionsObservable<DataServicesAction>
-) =>
+export const dataServicesEpic = (action$: ActionsObservable<Action>) =>
   action$.pipe(
     ofType(DataServicesActionTypes.DATASERVICES_REQUEST),
     mergeMap(() =>
@@ -35,9 +31,7 @@ export const dataServicesEpic = (
     )
   );
 
-export const filterCapabilitiesEpic = (
-  action$: ActionsObservable<FilterCapabilitiesAction>
-) =>
+export const filterCapabilitiesEpic = (action$: ActionsObservable<Action>) =>
   action$.pipe(
     ofType(FilterCapActionTypes.FILTER_CAPABILITIES_REQUEST),
     mergeMap(() =>
@@ -51,7 +45,7 @@ export const filterCapabilitiesEpic = (
   );
 
 export const serviceDescriptionEpic = (
-  action$: ActionsObservable<QueryDescribeAction>,
+  action$: ActionsObservable<Action>,
   state$: StateObservable<RootState>
 ) =>
   action$.pipe(

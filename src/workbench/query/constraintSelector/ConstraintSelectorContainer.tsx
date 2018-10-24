@@ -69,7 +69,7 @@ class ConstraintSelectorContainer extends Component<Props> {
       availableConstraintsObj: { columnsDic, filtersDic }
     } = this.props;
     if (selectedOption == null) {
-      throw new Error("SelectedOption should never be null.");
+      return;
     }
 
     const constraintColumn = columnsDic[selectedOption.value];

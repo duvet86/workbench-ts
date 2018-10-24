@@ -1,15 +1,12 @@
 import { ActionsObservable, ofType } from "redux-observable";
 import { catchError, map, mergeMap } from "rxjs/operators";
+import { Action } from "redux";
 
 import { handleException } from "errorPage/actions";
-import {
-  IProfileRequest,
-  ProfileActionTypes,
-  profileSuccess
-} from "profile/actions";
+import { ProfileActionTypes, profileSuccess } from "profile/actions";
 import { getUserInfoAsync } from "profile/api";
 
-export const fetchProfileEpic = (action$: ActionsObservable<IProfileRequest>) =>
+export const fetchProfileEpic = (action$: ActionsObservable<Action>) =>
   action$.pipe(
     ofType(ProfileActionTypes.PROFILE_REQUEST),
     mergeMap(() =>

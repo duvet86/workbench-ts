@@ -17,12 +17,10 @@ interface ILocationChangeAction extends Action {
 }
 
 export const navigationTabsEpic = (
-  action$: ActionsObservable<ILocationChangeAction | TabsAction>
+  action$: ActionsObservable<Action>
 ): Observable<TabsAction> =>
   action$.pipe(
-    ofType<ILocationChangeAction | TabsAction, ILocationChangeAction>(
-      LOCATION_CHANGE
-    ),
+    ofType<Action, ILocationChangeAction>(LOCATION_CHANGE),
     filter(
       ({
         payload: {

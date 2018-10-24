@@ -1,15 +1,12 @@
 import { ActionsObservable, ofType } from "redux-observable";
 import { catchError, map, mergeMap } from "rxjs/operators";
+import { Action } from "redux";
 
-import {
-  QesEnabledAction,
-  QesEnabledActionTypes,
-  qesEnabledSuccess
-} from "app/actions";
+import { QesEnabledActionTypes, qesEnabledSuccess } from "app/actions";
 import { getQesEnabledAsync } from "app/api";
 import { handleException } from "errorPage/actions";
 
-export const appEpic = (action$: ActionsObservable<QesEnabledAction>) =>
+export const appEpic = (action$: ActionsObservable<Action>) =>
   action$.pipe(
     ofType(QesEnabledActionTypes.QES_ENABLED_REQUEST),
     mergeMap(() =>

@@ -19,6 +19,10 @@ import {
   filterCapabilitiesEpic,
   serviceDescriptionEpic
 } from "workbench/query/epic";
+import {
+  requestAllowedValuesEpic,
+  getAllowedValuesEpic
+} from "workbench/query/constraintSelector/epic";
 
 const epics = [
   loadingEpic,
@@ -35,7 +39,9 @@ const epics = [
   dataServicesEpic,
   filterCapabilitiesEpic,
   updateQueryDataServiceEpic,
-  serviceDescriptionEpic
+  serviceDescriptionEpic,
+  requestAllowedValuesEpic,
+  getAllowedValuesEpic
 ];
 
 export default combineEpics(...epics);

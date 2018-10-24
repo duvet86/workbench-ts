@@ -120,11 +120,11 @@ interface IException {
 
 export interface IConstraint {
   ConstraintId: number;
-  ConstraintName: string;
-  FilterName: string;
   DataType: string;
   ColumnName: string;
 
+  ConstraintName?: string;
+  FilterName?: string;
   Expression1?: string;
   Expression2?: string;
   FilterType?: string;

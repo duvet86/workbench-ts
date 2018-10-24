@@ -61,3 +61,9 @@ export interface IUdsDescriptionDtc {
   AvailableFilters: IUdsFilterDescriptionDtc[];
   AvailableFiltersDependencySets: string[];
 }
+
+export interface IAllowedValueDtc {
+  ValueVector: object[];
+  DisplayValue: string;
+  Selected: boolean;
+}

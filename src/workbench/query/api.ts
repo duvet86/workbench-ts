@@ -1,7 +1,5 @@
 import { from, Observable } from "rxjs";
-
 import { getWithJwtAsync } from "lib/http";
-
 import {
   IFilterCapabilitiesDic,
   IUdsDescriptionDtc

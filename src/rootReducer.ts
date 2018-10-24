@@ -11,6 +11,7 @@ import operatorsReducer from "sidebar/operators/reducer";
 import configSwitchReducer from "workbench/configSwitch/reducer";
 import queryConfigReducer from "workbench/query/reducer";
 import sessionReducer from "workbench/reducer";
+import allowedValuesReducer from "workbench/query/constraintSelector/reducer";
 
 const rootReducer = combineReducers({
   loadingReducer,
@@ -23,7 +24,8 @@ const rootReducer = combineReducers({
   operatorsReducer,
   sessionReducer,
   configSwitchReducer,
-  queryConfigReducer
+  queryConfigReducer,
+  allowedValuesReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
