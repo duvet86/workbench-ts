@@ -215,6 +215,23 @@ export interface IQueryGraphDataDtc {
   LimitExcludedElements: number[];
 }
 
+export interface IQueryGraphDataDenormalisedDtc {
+  Type: "Complete" | "Partial" | "SaveOnly";
+  Limit: string;
+  NextChangeNumber: number;
+  NextElementId: number;
+  NextConnectionId: number;
+  NextAspectId: number;
+  Aspect2s: IAspect2[];
+  Aspects: IAspect[];
+  Operators: IOperator[];
+  ArchiveHistory: IArchivedHistoryEntry[];
+  LimitExcludedElements: number[];
+  Queries: IQuery[];
+  InteractiveFilters: IInteractiveFilter[];
+  Connections: IConnection[];
+}
+
 export interface IDisplayFormat {
   Default: IDisplayFormat;
   ReportMetric: string;
