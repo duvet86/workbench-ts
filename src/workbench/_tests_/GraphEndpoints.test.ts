@@ -6,6 +6,7 @@ import {
   IQueryGraphChangesDtc,
   IQueryGraphDataDenormalisedDtc
 } from "workbench/types";
+import { IUdsDescriptionDtc } from "workbench/query/types";
 
 export interface IFetchGlobal extends NodeJS.Global {
   fetch: typeof fetch;
@@ -31,7 +32,7 @@ test("Test AllowedValues", async () => {
   };
 
   const session = await postAsync<ISessionDtc>(
-    `api/qes/${process.env.TENANT_ID}/sessions?applyOnly=true`,
+    `api/qes/${process.env.TENANT_ID}/sessions?applyOnly=false`,
     null,
     headers
   );
@@ -60,7 +61,7 @@ test("Test AllowedValues", async () => {
   await postAsync(
     `api/qes/${process.env.TENANT_ID}/sessions/${
       session.SessionId
-    }/querygraph/${session.QueryGraphId}/changes?applyOnly=true`,
+    }/querygraph/${session.QueryGraphId}/changes?applyOnly=false`,
     graphData,
     headers
   );
@@ -116,10 +117,96 @@ test("Test AllowedValues", async () => {
   graphChanges = await getAsync<IQueryGraphChangesDtc>(
     `api/qes/${process.env.TENANT_ID}/sessions/${
       session.SessionId
-    }/querygraph/${session.QueryGraphId}/changes?nextChangeNumber=1`,
+    }/querygraph/${session.QueryGraphId}/changes?nextChangeNumber=${
+      graphChanges.ChangesGraph.NextChangeNumber
+    }`,
+    headers
+  );
+
+  graphData = {
+    Type: "Partial",
+    Connections: [],
+    ArchiveHistory: [],
+    Queries: [
+      {
+        Label: "Query #1",
+        IsQueryGraphResult: false,
+        TargetDataViewId: "d5e55e8e-008a-4175-8950-128e896aed4b",
+        Columns: [],
+        SortBys: [],
+        RowLimitMode: "NumberOfRows",
+        Constraints: [],
+        EnableAggregation: false,
+        ElementId: 1,
+        IsConfigured: false,
+        ChangeNumber: 3,
+        ForceRun: false,
+        State: "Blocked",
+        StateReason: "Element not configured",
+        ElementType: "Query",
+        DependsOn: [],
+        DependedOnBy: [],
+        LayoutX: 452,
+        LayoutY: 148.453125
+      }
+    ],
+    Limit: "SaveOnly",
+    InteractiveFilters: [],
+    Operators: [],
+    Aspects: [],
+    Aspect2s: [],
+    NextChangeNumber: graphChanges.ChangesGraph.NextChangeNumber,
+    NextAspectId: graphChanges.ChangesGraph.NextAspectId,
+    NextConnectionId: graphChanges.ChangesGraph.NextConnectionId,
+    NextElementId: graphChanges.ChangesGraph.NextElementId,
+    LimitExcludedElements: graphChanges.ChangesGraph.LimitExcludedElements
+  };
+
+  await postAsync(
+    `api/qes/${process.env.TENANT_ID}/sessions/${
+      session.SessionId
+    }/querygraph/${session.QueryGraphId}/changes?applyOnly=false`,
+    graphData,
+    headers
+  );
+
+  graphChanges = await getAsync<IQueryGraphChangesDtc>(
+    `api/qes/${process.env.TENANT_ID}/sessions/${
+      session.SessionId
+    }/querygraph/${session.QueryGraphId}/changes?nextChangeNumber=${
+      graphChanges.ChangesGraph.NextChangeNumber
+    }`,
+    headers
+  );
+
+  graphChanges = await getAsync<IQueryGraphChangesDtc>(
+    `api/qes/${process.env.TENANT_ID}/sessions/${
+      session.SessionId
+    }/querygraph/${session.QueryGraphId}/changes?nextChangeNumber=${graphChanges
+      .ChangesGraph.NextChangeNumber}`,
+    headers
+  );
+
+  const describe = await getAsync<IUdsDescriptionDtc>(
+    `api/qes/${process.env.TENANT_ID}/sessions/${
+      session.SessionId
+    }/querygraph/${session.QueryGraphId}/queries/1/describe`,
+    headers
+  );
+
+  const filter = describe.AvailableFilters.find(
+    ({ Label }) => Label === "Operation"
+  );
+
+  const allowedValues = await getAsync(
+    `api/qes/${process.env.TENANT_ID}/sessions/${
+      session.SessionId
+    }/querygraph/${session.QueryGraphId}/filters/${
+      filter!.FilterName
+    }/allowedvalues`,
     headers
   );
 
   // tslint:disable-next-line:no-console
-  console.log(graphChanges);
+  console.log(allowedValues);
 });
