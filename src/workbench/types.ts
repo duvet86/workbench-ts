@@ -258,7 +258,7 @@ export interface IQueryGraphChangesDtc {
   Running: boolean;
   Cancelled: boolean;
   Exception: IException;
-  ChangesGraph: IQueryGraphDataDtc;
+  ChangesGraph: IQueryGraphDataDenormalisedDtc;
 }
 
 export interface IPushQueryGraphResultDtc {
