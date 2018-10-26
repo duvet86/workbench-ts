@@ -70,13 +70,12 @@ export const toolbarData = [
 ];
 
 export function getConstraintDisplayValue(constraint: IConstraint) {
-  const constraintDsiplayValue: QueryContraint = Object.assign(
-    {
-      label: constraint.ColumnName,
-      value: ""
-    },
-    constraint
-  );
+  const constraintDsiplayValue: QueryContraint = {
+    ...constraint,
+    label: constraint.ColumnName,
+    value: ""
+  };
+
   switch (constraint.DataType) {
     case DATA_TYPES.INTERVALVALUE:
       constraintDsiplayValue.value = constraint.Values && {

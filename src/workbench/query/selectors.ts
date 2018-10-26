@@ -99,7 +99,7 @@ export const getAvailableConstraintsObj = createSelector(
       })
     );
 
-    const filtersDic = filters.reduce(
+    const availableFiltersDic = filters.reduce(
       (res, f) => {
         res[f.FilterName] = f;
         return res;
@@ -110,7 +110,7 @@ export const getAvailableConstraintsObj = createSelector(
     const columnsSelect = columns
       // Remove columns that have unsupported dataTypes, see noteSupportedDataTypes obj.
       .filter(({ DataType }) => !noteSupportedDataTypes[DataType])
-      // Remove columns that are replace by filters.
+      // Remove columns that are replaced by filters.
       .filter(
         ({ ColumnName }) =>
           !filters.some(
@@ -126,7 +126,7 @@ export const getAvailableConstraintsObj = createSelector(
       })
     );
 
-    const columnsDic = columnsSelect.reduce(
+    const availableColumnsDic = columnsSelect.reduce(
       (res, c) => {
         res[c.ColumnName] = c;
         return res;
@@ -145,8 +145,8 @@ export const getAvailableConstraintsObj = createSelector(
 
     return {
       availableConstraints,
-      filtersDic,
-      columnsDic
+      availableFiltersDic,
+      availableColumnsDic
     };
   }
 );

@@ -14,7 +14,7 @@ import {
 
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-import Input from "@material-ui/core/Input";
+// import Input from "@material-ui/core/Input";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
@@ -23,10 +23,12 @@ import IconButton from "@material-ui/core/IconButton";
 import ConstraintIcon from "@material-ui/icons/FilterList";
 import DeleteIcon from "@material-ui/icons/Delete";
 
+import AllowedValuesSelectContainer from "workbench/query/constraintSelector/AllowedValuesSelectContainer";
+
 const constraintIconColour = "#2c5367";
 
 interface IProps extends WithStyles<typeof styles> {
-  filtersDic: IAvailableFilters;
+  availableFiltersDic: IAvailableFilters;
   filterCapabilities: IFilterCapabilitiesDic;
   constraintId: number;
   dataType: string;
@@ -73,7 +75,7 @@ const styles = ({ spacing: { unit } }: Theme) =>
 
 const FilterConstraint: SFC<IProps> = ({
   classes,
-  filtersDic,
+  availableFiltersDic,
   filterCapabilities,
   constraintId,
   dataType,
@@ -86,11 +88,15 @@ const FilterConstraint: SFC<IProps> = ({
   <Paper className={classes.paper}>
     <ConstraintIcon className={classes.constraintIcon} />
     <Typography variant="subtitle1" className={classes.targetLabel}>
-      {filtersDic[filterName].Label}
+      {availableFiltersDic[filterName].Label}
     </Typography>
     <FormControl className={classes.typeSelect}>
       <Select
-        value={filterType}
+        value={
+          availableFiltersDic[filterName].HasAllowedValues
+            ? "InList"
+            : filterType
+        }
         onChange={handledUpdateQueryConstraintType(constraintId)}
         autoWidth
       >
@@ -101,13 +107,16 @@ const FilterConstraint: SFC<IProps> = ({
         ))}
       </Select>
     </FormControl>
-    <FormControl className={classes.valueInput}>
+    <AllowedValuesSelectContainer
+      onChange={handledUpdateQueryConstraintValues(constraintId, dataType)}
+    />
+    {/* <FormControl className={classes.valueInput}>
       <Input
         autoFocus
         value={""}
         onChange={handledUpdateQueryConstraintValues(constraintId, dataType)}
       />
-    </FormControl>
+    </FormControl> */}
     <IconButton
       aria-label="Delete"
       onClick={handledRemoveQueryConstraint(constraintId)}

@@ -7,14 +7,12 @@ import { IAllowedValueDtc } from "workbench/query/types";
 interface IAllowedValueState {
   isLoading: boolean;
   allowedValues: IAllowedValueDtc[];
-  // filterName?: string;
 }
 
 function queryConfig(
   state: IAllowedValueState = {
     isLoading: false,
     allowedValues: []
-    // filterName: undefined
   },
   action: AllowedValuesActions
 ): IAllowedValueState {
@@ -22,7 +20,6 @@ function queryConfig(
     case AllowedValuesTypes.ALLOWED_VALUES_REQUEST:
       return {
         ...state,
-        // filterName: action.filterName,
         isLoading: true
       };
 
