@@ -14,7 +14,7 @@ export interface IFetchGlobal extends NodeJS.Global {
 
 (global as IFetchGlobal).fetch = fetch;
 
-process.env.BASE_URL = "http://desktop-ejm4rss/dev";
+process.env.BASE_URL = "https://app.connect.trimble.com/tc";
 process.env.TENANT_ID = "demo";
 
 test("Test AllowedValues", async () => {

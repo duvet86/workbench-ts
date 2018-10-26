@@ -1,9 +1,12 @@
-import { denormalize } from "normalizr";
 import { ActionsObservable, StateObservable, ofType } from "redux-observable";
-import { mergeMap, map, catchError, filter } from "rxjs/operators";
+import {
+  mergeMap,
+  map,
+  catchError,
+  filter,
+  withLatestFrom
+} from "rxjs/operators";
 import { Action } from "redux";
-
-import { graphSchema } from "workbench/schema";
 
 import { handleException } from "errorPage/actions";
 import {
@@ -17,63 +20,61 @@ import {
   QueryConstraintActionTypes,
   IAddQueryConstraint
 } from "workbench/actions";
-
-import { saveGraphObs } from "workbench/api";
+import { IUdsFilterDescriptionDtc } from "workbench/query/types";
 import { getAllowedValuesForForFilterObs } from "workbench/query/constraintSelector/api";
 
 import { RootState } from "rootReducer";
 
-export const requestAllowedValuesEpic = (action$: ActionsObservable<Action>) =>
+interface IFilterDescriptionDtc extends IUdsFilterDescriptionDtc {
+  AllowedValuesQueryGraphId: number;
+}
+
+export const requestAllowedValuesEpic = (
+  action$: ActionsObservable<Action>,
+  state$: StateObservable<RootState>
+) =>
   action$.pipe(
     ofType<Action, IAddQueryConstraint>(
       QueryConstraintActionTypes.QUERY_CONSTRAINT_ADD
     ),
-    map(({ constraint: { FilterName } }) => allowedValuesRequest(FilterName!))
+    filter(({ constraint: { FilterName } }) => FilterName != null),
+    withLatestFrom(state$),
+    map(
+      ([
+        {
+          constraint: { FilterName: queryFilter }
+        },
+        {
+          queryConfigReducer: { availableFilters }
+        }
+      ]) => {
+        const describeFilter = availableFilters.find(
+          ({ FilterName }) => FilterName === queryFilter
+        );
+
+        if (
+          describeFilter != null &&
+          describeFilter.HasAllowedValues &&
+          describeFilter.AllowedValuesQueryGraphId != null
+        ) {
+          return describeFilter;
+        }
+
+        return null;
+      }
+    ),
+    filter(
+      (describeFilter): describeFilter is IFilterDescriptionDtc =>
+        describeFilter != null
+    ),
+    map(({ AllowedValuesSessionId, AllowedValuesQueryGraphId, FilterName }) =>
+      allowedValuesRequest(
+        AllowedValuesSessionId,
+        AllowedValuesQueryGraphId,
+        FilterName
+      )
+    )
   );
-
-// export const requestAllowedValuesEpic = (
-//   action$: ActionsObservable<Action>,
-//   state$: StateObservable<RootState>
-// ) =>
-//   action$.pipe(
-//     filter(
-//       (action): action is IAddQueryConstraint =>
-//         action.type === QueryConstraintActionTypes.QUERY_CONSTRAINT_ADD &&
-//         (action as IAddQueryConstraint).constraint.FilterName != null
-//     ),
-//     mergeMap(({ constraint: { FilterName } }) => {
-//       const {
-//         sessionReducer: { session, graph, queries, filters, connections }
-//       } = state$.value;
-
-//       if (session == null || graph == null) {
-//         throw new Error(
-//           "serviceDescriptionEpic: session or graph cannot be null."
-//         );
-//       }
-
-//       graph.Limit = "SaveOnly";
-//       graph.Type = "Partial";
-
-//       const denormalizedGraph = denormalize(graph, graphSchema, {
-//         queries,
-//         filters,
-//         connections
-//       });
-
-//       const { TenantId, SessionId, QueryGraphId } = session;
-//       return saveGraphObs(
-//         TenantId,
-//         SessionId,
-//         QueryGraphId,
-//         denormalizedGraph,
-//         true
-//       ).pipe(
-//         map(() => allowedValuesRequest(FilterName!)),
-//         catchError(error => handleException(error))
-//       );
-//     })
-//   );
 
 export const getAllowedValuesEpic = (
   action$: ActionsObservable<Action>,
@@ -83,25 +84,29 @@ export const getAllowedValuesEpic = (
     ofType<Action, IAllowedValuesRequest>(
       AllowedValuesTypes.ALLOWED_VALUES_REQUEST
     ),
-    mergeMap(({ filterName }) => {
-      const {
-        sessionReducer: { session }
-      } = state$.value;
+    withLatestFrom(state$),
+    mergeMap(
+      ([
+        { allowedValuesSessionId, allowedValuesQueryGraphId, filterName },
+        {
+          sessionReducer: { session }
+        }
+      ]) => {
+        if (session == null) {
+          throw new Error("allowedValuesEpic: session cannot be null.");
+        }
 
-      if (session == null) {
-        throw new Error("allowedValuesEpic: session cannot be null.");
+        const { TenantId } = session;
+
+        return getAllowedValuesForForFilterObs(
+          TenantId,
+          allowedValuesSessionId,
+          allowedValuesQueryGraphId,
+          filterName
+        ).pipe(
+          map(allowedValues => allowedValuesSuccess(allowedValues)),
+          catchError(error => handleException(error, queryConfigError()))
+        );
       }
-
-      const { TenantId, SessionId, QueryGraphId } = session;
-
-      return getAllowedValuesForForFilterObs(
-        TenantId,
-        SessionId,
-        QueryGraphId,
-        filterName
-      ).pipe(
-        map(allowedValues => allowedValuesSuccess(allowedValues)),
-        catchError(error => handleException(error, queryConfigError()))
-      );
-    })
+    )
   );

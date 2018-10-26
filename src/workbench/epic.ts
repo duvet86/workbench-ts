@@ -27,7 +27,6 @@ import {
   IAddQuery
 } from "workbench/actions";
 import { openQueryConfig, queryDescribeRequest } from "workbench/query/actions";
-import { IQueryGraphDataDtc } from "workbench/types";
 
 import { RootState } from "rootReducer";
 
@@ -118,80 +117,11 @@ export const pushGraphChangesEpic = (
 //     })
 //   );
 
-// export const addQueryEpic = (action$: ActionsObservable<Action>) =>
-//   action$.pipe(
-//     ofType<Action, IAddQuery>(QueryActionTypes.QUERY_ADD),
-//     map(({ elementId }) => openQueryConfig(elementId))
-//   );
-
-export const addQueryEpic = (
-  action$: ActionsObservable<Action>,
-  state$: StateObservable<RootState>
-) =>
+export const addQueryEpic = (action$: ActionsObservable<Action>) =>
   action$.pipe(
     ofType<Action, IAddQuery>(QueryActionTypes.QUERY_ADD),
-    // map(({ elementId }) => openQueryConfig(elementId))
-    mergeMap(({ elementId }) => {
-      const {
-        sessionReducer: { session, graph, queries, filters, connections }
-      } = state$.value;
-
-      if (session == null || graph == null) {
-        throw new Error(
-          "serviceDescriptionEpic: session or graph cannot be null."
-        );
-      }
-
-      // graph.Limit = "Unspecified";
-      // graph.Type = "Partial";
-
-      // const denormalizedGraph = denormalize(graph, graphSchema, {
-      //   queries,
-      //   filters,
-      //   connections
-      // });
-
-      const newGraph: IQueryGraphDataDtc = {
-        ...graph,
-        Aspect2s: [],
-        Aspects: [],
-        InteractiveFilters: [],
-        Limit: "Unspecified",
-        Operators: [],
-        Queries: [],
-        Type: "Partial"
-      };
-
-      const { TenantId, SessionId, QueryGraphId } = session;
-      return saveGraphObs(
-        TenantId,
-        SessionId,
-        QueryGraphId,
-        newGraph,
-        true
-      ).pipe(
-        mergeMap(() =>
-          getGraphObs(
-            TenantId,
-            SessionId,
-            QueryGraphId,
-            graph.NextChangeNumber
-          ).pipe(map(() => openQueryConfig(elementId)))
-        ),
-        catchError(error => handleException(error))
-      );
-    })
+    map(({ elementId }) => openQueryConfig(elementId))
   );
-
-// export const updateQueryDataServiceEpic = (
-//   action$: ActionsObservable<Action>
-// ) =>
-//   action$.pipe(
-//     ofType<Action, IUpdateQueryDataService>(
-//       QueryActionTypes.QUERY_DATASERVICE_UPDATE
-//     ),
-//     map(() => queryDescribeRequest())
-//   );
 
 export const updateQueryDataServiceEpic = (
   action$: ActionsObservable<Action>,
@@ -215,9 +145,6 @@ export const updateQueryDataServiceEpic = (
           "serviceDescriptionEpic: session or graph cannot be null."
         );
       }
-
-// graph.Limit = "Unspecified";
-      // graph.Type = "Partial";
 
       const denormalizedGraph = denormalize(graph, graphSchema, {
         queries,

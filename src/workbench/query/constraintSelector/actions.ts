@@ -8,6 +8,8 @@ export const enum AllowedValuesTypes {
 
 export interface IAllowedValuesRequest extends Action {
   type: AllowedValuesTypes.ALLOWED_VALUES_REQUEST;
+  allowedValuesSessionId: string;
+  allowedValuesQueryGraphId: number;
   filterName: string;
 }
 
@@ -21,9 +23,13 @@ export type AllowedValuesActions =
   | IAllowedValuesSuccess;
 
 export const allowedValuesRequest = (
+  allowedValuesSessionId: string,
+  allowedValuesQueryGraphId: number,
   filterName: string
 ): IAllowedValuesRequest => ({
   type: AllowedValuesTypes.ALLOWED_VALUES_REQUEST,
+  allowedValuesSessionId,
+  allowedValuesQueryGraphId,
   filterName
 });
 
