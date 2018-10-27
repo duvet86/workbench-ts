@@ -1,21 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-
 import { RootState } from "rootReducer";
 
 import {
   getQueryConstraints,
-  getAvailableConstraintsObj
+  getAvailableConstraint,
+  getAvailableFilterDic,
+  getAvailableColumnsDic
 } from "workbench/query/selectors";
-import { getConstraintVectorValue } from "workbench/utils";
-import {
-  addQueryConstraint,
-  updateQueryConstraintType,
-  updateQueryConstraintValues,
-  removeQueryConstraint,
-  QueryConstraintAction
-} from "workbench/actions";
+import { addQueryConstraint, QueryConstraintAction } from "workbench/actions";
 import {
   filterCapabilitiesRequest,
   FilterCapabilitiesAction
@@ -40,22 +34,19 @@ class ConstraintSelectorContainer extends Component<Props> {
 
   public render() {
     const {
+      elementId,
       queryConstraints,
-      // filterCapabilities,
-      availableConstraintsObj
+      filterCapabilities,
+      availableConstraints
     } = this.props;
 
     return (
       <ConstraintSelector
+        elementId={elementId}
         queryConstraints={queryConstraints}
-        // filterCapabilities={filterCapabilities}
-        availableConstraintsObj={availableConstraintsObj}
+        filterCapabilities={filterCapabilities}
+        availableConstraints={availableConstraints}
         handledAddQueryConstraint={this.handledAddQueryConstraint}
-        // handledUpdateQueryConstraintType={this.handledUpdateQueryConstraintType}
-        // handledUpdateQueryConstraintValues={
-        //   this.handledUpdateQueryConstraintValues
-        // }
-        // handledRemoveQueryConstraint={this.handledRemoveQueryConstraint}
       />
     );
   }
@@ -66,12 +57,14 @@ class ConstraintSelectorContainer extends Component<Props> {
       queryConstraints,
       dispatchAddQueryConstraint,
       filterCapabilities,
-      availableConstraintsObj: { availableColumnsDic, availableFiltersDic }
+      availableFiltersDic,
+      availableColumnsDic
     } = this.props;
     if (selectedOption == null) {
       return;
     }
 
+    // A constraint can be either a filter or a column.
     const constraintColumn = availableColumnsDic[selectedOption.value];
     const constraintFilter = availableFiltersDic[selectedOption.value];
 
@@ -84,55 +77,30 @@ class ConstraintSelectorContainer extends Component<Props> {
       (constraintFilter && constraintFilter.ToColumnName);
 
     // For a new constraint default the filterType to the first value
-    // of the filter capabilities for the selected dataType.
+    // of the filter capabilities unless the filter has allowed values.
+    const filterType =
+      (constraintFilter && constraintFilter.HasAllowedValues && "InList") ||
+      filterCapabilities[dataType][0].Type;
+
     const constraint: IConstraint = {
       ConstraintId: queryConstraints.length,
       ConstraintName: constraintColumn && constraintColumn.ColumnName,
       FilterName: constraintFilter && constraintFilter.FilterName,
       DataType: dataType,
       ColumnName: columnName,
-      FilterType: filterCapabilities[dataType][0].Type // Fix me HasAllowedValues InList
+      FilterType: filterType
     };
 
     dispatchAddQueryConstraint(elementId, constraint);
   };
-
-  // private handledUpdateQueryConstraintType = (constraintId: number) => (
-  //   event: React.ChangeEvent<HTMLSelectElement>
-  // ) => {
-  //   const { elementId, dispatchUpdateQueryConstraintType } = this.props;
-
-  //   dispatchUpdateQueryConstraintType(
-  //     elementId,
-  //     constraintId,
-  //     event.target.value
-  //   );
-  // };
-
-  // private handledUpdateQueryConstraintValues = (
-  //   constraintId: number,
-  //   dataType: string
-  // ) => (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { elementId, dispatchUpdateQueryConstraintValues } = this.props;
-  //   const valuesObj = getConstraintVectorValue(dataType, event.target.value);
-  //   dispatchUpdateQueryConstraintValues(
-  //     elementId,
-  //     constraintId,
-  //     valuesObj.vectorValues
-  //   );
-  // };
-
-  // private handledRemoveQueryConstraint = (constraintId: number) => () => {
-  //   const { elementId, dispatchRemoveQueryConstraint } = this.props;
-
-  //   dispatchRemoveQueryConstraint(elementId, constraintId);
-  // };
 }
 
 const mapStateToProps = (state: RootState) => ({
   queryConstraints: getQueryConstraints(state),
   filterCapabilities: state.queryConfigReducer.filterCapabilities,
-  availableConstraintsObj: getAvailableConstraintsObj(state)
+  availableConstraints: getAvailableConstraint(state),
+  availableFiltersDic: getAvailableFilterDic(state),
+  availableColumnsDic: getAvailableColumnsDic(state)
 });
 
 const mapDispatchToProps = (
@@ -141,25 +109,7 @@ const mapDispatchToProps = (
   dispatchFilterCapabilitiesRequest: () =>
     dispatch(filterCapabilitiesRequest()),
   dispatchAddQueryConstraint: (elementId: number, constraint: IConstraint) =>
-    dispatch(addQueryConstraint(elementId, constraint)),
-  // dispatchUpdateQueryConstraintType: (
-  //   elementId: number,
-  //   constraintId: number,
-  //   constraintType: string
-  // ) =>
-  //   dispatch(
-  //     updateQueryConstraintType(elementId, constraintId, constraintType)
-  //   ),
-  // dispatchUpdateQueryConstraintValues: (
-  //   elementId: number,
-  //   constraintId: number,
-  //   constraintValues: any[]
-  // ) =>
-  //   dispatch(
-  //     updateQueryConstraintValues(elementId, constraintId, constraintValues)
-  //   ),
-  dispatchRemoveQueryConstraint: (elementId: number, constraintId: number) =>
-    dispatch(removeQueryConstraint(elementId, constraintId))
+    dispatch(addQueryConstraint(elementId, constraint))
 });
 
 export default connect(

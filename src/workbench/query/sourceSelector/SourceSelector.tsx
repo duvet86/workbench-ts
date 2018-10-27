@@ -36,7 +36,7 @@ const SourceSelector: SFC<IProps> = ({
     inputLabel="Click here to select a source..."
     value={targetDataViewId}
     options={dataServices}
-    handleChange={handleChangeDataService}
+    onChange={handleChangeDataService}
   />
 );
 

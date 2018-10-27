@@ -16,7 +16,10 @@ import { IOption } from "common/select/SelectInputContainer";
 
 interface IProps extends WithStyles<typeof styles> {
   allowedValueOptions: IOption[];
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handledUpdateQueryConstraintValues: (
+    event: React.ChangeEvent<HTMLSelectElement>,
+    child: React.ReactNode
+  ) => void;
 }
 
 const ITEM_HEIGHT = 48;
@@ -41,7 +44,7 @@ const renderValue = (selected: SelectProps["value"]) => (
 const FilterConstraint: SFC<IProps> = ({
   classes,
   allowedValueOptions,
-  onChange
+  handledUpdateQueryConstraintValues
 }) => (
   <FormControl className={classes.valueInput}>
     <Select
@@ -49,7 +52,7 @@ const FilterConstraint: SFC<IProps> = ({
       value={[]}
       input={<Input id="select-multiple-chip" />}
       renderValue={renderValue}
-      // onChange={onChange}
+      onChange={handledUpdateQueryConstraintValues}
       MenuProps={{
         PaperProps: {
           style: {

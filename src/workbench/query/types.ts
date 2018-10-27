@@ -33,7 +33,7 @@ export interface IUdsFilterDescriptionDtc {
   FilterRequired: boolean;
   HasAllowedValues: boolean;
   AllowedValuesSessionId: string;
-  AllowedValuesQueryGraphId?: number;
+  AllowedValuesQueryGraphId: number;
   AllowedValuesFilterName: string;
   ResolvedDependsOnFilterNames: string[];
   // Added by me.
