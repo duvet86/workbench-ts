@@ -13,17 +13,20 @@ const safePostCssParser = require("postcss-safe-parser");
 const PnpWebpackPlugin = require("pnp-webpack-plugin");
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 
+const publicPath = "/";
+
 module.exports = {
   mode: "production",
   // Don't attempt to continue if there are any errors.
   bail: true,
   // Enable sourcemaps for debugging webpack's output.
   devtool: "source-map",
-  entry: { app: "./src/index.tsx" },
+  entry: "./src/index.tsx",
   output: {
     filename: "[name].[chunkhash:8].js",
     chunkFilename: "[name].[chunkhash:8].chunk.js",
-    path: path.resolve(__dirname, "build")
+    path: path.resolve(__dirname, "build"),
+    publicPath: publicPath
   },
   optimization: {
     minimizer: [
@@ -158,7 +161,7 @@ module.exports = {
             // it's runtime that would otherwise be processed through "file" loader.
             // Also exclude `html` and `json` extensions so they get processed
             // by webpacks internal loaders.
-            exclude: [/\.(js|mjs|jsx)$/, /\.html$/, /\.json$/],
+            exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
             options: {
               name: "static/media/[name].[hash:8].[ext]"
             }
@@ -205,7 +208,7 @@ module.exports = {
     // having to parse `index.html`.
     new ManifestPlugin({
       fileName: "asset-manifest.json",
-      publicPath: "/"
+      publicPath: publicPath
     }),
     // Generate a service worker script that will precache, and keep up to date,
     // the HTML & assets that are part of the Webpack build.

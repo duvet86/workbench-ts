@@ -8,15 +8,22 @@ const DuplicatePackageCheckerPlugin = require("duplicate-package-checker-webpack
 const PnpWebpackPlugin = require("pnp-webpack-plugin");
 const ManifestPlugin = require("webpack-manifest-plugin");
 
+// Webpack uses `publicPath` to determine where the app is being served from.
+// In development, we always serve from the root. This makes config easier.
+const publicPath = "/";
+
 module.exports = {
   mode: "development",
   // Enable sourcemaps for debugging webpack's output.
-  devtool: "inline-source-map",
-  entry: { app: "./src/index.tsx" },
+  devtool: "cheap-module-source-map",
+  entry: "./src/index.tsx",
   output: {
+    // Add /* filename */ comments to generated require()s in the output.
+    pathinfo: true,
     filename: "bundle.js",
     chunkFilename: "[name].chunk.js",
-    path: path.resolve(__dirname, "public")
+    path: path.resolve(__dirname, "public"),
+    publicPath: publicPath
   },
   optimization: {
     // Automatically split vendor and commons
@@ -159,7 +166,7 @@ module.exports = {
     // having to parse `index.html`.
     new ManifestPlugin({
       fileName: "asset-manifest.json",
-      publicPath: "/"
+      publicPath: publicPath
     }),
     new DuplicatePackageCheckerPlugin()
   ],
@@ -172,10 +179,8 @@ module.exports = {
     tls: "empty",
     child_process: "empty"
   },
-  // Turn off performance processing because we utilize
-  // our own hints via the FileSizeReporter
-  performance: false,
   devServer: {
+    publicPath: publicPath,
     contentBase: "./public",
     // Enable gzip compression of generated files.
     compress: true,
