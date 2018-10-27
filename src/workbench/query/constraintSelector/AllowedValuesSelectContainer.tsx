@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { batchActions } from "redux-batched-actions";
 import { RootState } from "rootReducer";
 
-import { getAllowedValuesAsync } from "workbench/query/constraintSelector/api";
+import { getAllowedValuesAsync } from "workbench/query/api";
 import { IUdsFilterDescriptionDtc } from "workbench/query/types";
 import {
   ErrorActions,

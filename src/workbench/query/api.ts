@@ -2,7 +2,8 @@ import { from, Observable } from "rxjs";
 import { getWithJwtAsync } from "lib/http";
 import {
   IFilterCapabilitiesDic,
-  IUdsDescriptionDtc
+  IUdsDescriptionDtc,
+  IAllowedValueDtc
 } from "workbench/query/types";
 import { IItemDtc } from "sidebar/myItems/types";
 
@@ -25,4 +26,14 @@ export const getDataServiceDescriptionObs = (
     getWithJwtAsync(
       `api/qes/${tenantId}/sessions/${sessionId}/querygraph/${queryGraphId}/queries/${elementId}/describe`
     )
+  );
+
+export const getAllowedValuesAsync = (
+  tenantId: string,
+  sessionId: string,
+  queryGraphId: number,
+  filterName: string
+): Promise<IAllowedValueDtc[]> =>
+  getWithJwtAsync(
+    `api/qes/${tenantId}/sessions/${sessionId}/querygraph/${queryGraphId}/filters/${filterName}/allowedvalues`
   );
