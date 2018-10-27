@@ -2,50 +2,23 @@ const path = require("path");
 const webpack = require("webpack");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ManifestPlugin = require("webpack-manifest-plugin");
 const Dotenv = require("dotenv-webpack");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
-const safePostCssParser = require("postcss-safe-parser");
+const DuplicatePackageCheckerPlugin = require("duplicate-package-checker-webpack-plugin");
 const PnpWebpackPlugin = require("pnp-webpack-plugin");
-const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
+const ManifestPlugin = require("webpack-manifest-plugin");
 
 module.exports = {
-  mode: "production",
-  // Don't attempt to continue if there are any errors.
-  bail: true,
+  mode: "development",
   // Enable sourcemaps for debugging webpack's output.
-  devtool: "source-map",
+  devtool: "inline-source-map",
   entry: { app: "./src/index.tsx" },
   output: {
-    filename: "[name].[chunkhash:8].js",
-    chunkFilename: "[name].[chunkhash:8].chunk.js",
-    path: path.resolve(__dirname, "build")
+    filename: "bundle.js",
+    chunkFilename: "[name].chunk.js",
+    path: path.resolve(__dirname, "public")
   },
   optimization: {
-    minimizer: [
-      new TerserPlugin({
-        sourceMap: true,
-        parallel: true,
-        cache: true
-      }),
-      new OptimizeCSSAssetsPlugin({
-        cssProcessorOptions: {
-          parser: safePostCssParser,
-          map: {
-            // `inline: false` forces the sourcemap to be output into a
-            // separate file
-            inline: false,
-            // `annotation: true` appends the sourceMappingURL to the end of
-            // the css file, helping the browser find the sourcemap
-            annotation: true
-          }
-        }
-      })
-    ],
     // Automatically split vendor and commons
     // https://twitter.com/wSokra/status/969633336732905474
     // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
@@ -58,7 +31,12 @@ module.exports = {
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
-    plugins: [new TsconfigPathsPlugin(), PnpWebpackPlugin]
+    plugins: [
+      // Adds support for installing with Plug'n'Play, leading to faster installs and adding
+      // guards against forgotten dependencies and such.
+      PnpWebpackPlugin,
+      new TsconfigPathsPlugin()
+    ]
   },
   resolveLoader: {
     plugins: [
@@ -109,15 +87,12 @@ module.exports = {
           {
             test: /\.css$/,
             exclude: /\.module\.css$/,
-            loader: [
-              {
-                loader: MiniCssExtractPlugin.loader
-              },
+            use: [
+              require.resolve("style-loader"),
               {
                 loader: require.resolve("css-loader"),
                 options: {
-                  importLoaders: 1,
-                  sourceMap: true
+                  importLoaders: 1
                 }
               },
               {
@@ -137,28 +112,23 @@ module.exports = {
                       },
                       stage: 3
                     })
-                  ],
-                  sourceMap: true
+                  ]
                 }
               }
-            ],
-            // Don't consider CSS imports dead code even if the
-            // containing package claims to have no side effects.
-            // Remove this when webpack adds a warning or an error for this.
-            // See https://github.com/webpack/webpack/issues/6571
-            sideEffects: true
+            ]
           },
-          // "file" loader makes sure assets end up in the `build` folder.
-          // When you `import` an asset, you get its filename.
+          // "file" loader makes sure those assets get served by WebpackDevServer.
+          // When you `import` an asset, you get its (virtual) filename.
+          // In production, they would get copied to the `build` folder.
           // This loader doesn't use a "test" so it will catch all modules
           // that fall through the other loaders.
           {
-            loader: require.resolve("file-loader"),
             // Exclude `js` files to keep "css" loader working as it injects
-            // it's runtime that would otherwise be processed through "file" loader.
+            // its runtime that would otherwise be processed through "file" loader.
             // Also exclude `html` and `json` extensions so they get processed
             // by webpacks internal loaders.
-            exclude: [/\.(js|mjs|jsx)$/, /\.html$/, /\.json$/],
+            exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
+            loader: require.resolve("file-loader"),
             options: {
               name: "static/media/[name].[hash:8].[ext]"
             }
@@ -170,35 +140,19 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin("build"),
     new Dotenv({
-      path: path.resolve(__dirname, ".prod.env")
+      path: path.resolve(__dirname, ".dev.env")
     }),
     new webpack.NamedModulesPlugin(),
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: path.resolve(__dirname, "public/index.html")
+    }),
+    new webpack.HotModuleReplacementPlugin(),
     new ForkTsCheckerWebpackPlugin({
       tslint: true,
       checkSyntacticErrors: true,
       watch: ["./src"] // optional but improves performance (fewer stat calls)
-    }),
-    new HtmlWebpackPlugin({
-      inject: true,
-      template: path.resolve(__dirname, "public/index.html"),
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeRedundantAttributes: true,
-        useShortDoctype: true,
-        removeEmptyAttributes: true,
-        removeStyleLinkTypeAttributes: true,
-        keepClosingSlash: true,
-        minifyJS: true,
-        minifyCSS: true,
-        minifyURLs: true
-      }
-    }),
-    new MiniCssExtractPlugin({
-      filename: "[name].[contenthash:8].css",
-      chunkFilename: "[name].[contenthash:8].chunk.css"
     }),
     // Generate a manifest file which contains a mapping of all asset filenames
     // to their corresponding output file so that tools can pick it up without
@@ -207,21 +161,7 @@ module.exports = {
       fileName: "asset-manifest.json",
       publicPath: "/"
     }),
-    // Generate a service worker script that will precache, and keep up to date,
-    // the HTML & assets that are part of the Webpack build.
-    new WorkboxWebpackPlugin.GenerateSW({
-      clientsClaim: true,
-      exclude: [/\.map$/, /asset-manifest\.json$/],
-      importWorkboxFrom: "cdn",
-      navigateFallback: path.resolve(__dirname, "public/index.html"),
-      navigateFallbackBlacklist: [
-        // Exclude URLs starting with /_, as they're likely an API call
-        new RegExp("^/_"),
-        // Exclude URLs containing a dot, as they're likely a resource in
-        // public/ and not a SPA route
-        new RegExp("/[^/]+\\.[^/]+$")
-      ]
-    })
+    new DuplicatePackageCheckerPlugin()
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
@@ -231,5 +171,23 @@ module.exports = {
     net: "empty",
     tls: "empty",
     child_process: "empty"
+  },
+  // Turn off performance processing because we utilize
+  // our own hints via the FileSizeReporter
+  performance: false,
+  devServer: {
+    contentBase: "./public",
+    // Enable gzip compression of generated files.
+    compress: true,
+    // Silence WebpackDevServer's own logs since they're generally not useful.
+    // It will still show compile warnings and errors with this setting.
+    clientLogLevel: "none",
+    // WebpackDevServer is noisy by default so we emit custom message instead
+    // by listening to the compiler events with `compiler.hooks[...].tap` calls above.
+    //quiet: true,
+    hot: true,
+    open: true,
+    overlay: true,
+    historyApiFallback: true
   }
 };
