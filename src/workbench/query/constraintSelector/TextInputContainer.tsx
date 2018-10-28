@@ -9,7 +9,7 @@ import {
   IUpdateQueryConstraintValues
 } from "workbench/actions";
 
-import ConstraintInputValue from "workbench/query/constraintSelector/ConstraintInputValue";
+import TextInput from "workbench/query/constraintSelector/TextInput";
 
 interface IOwnProps {
   elementId: number;
@@ -24,7 +24,7 @@ interface IState {
   displayValue: string;
 }
 
-class ConstraintInputValueContainer extends Component<Props, IState> {
+class TextInputContainer extends Component<Props, IState> {
   private inputChange$: Observable<string>;
   private handleInputChange!: (
     event: React.ChangeEvent<HTMLInputElement>
@@ -58,7 +58,7 @@ class ConstraintInputValueContainer extends Component<Props, IState> {
 
   public render() {
     return (
-      <ConstraintInputValue
+      <TextInput
         inputType={this.props.inputType}
         displayValue={this.state.displayValue}
         handledUpdateQueryConstraintValues={this.handleInputChange}
@@ -94,4 +94,4 @@ const mapDispatchToProps = (
 export default connect(
   undefined,
   mapDispatchToProps
-)(ConstraintInputValueContainer);
+)(TextInputContainer);

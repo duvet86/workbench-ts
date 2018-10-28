@@ -46,6 +46,9 @@ class ConstraintContainer extends Component<Props> {
         elementId={elementId}
         label={label}
         constraint={this.props.constraint}
+        availableFilter={
+          (FilterName && availableFiltersDic[FilterName]) || undefined
+        }
         handledRemoveQueryConstraint={this.handledRemoveQueryConstraint}
       />
     );

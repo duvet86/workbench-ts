@@ -1,6 +1,7 @@
 import React, { SFC } from "react";
 
 import { IConstraint } from "workbench/types";
+import { IUdsFilterDescriptionDtc } from "workbench/query/types";
 
 import {
   createStyles,
@@ -16,13 +17,14 @@ import IconButton from "@material-ui/core/IconButton";
 import ConstraintIcon from "@material-ui/icons/FilterList";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-import ConstraintTypeSelectorContainer from "workbench/query/constraintSelector/ConstraintTypeSelectorContainer";
-import ConstraintValueSwitchContainer from "workbench/query/constraintSelector/ConstraintValueSwitchContainer";
+import FilterTypeSelectorContainer from "workbench/query/constraintSelector/FilterTypeSelectorContainer";
+import ValueSwitchContainer from "workbench/query/constraintSelector/ValueSwitchContainer";
 
 interface IProps extends WithStyles<typeof styles> {
   elementId: number;
   label: string;
   constraint: IConstraint;
+  availableFilter?: IUdsFilterDescriptionDtc;
   handledRemoveQueryConstraint: (
     constraintId: number
   ) => React.MouseEventHandler;
@@ -49,20 +51,22 @@ const FilterConstraint: SFC<IProps> = ({
   elementId,
   label,
   constraint: { ConstraintId, FilterType, DataType, Values },
-  handledRemoveQueryConstraint
+  handledRemoveQueryConstraint,
+  availableFilter
 }) => (
   <Paper className={classes.paper}>
     <ConstraintIcon className={classes.constraintIcon} />
     <Typography variant="subtitle1" className={classes.targetLabel}>
       {label}
     </Typography>
-    <ConstraintTypeSelectorContainer
+    <FilterTypeSelectorContainer
       elementId={elementId}
       constraintId={ConstraintId}
       filterType={FilterType}
       dataType={DataType}
     />
-    <ConstraintValueSwitchContainer
+    <ValueSwitchContainer
+      availableFilter={availableFilter}
       elementId={elementId}
       constraintId={ConstraintId}
       filterType={FilterType}

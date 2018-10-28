@@ -1,9 +1,15 @@
 import React, { Component } from "react";
-import { QesDataType, QesFilterType } from "workbench/query/types";
+import {
+  QesDataType,
+  QesFilterType,
+  IUdsFilterDescriptionDtc
+} from "workbench/query/types";
 
-import ConstraintInputValueContainer from "workbench/query/constraintSelector/ConstraintInputValueContainer";
+import TextInputContainer from "workbench/query/constraintSelector/TextInputContainer";
+import ListInputContainer from "workbench/query/constraintSelector/ListInputContainer";
 
 interface IProps {
+  availableFilter?: IUdsFilterDescriptionDtc;
   elementId: number;
   constraintId: number;
   dataType: string;
@@ -11,9 +17,10 @@ interface IProps {
   values?: any[][];
 }
 
-class ConstraintValueSwitchContainer extends Component<IProps> {
+class ValueSwitchContainer extends Component<IProps> {
   public render() {
     const {
+      availableFilter,
       elementId,
       constraintId,
       filterType,
@@ -39,20 +46,34 @@ class ConstraintValueSwitchContainer extends Component<IProps> {
         return <div>TODO: Between</div>;
       case QesFilterType.InList:
       case QesFilterType.NotInList:
-        return <div>TODO: List</div>;
+        if (availableFilter == null) {
+          throw new Error("availableFilter cannot be null.");
+        }
+        const listDisplayValue =
+          values && values.length > 0
+            ? ([].concat.apply([], values[0]) as string[]) // Flatten the list.
+            : undefined;
+        return (
+          <ListInputContainer
+            availableFilter={availableFilter}
+            elementId={elementId}
+            constraintId={constraintId}
+            initDisplayValue={listDisplayValue}
+          />
+        );
       default:
-        const displayValue =
+        const inputDisplayValue =
           values && values.length > 0 ? (values[0][0] as string) : "";
         return (
-          <ConstraintInputValueContainer
+          <TextInputContainer
             elementId={elementId}
             constraintId={constraintId}
             inputType={inputType}
-            initDisplayValue={displayValue}
+            initDisplayValue={inputDisplayValue}
           />
         );
     }
   }
 }
 
-export default ConstraintValueSwitchContainer;
+export default ValueSwitchContainer;

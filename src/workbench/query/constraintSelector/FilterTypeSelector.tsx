@@ -36,7 +36,7 @@ const styles = ({ spacing: { unit } }: Theme) =>
     }
   });
 
-const ConstraintTypeSelector: SFC<IProps> = ({
+const FilterTypeSelector: SFC<IProps> = ({
   classes,
   filterCapabilities,
   constraintId,
@@ -60,4 +60,4 @@ const ConstraintTypeSelector: SFC<IProps> = ({
   </FormControl>
 );
 
-export default withStyles(styles)(ConstraintTypeSelector);
+export default withStyles(styles)(FilterTypeSelector);

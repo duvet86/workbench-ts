@@ -26,7 +26,7 @@ const styles = ({ spacing }: Theme) =>
     }
   });
 
-const ConstraintInputValue: SFC<IProps> = ({
+const TextInput: SFC<IProps> = ({
   classes,
   inputType,
   displayValue,
@@ -42,4 +42,4 @@ const ConstraintInputValue: SFC<IProps> = ({
   </FormControl>
 );
 
-export default withStyles(styles)(ConstraintInputValue);
+export default withStyles(styles)(TextInput);

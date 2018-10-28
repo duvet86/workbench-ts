@@ -9,7 +9,7 @@ import {
   QueryConstraintAction
 } from "workbench/actions";
 
-import ConstraintTypeSelector from "workbench/query/constraintSelector/ConstraintTypeSelector";
+import FilterTypeSelector from "workbench/query/constraintSelector/FilterTypeSelector";
 
 interface IOwnProps {
   elementId: number;
@@ -22,7 +22,7 @@ type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   IOwnProps;
 
-class ConstraintTypeSelectorContainer extends Component<Props> {
+class FilterTypeSelectorContainer extends Component<Props> {
   public render() {
     if (this.props.dataType === QesDataType.Interval) {
       return null;
@@ -40,7 +40,7 @@ class ConstraintTypeSelectorContainer extends Component<Props> {
       filterType === QesFilterType.IsNotNull;
 
     return (
-      <ConstraintTypeSelector
+      <FilterTypeSelector
         filterCapabilities={filterCapabilities}
         constraintId={constraintId}
         filterType={filterType}
@@ -80,4 +80,4 @@ const mapDispatchToProps = (dispatch: Dispatch<QueryConstraintAction>) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ConstraintTypeSelectorContainer);
+)(FilterTypeSelectorContainer);

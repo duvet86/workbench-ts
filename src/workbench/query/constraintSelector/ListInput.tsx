@@ -15,6 +15,7 @@ import Chip from "@material-ui/core/Chip";
 import { IOption } from "common/select/SelectInputContainer";
 
 interface IProps extends WithStyles<typeof styles> {
+  displayValue: string[];
   allowedValueOptions: IOption[];
   handledUpdateQueryConstraintValues: (
     event: React.ChangeEvent<HTMLSelectElement>,
@@ -41,15 +42,16 @@ const renderValue = (selected: SelectProps["value"]) => (
   </div>
 );
 
-const FilterConstraint: SFC<IProps> = ({
+const ListInput: SFC<IProps> = ({
   classes,
+  displayValue,
   allowedValueOptions,
   handledUpdateQueryConstraintValues
 }) => (
   <FormControl className={classes.valueInput}>
     <Select
       multiple
-      value={[]}
+      value={displayValue}
       input={<Input id="select-multiple-chip" />}
       renderValue={renderValue}
       onChange={handledUpdateQueryConstraintValues}
@@ -71,4 +73,4 @@ const FilterConstraint: SFC<IProps> = ({
   </FormControl>
 );
 
-export default withStyles(styles)(FilterConstraint);
+export default withStyles(styles)(ListInput);

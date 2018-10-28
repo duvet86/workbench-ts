@@ -17,14 +17,14 @@ import {
 } from "workbench/actions";
 
 import { LoadingContainer } from "common/loading";
-import AllowedValuesSelect from "workbench/query/constraintSelector/AllowedValuesSelect";
+import ListInput from "workbench/query/constraintSelector/ListInput";
 import { IOption } from "common/select/SelectInputContainer";
 
 interface IOwnProps {
   elementId: number;
   constraintId: number;
-  dataType: string;
   availableFilter: IUdsFilterDescriptionDtc;
+  initDisplayValue?: string[];
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -34,12 +34,14 @@ type Props = ReturnType<typeof mapStateToProps> &
 interface IState {
   isLoading: boolean;
   allowedValueOptions: Array<IOption<any>>;
+  displayValue: string[];
 }
 
-class ConstraintSelectorContainer extends Component<Props, IState> {
+class ListInputContainer extends Component<Props, IState> {
   public state: IState = {
-    isLoading: true,
-    allowedValueOptions: []
+    isLoading: false,
+    allowedValueOptions: [],
+    displayValue: []
   };
 
   public async componentDidMount() {
@@ -51,7 +53,8 @@ class ConstraintSelectorContainer extends Component<Props, IState> {
         AllowedValuesSessionId,
         AllowedValuesQueryGraphId,
         FilterName
-      }
+      },
+      initDisplayValue
     } = this.props;
     if (session == null) {
       throw new Error("Session cannot be null.");
@@ -77,20 +80,28 @@ class ConstraintSelectorContainer extends Component<Props, IState> {
               label: DisplayValue,
               value: ValueVector
             })
-          )
+          ),
+          displayValue: allowedValues
+            .filter(({ Selected }) => Selected)
+            .map(({ DisplayValue }) => DisplayValue)
         });
       } catch (e) {
         dispatchHandleException(e);
       }
+    } else if (initDisplayValue != null) {
+      this.setState({
+        displayValue: initDisplayValue
+      });
     }
   }
 
   public render() {
-    const { isLoading, allowedValueOptions } = this.state;
+    const { isLoading, allowedValueOptions, displayValue } = this.state;
 
     return (
       <LoadingContainer isLoading={isLoading}>
-        <AllowedValuesSelect
+        <ListInput
+          displayValue={displayValue}
           allowedValueOptions={allowedValueOptions}
           handledUpdateQueryConstraintValues={
             this.handledUpdateQueryConstraintValues
@@ -107,7 +118,6 @@ class ConstraintSelectorContainer extends Component<Props, IState> {
     const {
       elementId,
       constraintId,
-      dataType,
       dispatchUpdateQueryConstraintValues
     } = this.props;
 
@@ -144,4 +154,4 @@ const mapDispatchToProps = (
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ConstraintSelectorContainer);
+)(ListInputContainer);
