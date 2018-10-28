@@ -4,7 +4,6 @@ import { Dispatch } from "redux";
 import { RootState } from "rootReducer";
 
 import {
-  updateQueryConstraintType,
   removeQueryConstraint,
   QueryConstraintAction
 } from "workbench/actions";
@@ -32,9 +31,9 @@ class ConstraintContainer extends Component<Props> {
       elementId,
       availableFiltersDic,
       availableColumnsDic,
-      filterCapabilities,
       constraint: { FilterType, FilterName, ColumnName }
     } = this.props;
+
     let label;
     if (FilterType != null && FilterName != null) {
       label = availableFiltersDic[FilterName].Label;
@@ -45,26 +44,12 @@ class ConstraintContainer extends Component<Props> {
     return (
       <Constraint
         elementId={elementId}
-        constraint={this.props.constraint}
         label={label}
-        filterCapabilities={filterCapabilities}
-        handledUpdateQueryConstraintType={this.handledUpdateQueryConstraintType}
+        constraint={this.props.constraint}
         handledRemoveQueryConstraint={this.handledRemoveQueryConstraint}
       />
     );
   }
-
-  private handledUpdateQueryConstraintType = (constraintId: number) => (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const { elementId, dispatchUpdateQueryConstraintType } = this.props;
-
-    dispatchUpdateQueryConstraintType(
-      elementId,
-      constraintId,
-      event.target.value
-    );
-  };
 
   private handledRemoveQueryConstraint = (constraintId: number) => () => {
     const { elementId, dispatchRemoveQueryConstraint } = this.props;
@@ -74,20 +59,11 @@ class ConstraintContainer extends Component<Props> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  filterCapabilities: state.queryConfigReducer.filterCapabilities,
   availableFiltersDic: getAvailableFilterDic(state),
   availableColumnsDic: getAvailableColumnsDic(state)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<QueryConstraintAction>) => ({
-  dispatchUpdateQueryConstraintType: (
-    elementId: number,
-    constraintId: number,
-    constraintType: string
-  ) =>
-    dispatch(
-      updateQueryConstraintType(elementId, constraintId, constraintType)
-    ),
   dispatchRemoveQueryConstraint: (elementId: number, constraintId: number) =>
     dispatch(removeQueryConstraint(elementId, constraintId))
 });

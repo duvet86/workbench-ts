@@ -1,7 +1,6 @@
 import React, { SFC } from "react";
 
 import { IConstraint } from "workbench/types";
-import { IFilterCapabilitiesDic } from "workbench/query/types";
 
 import {
   createStyles,
@@ -12,26 +11,18 @@ import {
 
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
 import IconButton from "@material-ui/core/IconButton";
 
 import ConstraintIcon from "@material-ui/icons/FilterList";
 import DeleteIcon from "@material-ui/icons/Delete";
 
+import ConstraintTypeSelectorContainer from "workbench/query/constraintSelector/ConstraintTypeSelectorContainer";
 import ConstraintValueSwitchContainer from "workbench/query/constraintSelector/ConstraintValueSwitchContainer";
-
-const constraintIconColour = "#2c5367";
 
 interface IProps extends WithStyles<typeof styles> {
   elementId: number;
-  constraint: IConstraint;
   label: string;
-  filterCapabilities: IFilterCapabilitiesDic;
-  handledUpdateQueryConstraintType: (
-    constraintId: number
-  ) => React.ChangeEventHandler<HTMLSelectElement>;
+  constraint: IConstraint;
   handledRemoveQueryConstraint: (
     constraintId: number
   ) => React.MouseEventHandler;
@@ -39,9 +30,6 @@ interface IProps extends WithStyles<typeof styles> {
 
 const styles = ({ spacing: { unit } }: Theme) =>
   createStyles({
-    constraintIconColour: {
-      fill: constraintIconColour
-    },
     paper: {
       display: "flex",
       alignItems: "center"
@@ -50,23 +38,17 @@ const styles = ({ spacing: { unit } }: Theme) =>
       flexBasis: `${unit * 2}%`,
       margin: unit
     },
-    filterTypeSelect: {
-      flexBasis: `${unit * 2}%`,
-      margin: unit
-    },
     constraintIcon: {
       margin: unit,
-      fill: constraintIconColour
+      fill: "#2c5367"
     }
   });
 
 const FilterConstraint: SFC<IProps> = ({
   classes,
-  filterCapabilities,
   elementId,
   label,
   constraint: { ConstraintId, FilterType, DataType, Values },
-  handledUpdateQueryConstraintType,
   handledRemoveQueryConstraint
 }) => (
   <Paper className={classes.paper}>
@@ -74,19 +56,12 @@ const FilterConstraint: SFC<IProps> = ({
     <Typography variant="subtitle1" className={classes.targetLabel}>
       {label}
     </Typography>
-    <FormControl className={classes.filterTypeSelect}>
-      <Select
-        value={FilterType}
-        onChange={handledUpdateQueryConstraintType(ConstraintId)}
-        autoWidth
-      >
-        {filterCapabilities[DataType].map(({ Label, Type }, i) => (
-          <MenuItem key={i} value={Type}>
-            {Label}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    <ConstraintTypeSelectorContainer
+      elementId={elementId}
+      constraintId={ConstraintId}
+      filterType={FilterType}
+      dataType={DataType}
+    />
     <ConstraintValueSwitchContainer
       elementId={elementId}
       constraintId={ConstraintId}

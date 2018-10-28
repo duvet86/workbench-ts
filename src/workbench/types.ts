@@ -122,12 +122,12 @@ export interface IConstraint {
   ConstraintId: number;
   DataType: string;
   ColumnName: string;
+  FilterType: string;
 
   ConstraintName?: string;
   FilterName?: string;
   Expression1?: string;
   Expression2?: string;
-  FilterType?: string;
   Values?: any[][];
   ValuesHint?: string;
   ValuesDisplayStringsPreview?: string;
