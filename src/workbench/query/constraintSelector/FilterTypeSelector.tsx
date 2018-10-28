@@ -27,10 +27,12 @@ interface IProps extends WithStyles<typeof styles> {
 const styles = ({ spacing: { unit } }: Theme) =>
   createStyles({
     root: {
+      flexShrink: 0,
       flexBasis: `${unit * 2}%`,
       margin: unit
     },
     rootFullWidth: {
+      flexShrink: 0,
       flex: 1,
       margin: unit
     }

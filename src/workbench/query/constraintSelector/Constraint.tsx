@@ -37,6 +37,7 @@ const styles = ({ spacing: { unit } }: Theme) =>
       alignItems: "center"
     },
     targetLabel: {
+      flexShrink: 0,
       flexBasis: `${unit * 2}%`,
       margin: unit
     },

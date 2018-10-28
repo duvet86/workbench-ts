@@ -73,6 +73,14 @@ class ListInputContainer extends Component<Props, IState> {
           FilterName
         );
 
+        const allSelected = allowedValues.find(({ Selected }) => !Selected);
+        const displayValue =
+          allSelected == null
+            ? ["All..."]
+            : allowedValues
+                .filter(({ Selected }) => Selected)
+                .map(({ DisplayValue }) => DisplayValue);
+
         this.setState({
           isLoading: false,
           allowedValueOptions: allowedValues.map<IOption>(
@@ -81,9 +89,7 @@ class ListInputContainer extends Component<Props, IState> {
               value: ValueVector
             })
           ),
-          displayValue: allowedValues
-            .filter(({ Selected }) => Selected)
-            .map(({ DisplayValue }) => DisplayValue)
+          displayValue
         });
       } catch (e) {
         dispatchHandleException(e);

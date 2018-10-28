@@ -64,6 +64,9 @@ const ListInput: SFC<IProps> = ({
         }
       }}
     >
+      <MenuItem value="SelectAll">
+        <em>Select All</em>
+      </MenuItem>
       {allowedValueOptions.map(({ label, value }, i) => (
         <MenuItem key={i} value={value}>
           {label}
