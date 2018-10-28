@@ -7,18 +7,18 @@ import {
   WithStyles
 } from "@material-ui/core/styles";
 
+import { QesDataType } from "workbench/query/types";
+
 import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
-
-import { DATA_TYPES } from "workbench/utils";
 
 interface IProps extends WithStyles<typeof styles> {
   displayValue: string;
   constraintId: number;
-  dataType: DATA_TYPES;
+  dataType: QesDataType;
   handledUpdateQueryConstraintValues: (
     constraintId: number,
-    dataType: DATA_TYPES
+    dataType: QesDataType
   ) => React.ChangeEventHandler<HTMLInputElement>;
 }
 

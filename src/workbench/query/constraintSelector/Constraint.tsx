@@ -1,7 +1,7 @@
 import React, { SFC } from "react";
 
 import { IConstraint } from "workbench/types";
-import { IOption } from "common/select/SelectInputContainer";
+import { IFilterCapabilitiesDic } from "workbench/query/types";
 
 import {
   createStyles,
@@ -25,7 +25,7 @@ const constraintIconColour = "#2c5367";
 interface IProps extends WithStyles<typeof styles> {
   label: string;
   constraint: IConstraint;
-  constraintFilterCapabilities: Array<IOption<string>>;
+  filterCapabilities: IFilterCapabilitiesDic;
   handledUpdateQueryConstraintType: (
     constraintId: number
   ) => React.ChangeEventHandler<HTMLSelectElement>;
@@ -47,14 +47,14 @@ const styles = ({ spacing: { unit } }: Theme) =>
       flexBasis: `${unit * 2}%`,
       margin: unit
     },
-    typeSelect: {
+    filterTypeSelect: {
       flexBasis: `${unit * 2}%`,
       margin: unit
     },
-    valueInput: {
-      flexGrow: 1,
-      margin: unit
-    },
+    // valueInput: {
+    //   flexGrow: 1,
+    //   margin: unit
+    // },
     constraintIcon: {
       margin: unit,
       fill: constraintIconColour
@@ -63,9 +63,9 @@ const styles = ({ spacing: { unit } }: Theme) =>
 
 const FilterConstraint: SFC<IProps> = ({
   classes,
-  constraintFilterCapabilities,
+  filterCapabilities,
   label,
-  constraint: { ConstraintId, FilterType },
+  constraint: { ConstraintId, FilterType, DataType },
   handledUpdateQueryConstraintType,
   handledRemoveQueryConstraint
 }) => (
@@ -74,19 +74,17 @@ const FilterConstraint: SFC<IProps> = ({
     <Typography variant="subtitle1" className={classes.targetLabel}>
       {label}
     </Typography>
-    <FormControl className={classes.typeSelect}>
+    <FormControl className={classes.filterTypeSelect}>
       <Select
         value={FilterType}
         onChange={handledUpdateQueryConstraintType(ConstraintId)}
         autoWidth
       >
-        {constraintFilterCapabilities.map(
-          ({ label: filterCapLabel, value }, i) => (
-            <MenuItem key={i} value={value}>
-              {filterCapLabel}
-            </MenuItem>
-          )
-        )}
+        {filterCapabilities[DataType].map(({ Label, Type }, i) => (
+          <MenuItem key={i} value={Type}>
+            {Label}
+          </MenuItem>
+        ))}
       </Select>
     </FormControl>
     TODO: Value selector

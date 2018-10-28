@@ -183,21 +183,3 @@ export const getQueryConstraints = createSelector(
   (elementId, queries) =>
     queries[elementId].Constraints.map(c => getConstraintDisplayValue(c))
 );
-
-const filterCapabilitiesSelector = (state: RootState) =>
-  state.queryConfigReducer.filterCapabilities;
-
-const constraintDataTypeSelector = (
-  _: RootState,
-  props: { constraint: IConstraint }
-) => props.constraint.DataType;
-
-export const getConstraintFilterCapabilities = createSelector(
-  filterCapabilitiesSelector,
-  constraintDataTypeSelector,
-  (filterCapabilities, dataType) =>
-    filterCapabilities[dataType].map<IOption<string>>(({ Type, Label }) => ({
-      label: Label,
-      value: Type
-    }))
-);

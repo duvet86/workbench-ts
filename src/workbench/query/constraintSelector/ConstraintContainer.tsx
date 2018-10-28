@@ -11,8 +11,7 @@ import {
 
 import {
   getAvailableFilterDic,
-  getAvailableColumnsDic,
-  getConstraintFilterCapabilities
+  getAvailableColumnsDic
 } from "workbench/query/selectors";
 import { IConstraint } from "workbench/types";
 
@@ -32,7 +31,7 @@ class ConstraintContainer extends Component<Props> {
     const {
       availableFiltersDic,
       availableColumnsDic,
-      constraintFilterCapabilities,
+      filterCapabilities,
       constraint: { FilterType, FilterName, ColumnName }
     } = this.props;
     let label;
@@ -46,7 +45,7 @@ class ConstraintContainer extends Component<Props> {
       <Constraint
         constraint={this.props.constraint}
         label={label}
-        constraintFilterCapabilities={constraintFilterCapabilities}
+        filterCapabilities={filterCapabilities}
         handledUpdateQueryConstraintType={this.handledUpdateQueryConstraintType}
         handledRemoveQueryConstraint={this.handledRemoveQueryConstraint}
       />
@@ -72,11 +71,10 @@ class ConstraintContainer extends Component<Props> {
   };
 }
 
-const mapStateToProps = (state: RootState, props: IOwnProps) => ({
+const mapStateToProps = (state: RootState) => ({
   filterCapabilities: state.queryConfigReducer.filterCapabilities,
   availableFiltersDic: getAvailableFilterDic(state),
-  availableColumnsDic: getAvailableColumnsDic(state),
-  constraintFilterCapabilities: getConstraintFilterCapabilities(state, props)
+  availableColumnsDic: getAvailableColumnsDic(state)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<QueryConstraintAction>) => ({

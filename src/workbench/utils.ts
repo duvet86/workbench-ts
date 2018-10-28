@@ -1,6 +1,8 @@
 import { IConstraint } from "workbench/types";
 import { IOption } from "common/select/SelectInputContainer";
 
+import { QesDataType } from "workbench/query/types";
+
 import NewIcon from "@material-ui/icons/RestorePage";
 import SaveIcon from "@material-ui/icons/Save";
 import ShareIcon from "@material-ui/icons/Share";
@@ -10,21 +12,6 @@ import OpenWithIcon from "@material-ui/icons/OpenWith";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 
 type QueryContraint = IConstraint & IOption;
-
-export enum DATA_TYPES {
-  NOTSPECIFIED = "NotSpecified",
-  TEXTVALUE = "TextValue",
-  BOOLVALUE = "BoolValue",
-  INTERVALVALUE = "Interval",
-  INTVALUE = "IntValue",
-  DOUBLEVALUE = "DoubleValue",
-  TEXTVALUEWITHLABEL = "TextValueWithLabel",
-  TEXTVALUEWITHMASK = "TextValueWithMask",
-  TEXTVALUEWITHORDER = "TextValueWithOrder",
-  SELECT = "Select",
-  TEXTINPUTLIST = "TextInputList",
-  MULTISELECT = "MultiSelect"
-}
 
 export const toolbarData = [
   {
@@ -77,7 +64,7 @@ export function getConstraintDisplayValue(constraint: IConstraint) {
   };
 
   switch (constraint.DataType) {
-    case DATA_TYPES.INTERVALVALUE:
+    case QesDataType.Interval:
       constraintDsiplayValue.value = constraint.Values && {
         intervalType: constraint.Values[0][0],
         intervalString: constraint.Values[0][1],
@@ -85,13 +72,13 @@ export function getConstraintDisplayValue(constraint: IConstraint) {
       };
       break;
 
-    case DATA_TYPES.TEXTVALUE:
-    case DATA_TYPES.TEXTVALUEWITHLABEL:
-    case DATA_TYPES.TEXTVALUEWITHMASK:
-    case DATA_TYPES.TEXTVALUEWITHORDER:
-    case DATA_TYPES.BOOLVALUE:
-    case DATA_TYPES.INTVALUE:
-    case DATA_TYPES.DOUBLEVALUE:
+    case QesDataType.TextValue:
+    case QesDataType.TextValueWithLabel:
+    case QesDataType.TextValueWithMask:
+    case QesDataType.TextValueWithOrder:
+    case QesDataType.BoolValue:
+    case QesDataType.IntValue:
+    case QesDataType.DoubleValue:
       constraintDsiplayValue.value = constraint.Values
         ? constraint.Values[0][0]
         : "";
@@ -135,15 +122,13 @@ export function getConstraintVectorValue(
   };
 
   switch (dataType) {
-    case DATA_TYPES.INTERVALVALUE:
+    case QesDataType.Interval:
       valuesObj.vectorValues = [
         [values.intervalType, values.intervalString, values.intervalLabel]
       ];
       break;
 
-    case DATA_TYPES.SELECT:
-    case DATA_TYPES.TEXTINPUTLIST:
-    case DATA_TYPES.MULTISELECT:
+    case QesDataType.ListValue:
       valuesObj.vectorValues = values.values;
       valuesObj.valuesHint = valuesHint;
       break;

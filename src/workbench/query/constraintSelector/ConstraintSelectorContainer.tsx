@@ -14,6 +14,7 @@ import {
   filterCapabilitiesRequest,
   FilterCapabilitiesAction
 } from "workbench/query/actions";
+import { QesFilterType } from "workbench/query/types";
 import { IConstraint } from "workbench/types";
 
 import ConstraintSelector from "workbench/query/constraintSelector/ConstraintSelector";
@@ -79,7 +80,9 @@ class ConstraintSelectorContainer extends Component<Props> {
     // For a new constraint default the filterType to the first value
     // of the filter capabilities unless the filter has allowed values.
     const filterType =
-      (constraintFilter && constraintFilter.HasAllowedValues && "InList") ||
+      (constraintFilter &&
+        constraintFilter.HasAllowedValues &&
+        QesFilterType.InList) ||
       filterCapabilities[dataType][0].Type;
 
     const constraint: IConstraint = {
