@@ -7,19 +7,15 @@ import {
   WithStyles
 } from "@material-ui/core/styles";
 
-import { QesDataType } from "workbench/query/types";
-
 import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
 
 interface IProps extends WithStyles<typeof styles> {
   displayValue: string;
-  constraintId: number;
-  dataType: QesDataType;
+  inputType: string;
   handledUpdateQueryConstraintValues: (
-    constraintId: number,
-    dataType: QesDataType
-  ) => React.ChangeEventHandler<HTMLInputElement>;
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => void;
 }
 
 const styles = ({ spacing }: Theme) =>
@@ -30,20 +26,20 @@ const styles = ({ spacing }: Theme) =>
     }
   });
 
-const ConstraintSelector: SFC<IProps> = ({
+const ConstraintInputValue: SFC<IProps> = ({
   classes,
+  inputType,
   displayValue,
-  constraintId,
-  dataType,
   handledUpdateQueryConstraintValues
 }) => (
   <FormControl className={classes.valueInput}>
     <Input
       autoFocus
+      type={inputType}
       value={displayValue}
-      onChange={handledUpdateQueryConstraintValues(constraintId, dataType)}
+      onChange={handledUpdateQueryConstraintValues}
     />
   </FormControl>
 );
 
-export default withStyles(styles)(ConstraintSelector);
+export default withStyles(styles)(ConstraintInputValue);

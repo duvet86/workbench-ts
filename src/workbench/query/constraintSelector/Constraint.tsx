@@ -20,11 +20,14 @@ import IconButton from "@material-ui/core/IconButton";
 import ConstraintIcon from "@material-ui/icons/FilterList";
 import DeleteIcon from "@material-ui/icons/Delete";
 
+import ConstraintValueSwitchContainer from "workbench/query/constraintSelector/ConstraintValueSwitchContainer";
+
 const constraintIconColour = "#2c5367";
 
 interface IProps extends WithStyles<typeof styles> {
-  label: string;
+  elementId: number;
   constraint: IConstraint;
+  label: string;
   filterCapabilities: IFilterCapabilitiesDic;
   handledUpdateQueryConstraintType: (
     constraintId: number
@@ -51,10 +54,6 @@ const styles = ({ spacing: { unit } }: Theme) =>
       flexBasis: `${unit * 2}%`,
       margin: unit
     },
-    // valueInput: {
-    //   flexGrow: 1,
-    //   margin: unit
-    // },
     constraintIcon: {
       margin: unit,
       fill: constraintIconColour
@@ -64,8 +63,9 @@ const styles = ({ spacing: { unit } }: Theme) =>
 const FilterConstraint: SFC<IProps> = ({
   classes,
   filterCapabilities,
+  elementId,
   label,
-  constraint: { ConstraintId, FilterType, DataType },
+  constraint: { ConstraintId, FilterType, DataType, Values },
   handledUpdateQueryConstraintType,
   handledRemoveQueryConstraint
 }) => (
@@ -87,7 +87,13 @@ const FilterConstraint: SFC<IProps> = ({
         ))}
       </Select>
     </FormControl>
-    TODO: Value selector
+    <ConstraintValueSwitchContainer
+      elementId={elementId}
+      constraintId={ConstraintId}
+      filterType={FilterType}
+      dataType={DataType}
+      values={Values}
+    />
     <IconButton
       aria-label="Delete"
       onClick={handledRemoveQueryConstraint(ConstraintId)}

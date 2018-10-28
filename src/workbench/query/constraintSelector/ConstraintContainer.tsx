@@ -29,6 +29,7 @@ type Props = ReturnType<typeof mapStateToProps> &
 class ConstraintContainer extends Component<Props> {
   public render() {
     const {
+      elementId,
       availableFiltersDic,
       availableColumnsDic,
       filterCapabilities,
@@ -43,6 +44,7 @@ class ConstraintContainer extends Component<Props> {
 
     return (
       <Constraint
+        elementId={elementId}
         constraint={this.props.constraint}
         label={label}
         filterCapabilities={filterCapabilities}

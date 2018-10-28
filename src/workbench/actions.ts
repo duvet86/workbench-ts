@@ -271,7 +271,7 @@ export interface IUpdateQueryConstraintValues extends Action {
   type: QueryConstraintActionTypes.QUERY_CONSTRAINT_VALUES;
   elementId: number;
   constraintId: number;
-  vectorValues: object[][];
+  vectorValues: any[][];
   valuesHint?: string;
 }
 
@@ -310,7 +310,7 @@ export const updateQueryConstraintType = (
 export const updateQueryConstraintValues = (
   elementId: number,
   constraintId: number,
-  vectorValues: object[][],
+  vectorValues: any[][],
   valuesHint?: string
 ): IUpdateQueryConstraintValues => ({
   type: QueryConstraintActionTypes.QUERY_CONSTRAINT_VALUES,

@@ -128,7 +128,7 @@ export interface IConstraint {
   Expression1?: string;
   Expression2?: string;
   FilterType?: string;
-  Values?: object[][];
+  Values?: any[][];
   ValuesHint?: string;
   ValuesDisplayStringsPreview?: string;
 }

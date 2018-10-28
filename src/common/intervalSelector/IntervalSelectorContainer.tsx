@@ -36,7 +36,7 @@ interface IState {
 
 class IntervalSelectorContainer extends Component<Props, IState> {
   private nextIntevalClick$: Observable<number>;
-  private handleNextIntevalClick?: (offset: number) => () => void;
+  private handleNextIntevalClick!: (offset: number) => () => void;
 
   constructor(props: Props) {
     super(props);
@@ -49,6 +49,12 @@ class IntervalSelectorContainer extends Component<Props, IState> {
       }
     ).pipe(share());
 
+    // Debouncing the next and previous button clicks.
+    const debounced = this.nextIntevalClick$.pipe(debounceTime(250));
+    this.nextIntevalClick$.pipe(buffer(debounced)).subscribe(offset => {
+      this.debounceNextIntervalAsync(offset);
+    });
+
     this.state = {
       intervalTypes: {},
       intervalType: props.initValue && props.initValue.IntervalType,
@@ -58,12 +64,6 @@ class IntervalSelectorContainer extends Component<Props, IState> {
 
   public async componentDidMount() {
     const { initValue, onChange, dispatchHandleException } = this.props;
-
-    // Debouncing the next and previous button clicks.
-    const debounced = this.nextIntevalClick$.pipe(debounceTime(250));
-    this.nextIntevalClick$.pipe(buffer(debounced)).subscribe(offset => {
-      this.debounceNextIntervalAsync(offset);
-    });
 
     try {
       const { intervalTypes, interval } = await initIntervalAsync(
@@ -91,11 +91,7 @@ class IntervalSelectorContainer extends Component<Props, IState> {
 
   public render() {
     const { intervalType, interval, intervalTypes } = this.state;
-
-    const isLoading =
-      interval == null ||
-      intervalType == null ||
-      this.handleNextIntevalClick == null;
+    const isLoading = interval == null || intervalType == null;
 
     return (
       <LoadingContainer isLoading={isLoading}>
@@ -107,7 +103,7 @@ class IntervalSelectorContainer extends Component<Props, IState> {
             onIntervalTypeChange={this.handleIntervalTypeChange}
             onIntervalStringChange={this.handleIntervalStringChange}
             onSmartKeyChange={this.handleSmartKeyChange}
-            onNextIntevalClick={this.handleNextIntevalClick!}
+            onNextIntevalClick={this.handleNextIntevalClick}
           />
         )}
       </LoadingContainer>
