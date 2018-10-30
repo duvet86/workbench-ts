@@ -24,6 +24,7 @@ import NoOption from "common/select/NoOption";
 import ClearIcon from "@material-ui/icons/Clear";
 
 interface IProps {
+  open: boolean;
   label: string;
   options: IOption[];
   OptionsIcon?: React.ComponentType<SvgIconProps>;
@@ -34,6 +35,7 @@ interface IProps {
   handleSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleClickClearSelected: (event: React.MouseEvent<HTMLDivElement>) => void;
   handleMouseDownPassword: (event: React.MouseEvent<HTMLDivElement>) => void;
+  handleOpen: () => void;
 }
 
 const rowRenderer = (
@@ -71,13 +73,22 @@ const SelectInput: React.SFC<IProps> = ({
   handleClickClearSelected,
   handleMouseDownPassword,
   handleOptionClick,
-  OptionsIcon
+  OptionsIcon,
+  open,
+  handleOpen
 }) => (
   <FormControl fullWidth>
     {inputLabel && <InputLabel htmlFor="select-input">{inputLabel}</InputLabel>}
     <Select
       fullWidth
+      open={open}
       value={label}
+      onOpen={handleOpen}
+      MenuProps={{
+        MenuListProps: {
+          component: "div"
+        }
+      }}
       input={
         <Input
           endAdornment={
@@ -97,7 +108,7 @@ const SelectInput: React.SFC<IProps> = ({
         />
       }
     >
-      <MenuItem disableRipple>
+      <MenuItem component="div" disableRipple>
         <Input
           fullWidth
           onClick={handleSearchClick}

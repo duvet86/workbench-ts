@@ -42,6 +42,7 @@ const Option: React.SFC<IProps> = ({
     style={style}
     className={classes.menuItem}
     onClick={handleClick}
+    value={option.value}
   >
     {OptionsIcon && (
       <ListItemIcon>

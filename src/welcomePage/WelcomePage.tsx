@@ -56,9 +56,14 @@ const options = [
   label: suggestion.label
 }));
 
+const asd = (option: any) => {
+  // tslint:disable-next-line:no-console
+  console.log(option);
+};
+
 const WelcomePage: SFC<WithStyles<typeof styles>> = ({ classes }) => (
   <Grid container className={classes.container} spacing={16}>
-    <SelectInputContainer options={options} onChange={() => {}} />
+    <SelectInputContainer options={options} onChange={asd} />
     <Grid item xs={12}>
       <Typography variant="h5" gutterBottom>
         Welcome

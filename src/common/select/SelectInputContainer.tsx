@@ -22,6 +22,7 @@ interface IProps<T> {
 }
 
 interface IState<T> {
+  open: boolean;
   label: string;
   options: Array<IOption<T>>;
 }
@@ -38,6 +39,7 @@ export default class SelectInputContainer<T> extends React.Component<
       this.props.options.find(({ value }) => value === props.value);
 
     this.state = {
+      open: false,
       label: (selectedOption && selectedOption.label) || "",
       options: [...this.props.options]
     };
@@ -45,10 +47,11 @@ export default class SelectInputContainer<T> extends React.Component<
 
   public render() {
     const { OptionsIcon, inputLabel, helperText, noClear } = this.props;
-    const { label, options } = this.state;
+    const { label, options, open } = this.state;
 
     return (
       <SelectInput
+        open={open}
         label={label}
         options={options}
         handleOptionClick={this.handleOptionClick}
@@ -59,6 +62,7 @@ export default class SelectInputContainer<T> extends React.Component<
         inputLabel={inputLabel}
         helperText={helperText}
         noClear={noClear}
+        handleOpen={this.handleOpen}
       />
     );
   }
@@ -91,8 +95,13 @@ export default class SelectInputContainer<T> extends React.Component<
 
   private handleOptionClick = (option: IOption<T>) => (_: React.MouseEvent) => {
     this.setState({
-      label: this.props.value != null ? option.label : ""
+      label: this.props.value != null ? option.label : "",
+      open: false
     });
     this.props.onChange(option);
+  };
+
+  private handleOpen = () => {
+    this.setState({ open: true });
   };
 }
