@@ -22,7 +22,6 @@ interface IProps<T> {
 }
 
 interface IState<T> {
-  anchorEl?: HTMLElement;
   label: string;
   options: Array<IOption<T>>;
 }
@@ -31,8 +30,6 @@ export default class SelectInputContainer<T> extends React.Component<
   IProps<T>,
   IState<T>
 > {
-  private containerRef: React.RefObject<HTMLDivElement> = React.createRef();
-
   constructor(props: IProps<T>) {
     super(props);
 
@@ -41,7 +38,6 @@ export default class SelectInputContainer<T> extends React.Component<
       this.props.options.find(({ value }) => value === props.value);
 
     this.state = {
-      anchorEl: undefined,
       label: (selectedOption && selectedOption.label) || "",
       options: [...this.props.options]
     };
@@ -49,20 +45,16 @@ export default class SelectInputContainer<T> extends React.Component<
 
   public render() {
     const { OptionsIcon, inputLabel, helperText, noClear } = this.props;
-    const { anchorEl, label, options } = this.state;
+    const { label, options } = this.state;
 
     return (
       <SelectInput
         label={label}
-        containerRef={this.containerRef}
-        anchorEl={anchorEl}
         options={options}
         handleOptionClick={this.handleOptionClick}
-        handleInputClick={this.handleInputClick}
-        handleInputChange={this.handleInputChange}
+        handleSearchChange={this.handleSearchChange}
         handleClickClearSelected={this.handleClickClearSelected}
         handleMouseDownPassword={this.handleMouseDownPassword}
-        handleClose={this.handleClose}
         OptionsIcon={OptionsIcon}
         inputLabel={inputLabel}
         helperText={helperText}
@@ -83,40 +75,24 @@ export default class SelectInputContainer<T> extends React.Component<
     event.stopPropagation();
     this.setState({
       options: [...this.props.options],
-      label: "",
-      anchorEl: undefined
+      label: ""
     });
     this.props.onChange(undefined);
   };
 
-  private handleInputClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    this.setState({
-      options: [...this.props.options],
-      anchorEl: event.currentTarget
-    });
-  };
-
-  private handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  private handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       options: this.props.options.filter(({ label }) =>
         label.toUpperCase().includes(event.target.value.toUpperCase())
       ),
       label: event.target.value
     });
-    this.props.onChange(undefined);
   };
 
   private handleOptionClick = (option: IOption<T>) => (_: React.MouseEvent) => {
     this.setState({
-      label: this.props.value != null ? option.label : "",
-      anchorEl: undefined
+      label: this.props.value != null ? option.label : ""
     });
     this.props.onChange(option);
-  };
-
-  private handleClose = () => {
-    this.setState({
-      anchorEl: undefined
-    });
   };
 }

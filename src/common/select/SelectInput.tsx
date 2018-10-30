@@ -2,11 +2,16 @@ import React from "react";
 
 import { IOption } from "common/select/SelectInputContainer";
 
-import { List as VirtualizedList, ListRowProps } from "react-virtualized";
+import {
+  List as VirtualizedList,
+  ListRowProps,
+  AutoSizer
+} from "react-virtualized";
 
 import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 import Input from "@material-ui/core/Input";
-import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -21,18 +26,14 @@ import ClearIcon from "@material-ui/icons/Clear";
 interface IProps {
   label: string;
   options: IOption[];
-  containerRef: React.RefObject<HTMLDivElement>;
-  anchorEl?: HTMLElement;
   OptionsIcon?: React.ComponentType<SvgIconProps>;
   inputLabel?: string;
   helperText?: string;
   noClear?: boolean;
   handleOptionClick: (option: IOption) => (event: React.MouseEvent) => void;
-  handleInputClick: (event: React.MouseEvent<HTMLDivElement>) => void;
-  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleClickClearSelected: (event: React.MouseEvent<HTMLDivElement>) => void;
   handleMouseDownPassword: (event: React.MouseEvent<HTMLDivElement>) => void;
-  handleClose: () => void;
 }
 
 const rowRenderer = (
@@ -56,71 +57,58 @@ const rowRenderer = (
 
 const noRowsRenderer = () => <NoOption />;
 
+const handleSearchClick = (e: React.MouseEvent<HTMLInputElement>) => {
+  e.stopPropagation();
+};
+
 const SelectInput: React.SFC<IProps> = ({
-  containerRef,
   inputLabel,
   helperText,
   label,
   options,
-  handleInputClick,
-  handleInputChange,
+  handleSearchChange,
   noClear,
   handleClickClearSelected,
   handleMouseDownPassword,
-  anchorEl,
-  handleClose,
   handleOptionClick,
   OptionsIcon
 }) => (
-  <div ref={containerRef}>
-    <FormControl fullWidth>
-      {inputLabel && (
-        <InputLabel htmlFor="select-input">{inputLabel}</InputLabel>
-      )}
-      <Input
-        fullWidth
-        value={label}
-        onClick={handleInputClick}
-        onChange={handleInputChange}
-        endAdornment={
-          !noClear &&
-          label !== "" && (
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="Clear Selected"
-                onClick={handleClickClearSelected}
-                onMouseDown={handleMouseDownPassword}
-              >
-                <ClearIcon />
-              </IconButton>
-            </InputAdornment>
-          )
-        }
-      />
-      <Menu
-        disableAutoFocus
-        disableAutoFocusItem
-        disableRestoreFocus
-        MenuListProps={{
-          component: "div",
-          disablePadding: true
-        }}
-        getContentAnchorEl={null}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center"
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "center"
-        }}
-        anchorEl={anchorEl}
-        open={!!anchorEl}
-        onClose={handleClose}
-      >
-        {containerRef.current && (
+  <FormControl fullWidth>
+    {inputLabel && <InputLabel htmlFor="select-input">{inputLabel}</InputLabel>}
+    <Select
+      fullWidth
+      value={label}
+      input={
+        <Input
+          endAdornment={
+            !noClear &&
+            label !== "" && (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="Clear Selected"
+                  onClick={handleClickClearSelected}
+                  onMouseDown={handleMouseDownPassword}
+                >
+                  <ClearIcon />
+                </IconButton>
+              </InputAdornment>
+            )
+          }
+        />
+      }
+    >
+      <MenuItem disableRipple>
+        <Input
+          fullWidth
+          onClick={handleSearchClick}
+          onChange={handleSearchChange}
+          placeholder="Search..."
+        />
+      </MenuItem>
+      <AutoSizer disableHeight>
+        {({ width }) => (
           <VirtualizedList
-            width={containerRef.current.offsetWidth}
+            width={width}
             height={
               options.length === 0 ? 45 : Math.min(options.length * 40, 300)
             }
@@ -130,10 +118,10 @@ const SelectInput: React.SFC<IProps> = ({
             noRowsRenderer={noRowsRenderer}
           />
         )}
-      </Menu>
-      {helperText && <FormHelperText>{helperText}</FormHelperText>}
-    </FormControl>
-  </div>
+      </AutoSizer>
+    </Select>
+    {helperText && <FormHelperText>{helperText}</FormHelperText>}
+  </FormControl>
 );
 
 export default SelectInput;

@@ -23,9 +23,6 @@ interface IProps extends WithStyles<typeof styles> {
   ) => void;
 }
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-
 const styles = ({ spacing: { unit } }: Theme) =>
   createStyles({
     valueInput: {
@@ -55,15 +52,10 @@ const ListInput: SFC<IProps> = ({
       input={<Input id="select-multiple-chip" />}
       renderValue={renderValue}
       onChange={handledUpdateQueryConstraintValues}
-      MenuProps={{
-        PaperProps: {
-          style: {
-            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            width: 250
-          }
-        }
-      }}
     >
+      <MenuItem disableRipple>
+        <Input fullWidth placeholder="Search" />
+      </MenuItem>
       <MenuItem value="SelectAll">
         <em>Select All</em>
       </MenuItem>

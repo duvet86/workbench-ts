@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import HelpPageCard from "welcomePage/HelpPageCard";
 
 import linksList from "common/linksList";
-import Select2 from "common/select/Select2";
+import SelectInputContainer from "common/select/SelectInputContainer";
 
 const styles = createStyles({
   container: {
@@ -16,9 +16,49 @@ const styles = createStyles({
   }
 });
 
+const options = [
+  { label: "Afghanistan" },
+  { label: "Aland Islands" },
+  { label: "Albania" },
+  { label: "Algeria" },
+  { label: "American Samoa" },
+  { label: "Andorra" },
+  { label: "Angola" },
+  { label: "Anguilla" },
+  { label: "Antarctica" },
+  { label: "Antigua and Barbuda" },
+  { label: "Argentina" },
+  { label: "Armenia" },
+  { label: "Aruba" },
+  { label: "Australia" },
+  { label: "Austria" },
+  { label: "Azerbaijan" },
+  { label: "Bahamas" },
+  { label: "Bahrain" },
+  { label: "Bangladesh" },
+  { label: "Barbados" },
+  { label: "Belarus" },
+  { label: "Belgium" },
+  { label: "Belize" },
+  { label: "Benin" },
+  { label: "Bermuda" },
+  { label: "Bhutan" },
+  { label: "Bolivia, Plurinational State of" },
+  { label: "Bonaire, Sint Eustatius and Saba" },
+  { label: "Bosnia and Herzegovina" },
+  { label: "Botswana" },
+  { label: "Bouvet Island" },
+  { label: "Brazil" },
+  { label: "British Indian Ocean Territory" },
+  { label: "Brunei Darussalam" }
+].map(suggestion => ({
+  value: suggestion.label,
+  label: suggestion.label
+}));
+
 const WelcomePage: SFC<WithStyles<typeof styles>> = ({ classes }) => (
   <Grid container className={classes.container} spacing={16}>
-    <Select2 />
+    <SelectInputContainer options={options} onChange={() => {}} />
     <Grid item xs={12}>
       <Typography variant="h5" gutterBottom>
         Welcome
