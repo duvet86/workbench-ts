@@ -63,6 +63,8 @@ export default class SelectInputContainer<T> extends React.Component<
         helperText={helperText}
         noClear={noClear}
         handleOpen={this.handleOpen}
+        handleClose={this.handleClose}
+        handleChange={this.handleSelectChange}
       />
     );
   }
@@ -95,13 +97,28 @@ export default class SelectInputContainer<T> extends React.Component<
 
   private handleOptionClick = (option: IOption<T>) => (_: React.MouseEvent) => {
     this.setState({
-      label: this.props.value != null ? option.label : "",
+      label: option.label,
       open: false
     });
     this.props.onChange(option);
   };
 
   private handleOpen = () => {
-    this.setState({ open: true });
+    this.setState({
+      open: true,
+      options: [...this.props.options]
+    });
+  };
+
+  private handleClose = () => {
+    this.setState({
+      open: false
+    });
+  };
+
+  private handleSelectChange = (event: any) => {
+    this.setState({
+      label: event.target.value
+    });
   };
 }
