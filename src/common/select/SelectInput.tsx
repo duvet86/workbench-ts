@@ -34,7 +34,6 @@ interface IProps {
   handleMouseDownPassword: (event: React.MouseEvent<HTMLDivElement>) => void;
   handleOpen: () => void;
   handleClose: () => void;
-  handleChange: React.ChangeEventHandler<HTMLSelectElement>;
   renderValue: (value: any) => React.ReactNode;
 }
 
@@ -74,7 +73,6 @@ const SelectInput: React.SFC<IProps> = ({
   handleMouseDownPassword,
   handleOptionClick,
   OptionsIcon,
-  handleChange,
   handleOpen,
   handleClose,
   open,
@@ -83,8 +81,9 @@ const SelectInput: React.SFC<IProps> = ({
   <TextField
     select
     fullWidth
+    label={inputLabel}
+    helperText={helperText}
     value={selectedValue}
-    onChange={handleChange}
     SelectProps={{
       MenuProps: {
         disableAutoFocusItem: true,
