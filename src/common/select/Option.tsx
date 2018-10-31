@@ -16,7 +16,6 @@ import { SvgIconProps } from "@material-ui/core/SvgIcon";
 interface IProps extends WithStyles<typeof styles> {
   style: React.CSSProperties;
   OptionsIcon?: React.ComponentType<SvgIconProps>;
-  label: string;
   option: IOption;
   handleClick: (event: React.MouseEvent) => void;
 }
@@ -35,7 +34,6 @@ const Option: React.SFC<IProps> = ({
   classes,
   style,
   OptionsIcon,
-  label,
   option,
   handleClick
 }) => (

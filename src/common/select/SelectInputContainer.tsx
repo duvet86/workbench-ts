@@ -65,6 +65,7 @@ export default class SelectInputContainer<T> extends React.Component<
         handleOpen={this.handleOpen}
         handleClose={this.handleClose}
         handleChange={this.handleSelectChange}
+        renderValue={this.renderValue}
       />
     );
   }
@@ -120,5 +121,12 @@ export default class SelectInputContainer<T> extends React.Component<
     this.setState({
       label: event.target.value
     });
+  };
+
+  private renderValue = (value: any) => {
+    if (value == null) {
+      return null;
+    }
+    return <div>{value}</div>;
   };
 }

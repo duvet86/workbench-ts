@@ -35,10 +35,10 @@ interface IProps {
   handleOpen: () => void;
   handleClose: () => void;
   handleChange: React.ChangeEventHandler<HTMLSelectElement>;
+  renderValue: (value: any) => React.ReactNode;
 }
 
 const rowRenderer = (
-  label: string,
   options: IOption[],
   handleOptionClick: (option: IOption) => (event: React.MouseEvent) => void,
   OptionsIcon?: React.ComponentType<SvgIconProps>
@@ -49,7 +49,6 @@ const rowRenderer = (
   return (
     <Option
       key={key}
-      label={label}
       style={style}
       option={option}
       handleClick={handleClick}
@@ -78,98 +77,63 @@ const SelectInput: React.SFC<IProps> = ({
   handleChange,
   handleOpen,
   handleClose,
-  open
+  open,
+  renderValue
 }) => (
-  <>
-    --
-    {label}
-    <TextField
-      select
-      fullWidth
-      value={label}
-      onChange={handleChange}
-      SelectProps={{
-        MenuProps: {
-          MenuListProps: {
-            component: "div"
+  <TextField
+    select
+    fullWidth
+    value={label}
+    onChange={handleChange}
+    SelectProps={{
+      MenuProps: {
+        MenuListProps: {
+          component: "div"
+        }
+      },
+      open,
+      onOpen: handleOpen,
+      onClose: handleClose,
+      renderValue
+    }}
+    InputProps={{
+      endAdornment: !noClear &&
+        label !== "" && (
+          <InputAdornment position="end">
+            <IconButton
+              aria-label="Clear Selected"
+              onClick={handleClickClearSelected}
+              onMouseDown={handleMouseDownPassword}
+            >
+              <ClearIcon />
+            </IconButton>
+          </InputAdornment>
+        )
+    }}
+  >
+    <MenuItem component="div" disableRipple>
+      <Input
+        fullWidth
+        onClick={handleSearchClick}
+        onChange={handleSearchChange}
+        placeholder="Search..."
+      />
+    </MenuItem>
+    <AutoSizer disableHeight>
+      {({ width }) => (
+        <VirtualizedList
+          width={width}
+          height={
+            options.length === 0 ? 45 : Math.min(options.length * 40, 300)
           }
-        },
-        open,
-        onOpen: handleOpen,
-        onClose: handleClose
-      }}
-      InputProps={{
-        endAdornment: !noClear &&
-          label !== "" && (
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="Clear Selected"
-                onClick={handleClickClearSelected}
-                onMouseDown={handleMouseDownPassword}
-              >
-                <ClearIcon />
-              </IconButton>
-            </InputAdornment>
-          )
-      }}
-      // MenuProps={{
-      //   MenuListProps: {
-      //     component: "div"
-      //   }
-      // }}
-      // input={
-      //   <Input
-      //     endAdornment={
-      //       !noClear &&
-      //       label !== "" && (
-      //         <InputAdornment position="end">
-      //           <IconButton
-      //             aria-label="Clear Selected"
-      //             onClick={handleClickClearSelected}
-      //             onMouseDown={handleMouseDownPassword}
-      //           >
-      //             <ClearIcon />
-      //           </IconButton>
-      //         </InputAdornment>
-      //       )
-      //     }
-      //   />
-      // }
-    >
-      <div>
-        <MenuItem component="div" disableRipple>
-          <Input
-            fullWidth
-            onClick={handleSearchClick}
-            onChange={handleSearchChange}
-            placeholder="Search..."
-          />
-        </MenuItem>
-        <MenuItem component="div" value="test">
-          asd
-        </MenuItem>
-      </div>
-      <AutoSizer disableHeight>
-        {({ width }) => (
-          <VirtualizedList
-            width={width}
-            height={
-              options.length === 0 ? 45 : Math.min(options.length * 40, 300)
-            }
-            rowCount={options.length}
-            rowHeight={40}
-            rowRenderer={rowRenderer(
-              label,
-              options,
-              handleOptionClick,
-              OptionsIcon
-            )}
-            noRowsRenderer={noRowsRenderer}
-          />
-        )}
-      </AutoSizer>
-    </TextField>
-  </>
+          rowCount={options.length}
+          rowHeight={40}
+          rowRenderer={rowRenderer(options, handleOptionClick, OptionsIcon)}
+          noRowsRenderer={noRowsRenderer}
+        />
+      )}
+    </AutoSizer>
+  </TextField>
 );
 
 export default SelectInput;
