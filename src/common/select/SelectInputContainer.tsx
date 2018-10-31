@@ -6,8 +6,6 @@ import Chip from "@material-ui/core/Chip";
 import { SelectProps } from "@material-ui/core/Select";
 import SelectInput from "common/select/SelectInput";
 
-import CancelIcon from "@material-ui/icons/Cancel";
-
 export interface IOption<T = any> {
   label: string;
   value: T;
@@ -68,10 +66,13 @@ export default class SelectInputContainer<T> extends React.Component<
     if (!isMulti && !Array.isArray(selectedOption)) {
       value = (selectedOption && selectedOption.label) || "";
     } else {
-      value =
-        (selectedOption &&
-          (selectedOption as Array<IOption<T>>).map(({ label }) => label)) ||
-        [];
+      const selectedOptions =
+        (selectedOption && (selectedOption as Array<IOption<T>>)) || [];
+      if (selectedOptions.length > 15) {
+        value = ["All..."];
+      } else {
+        value = selectedOptions.map(({ label }) => label);
+      }
     }
 
     return (
@@ -91,9 +92,27 @@ export default class SelectInputContainer<T> extends React.Component<
         handleOpen={this.handleOpen}
         handleClose={this.handleClose}
         renderValue={this.renderValue}
+        handleSelectAllNone={this.handleSelectAllNone}
       />
     );
   }
+
+  private handleSelectAllNone = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+    _: React.ReactNode
+  ) => {
+    if (event.target.value.includes("SELECT_ALL")) {
+      this.setState({
+        open: false,
+        selectedOption: this.props.options
+      });
+    } else if (event.target.value.includes("SELECT_NONE")) {
+      this.setState({
+        open: false,
+        selectedOption: []
+      });
+    }
+  };
 
   private handleMouseDownPassword = (
     event: React.MouseEvent<HTMLDivElement>
@@ -122,12 +141,25 @@ export default class SelectInputContainer<T> extends React.Component<
 
   private handleOptionClick = (option: IOption<T>) => (_: React.MouseEvent) => {
     if (this.props.isMulti) {
-      this.setState((prevState: IState<T>) => ({
-        selectedOption: (prevState.selectedOption &&
-          (prevState.selectedOption as Array<IOption<T>>).concat([option])) || [
-          option
-        ]
-      }));
+      this.setState((prevState: IState<T>) => {
+        const prevSelectedOptions =
+          (prevState.selectedOption &&
+            (prevState.selectedOption as Array<IOption<T>>)) ||
+          [];
+
+        const newSelectedOptions = [...prevSelectedOptions];
+        const chipToDelete = newSelectedOptions.indexOf(option);
+        if (chipToDelete !== -1) {
+          return {
+            selectedOption: newSelectedOptions.splice(chipToDelete, 1)
+          };
+        }
+
+        newSelectedOptions.push(option);
+        return {
+          selectedOption: newSelectedOptions
+        };
+      });
     } else {
       this.setState({
         open: false,
@@ -150,19 +182,40 @@ export default class SelectInputContainer<T> extends React.Component<
     });
   };
 
-  private renderValue = (value: SelectProps["value"]) => {
-    if (value == null) {
+  private renderValue = (optionLabel: SelectProps["value"]) => {
+    if (optionLabel == null) {
       return null;
     }
-    if (this.props.isMulti && Array.isArray(value)) {
-      return value.map(v => (
-        <Chip key={v as string} label={v} onDelete={this.asd} />
+    if (this.props.isMulti && Array.isArray(optionLabel)) {
+      return optionLabel.map(label => (
+        <Chip
+          key={label as string}
+          label={label}
+          onDelete={this.handleDeleteChip(label as string)}
+          style={{ marginLeft: 4 }}
+        />
       ));
     }
-    return <div>{value}</div>;
+    return <div>{optionLabel}</div>;
   };
 
-  private asd = (event: React.EventHandler<any>) => {
-    console.log("asd");
+  private handleDeleteChip = (optionLabel: string) => () => {
+    if (optionLabel === "All...") {
+      this.setState({
+        open: false,
+        selectedOption: []
+      });
+    }
+
+    this.setState((prevState: IState<T>) => {
+      const prevOptions =
+        (prevState.selectedOption &&
+          (prevState.selectedOption as Array<IOption<T>>)) ||
+        [];
+
+      return {
+        selectedOption: prevOptions.filter(({ label }) => label !== optionLabel)
+      };
+    });
   };
 }

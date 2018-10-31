@@ -45,7 +45,13 @@ const Option: React.SFC<IProps> = ({
         <OptionsIcon />
       </ListItemIcon>
     )}
-    {isMulti && <Checkbox checked={selectedValue === option.label} />}
+    {isMulti && (
+      <Checkbox
+        checked={
+          selectedValue.includes(option.label) || selectedValue[0] === "All..."
+        }
+      />
+    )}
     <ListItemText primary={option.label} />
   </MenuItem>
 );

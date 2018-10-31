@@ -13,6 +13,8 @@ import Input from "@material-ui/core/Input";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
+import ListItemText from "@material-ui/core/ListItemText";
+import Checkbox from "@material-ui/core/Checkbox";
 import { SvgIconProps } from "@material-ui/core/SvgIcon";
 import { SelectProps } from "@material-ui/core/Select";
 
@@ -37,6 +39,10 @@ interface IProps {
   handleOpen: () => void;
   handleClose: () => void;
   renderValue: (value: SelectProps["value"]) => React.ReactNode;
+  handleSelectAllNone: (
+    event: React.ChangeEvent<HTMLSelectElement>,
+    child: React.ReactNode
+  ) => void;
 }
 
 const rowRenderer = (
@@ -83,6 +89,7 @@ const SelectInput: React.SFC<IProps> = ({
   handleClose,
   open,
   renderValue,
+  handleSelectAllNone,
   isMulti
 }) => (
   <TextField
@@ -101,6 +108,7 @@ const SelectInput: React.SFC<IProps> = ({
       open,
       onOpen: handleOpen,
       onClose: handleClose,
+      onChange: handleSelectAllNone,
       renderValue,
       multiple: isMulti
     }}
@@ -128,6 +136,19 @@ const SelectInput: React.SFC<IProps> = ({
         placeholder="Search..."
       />
     </MenuItem>
+    {isMulti && (
+      <MenuItem
+        divider
+        component="div"
+        style={{ paddingLeft: 10 }}
+        value={value[0] === "All..." ? "SELECT_NONE" : "SELECT_ALL"}
+      >
+        <Checkbox checked={value[0] === "All..."} />
+        <ListItemText
+          primary={value[0] === "All..." ? "Deselect all" : "Select all"}
+        />
+      </MenuItem>
+    )}
     <AutoSizer disableHeight>
       {({ width }) => (
         <VirtualizedList
