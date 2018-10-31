@@ -22,7 +22,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 
 interface IProps {
   open: boolean;
-  label: string;
+  selectedValue: string;
   options: IOption[];
   OptionsIcon?: React.ComponentType<SvgIconProps>;
   inputLabel?: string;
@@ -66,7 +66,7 @@ const handleSearchClick = (e: React.MouseEvent<HTMLInputElement>) => {
 const SelectInput: React.SFC<IProps> = ({
   inputLabel,
   helperText,
-  label,
+  selectedValue,
   options,
   handleSearchChange,
   noClear,
@@ -83,10 +83,11 @@ const SelectInput: React.SFC<IProps> = ({
   <TextField
     select
     fullWidth
-    value={label}
+    value={selectedValue}
     onChange={handleChange}
     SelectProps={{
       MenuProps: {
+        disableAutoFocusItem: true,
         MenuListProps: {
           component: "div"
         }
@@ -98,7 +99,7 @@ const SelectInput: React.SFC<IProps> = ({
     }}
     InputProps={{
       endAdornment: !noClear &&
-        label !== "" && (
+        selectedValue !== "" && (
           <InputAdornment position="end">
             <IconButton
               aria-label="Clear Selected"
@@ -114,6 +115,7 @@ const SelectInput: React.SFC<IProps> = ({
     <MenuItem component="div" disableRipple>
       <Input
         fullWidth
+        autoFocus
         onClick={handleSearchClick}
         onChange={handleSearchChange}
         placeholder="Search..."

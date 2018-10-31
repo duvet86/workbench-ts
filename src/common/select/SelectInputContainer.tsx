@@ -10,7 +10,7 @@ export interface IOption<T = any> {
 }
 
 interface IProps<T> {
-  value?: T;
+  initValue?: T;
   options: Array<IOption<T>>;
   onChange: (option?: IOption<T>) => void;
   OptionsIcon?: React.ComponentType<
@@ -23,7 +23,7 @@ interface IProps<T> {
 
 interface IState<T> {
   open: boolean;
-  label: string;
+  selectedValue: string;
   options: Array<IOption<T>>;
 }
 
@@ -35,24 +35,24 @@ export default class SelectInputContainer<T> extends React.Component<
     super(props);
 
     const selectedOption =
-      props.value &&
-      this.props.options.find(({ value }) => value === props.value);
+      props.initValue &&
+      this.props.options.find(({ value }) => value === props.initValue);
 
     this.state = {
       open: false,
-      label: (selectedOption && selectedOption.label) || "",
+      selectedValue: (selectedOption && selectedOption.label) || "",
       options: [...this.props.options]
     };
   }
 
   public render() {
     const { OptionsIcon, inputLabel, helperText, noClear } = this.props;
-    const { label, options, open } = this.state;
+    const { selectedValue, options, open } = this.state;
 
     return (
       <SelectInput
         open={open}
-        label={label}
+        selectedValue={selectedValue}
         options={options}
         handleOptionClick={this.handleOptionClick}
         handleSearchChange={this.handleSearchChange}
@@ -82,7 +82,7 @@ export default class SelectInputContainer<T> extends React.Component<
     event.stopPropagation();
     this.setState({
       options: [...this.props.options],
-      label: ""
+      selectedValue: ""
     });
     this.props.onChange(undefined);
   };
@@ -92,13 +92,13 @@ export default class SelectInputContainer<T> extends React.Component<
       options: this.props.options.filter(({ label }) =>
         label.toUpperCase().includes(event.target.value.toUpperCase())
       ),
-      label: event.target.value
+      selectedValue: event.target.value
     });
   };
 
   private handleOptionClick = (option: IOption<T>) => (_: React.MouseEvent) => {
     this.setState({
-      label: option.label,
+      selectedValue: option.label,
       open: false
     });
     this.props.onChange(option);
@@ -119,7 +119,7 @@ export default class SelectInputContainer<T> extends React.Component<
 
   private handleSelectChange = (event: any) => {
     this.setState({
-      label: event.target.value
+      selectedValue: event.target.value
     });
   };
 
