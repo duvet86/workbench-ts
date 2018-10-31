@@ -14,6 +14,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import { SvgIconProps } from "@material-ui/core/SvgIcon";
+import { SelectProps } from "@material-ui/core/Select";
 
 import Option from "common/select/Option";
 import NoOption from "common/select/NoOption";
@@ -22,8 +23,9 @@ import ClearIcon from "@material-ui/icons/Clear";
 
 interface IProps {
   open: boolean;
-  selectedValue: string;
+  value: string | string[];
   options: IOption[];
+  isMulti?: boolean;
   OptionsIcon?: React.ComponentType<SvgIconProps>;
   inputLabel?: string;
   helperText?: string;
@@ -34,12 +36,14 @@ interface IProps {
   handleMouseDownPassword: (event: React.MouseEvent<HTMLDivElement>) => void;
   handleOpen: () => void;
   handleClose: () => void;
-  renderValue: (value: any) => React.ReactNode;
+  renderValue: (value: SelectProps["value"]) => React.ReactNode;
 }
 
 const rowRenderer = (
+  value: string | string[],
   options: IOption[],
   handleOptionClick: (option: IOption) => (event: React.MouseEvent) => void,
+  isMulti?: boolean,
   OptionsIcon?: React.ComponentType<SvgIconProps>
 ) => ({ index, key, style }: ListRowProps) => {
   const option = options[index];
@@ -48,9 +52,11 @@ const rowRenderer = (
   return (
     <Option
       key={key}
+      selectedValue={value}
       style={style}
       option={option}
       handleClick={handleClick}
+      isMulti={isMulti}
       OptionsIcon={OptionsIcon}
     />
   );
@@ -65,7 +71,7 @@ const handleSearchClick = (e: React.MouseEvent<HTMLInputElement>) => {
 const SelectInput: React.SFC<IProps> = ({
   inputLabel,
   helperText,
-  selectedValue,
+  value,
   options,
   handleSearchChange,
   noClear,
@@ -76,14 +82,15 @@ const SelectInput: React.SFC<IProps> = ({
   handleOpen,
   handleClose,
   open,
-  renderValue
+  renderValue,
+  isMulti
 }) => (
   <TextField
     select
     fullWidth
     label={inputLabel}
     helperText={helperText}
-    value={selectedValue}
+    value={value}
     SelectProps={{
       MenuProps: {
         disableAutoFocusItem: true,
@@ -94,11 +101,12 @@ const SelectInput: React.SFC<IProps> = ({
       open,
       onOpen: handleOpen,
       onClose: handleClose,
-      renderValue
+      renderValue,
+      multiple: isMulti
     }}
     InputProps={{
       endAdornment: !noClear &&
-        selectedValue !== "" && (
+        value !== "" && (
           <InputAdornment position="end">
             <IconButton
               aria-label="Clear Selected"
@@ -129,7 +137,13 @@ const SelectInput: React.SFC<IProps> = ({
           }
           rowCount={options.length}
           rowHeight={40}
-          rowRenderer={rowRenderer(options, handleOptionClick, OptionsIcon)}
+          rowRenderer={rowRenderer(
+            value,
+            options,
+            handleOptionClick,
+            isMulti,
+            OptionsIcon
+          )}
           noRowsRenderer={noRowsRenderer}
         />
       )}

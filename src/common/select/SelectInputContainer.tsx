@@ -2,7 +2,11 @@ import React from "react";
 
 import { Overwrite, StyledComponentProps } from "@material-ui/core";
 
+import Chip from "@material-ui/core/Chip";
+import { SelectProps } from "@material-ui/core/Select";
 import SelectInput from "common/select/SelectInput";
+
+import CancelIcon from "@material-ui/icons/Cancel";
 
 export interface IOption<T = any> {
   label: string;
@@ -10,9 +14,10 @@ export interface IOption<T = any> {
 }
 
 interface IProps<T> {
-  initValue?: T;
   options: Array<IOption<T>>;
   onChange: (option?: IOption<T>) => void;
+  initValue?: T | T[];
+  isMulti?: boolean;
   OptionsIcon?: React.ComponentType<
     Overwrite<Pick<{}, never>, StyledComponentProps<string>>
   >;
@@ -23,7 +28,7 @@ interface IProps<T> {
 
 interface IState<T> {
   open: boolean;
-  selectedValue: string;
+  selectedOption: IOption<T> | Array<IOption<T>> | undefined;
   options: Array<IOption<T>>;
 }
 
@@ -34,26 +39,47 @@ export default class SelectInputContainer<T> extends React.Component<
   constructor(props: IProps<T>) {
     super(props);
 
+    if (props.isMulti && props.initValue && !Array.isArray(props.initValue)) {
+      throw new Error("Multi select mode accept only arrays as initvalue.");
+    }
+
     const selectedOption =
       props.initValue &&
       this.props.options.find(({ value }) => value === props.initValue);
 
     this.state = {
       open: false,
-      selectedValue: (selectedOption && selectedOption.label) || "",
+      selectedOption,
       options: [...this.props.options]
     };
   }
 
   public render() {
-    const { OptionsIcon, inputLabel, helperText, noClear } = this.props;
-    const { selectedValue, options, open } = this.state;
+    const {
+      OptionsIcon,
+      inputLabel,
+      helperText,
+      noClear,
+      isMulti
+    } = this.props;
+    const { selectedOption, options, open } = this.state;
+
+    let value: string | string[];
+    if (!isMulti && !Array.isArray(selectedOption)) {
+      value = (selectedOption && selectedOption.label) || "";
+    } else {
+      value =
+        (selectedOption &&
+          (selectedOption as Array<IOption<T>>).map(({ label }) => label)) ||
+        [];
+    }
 
     return (
       <SelectInput
         open={open}
-        selectedValue={selectedValue}
+        value={value}
         options={options}
+        isMulti={isMulti}
         handleOptionClick={this.handleOptionClick}
         handleSearchChange={this.handleSearchChange}
         handleClickClearSelected={this.handleClickClearSelected}
@@ -81,7 +107,7 @@ export default class SelectInputContainer<T> extends React.Component<
     event.stopPropagation();
     this.setState({
       options: [...this.props.options],
-      selectedValue: ""
+      selectedOption: undefined
     });
     this.props.onChange(undefined);
   };
@@ -90,17 +116,25 @@ export default class SelectInputContainer<T> extends React.Component<
     this.setState({
       options: this.props.options.filter(({ label }) =>
         label.toUpperCase().includes(event.target.value.toUpperCase())
-      ),
-      selectedValue: event.target.value
+      )
     });
   };
 
   private handleOptionClick = (option: IOption<T>) => (_: React.MouseEvent) => {
-    this.setState({
-      open: false,
-      selectedValue: option.label
-    });
-    this.props.onChange(option);
+    if (this.props.isMulti) {
+      this.setState((prevState: IState<T>) => ({
+        selectedOption: (prevState.selectedOption &&
+          (prevState.selectedOption as Array<IOption<T>>).concat([option])) || [
+          option
+        ]
+      }));
+    } else {
+      this.setState({
+        open: false,
+        selectedOption: option
+      });
+      this.props.onChange(option);
+    }
   };
 
   private handleOpen = () => {
@@ -116,10 +150,19 @@ export default class SelectInputContainer<T> extends React.Component<
     });
   };
 
-  private renderValue = (value: string) => {
+  private renderValue = (value: SelectProps["value"]) => {
     if (value == null) {
       return null;
     }
+    if (this.props.isMulti && Array.isArray(value)) {
+      return value.map(v => (
+        <Chip key={v as string} label={v} onDelete={this.asd} />
+      ));
+    }
     return <div>{value}</div>;
+  };
+
+  private asd = (event: React.EventHandler<any>) => {
+    console.log("asd");
   };
 }
