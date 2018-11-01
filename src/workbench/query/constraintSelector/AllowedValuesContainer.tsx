@@ -17,14 +17,14 @@ import {
 } from "workbench/actions";
 
 import { LoadingContainer } from "common/loading";
-import ListInput from "workbench/query/constraintSelector/ListInput";
+import AllowedValues from "workbench/query/constraintSelector/AllowedValues";
 import { IOption } from "common/select/SelectInputContainer";
 
 interface IOwnProps {
   elementId: number;
   constraintId: number;
   availableFilter: IUdsFilterDescriptionDtc;
-  initDisplayValue?: IOption[];
+  initDisplayValue?: string[];
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -34,14 +34,14 @@ type Props = ReturnType<typeof mapStateToProps> &
 interface IState {
   isLoading: boolean;
   allowedValueOptions: IOption[];
-  selectedOptions: IOption[];
+  selectedValues: string[];
 }
 
-class ListInputContainer extends Component<Props, IState> {
+class AllowedValuesContainer extends Component<Props, IState> {
   public state: IState = {
     isLoading: false,
     allowedValueOptions: [],
-    selectedOptions: []
+    selectedValues: []
   };
 
   public async componentDidMount() {
@@ -49,7 +49,6 @@ class ListInputContainer extends Component<Props, IState> {
       dispatchHandleException,
       session,
       availableFilter: {
-        HasAllowedValues,
         AllowedValuesSessionId,
         AllowedValuesQueryGraphId,
         FilterName
@@ -60,60 +59,54 @@ class ListInputContainer extends Component<Props, IState> {
       throw new Error("Session cannot be null.");
     }
 
-    if (HasAllowedValues) {
-      this.setState({
-        isLoading: true
-      });
+    this.setState({
+      isLoading: true
+    });
 
-      try {
-        const allowedValues = await getAllowedValuesAsync(
-          session.TenantId,
-          AllowedValuesSessionId,
-          AllowedValuesQueryGraphId,
-          FilterName
-        );
+    try {
+      const allowedValues = await getAllowedValuesAsync(
+        session.TenantId,
+        AllowedValuesSessionId,
+        AllowedValuesQueryGraphId,
+        FilterName
+      );
 
+      let selectedValues: string[];
+      if (initDisplayValue == null) {
         const allSelected = allowedValues.find(({ Selected }) => !Selected);
-        const selectedOptions =
+
+        selectedValues =
           allSelected == null
-            ? allowedValues.map<IOption>(({ DisplayValue, ValueVector }) => ({
-                label: DisplayValue,
-                value: ValueVector
-              }))
+            ? allowedValues.map(({ ValueVector }) => ValueVector[0] as string)
             : allowedValues
                 .filter(({ Selected }) => Selected)
-                .map<IOption>(({ DisplayValue, ValueVector }) => ({
-                  label: DisplayValue,
-                  value: ValueVector
-                }));
-
-        this.setState({
-          isLoading: false,
-          allowedValueOptions: allowedValues.map<IOption>(
-            ({ DisplayValue, ValueVector }) => ({
-              label: DisplayValue,
-              value: ValueVector
-            })
-          ),
-          selectedOptions
-        });
-      } catch (e) {
-        dispatchHandleException(e);
+                .map(({ ValueVector }) => ValueVector[0] as string);
+      } else {
+        selectedValues = initDisplayValue;
       }
-    } else if (initDisplayValue != null) {
+
       this.setState({
-        selectedOptions: initDisplayValue
+        isLoading: false,
+        allowedValueOptions: allowedValues.map<IOption>(
+          ({ DisplayValue, ValueVector }) => ({
+            label: DisplayValue,
+            value: ValueVector[0]
+          })
+        ),
+        selectedValues
       });
+    } catch (e) {
+      dispatchHandleException(e);
     }
   }
 
   public render() {
-    const { isLoading, allowedValueOptions, selectedOptions } = this.state;
+    const { isLoading, allowedValueOptions, selectedValues } = this.state;
 
     return (
       <LoadingContainer isLoading={isLoading}>
-        <ListInput
-          selectedOptions={selectedOptions}
+        <AllowedValues
+          selectedValues={selectedValues}
           allowedValueOptions={allowedValueOptions}
           handledUpdateQueryConstraintValues={
             this.handledUpdateQueryConstraintValues
@@ -165,4 +158,4 @@ const mapDispatchToProps = (
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ListInputContainer);
+)(AllowedValuesContainer);

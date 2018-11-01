@@ -6,7 +6,7 @@ import {
 } from "workbench/query/types";
 
 import TextInputContainer from "workbench/query/constraintSelector/TextInputContainer";
-import ListInputContainer from "workbench/query/constraintSelector/ListInputContainer";
+import AllowedValuesContainer from "workbench/query/constraintSelector/AllowedValuesContainer";
 
 interface IProps {
   availableFilter?: IUdsFilterDescriptionDtc;
@@ -49,16 +49,16 @@ class ValueSwitchContainer extends Component<IProps> {
         if (availableFilter == null) {
           throw new Error("availableFilter cannot be null.");
         }
-        // const listDisplayValue =
-        //   values && values.length > 0
-        //     ? ([].concat.apply([], values[0]) as string[]) // Flatten the list.
-        //     : undefined;
+        const listDisplayValue =
+          values && values.length > 0
+            ? ([].concat.apply([], values[0]) as string[]) // Flatten the list.
+            : undefined;
         return (
-          <ListInputContainer
+          <AllowedValuesContainer
             availableFilter={availableFilter}
             elementId={elementId}
             constraintId={constraintId}
-            // initDisplayValue={listDisplayValue}
+            initDisplayValue={listDisplayValue}
           />
         );
       default:

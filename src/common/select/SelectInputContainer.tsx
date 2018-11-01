@@ -9,6 +9,12 @@ import SelectInput from "common/select/SelectInput";
 type onChangeSingle<T> = (option?: IOption<T>) => void;
 type onChangeMulti<T> = (option?: Array<IOption<T>>) => void;
 
+export const enum SelectEnum {
+  AllLabel = "All...",
+  SelectAll = "SelectAll",
+  SelectNone = "SelectNone"
+}
+
 export interface IOption<T = any> {
   label: string;
   value: T;
@@ -25,6 +31,7 @@ interface IProps<T> {
   inputLabel?: string;
   helperText?: string;
   noClear?: boolean;
+  reset?: boolean;
 }
 
 interface IState<T> {
@@ -46,9 +53,15 @@ export default class SelectInputContainer<T> extends React.Component<
 
     if (props.isMulti && Array.isArray(props.initValue)) {
       const initSelectedOptions = props.initValue || [];
-      const selectedOptions = this.props.options.filter(opt =>
-        initSelectedOptions.includes(opt.value)
-      );
+
+      let selectedOptions: Array<IOption<T>>;
+      if (initSelectedOptions.length === this.props.options.length) {
+        selectedOptions = [...this.props.options];
+      } else {
+        selectedOptions = this.props.options.filter(opt =>
+          initSelectedOptions.includes(opt.value)
+        );
+      }
 
       this.state = {
         open: false,
@@ -85,7 +98,7 @@ export default class SelectInputContainer<T> extends React.Component<
       const selectedOptions =
         (selectedOption && (selectedOption as Array<IOption<T>>)) || [];
       if (selectedOptions.length === options.length) {
-        value = ["All..."];
+        value = [SelectEnum.AllLabel];
       } else {
         value = selectedOptions.map(({ label }) => label);
       }
@@ -117,13 +130,13 @@ export default class SelectInputContainer<T> extends React.Component<
     event: React.ChangeEvent<HTMLSelectElement>,
     _: React.ReactNode
   ) => {
-    if (event.target.value.includes("SELECT_ALL")) {
+    if (event.target.value.includes(SelectEnum.SelectAll)) {
       this.setState({
         open: false,
         selectedOption: this.props.options
       });
       (this.props.onChange as onChangeMulti<T>)(this.props.options);
-    } else if (event.target.value.includes("SELECT_NONE")) {
+    } else if (event.target.value.includes(SelectEnum.SelectNone)) {
       this.setState({
         open: false,
         selectedOption: []
@@ -185,7 +198,7 @@ export default class SelectInputContainer<T> extends React.Component<
     } else {
       this.setState({
         open: false,
-        selectedOption: option
+        selectedOption: (!this.props.reset && option) || undefined
       });
       (this.props.onChange as onChangeSingle<T>)(option);
     }
@@ -222,7 +235,7 @@ export default class SelectInputContainer<T> extends React.Component<
   };
 
   private handleDeleteChip = (optionLabel: string) => () => {
-    if (optionLabel === "All...") {
+    if (optionLabel === SelectEnum.AllLabel) {
       this.setState({
         open: false,
         selectedOption: []

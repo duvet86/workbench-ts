@@ -36,6 +36,7 @@ const ConstraintSelector: SFC<IProps> = ({
   <>
     <div className={classes.constraintTargetSelect}>
       <SelectInputContainer
+        reset
         OptionsIcon={ConstraintIcon}
         inputLabel="Contraint on..."
         options={availableConstraints}

@@ -13,7 +13,7 @@ import SelectInputContainer, {
 } from "common/select/SelectInputContainer";
 
 interface IProps extends WithStyles<typeof styles> {
-  selectedOptions: IOption[];
+  selectedValues: string[];
   allowedValueOptions: IOption[];
   handledUpdateQueryConstraintValues: (selectedOptions?: IOption[]) => void;
 }
@@ -26,20 +26,20 @@ const styles = ({ spacing: { unit } }: Theme) =>
     }
   });
 
-const ListInput: SFC<IProps> = ({
+const AllowedValues: SFC<IProps> = ({
   classes,
-  selectedOptions,
+  selectedValues,
   allowedValueOptions,
   handledUpdateQueryConstraintValues
 }) => (
   <FormControl className={classes.valueInput}>
     <SelectInputContainer
       isMulti
-      initValue={selectedOptions}
+      initValue={selectedValues}
       options={allowedValueOptions}
       onChange={handledUpdateQueryConstraintValues}
     />
   </FormControl>
 );
 
-export default withStyles(styles)(ListInput);
+export default withStyles(styles)(AllowedValues);
