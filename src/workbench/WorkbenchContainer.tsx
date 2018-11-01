@@ -117,15 +117,15 @@ class WorkbenchContainer extends Component<Props, ILocalState> {
     }
   }
 
-  // public componentWillUnmount() {
-  //   const {
-  //     session: { TenantId, SessionId }
-  //   } = this.props;
-  //   destroySessionAsync(TenantId, SessionId).catch((e: any) => {
-  //     // tslint:disable-next-line:no-console
-  //     console.log(e);
-  //   });
-  // }
+  public componentWillUnmount() {
+    const {
+      session: { TenantId, SessionId }
+    } = this.props;
+    destroySessionAsync(TenantId, SessionId).catch((e: any) => {
+      // tslint:disable-next-line:no-console
+      console.error(e);
+    });
+  }
 
   public render() {
     const {
