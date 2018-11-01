@@ -24,7 +24,7 @@ interface IOwnProps {
   elementId: number;
   constraintId: number;
   availableFilter: IUdsFilterDescriptionDtc;
-  initDisplayValue?: string[];
+  initDisplayValue?: IOption[];
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -33,15 +33,15 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 interface IState {
   isLoading: boolean;
-  allowedValueOptions: Array<IOption<any>>;
-  displayValue: string[];
+  allowedValueOptions: IOption[];
+  selectedOptions: IOption[];
 }
 
 class ListInputContainer extends Component<Props, IState> {
   public state: IState = {
     isLoading: false,
     allowedValueOptions: [],
-    displayValue: []
+    selectedOptions: []
   };
 
   public async componentDidMount() {
@@ -74,12 +74,18 @@ class ListInputContainer extends Component<Props, IState> {
         );
 
         const allSelected = allowedValues.find(({ Selected }) => !Selected);
-        const displayValue =
+        const selectedOptions =
           allSelected == null
-            ? ["All..."]
+            ? allowedValues.map<IOption>(({ DisplayValue, ValueVector }) => ({
+                label: DisplayValue,
+                value: ValueVector
+              }))
             : allowedValues
                 .filter(({ Selected }) => Selected)
-                .map(({ DisplayValue }) => DisplayValue);
+                .map<IOption>(({ DisplayValue, ValueVector }) => ({
+                  label: DisplayValue,
+                  value: ValueVector
+                }));
 
         this.setState({
           isLoading: false,
@@ -89,25 +95,25 @@ class ListInputContainer extends Component<Props, IState> {
               value: ValueVector
             })
           ),
-          displayValue
+          selectedOptions
         });
       } catch (e) {
         dispatchHandleException(e);
       }
     } else if (initDisplayValue != null) {
       this.setState({
-        displayValue: initDisplayValue
+        selectedOptions: initDisplayValue
       });
     }
   }
 
   public render() {
-    const { isLoading, allowedValueOptions, displayValue } = this.state;
+    const { isLoading, allowedValueOptions, selectedOptions } = this.state;
 
     return (
       <LoadingContainer isLoading={isLoading}>
         <ListInput
-          displayValue={displayValue}
+          selectedOptions={selectedOptions}
           allowedValueOptions={allowedValueOptions}
           handledUpdateQueryConstraintValues={
             this.handledUpdateQueryConstraintValues
@@ -118,8 +124,7 @@ class ListInputContainer extends Component<Props, IState> {
   }
 
   private handledUpdateQueryConstraintValues = (
-    event: React.ChangeEvent<HTMLSelectElement>,
-    child: React.ReactNode
+    selectedOptions?: IOption[]
   ) => {
     const {
       elementId,

@@ -49,16 +49,16 @@ class ValueSwitchContainer extends Component<IProps> {
         if (availableFilter == null) {
           throw new Error("availableFilter cannot be null.");
         }
-        const listDisplayValue =
-          values && values.length > 0
-            ? ([].concat.apply([], values[0]) as string[]) // Flatten the list.
-            : undefined;
+        // const listDisplayValue =
+        //   values && values.length > 0
+        //     ? ([].concat.apply([], values[0]) as string[]) // Flatten the list.
+        //     : undefined;
         return (
           <ListInputContainer
             availableFilter={availableFilter}
             elementId={elementId}
             constraintId={constraintId}
-            initDisplayValue={listDisplayValue}
+            // initDisplayValue={listDisplayValue}
           />
         );
       default:

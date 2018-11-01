@@ -7,20 +7,15 @@ import {
   WithStyles
 } from "@material-ui/core/styles";
 
-import Input from "@material-ui/core/Input";
-import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
-import Select, { SelectProps } from "@material-ui/core/Select";
-import Chip from "@material-ui/core/Chip";
-import { IOption } from "common/select/SelectInputContainer";
+import SelectInputContainer, {
+  IOption
+} from "common/select/SelectInputContainer";
 
 interface IProps extends WithStyles<typeof styles> {
-  displayValue: string[];
+  selectedOptions: IOption[];
   allowedValueOptions: IOption[];
-  handledUpdateQueryConstraintValues: (
-    event: React.ChangeEvent<HTMLSelectElement>,
-    child: React.ReactNode
-  ) => void;
+  handledUpdateQueryConstraintValues: (selectedOptions?: IOption[]) => void;
 }
 
 const styles = ({ spacing: { unit } }: Theme) =>
@@ -31,40 +26,19 @@ const styles = ({ spacing: { unit } }: Theme) =>
     }
   });
 
-const renderValue = (selected: SelectProps["value"]) => (
-  <div>
-    {(selected as string[]).map(value => (
-      <Chip key={value} label={value} />
-    ))}
-  </div>
-);
-
 const ListInput: SFC<IProps> = ({
   classes,
-  displayValue,
+  selectedOptions,
   allowedValueOptions,
   handledUpdateQueryConstraintValues
 }) => (
   <FormControl className={classes.valueInput}>
-    <Select
-      multiple
-      value={displayValue}
-      input={<Input id="select-multiple-chip" />}
-      renderValue={renderValue}
+    <SelectInputContainer
+      isMulti
+      initValue={selectedOptions}
+      options={allowedValueOptions}
       onChange={handledUpdateQueryConstraintValues}
-    >
-      <MenuItem disableRipple>
-        <Input fullWidth placeholder="Search" />
-      </MenuItem>
-      <MenuItem value="SelectAll">
-        <em>Select All</em>
-      </MenuItem>
-      {allowedValueOptions.map(({ label, value }, i) => (
-        <MenuItem key={i} value={value}>
-          {label}
-        </MenuItem>
-      ))}
-    </Select>
+    />
   </FormControl>
 );
 

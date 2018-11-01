@@ -110,7 +110,7 @@ export interface IUdsDescriptionDtc {
 }
 
 export interface IAllowedValueDtc {
-  ValueVector: object[];
+  ValueVector: any[];
   DisplayValue: string;
   Selected: boolean;
 }
