@@ -26,7 +26,7 @@ const AppBody: SFC<WithStyles<typeof styles>> = ({ classes }) => (
         <Route
           exact
           path="/workbench/:id"
-          component={loadAsync(() => import("workbench/Workbench"))}
+          component={loadAsync(() => import("workbench/WorkbenchContainer"))}
         />
         <Route
           exact

@@ -27,7 +27,7 @@ import FilterNodeFactory from "workbench/filter/FilterNodeFactory";
 import FilterNodeModel from "workbench/filter/FilterNodeModel";
 
 import { LoadingContainer } from "common/loading";
-import Canvas from "workbench/Canvas";
+import Workbench from "workbench/Workbench";
 
 interface IRouterProps {
   match: Match<{ id: string }>;
@@ -41,7 +41,7 @@ interface ILocalState {
   node: NodeModel;
 }
 
-class CanvasContainer extends Component<Props, ILocalState> {
+class WorkbenchContainer extends Component<Props, ILocalState> {
   private diagramEngine: DiagramEngine;
   private activeModel: DiagramModel;
 
@@ -140,14 +140,10 @@ class CanvasContainer extends Component<Props, ILocalState> {
 
     return (
       <LoadingContainer isLoading={isLoading}>
-        <Canvas
+        <Workbench
           diagramEngine={this.diagramEngine}
           handleDragOver={this.handleDragOver}
           handleDrop={this.handleDrop}
-          // session={session}
-          // queries={queries}
-          // connections={connections}
-          // filters={filters}
         />
       </LoadingContainer>
     );
@@ -201,4 +197,4 @@ const mapDispatchToProps = (
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CanvasContainer);
+)(WorkbenchContainer);

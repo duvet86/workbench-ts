@@ -1,14 +1,16 @@
-import React, { SFC, Fragment } from "react";
-import { match as Match } from "react-router";
+import React, { SFC } from "react";
+import { DiagramEngine } from "storm-react-diagrams";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
 import WorkbenchToolbar from "workbench/toolBar/WorkbenchToolbar";
 import ConfigSwitchContainer from "workbench/configSwitch/ConfigSwitchContainer";
-import CanvasContainer from "workbench/CanvasContainer";
+import Canvas from "workbench/Canvas";
 
 interface IProps extends WithStyles<typeof styles> {
-  match: Match<{ id: string }>;
+  diagramEngine: DiagramEngine;
+  handleDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
+  handleDrop: (event: React.DragEvent<HTMLDivElement>) => void;
 }
 
 const styles = createStyles({
@@ -51,12 +53,25 @@ const styles = createStyles({
   }
 });
 
-const Workbench: SFC<IProps> = ({ classes, match }) => (
+const Workbench: SFC<IProps> = ({
+  classes,
+  diagramEngine,
+  handleDragOver,
+  handleDrop
+}) => (
   <div className={classes.workbench}>
     <WorkbenchToolbar />
     <ConfigSwitchContainer />
     <div className={classes.canvasContainer}>
-      <CanvasContainer match={match} />
+      <Canvas
+        diagramEngine={diagramEngine}
+        handleDragOver={handleDragOver}
+        handleDrop={handleDrop}
+        // session={session}
+        // queries={queries}
+        // connections={connections}
+        // filters={filters}
+      />
     </div>
   </div>
 );
