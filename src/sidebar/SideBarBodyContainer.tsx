@@ -6,6 +6,7 @@ import { RootState } from "rootReducer";
 
 import FolderTreeContainer from "sidebar/myItems/FolderTreeContainer";
 import OperatorsListContainer from "sidebar/operators/OperatorsListContainer";
+import Filters from "sidebar/filters/Filters";
 import SideBarBody from "sidebar/SideBarBody";
 
 interface IOwnProps {
@@ -18,7 +19,7 @@ const SideBarBodyContainer: SFC<Props> = ({ selectedTab, ...props }) => {
   let component: JSX.Element;
   switch (selectedTab) {
     case 1:
-      component = <div>Filters</div>;
+      component = <Filters />;
       break;
     case 2:
       component = <OperatorsListContainer {...props} />;

@@ -11,12 +11,10 @@ import {
 } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
-import BottomNavigation from "@material-ui/core/BottomNavigation";
-import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
 
-import GridLayout from "react-grid-layout";
-
-import { DashboardIcon, DataViewIcon } from "common/icons";
+import { Responsive, WidthProvider } from "react-grid-layout";
 
 interface IProps extends WithStyles<typeof styles> {
   handleChange: (_: ChangeEvent<{}>, value: number) => void;
@@ -25,20 +23,23 @@ interface IProps extends WithStyles<typeof styles> {
 
 const styles = (theme: Theme) =>
   createStyles({
-    bottomNavContainer: {
-      position: "fixed",
-      bottom: 0
-    },
-    bodyContainer: {
-      padding: 25,
+    mainContainer: {
       height: "100%"
+    },
+    canvasContainer: {
+      overflow: "auto",
+      marginBottom: 56
     },
     actionRoot: {
       "&$selected": {
         color: theme.palette.secondary.main
       }
     },
-    selected: {}
+    selected: {},
+    bottomNavContainer: {
+      position: "fixed",
+      bottom: 0
+    }
   });
 
 const layout = [
@@ -47,52 +48,39 @@ const layout = [
   { i: "c", x: 4, y: 0, w: 1, h: 2 }
 ];
 
+const ResponsiveGridLayout = WidthProvider(Responsive);
+
 const Pagebuilder: SFC<IProps> = ({ classes, handleChange, value }) => (
   <>
-    <Grid container className={classes.bodyContainer}>
-      <Grid item xs={12}>
+    <Tabs centered value={0}>
+      <Tab label="Preview" />
+      <Tab label="Edit" />
+      <Tab label="Workbench" />
+    </Tabs>
+    <Grid container className={classes.mainContainer}>
+      <Grid item xs={12} className={classes.canvasContainer}>
         {value === 0 && (
-          <GridLayout
+          <ResponsiveGridLayout
+            measureBeforeMount={false}
             className="layout"
-            layout={layout}
-            cols={12}
-            rowHeight={30}
-            width={1200}
+            layouts={{ lg: layout }}
+            breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
+            cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
           >
-            <div key="a" style={{ border: "1px solid" }}>
-              a
+            <div key="1" style={{ border: "1px solid" }}>
+              1
             </div>
-            <div key="b" style={{ border: "1px solid" }}>
-              b
+            <div key="2" style={{ border: "1px solid" }}>
+              2
             </div>
-            <div key="c" style={{ border: "1px solid" }}>
-              c
+            <div key="3" style={{ border: "1px solid" }}>
+              3
             </div>
-          </GridLayout>
+          </ResponsiveGridLayout>
         )}
         {value === 1 && "Dataview Placeholder"}
       </Grid>
     </Grid>
-    <div className={classes.bottomNavContainer}>
-      <BottomNavigation value={value} onChange={handleChange} showLabels>
-        <BottomNavigationAction
-          classes={{
-            root: classes.actionRoot,
-            selected: classes.selected
-          }}
-          label="Dataview"
-          icon={<DashboardIcon />}
-        />
-        <BottomNavigationAction
-          classes={{
-            root: classes.actionRoot,
-            selected: classes.selected
-          }}
-          label="Workbench"
-          icon={<DataViewIcon />}
-        />
-      </BottomNavigation>
-    </div>
   </>
 );
 

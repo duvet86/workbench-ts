@@ -43,7 +43,10 @@ module.exports = {
       // guards against forgotten dependencies and such.
       PnpWebpackPlugin,
       new TsconfigPathsPlugin()
-    ]
+    ],
+    alias: {
+      react: path.resolve(__dirname, "node_modules/react")
+    }
   },
   resolveLoader: {
     plugins: [

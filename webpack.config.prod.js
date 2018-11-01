@@ -61,7 +61,10 @@ module.exports = {
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
-    plugins: [new TsconfigPathsPlugin(), PnpWebpackPlugin]
+    plugins: [new TsconfigPathsPlugin(), PnpWebpackPlugin],
+    alias: {
+      react: path.resolve(__dirname, "node_modules/react")
+    }
   },
   resolveLoader: {
     plugins: [
