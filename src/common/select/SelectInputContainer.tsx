@@ -6,6 +6,9 @@ import Chip from "@material-ui/core/Chip";
 import { SelectProps } from "@material-ui/core/Select";
 import SelectInput from "common/select/SelectInput";
 
+type onChangeSingle<T> = (option?: IOption<T>) => void;
+type onChangeMulti<T> = (option?: Array<IOption<T>>) => void;
+
 export interface IOption<T = any> {
   label: string;
   value: T;
@@ -13,7 +16,7 @@ export interface IOption<T = any> {
 
 interface IProps<T> {
   options: Array<IOption<T>>;
-  onChange: (option?: IOption<T>) => void;
+  onChange: onChangeSingle<T> | onChangeMulti<T>;
   initValue?: T | T[];
   isMulti?: boolean;
   OptionsIcon?: React.ComponentType<
@@ -41,15 +44,28 @@ export default class SelectInputContainer<T> extends React.Component<
       throw new Error("Multi select mode accept only arrays as initvalue.");
     }
 
-    const selectedOption =
-      props.initValue &&
-      this.props.options.find(({ value }) => value === props.initValue);
+    if (props.isMulti && Array.isArray(props.initValue)) {
+      const initSelectedOptions = props.initValue || [];
+      const selectedOptions = this.props.options.filter(opt =>
+        initSelectedOptions.includes(opt.value)
+      );
 
-    this.state = {
-      open: false,
-      selectedOption,
-      options: [...this.props.options]
-    };
+      this.state = {
+        open: false,
+        selectedOption: selectedOptions,
+        options: [...this.props.options]
+      };
+    } else {
+      const selectedOption =
+        props.initValue &&
+        this.props.options.find(({ value }) => value === props.initValue);
+
+      this.state = {
+        open: false,
+        selectedOption,
+        options: [...this.props.options]
+      };
+    }
   }
 
   public render() {
@@ -68,7 +84,7 @@ export default class SelectInputContainer<T> extends React.Component<
     } else {
       const selectedOptions =
         (selectedOption && (selectedOption as Array<IOption<T>>)) || [];
-      if (selectedOptions.length > 15) {
+      if (selectedOptions.length === options.length) {
         value = ["All..."];
       } else {
         value = selectedOptions.map(({ label }) => label);
@@ -106,11 +122,13 @@ export default class SelectInputContainer<T> extends React.Component<
         open: false,
         selectedOption: this.props.options
       });
+      (this.props.onChange as onChangeMulti<T>)(this.props.options);
     } else if (event.target.value.includes("SELECT_NONE")) {
       this.setState({
         open: false,
         selectedOption: []
       });
+      (this.props.onChange as onChangeMulti<T>)(undefined);
     }
   };
 
@@ -128,7 +146,7 @@ export default class SelectInputContainer<T> extends React.Component<
       options: [...this.props.options],
       selectedOption: undefined
     });
-    this.props.onChange(undefined);
+    (this.props.onChange as onChangeSingle<T>)(undefined);
   };
 
   private handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -156,6 +174,10 @@ export default class SelectInputContainer<T> extends React.Component<
         }
 
         newSelectedOptions.push(option);
+
+        // Careful here.
+        (this.props.onChange as onChangeMulti<T>)(newSelectedOptions);
+
         return {
           selectedOption: newSelectedOptions
         };
@@ -165,7 +187,7 @@ export default class SelectInputContainer<T> extends React.Component<
         open: false,
         selectedOption: option
       });
-      this.props.onChange(option);
+      (this.props.onChange as onChangeSingle<T>)(option);
     }
   };
 
@@ -205,17 +227,26 @@ export default class SelectInputContainer<T> extends React.Component<
         open: false,
         selectedOption: []
       });
+
+      (this.props.onChange as onChangeMulti<T>)(undefined);
+    } else {
+      this.setState((prevState: IState<T>) => {
+        const prevOptions =
+          (prevState.selectedOption &&
+            (prevState.selectedOption as Array<IOption<T>>)) ||
+          [];
+
+        const newOptions = prevOptions.filter(
+          ({ label }) => label !== optionLabel
+        );
+
+        // Careful here.
+        (this.props.onChange as onChangeMulti<T>)(newOptions);
+
+        return {
+          selectedOption: newOptions
+        };
+      });
     }
-
-    this.setState((prevState: IState<T>) => {
-      const prevOptions =
-        (prevState.selectedOption &&
-          (prevState.selectedOption as Array<IOption<T>>)) ||
-        [];
-
-      return {
-        selectedOption: prevOptions.filter(({ label }) => label !== optionLabel)
-      };
-    });
   };
 }

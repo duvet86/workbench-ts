@@ -64,7 +64,7 @@ const asd = (option: any) => {
 const WelcomePage: SFC<WithStyles<typeof styles>> = ({ classes }) => (
   <Grid container className={classes.container} spacing={16}>
     <SelectInputContainer
-      initValue={[]}
+      initValue={["Anguilla"]}
       isMulti
       options={options}
       onChange={asd}
