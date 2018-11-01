@@ -44,7 +44,7 @@ const styles = (theme: Theme) =>
 
 const layout = [
   { i: "a", x: 0, y: 0, w: 1, h: 2 },
-  { i: "b", x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4 },
+  { i: "b", x: 1, y: 0, w: 3, h: 2 },
   { i: "c", x: 4, y: 0, w: 1, h: 2 }
 ];
 
@@ -52,28 +52,28 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 
 const Pagebuilder: SFC<IProps> = ({ classes, handleChange, value }) => (
   <>
-    <Tabs centered value={0}>
-      <Tab label="Preview" />
+    <Tabs centered value={value} onChange={handleChange}>
       <Tab label="Edit" />
       <Tab label="Workbench" />
+      <Tab label="Preview" />
     </Tabs>
     <Grid container className={classes.mainContainer}>
       <Grid item xs={12} className={classes.canvasContainer}>
         {value === 0 && (
           <ResponsiveGridLayout
-            measureBeforeMount={false}
+            measureBeforeMount={true}
             className="layout"
             layouts={{ lg: layout }}
             breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
             cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
           >
-            <div key="1" style={{ border: "1px solid" }}>
+            <div key="a" style={{ border: "1px solid" }}>
               1
             </div>
-            <div key="2" style={{ border: "1px solid" }}>
+            <div key="b" style={{ border: "1px solid" }}>
               2
             </div>
-            <div key="3" style={{ border: "1px solid" }}>
+            <div key="c" style={{ border: "1px solid" }}>
               3
             </div>
           </ResponsiveGridLayout>
