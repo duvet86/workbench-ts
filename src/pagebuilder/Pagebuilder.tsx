@@ -16,9 +16,12 @@ import Grid from "@material-ui/core/Grid";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Paper from "@material-ui/core/Paper";
+import Button from "@material-ui/core/Button";
 
 import GraphExample from "pagebuilder/LineExample";
 import BarExample from "pagebuilder/BarExample";
+
+import AddIcon from "@material-ui/icons/Add";
 
 interface IProps extends WithStyles<typeof styles> {
   handleChange: (_: ChangeEvent<{}>, value: number) => void;
@@ -40,9 +43,10 @@ const styles = (theme: Theme) =>
       }
     },
     selected: {},
-    bottomNavContainer: {
+    addButton: {
       position: "fixed",
-      bottom: 0
+      bottom: theme.spacing.unit * 3,
+      right: theme.spacing.unit * 4
     }
   });
 
@@ -92,6 +96,9 @@ const Pagebuilder: SFC<IProps> = ({ classes, handleChange, value }) => (
         {value === 1 && "Dataview Placeholder"}
       </Grid>
     </Grid>
+    <Button className={classes.addButton} variant="fab" color="primary">
+      <AddIcon />
+    </Button>
   </>
 );
 
