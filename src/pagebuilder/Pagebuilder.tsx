@@ -15,6 +15,7 @@ import {
 import Grid from "@material-ui/core/Grid";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import Paper from "@material-ui/core/Paper";
 
 import GraphExample from "pagebuilder/LineExample";
 import BarExample from "pagebuilder/BarExample";
@@ -70,28 +71,22 @@ const Pagebuilder: SFC<IProps> = ({ classes, handleChange, value }) => (
             breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
             cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
           >
-            <div key="a" style={{ border: "1px solid" }}>
+            <Paper key="a" elevation={4}>
               <BarExample />
-            </div>
-            <div key="b" style={{ border: "1px solid" }}>
+            </Paper>
+            <Paper key="b" elevation={4}>
               <GraphExample />
-            </div>
-            <div
-              key="c"
-              style={{
-                border: "1px solid"
-              }}
-            >
+            </Paper>
+            <Paper key="c" elevation={4}>
               <img
                 draggable={false}
                 style={{
-                  objectFit: "contain",
                   height: "100%",
                   width: "100%"
                 }}
                 src={Banner}
               />
-            </div>
+            </Paper>
           </ResponsiveGridLayout>
         )}
         {value === 1 && "Dataview Placeholder"}
