@@ -1,7 +1,9 @@
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
+import Banner from "content/PitBanner.jpg";
 
 import React, { SFC, ChangeEvent } from "react";
+import { Responsive, WidthProvider } from "react-grid-layout";
 
 import {
   createStyles,
@@ -14,7 +16,8 @@ import Grid from "@material-ui/core/Grid";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
-import { Responsive, WidthProvider } from "react-grid-layout";
+import GraphExample from "pagebuilder/LineExample";
+import BarExample from "pagebuilder/BarExample";
 
 interface IProps extends WithStyles<typeof styles> {
   handleChange: (_: ChangeEvent<{}>, value: number) => void;
@@ -43,9 +46,9 @@ const styles = (theme: Theme) =>
   });
 
 const layout = [
-  { i: "a", x: 0, y: 0, w: 1, h: 2 },
-  { i: "b", x: 1, y: 0, w: 3, h: 2 },
-  { i: "c", x: 4, y: 0, w: 1, h: 2 }
+  { i: "a", x: 0, y: 0, w: 3, h: 4 },
+  { i: "b", x: 3, y: 0, w: 5, h: 2 },
+  { i: "c", x: 8, y: 0, w: 4, h: 1 }
 ];
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -68,13 +71,26 @@ const Pagebuilder: SFC<IProps> = ({ classes, handleChange, value }) => (
             cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
           >
             <div key="a" style={{ border: "1px solid" }}>
-              1
+              <BarExample />
             </div>
             <div key="b" style={{ border: "1px solid" }}>
-              2
+              <GraphExample />
             </div>
-            <div key="c" style={{ border: "1px solid" }}>
-              3
+            <div
+              key="c"
+              style={{
+                border: "1px solid"
+              }}
+            >
+              <img
+                draggable={false}
+                style={{
+                  objectFit: "contain",
+                  height: "100%",
+                  width: "100%"
+                }}
+                src={Banner}
+              />
             </div>
           </ResponsiveGridLayout>
         )}
