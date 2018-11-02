@@ -20,8 +20,7 @@ import Button from "@material-ui/core/Button";
 
 import GraphExample from "pagebuilder/LineExample";
 import BarExample from "pagebuilder/BarExample";
-
-import AddIcon from "@material-ui/icons/Add";
+import AddComponentList from "pagebuilder/AddComponentList";
 
 interface IProps extends WithStyles<typeof styles> {
   handleChange: (_: ChangeEvent<{}>, value: number) => void;
@@ -42,12 +41,7 @@ const styles = (theme: Theme) =>
         color: theme.palette.secondary.main
       }
     },
-    selected: {},
-    addButton: {
-      position: "fixed",
-      bottom: theme.spacing.unit * 3,
-      right: theme.spacing.unit * 4
-    }
+    selected: {}
   });
 
 const layout = [
@@ -96,9 +90,7 @@ const Pagebuilder: SFC<IProps> = ({ classes, handleChange, value }) => (
         {value === 1 && "Dataview Placeholder"}
       </Grid>
     </Grid>
-    <Button className={classes.addButton} variant="fab" color="primary">
-      <AddIcon />
-    </Button>
+    <AddComponentList />
   </>
 );
 
