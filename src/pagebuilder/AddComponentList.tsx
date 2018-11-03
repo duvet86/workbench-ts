@@ -26,7 +26,7 @@ const styles = (theme: Theme) =>
     addButton: {
       position: "fixed",
       bottom: theme.spacing.unit * 3,
-      right: theme.spacing.unit * 4
+      right: theme.spacing.unit * 3
     },
     drawer: {
       marginTop: 48
