@@ -16,7 +16,6 @@ import Grid from "@material-ui/core/Grid";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
 
 import GraphExample from "pagebuilder/LineExample";
 import BarExample from "pagebuilder/BarExample";
@@ -36,6 +35,10 @@ const styles = (theme: Theme) =>
       overflow: "auto",
       marginBottom: 56
     },
+    tabs: {
+      position: "fixed",
+      bottom: 0
+    },
     actionRoot: {
       "&$selected": {
         color: theme.palette.secondary.main
@@ -54,17 +57,11 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 
 const Pagebuilder: SFC<IProps> = ({ classes, handleChange, value }) => (
   <>
-    <Tabs centered value={value} onChange={handleChange}>
-      <Tab label="Edit" />
-      <Tab label="Workbench" />
-      <Tab label="Preview" />
-    </Tabs>
     <Grid container className={classes.mainContainer}>
       <Grid item xs={12} className={classes.canvasContainer}>
         {value === 0 && (
           <ResponsiveGridLayout
             measureBeforeMount={true}
-            className="layout"
             layouts={{ lg: layout }}
             breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
             cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
@@ -91,6 +88,11 @@ const Pagebuilder: SFC<IProps> = ({ classes, handleChange, value }) => (
       </Grid>
     </Grid>
     <AddComponentList />
+    <Tabs className={classes.tabs} value={value} onChange={handleChange}>
+      <Tab label="Edit" />
+      <Tab label="Workbench" />
+      <Tab label="Preview" />
+    </Tabs>
   </>
 );
 

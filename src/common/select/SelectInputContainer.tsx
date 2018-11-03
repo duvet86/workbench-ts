@@ -1,10 +1,13 @@
 import React from "react";
 
+import { getMultiSelectValue } from "common/select/selectors";
+
 import { Overwrite, StyledComponentProps } from "@material-ui/core";
 
 import Chip from "@material-ui/core/Chip";
 import { SelectProps } from "@material-ui/core/Select";
 import SelectInput from "common/select/SelectInput";
+import MultiSelectValue from "common/select/MultiSelectValue";
 
 type onChangeSingle<T> = (option?: IOption<T>) => void;
 type onChangeMulti<T> = (option?: Array<IOption<T>>) => void;
@@ -20,7 +23,7 @@ export interface IOption<T = any> {
   value: T;
 }
 
-interface IProps<T> {
+export interface IProps<T> {
   options: Array<IOption<T>>;
   onChange: onChangeSingle<T> | onChangeMulti<T>;
   initValue?: T | T[];
@@ -34,7 +37,7 @@ interface IProps<T> {
   reset?: boolean;
 }
 
-interface IState<T> {
+export interface IState<T> {
   open: boolean;
   selectedOption: IOption<T> | Array<IOption<T>> | undefined;
   options: Array<IOption<T>>;
@@ -55,6 +58,7 @@ export default class SelectInputContainer<T> extends React.Component<
       const initSelectedOptions = props.initValue || [];
 
       let selectedOptions: Array<IOption<T>>;
+      // All the  options have been selected, skip options existence for performcance reasons.
       if (initSelectedOptions.length === this.props.options.length) {
         selectedOptions = [...this.props.options];
       } else {
@@ -100,7 +104,8 @@ export default class SelectInputContainer<T> extends React.Component<
       if (selectedOptions.length === options.length) {
         value = [SelectEnum.AllLabel];
       } else {
-        value = selectedOptions.map(({ label }) => label);
+        // Use a memoized function for performance reasons.
+        value = getMultiSelectValue(this.state);
       }
     }
 
@@ -188,7 +193,7 @@ export default class SelectInputContainer<T> extends React.Component<
 
         newSelectedOptions.push(option);
 
-        // Careful here.
+        // Careful here: setState is async.
         (this.props.onChange as onChangeMulti<T>)(newSelectedOptions);
 
         return {
@@ -222,12 +227,11 @@ export default class SelectInputContainer<T> extends React.Component<
       return null;
     }
     if (this.props.isMulti && Array.isArray(optionLabel)) {
-      return optionLabel.map(label => (
-        <Chip
-          key={label as string}
-          label={label}
-          onDelete={this.handleDeleteChip(label as string)}
-          style={{ marginLeft: 4 }}
+      return optionLabel.map((label, i) => (
+        <MultiSelectValue
+          key={i}
+          label={label as string}
+          handleDeleteChip={this.handleDeleteChip}
         />
       ));
     }
@@ -253,7 +257,7 @@ export default class SelectInputContainer<T> extends React.Component<
           ({ label }) => label !== optionLabel
         );
 
-        // Careful here.
+        // Careful here: setState is async.
         (this.props.onChange as onChangeMulti<T>)(newOptions);
 
         return {
