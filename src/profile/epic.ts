@@ -4,13 +4,13 @@ import { Action } from "redux";
 
 import { handleException } from "errorPage/actions";
 import { ProfileActionTypes, profileSuccess } from "profile/actions";
-import { getUserInfoAsync } from "profile/api";
+import { getUserInfoObs } from "profile/api";
 
 export const fetchProfileEpic = (action$: ActionsObservable<Action>) =>
   action$.pipe(
     ofType(ProfileActionTypes.PROFILE_REQUEST),
     mergeMap(() =>
-      getUserInfoAsync().pipe(
+      getUserInfoObs().pipe(
         map(response => profileSuccess(response)),
         catchError(error => handleException(error))
       )

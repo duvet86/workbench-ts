@@ -17,7 +17,7 @@ import Divider from "@material-ui/core/Divider";
 
 import GraphExample from "pagebuilder/LineExample";
 import BarExample from "pagebuilder/BarExample";
-import AddComponentList from "pagebuilder/AddComponentList";
+import AddComponentButtonContainer from "pagebuilder/AddComponentButtonContainer";
 import MenuEntry from "pagebuilder/MenuEntry";
 
 import { DashboardIcon } from "common/icons";
@@ -121,7 +121,7 @@ const Pagebuilder: SFC<IProps> = ({ classes, handleChange, value }) => (
       )}
       {value === 1 && "Dataview Placeholder"}
     </Grid>
-    <AddComponentList />
+    <AddComponentButtonContainer />
   </Grid>
 );
 
