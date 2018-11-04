@@ -10,7 +10,7 @@ import {
 import { IComponentGroup } from "pagebuilder/types";
 
 import Button from "@material-ui/core/Button";
-import MenuItem from "@material-ui/core/MenuItem";
+import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Menu from "@material-ui/core/Menu";
@@ -97,12 +97,12 @@ const AddComponentButton: SFC<IProps> = ({
               <Divider />
             </ListSubheader>
             {Components.map(({ ComponentId, Title: ComponentTitle }) => (
-              <MenuItem key={ComponentId} className={classes.component}>
+              <ListItem button key={ComponentId}>
                 <ListItemIcon>
                   <ComponentIcon />
                 </ListItemIcon>
                 <ListItemText primary={ComponentTitle} />
-              </MenuItem>
+              </ListItem>
             ))}
           </ul>
         </li>
