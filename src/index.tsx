@@ -4,12 +4,12 @@ import "typeface-roboto";
 import React from "react";
 import { render } from "react-dom";
 import { Provider } from "react-redux";
+import { createBrowserHistory } from "history";
 import { Switch } from "react-router";
 import { ConnectedRouter } from "connected-react-router";
 
-import store from "lib/configureStore";
-import theme from "lib/configureTheme";
-import history from "lib/history";
+import configureStore from "lib/configureStore";
+import configureTheme from "lib/configureTheme";
 import loadAsync from "lib/loadAsync";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -17,6 +17,10 @@ import { MuiThemeProvider } from "@material-ui/core/styles";
 
 import AnonymousRoute from "routes/AnonymousRoute";
 import AuthenticatedRoute from "routes/AuthenticatedRoute";
+
+const history = createBrowserHistory();
+const store = configureStore(history);
+const theme = configureTheme();
 
 render(
   <Provider store={store}>

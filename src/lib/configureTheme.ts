@@ -23,4 +23,4 @@ const configureTheme = () =>
     }
   });
 
-export default configureTheme();
+export default configureTheme;
