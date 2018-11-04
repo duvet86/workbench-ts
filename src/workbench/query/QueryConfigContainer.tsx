@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { RootState } from "rootReducer";
 import { getQuery, getCompletedSteps } from "workbench/query/selectors";
 
+import { LoadingContainer } from "common/loading";
 import QueryConfig from "workbench/query/QueryConfig";
 
 class QueryConfigContainer extends Component<
@@ -18,12 +19,13 @@ class QueryConfigContainer extends Component<
     } = this.props;
 
     return (
-      <QueryConfig
-        isLoading={isLoading}
-        selectedQuery={selectedQuery}
-        currentStep={currentStep}
-        completedSteps={completedSteps}
-      />
+      <LoadingContainer background isLoading={isLoading}>
+        <QueryConfig
+          selectedQuery={selectedQuery}
+          currentStep={currentStep}
+          completedSteps={completedSteps}
+        />
+      </LoadingContainer>
     );
   }
 }

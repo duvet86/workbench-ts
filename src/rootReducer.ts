@@ -3,7 +3,6 @@ import { History } from "history";
 import { connectRouter } from "connected-react-router";
 
 import appReducer from "app/reducer";
-import { loadingReducer } from "common/loading";
 import errorReducer from "errorPage/reducer";
 import loginReducer from "login/reducer";
 import profileReducer from "profile/reducer";
@@ -17,7 +16,6 @@ import sessionReducer from "workbench/reducer";
 const rootReducer = (history: History) =>
   combineReducers({
     router: connectRouter(history),
-    loadingReducer,
     errorReducer,
     loginReducer,
     appReducer,

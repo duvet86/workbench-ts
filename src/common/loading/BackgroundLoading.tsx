@@ -3,6 +3,7 @@ import React, { Fragment, SFC } from "react";
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
 import BaseLoading from "common/loading/BaseLoading";
+import Paper from "@material-ui/core/Paper";
 
 interface IProps extends WithStyles<typeof styles> {
   isLoading: boolean;
@@ -11,12 +12,11 @@ interface IProps extends WithStyles<typeof styles> {
 
 const styles = createStyles({
   container: {
-    backgroundColor: "#eee",
+    backgroundColor: "rgba(238, 238, 238, 0.7)",
     height: "100%",
-    opacity: 0.7,
-    position: "absolute",
-    width: "99%",
-    zIndex: 1
+    width: "100%",
+    position: "fixed",
+    zIndex: 100
   },
   loading: {
     left: "48%",
@@ -35,9 +35,9 @@ const BackgroundLoading: SFC<IProps> = ({
     {isLoading &&
       pastDelay && (
         <div className={classes.container}>
-          <div className={classes.loading}>
+          <Paper className={classes.loading}>
             <BaseLoading />
-          </div>
+          </Paper>
         </div>
       )}
     {children}

@@ -4,7 +4,6 @@ import { IQuery } from "workbench/types";
 
 import Grid from "@material-ui/core/Grid";
 
-import { BackgroundLoadingContainer } from "common/loading";
 import HelperText from "workbench/query/HelperText";
 import StepperHeaderContainer from "workbench/query/StepperHeaderContainer";
 import SourceSelectorContainer from "workbench/query/sourceSelector/SourceSelectorContainer";
@@ -40,19 +39,17 @@ function getStepContent(currentStep: number, selectedQuery: IQuery) {
 }
 
 interface IProps {
-  isLoading: boolean;
   selectedQuery: IQuery;
   currentStep: number;
   completedSteps: boolean[];
 }
 
 const QueryConfig: SFC<IProps> = ({
-  isLoading,
   selectedQuery,
   currentStep,
   completedSteps
 }) => (
-  <BackgroundLoadingContainer isLoading={isLoading}>
+  <>
     <StepperHeaderContainer
       currentStep={currentStep}
       completedSteps={completedSteps}
@@ -65,7 +62,7 @@ const QueryConfig: SFC<IProps> = ({
       currentStep={currentStep}
       completedSteps={completedSteps}
     />
-  </BackgroundLoadingContainer>
+  </>
 );
 
 export default QueryConfig;

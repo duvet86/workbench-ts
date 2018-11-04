@@ -1,21 +1,15 @@
 import React, { SFC } from "react";
 
-import {
-  createStyles,
-  Theme,
-  withStyles,
-  WithStyles
-} from "@material-ui/core/styles";
+import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Typography from "@material-ui/core/Typography";
 
-const styles = ({ spacing: { unit } }: Theme) =>
-  createStyles({
-    laodingContainer: {
-      margin: unit * 2
-    }
-  });
+const styles = createStyles({
+  laodingContainer: {
+    margin: "16px 28px 16px 28px"
+  }
+});
 
 const BaseLoading: SFC<WithStyles<typeof styles>> = ({ classes }) => (
   <div className={classes.laodingContainer}>

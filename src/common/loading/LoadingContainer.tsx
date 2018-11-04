@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 
 import Loading from "common/loading/Loading";
+import BackgroundLoading from "common/loading/BackgroundLoading";
 
 interface IProps {
   isLoading: boolean;
   delay?: number;
   error?: any;
+  background?: boolean;
 }
 
 interface IState {
@@ -23,15 +25,7 @@ class LoadingContainer extends Component<IProps, Readonly<IState>> {
     this.delay = this.setTimeout(this.props.delay || 200);
   }
 
-  // public shouldComponentUpdate(nextProps: IProps, nextState: IState) {
-  //   if (!this.props.isLoading && nextProps.isLoading && !nextState.pastDelay) {
-  //     this.delay = this.setTimeout(this.props.delay || 200);
-  //     return false;
-  //   }
-  //   return true;
-  // }
-
-  public componentDidUpdate(prevProps: IProps, prevState: IState) {
+  public componentDidUpdate(prevProps: IProps) {
     if (!this.props.isLoading && this.state.pastDelay) {
       this.setState({
         pastDelay: false
@@ -50,10 +44,16 @@ class LoadingContainer extends Component<IProps, Readonly<IState>> {
   }
 
   public render() {
-    const { error, isLoading, children } = this.props;
+    const { error, isLoading, background, children } = this.props;
     const { pastDelay } = this.state;
 
-    return (
+    const loadingComponent = background ? (
+      <BackgroundLoading
+        isLoading={isLoading}
+        pastDelay={pastDelay}
+        children={children}
+      />
+    ) : (
       <Loading
         isLoading={isLoading}
         pastDelay={pastDelay}
@@ -61,6 +61,8 @@ class LoadingContainer extends Component<IProps, Readonly<IState>> {
         error={error}
       />
     );
+
+    return loadingComponent;
   }
 
   private setTimeout(delay: number) {
