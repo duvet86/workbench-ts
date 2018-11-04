@@ -4,7 +4,6 @@ import { connectRouter } from "connected-react-router";
 
 import appReducer from "app/reducer";
 import errorReducer from "errorPage/reducer";
-import loginReducer from "login/reducer";
 import profileReducer from "profile/reducer";
 import myItemsReducer from "sidebar/myItems/reducer";
 import navigationTabsReducer from "sidebar/navigationTabs/reducer";
@@ -17,7 +16,6 @@ const rootReducer = (history: History) =>
   combineReducers({
     router: connectRouter(history),
     errorReducer,
-    loginReducer,
     appReducer,
     profileReducer,
     myItemsReducer,

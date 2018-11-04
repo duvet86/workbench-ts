@@ -23,7 +23,7 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 interface IProps extends WithStyles<typeof styles> {
-  error?: any;
+  isInvalidCredentials: boolean;
   submitHandler: (username: string, password: string) => void;
 }
 
@@ -77,7 +77,7 @@ class Login extends Component<IProps, IState> {
   };
 
   public render() {
-    const { classes, error } = this.props;
+    const { classes, isInvalidCredentials } = this.props;
 
     return (
       <Grid
@@ -143,7 +143,7 @@ class Login extends Component<IProps, IState> {
                 Login
               </Button>
             </form>
-            {error && (
+            {isInvalidCredentials && (
               <Typography className={classes.errorMessage} variant="subtitle1">
                 Invalid Username or Password
               </Typography>

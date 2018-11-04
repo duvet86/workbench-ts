@@ -198,6 +198,6 @@ const mapDispatchToProps = (dispatch: Dispatch<ErrorActions>) => ({
 });
 
 export default connect(
-  null,
+  undefined,
   mapDispatchToProps
 )(IntervalSelectorContainer);

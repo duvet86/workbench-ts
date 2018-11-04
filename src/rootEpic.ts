@@ -1,7 +1,6 @@
 import { combineEpics } from "redux-observable";
 
 import { appEpic } from "app/epic";
-import { loginEpic } from "login/epic";
 import { fetchProfileEpic } from "profile/epic";
 import { myItemsEpic } from "sidebar/myItems/epic";
 import { navigationTabsEpic } from "sidebar/navigationTabs/epic";
@@ -20,7 +19,6 @@ import {
 } from "workbench/query/epic";
 
 const epics = [
-  loginEpic,
   appEpic,
   fetchProfileEpic,
   myItemsEpic,

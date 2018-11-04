@@ -7,15 +7,13 @@ import { clearToken, getToken } from "lib/sessionStorageApi";
 
 import { logout } from "login/actions";
 
-export const getTokenObs = (
+export const getTokenAsync = (
   userName: string,
   password: string
-): Observable<string> =>
-  from(
-    getAsync("api/token", {
-      Authorization: `Basic ${encode(userName + ":" + password)}`
-    })
-  );
+): Promise<string> =>
+  getAsync("api/token", {
+    Authorization: `Basic ${encode(userName + ":" + password)}`
+  });
 
 export const deleteTokenAndRedirectLogin = () => {
   clearToken();
