@@ -5,7 +5,7 @@ import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
 import AppBody from "appBody/AppBody";
 import SideBar from "sidebar/SideBar";
-import TopBarContainer from "topBar/TopBarContainer";
+import TopBarContainer from "topbar/TopBarContainer";
 
 interface IProps extends WithStyles<typeof styles> {
   handleDrawerOpen: () => void;

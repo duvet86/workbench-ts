@@ -1,4 +1,4 @@
-import trimbleLogo from "topBar/trimbleLogo.png";
+import trimbleLogo from "topbar/trimbleLogo.png";
 
 import React, { SFC } from "react";
 import { Link } from "react-router-dom";

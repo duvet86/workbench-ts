@@ -5,7 +5,7 @@ import { Dispatch } from "redux";
 
 import { clearToken } from "lib/sessionStorageApi";
 
-import TopBar from "topBar/TopBar";
+import TopBar from "topbar/TopBar";
 
 interface IOwnProps {
   handleDrawerOpen: () => void;
