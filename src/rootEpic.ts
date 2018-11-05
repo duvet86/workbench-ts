@@ -4,6 +4,7 @@ import { appEpic } from "app/epic";
 import { fetchProfileEpic } from "profile/epic";
 import { myItemsEpic } from "sidebar/myItems/epic";
 import { navigationTabsEpic } from "sidebar/navigationTabs/epic";
+import { operatorsEpic } from "sidebar/operators/epic";
 import {
   addQueryEpic,
   pushGraphChangesEpic,
@@ -22,6 +23,7 @@ const epics = [
   fetchProfileEpic,
   myItemsEpic,
   navigationTabsEpic,
+  operatorsEpic,
   sessionEpic,
   saveGraphEpic,
   pushGraphChangesEpic,

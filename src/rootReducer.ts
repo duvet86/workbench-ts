@@ -7,6 +7,7 @@ import errorReducer from "errorPage/reducer";
 import profileReducer from "profile/reducer";
 import myItemsReducer from "sidebar/myItems/reducer";
 import navigationTabsReducer from "sidebar/navigationTabs/reducer";
+import operatorsReducer from "sidebar/operators/reducer"; // TODO: remove.
 import configSwitchReducer from "workbench/configSwitch/reducer";
 import queryConfigReducer from "workbench/query/reducer";
 import sessionReducer from "workbench/reducer";
@@ -19,6 +20,7 @@ const rootReducer = (history: History) =>
     profileReducer,
     myItemsReducer,
     navigationTabsReducer,
+    operatorsReducer,
     sessionReducer,
     configSwitchReducer,
     queryConfigReducer
