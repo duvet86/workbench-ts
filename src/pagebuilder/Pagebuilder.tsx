@@ -30,7 +30,7 @@ interface IProps extends WithStyles<typeof styles> {
 const styles = createStyles({
   mainContainer: {
     height: "100%",
-    backgroundColor: "#ccc",
+    backgroundColor: "#eee",
     position: "relative"
   },
   canvasContainer: {
