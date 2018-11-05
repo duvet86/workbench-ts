@@ -185,6 +185,8 @@ module.exports = {
   devServer: {
     publicPath: publicPath,
     contentBase: "./public",
+    useLocalIp: true,
+    host: "0.0.0.0",
     // Enable gzip compression of generated files.
     compress: true,
     // Silence WebpackDevServer's own logs since they're generally not useful.
