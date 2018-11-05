@@ -7,13 +7,13 @@ import { IOperatorResult } from "sidebar/operators/types";
 
 interface IOperatorsState {
   isLoading: boolean;
-  operators?: { [key: string]: IOperatorResult };
+  operators: { [key: string]: IOperatorResult };
 }
 
 function operators(
   state: IOperatorsState = {
     isLoading: true,
-    operators: undefined
+    operators: {}
   },
   action: OperatorsAction
 ): IOperatorsState {
