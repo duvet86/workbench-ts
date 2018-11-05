@@ -7,7 +7,7 @@ function copyPublicFolder() {
     path.resolve(__dirname, "build"),
     {
       dereference: true,
-      filter: file => file !== "index.html"
+      filter: file => !file.includes("index")
     }
   );
 }
