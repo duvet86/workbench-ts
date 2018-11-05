@@ -15,6 +15,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Menu from "@material-ui/core/Menu";
 import ListSubheader from "@material-ui/core/ListSubheader";
+import TextField from "@material-ui/core/TextField";
 import Divider from "@material-ui/core/Divider";
 
 import AddIcon from "@material-ui/icons/Add";
@@ -45,7 +46,11 @@ const styles = (theme: Theme) =>
       padding: 0
     },
     root: {
-      backgroundColor: theme.palette.background.paper
+      backgroundColor: theme.palette.background.paper,
+      maxHeight: 500
+    },
+    inputContainer: {
+      marginTop: theme.spacing.unit * 2
     },
     componentGroup: {
       color: theme.palette.secondary.main
@@ -89,6 +94,9 @@ const AddComponentButton: SFC<IProps> = ({
         className: classes.root
       }}
     >
+      <ListSubheader className={classes.inputContainer}>
+        <TextField fullWidth placeholder="Search..." />
+      </ListSubheader>
       {componentGroups.map(({ GroupId, Title, Components }) => (
         <li key={GroupId} className={classes.listSection}>
           <ul className={classes.ul}>
