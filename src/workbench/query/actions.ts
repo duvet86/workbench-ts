@@ -1,6 +1,6 @@
 import { Action } from "redux";
 
-import { IItemDtc } from "sidebar/myItems/types";
+import { IItemDtc } from "sidebar/userItems/types";
 import {
   IUdsDescriptionDtc,
   IFilterCapabilitiesDic,

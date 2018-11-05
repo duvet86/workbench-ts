@@ -1,7 +1,7 @@
 import React, { Fragment, SFC } from "react";
 import { Location } from "history";
 
-import { IFolderChild } from "sidebar/myItems/types";
+import { IFolderChild } from "sidebar/userItems/types";
 
 import {
   createStyles,
@@ -18,8 +18,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import FolderIcon from "@material-ui/icons/Folder";
 import FolderOpenIcon from "@material-ui/icons/FolderOpen";
 
-import Item from "sidebar/myItems/Item";
-import FolderContainer from "sidebar/myItems/FolderContainer";
+import Item from "sidebar/userItems/Item";
+import FolderContainer from "sidebar/userItems/FolderContainer";
 
 interface IProps extends WithStyles<typeof styles, true> {
   location: Location;

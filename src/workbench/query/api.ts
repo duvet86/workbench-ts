@@ -5,7 +5,7 @@ import {
   IUdsDescriptionDtc,
   IAllowedValueDtc
 } from "workbench/query/types";
-import { IItemDtc } from "sidebar/myItems/types";
+import { IItemDtc } from "sidebar/userItems/types";
 
 // http://desktop-ejm4rss/dev/api/qes/systemdataviews/demo
 // http://desktop-ejm4rss/dev/api/qes/demo/dataservices

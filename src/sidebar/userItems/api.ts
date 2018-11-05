@@ -2,7 +2,7 @@ import { from } from "rxjs";
 
 import { getWithJwtAsync } from "lib/http";
 
-import { IFolderChild, ItemTypeIds } from "sidebar/myItems/types";
+import { IFolderChild, ItemTypeIds } from "sidebar/userItems/types";
 
 export const getMyItemsObs = () =>
   from(

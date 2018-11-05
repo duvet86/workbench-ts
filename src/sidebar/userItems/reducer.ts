@@ -1,6 +1,6 @@
-import { MyItemsActionTypes, MyItemsAction } from "sidebar/myItems/actions";
+import { MyItemsActionTypes, MyItemsAction } from "sidebar/userItems/actions";
 
-import { IFolderChild } from "sidebar/myItems/types";
+import { IFolderChild } from "sidebar/userItems/types";
 
 interface IMyItemsState {
   isLoading: boolean;

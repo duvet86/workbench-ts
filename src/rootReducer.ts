@@ -5,9 +5,9 @@ import { connectRouter } from "connected-react-router";
 import appReducer from "app/reducer";
 import errorReducer from "errorPage/reducer";
 import profileReducer from "profile/reducer";
-import myItemsReducer from "sidebar/myItems/reducer";
+import myItemsReducer from "sidebar/userItems/reducer";
 import navigationTabsReducer from "sidebar/navigationTabs/reducer";
-import operatorsReducer from "sidebar/operators/reducer"; // TODO: remove.
+import operatorsReducer from "sidebar/operators/reducer";
 import configSwitchReducer from "workbench/configSwitch/reducer";
 import queryConfigReducer from "workbench/query/reducer";
 import sessionReducer from "workbench/reducer";

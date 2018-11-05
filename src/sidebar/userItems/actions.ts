@@ -1,6 +1,6 @@
 import { Action } from "redux";
 
-import { ISideBarItems } from "sidebar/myItems/types";
+import { ISideBarItems } from "sidebar/userItems/types";
 
 export const enum MyItemsActionTypes {
   MY_ITEMS_REQUEST = "MY_ITEMS_REQUEST",

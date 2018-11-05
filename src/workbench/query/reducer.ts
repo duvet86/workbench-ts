@@ -11,7 +11,7 @@ import {
   QueryDescribeAction
 } from "workbench/query/actions";
 
-import { IItemDtc } from "sidebar/myItems/types";
+import { IItemDtc } from "sidebar/userItems/types";
 import {
   IUdsColumnDescriptionDtc,
   IUdsFilterDescriptionDtc,

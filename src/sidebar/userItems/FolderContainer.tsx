@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Location } from "history";
 
-import { IFolderChild } from "sidebar/myItems/types";
+import { IFolderChild } from "sidebar/userItems/types";
 
-import Folder from "sidebar/myItems/Folder";
+import Folder from "sidebar/userItems/Folder";
 
 interface IProps {
   label: string;

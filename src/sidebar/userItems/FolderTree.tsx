@@ -2,12 +2,12 @@ import { Location } from "history";
 import React, { SFC } from "react";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
-import { IFolderChild } from "sidebar/myItems/types";
+import { IFolderChild } from "sidebar/userItems/types";
 
 import List from "@material-ui/core/List";
 
-import FolderContainer from "sidebar/myItems/FolderContainer";
-import Item from "sidebar/myItems/Item";
+import FolderContainer from "sidebar/userItems/FolderContainer";
+import Item from "sidebar/userItems/Item";
 
 interface IProps extends WithStyles<typeof styles> {
   items: IFolderChild[];

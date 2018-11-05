@@ -5,8 +5,8 @@ import { Action } from "redux";
 import { getDataObs } from "lib/apiCache";
 
 import { handleException } from "errorPage/actions";
-import { MyItemsActionTypes, myItemsSuccess } from "sidebar/myItems/actions";
-import { getMyItemsObs } from "sidebar/myItems/api";
+import { MyItemsActionTypes, myItemsSuccess } from "sidebar/userItems/actions";
+import { getMyItemsObs } from "sidebar/userItems/api";
 
 export const myItemsEpic = (action$: ActionsObservable<Action>) =>
   action$.pipe(

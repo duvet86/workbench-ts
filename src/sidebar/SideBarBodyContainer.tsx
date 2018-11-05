@@ -4,7 +4,7 @@ import { Location } from "history";
 
 import { RootState } from "rootReducer";
 
-import FolderTreeContainer from "sidebar/myItems/FolderTreeContainer";
+import FolderTreeContainer from "sidebar/userItems/FolderTreeContainer";
 import OperatorsListContainer from "sidebar/operators/OperatorsListContainer";
 import Filters from "sidebar/filters/Filters";
 import SideBarBody from "sidebar/SideBarBody";

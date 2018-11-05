@@ -1,7 +1,7 @@
 import React, { SFC } from "react";
 import { NavLink } from "react-router-dom";
 
-import { ItemTypeIds } from "sidebar/myItems/types";
+import { ItemTypeIds } from "sidebar/userItems/types";
 
 import {
   createStyles,

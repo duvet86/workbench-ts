@@ -8,12 +8,12 @@ import {
   MyItemsAction,
   myItemsRequest,
   updateFolderTree
-} from "sidebar/myItems/actions";
+} from "sidebar/userItems/actions";
 
 import Divider from "@material-ui/core/Divider";
 import { LoadingContainer } from "common/loading";
-import FolderTree from "sidebar/myItems/FolderTree";
-import ItemsSelector from "sidebar/myItems/ItemsSelector";
+import FolderTree from "sidebar/userItems/FolderTree";
+import ItemsSelector from "sidebar/userItems/ItemsSelector";
 
 interface IOwnProps {
   location: Location;
