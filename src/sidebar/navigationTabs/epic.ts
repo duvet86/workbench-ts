@@ -2,6 +2,7 @@ import { Action } from "redux";
 import { ActionsObservable, ofType } from "redux-observable";
 import { of, Observable } from "rxjs";
 import { filter, switchMap } from "rxjs/operators";
+import { isUserAuthenticated } from "lib/authApi";
 
 import { LOCATION_CHANGE, RouterState } from "connected-react-router";
 import {
@@ -27,10 +28,10 @@ export const navigationTabsEpic = (
           location: { pathname }
         }
       }) =>
-        pathname === "/" ||
-        pathname === "/workbench/new" ||
-        pathname === "/workbench/new" ||
-        pathname === "/pagebuilder/new"
+        isUserAuthenticated() &&
+        (pathname === "/" ||
+          pathname === "/workbench/new" ||
+          pathname === "/pagebuilder/new")
     ),
     switchMap<ILocationChangeAction, TabsAction>(
       ({

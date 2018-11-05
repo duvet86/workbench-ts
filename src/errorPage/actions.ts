@@ -2,8 +2,6 @@ import { push, RouterAction } from "connected-react-router";
 import { Action } from "redux";
 import { batchActions } from "redux-batched-actions";
 
-import { deleteTokenAndRedirectLogin } from "lib/authApi";
-
 export interface IErrorResponse {
   status: number;
   message: string;
@@ -36,7 +34,7 @@ const errorPage = (
   error: any,
   actions: Action[] = []
 ): [IErrorAction, RouterAction, ...Action[]] => [
-  // Fire 2 actions, one after the other
+  // Fire 2 actions, one after the other.
   triggerError(error),
   push("/error"),
   ...actions
@@ -48,12 +46,7 @@ export const handleException = (
 ) => {
   // tslint:disable-next-line:no-console
   console.error(response);
-  switch (response.status) {
-    case 401:
-      return deleteTokenAndRedirectLogin();
-    default:
-      return errorPage(response.error || response.message, actions);
-  }
+  return errorPage(response.error || response.message, actions);
 };
 
 export type ErrorActions = ReturnType<typeof batchActions>;
