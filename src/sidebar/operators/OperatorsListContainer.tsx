@@ -1,46 +1,63 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import { batchActions } from "redux-batched-actions";
 
-import { RootState } from "rootReducer";
-import { OperatorsAction, operatorsRequest } from "sidebar/operators/actions";
+import {
+  ErrorActions,
+  IErrorResponse,
+  handleException
+} from "errorPage/actions";
+import { IOperatorServiceDtc } from "sidebar/operators/types";
+import { getOperatorsAsync } from "sidebar/operators/api";
 
 import { LoadingContainer } from "common/loading";
 import OperatorsList from "sidebar/operators/OperatorsList";
 
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+type Props = ReturnType<typeof mapDispatchToProps>;
 
-class OperatorsListContainer extends Component<Props> {
-  public componentDidMount() {
-    this.props.dispatchLoadOperators();
+interface IState {
+  isLoading: boolean;
+  operators: IOperatorServiceDtc[];
+}
+
+class OperatorsListContainer extends Component<Props, IState> {
+  public state: IState = {
+    isLoading: true,
+    operators: []
+  };
+
+  public async componentDidMount() {
+    this.setState({
+      isLoading: true
+    });
+    try {
+      const operators = await getOperatorsAsync();
+      this.setState({
+        isLoading: false,
+        operators
+      });
+    } catch (e) {
+      this.props.dispatchHandleException(e);
+    }
   }
 
   public render() {
-    const { isLoading, ...props } = this.props;
-
     return (
-      <LoadingContainer isLoading={this.props.isLoading}>
-        <OperatorsList {...props} />
+      <LoadingContainer isLoading={this.state.isLoading}>
+        <OperatorsList {...this.props} />
       </LoadingContainer>
     );
   }
 }
 
-const mapStateToProps = ({
-  operatorsReducer: { isLoading, operators }
-}: RootState) => ({
-  operators,
-  isLoading
-});
-
-const mapDispatchToProps = (dispatch: Dispatch<OperatorsAction>) => ({
-  dispatchLoadOperators: () => {
-    dispatch(operatorsRequest());
+const mapDispatchToProps = (dispatch: Dispatch<ErrorActions>) => ({
+  dispatchHandleException: (resp: IErrorResponse) => {
+    dispatch(batchActions(handleException(resp)));
   }
 });
 
 export default connect(
-  mapStateToProps,
+  undefined,
   mapDispatchToProps
 )(OperatorsListContainer);
