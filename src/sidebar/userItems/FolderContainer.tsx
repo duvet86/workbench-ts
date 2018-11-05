@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Location } from "history";
 
 import { IFolderChild } from "sidebar/userItems/types";
+import { SvgIconProps } from "@material-ui/core/SvgIcon";
 
 import Folder from "sidebar/userItems/Folder";
 
@@ -10,6 +11,8 @@ interface IProps {
   location: Location;
   childFolders: IFolderChild[];
   nested: number;
+  initExpanded?: boolean;
+  CutomFolderIcon?: React.ComponentType<SvgIconProps>;
 }
 
 interface IState {
@@ -18,7 +21,7 @@ interface IState {
 
 class FolderContainer extends Component<IProps, IState> {
   public readonly state = {
-    expanded: false
+    expanded: this.props.initExpanded || false
   };
 
   public componentDidMount() {
@@ -39,7 +42,13 @@ class FolderContainer extends Component<IProps, IState> {
   }
 
   public render() {
-    const { nested, location, label, childFolders } = this.props;
+    const {
+      nested,
+      location,
+      label,
+      childFolders,
+      CutomFolderIcon
+    } = this.props;
     const { expanded } = this.state;
     if (childFolders.length === 0) {
       return null;
@@ -53,6 +62,7 @@ class FolderContainer extends Component<IProps, IState> {
         handleClick={this.handleClick}
         expanded={expanded}
         location={location}
+        CutomFolderIcon={CutomFolderIcon}
       />
     );
   }

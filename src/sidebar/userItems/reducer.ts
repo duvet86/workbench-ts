@@ -33,12 +33,6 @@ function myItems(
         sharedWithMe: action.items.sharedWithMe
       };
 
-    case MyItemsActionTypes.FOLDER_TREE_UPDATE:
-      return {
-        ...state,
-        currentTree: action.currentTree
-      };
-
     default:
       return state;
   }

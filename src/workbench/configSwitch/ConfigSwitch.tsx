@@ -22,7 +22,7 @@ interface IProps extends WithStyles<typeof styles> {
 const styles = ({ spacing }: Theme) =>
   createStyles({
     paper: {
-      width: "81%",
+      width: "calc(100% - 362px)",
       marginTop: 48
     },
     form: {
