@@ -51,7 +51,7 @@ const Folder: SFC<IProps> = ({
   nested,
   theme
 }) => (
-  <Fragment>
+  <>
     <ListItem
       divider
       button
@@ -94,7 +94,7 @@ const Folder: SFC<IProps> = ({
         )}
       </List>
     </Collapse>
-  </Fragment>
+  </>
 );
 
 export default withStyles(styles, { withTheme: true })(Folder);
