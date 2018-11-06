@@ -9,6 +9,7 @@ import {
   withStyles,
   WithStyles
 } from "@material-ui/core/styles";
+import { SvgIconProps } from "@material-ui/core/SvgIcon";
 
 import Collapse from "@material-ui/core/Collapse";
 import List from "@material-ui/core/List";
@@ -28,6 +29,7 @@ interface IProps extends WithStyles<typeof styles, true> {
   expanded: boolean;
   childFolders: IFolderChild[];
   nested: number;
+  CutomFolderIcon?: React.ComponentType<SvgIconProps>;
 }
 
 const styles = (theme: Theme) =>
@@ -49,7 +51,8 @@ const Folder: SFC<IProps> = ({
   handleClick,
   expanded,
   nested,
-  theme
+  theme,
+  CutomFolderIcon
 }) => (
   <>
     <ListItem
@@ -60,6 +63,8 @@ const Folder: SFC<IProps> = ({
     >
       {expanded ? (
         <FolderOpenIcon className={classes.icon} />
+      ) : CutomFolderIcon != null ? (
+        <CutomFolderIcon className={classes.icon} />
       ) : (
         <FolderIcon className={classes.icon} />
       )}

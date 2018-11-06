@@ -4,16 +4,10 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { RootState } from "rootReducer";
-import {
-  MyItemsAction,
-  myItemsRequest,
-  updateFolderTree
-} from "sidebar/userItems/actions";
+import { MyItemsAction, myItemsRequest } from "sidebar/userItems/actions";
 
-import Divider from "@material-ui/core/Divider";
 import { LoadingContainer } from "common/loading";
 import FolderTree from "sidebar/userItems/FolderTree";
-import ItemsSelector from "sidebar/userItems/ItemsSelector";
 
 interface IOwnProps {
   location: Location;
@@ -29,39 +23,24 @@ class FolderTreeContainer extends Component<Props> {
   }
 
   public render() {
-    const {
-      currentTree,
-      myItems,
-      sharedWithMe,
-      location,
-      isLoading
-    } = this.props;
+    const { myItems, sharedWithMe, location, isLoading } = this.props;
 
     return (
       <LoadingContainer isLoading={isLoading}>
-        <ItemsSelector
-          currentTree={currentTree}
-          handleTreeChange={this.handleTreeChange}
-        />
-        <Divider />
         <FolderTree
-          items={currentTree === 0 ? myItems : sharedWithMe}
+          myItems={myItems}
+          sharedWithMe={sharedWithMe}
           location={location}
         />
       </LoadingContainer>
     );
   }
-
-  private handleTreeChange = (_: React.ChangeEvent<{}>, currentTree: 0 | 1) => {
-    this.props.dispatchUpdateFolderTree(currentTree);
-  };
 }
 
 const mapStateToProps = ({
-  myItemsReducer: { isLoading, currentTree, myItems, sharedWithMe }
+  myItemsReducer: { isLoading, myItems, sharedWithMe }
 }: RootState) => ({
   isLoading,
-  currentTree,
   myItems,
   sharedWithMe
 });
@@ -69,9 +48,6 @@ const mapStateToProps = ({
 const mapDispatchToProps = (dispatch: Dispatch<MyItemsAction>) => ({
   dispatchLoadMyItems: () => {
     dispatch(myItemsRequest());
-  },
-  dispatchUpdateFolderTree: (currentTree: 0 | 1) => {
-    dispatch(updateFolderTree(currentTree));
   }
 });
 

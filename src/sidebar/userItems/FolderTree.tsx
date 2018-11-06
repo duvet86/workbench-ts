@@ -4,58 +4,45 @@ import React, { SFC } from "react";
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 import { IFolderChild } from "sidebar/userItems/types";
 
-import List from "@material-ui/core/List";
-
 import FolderContainer from "sidebar/userItems/FolderContainer";
-import Item from "sidebar/userItems/Item";
+import SharedWithMeIcon from "@material-ui/icons/FolderShared";
+import Paper from "@material-ui/core/Paper";
 
 interface IProps extends WithStyles<typeof styles> {
-  items: IFolderChild[];
+  myItems: IFolderChild[];
+  sharedWithMe: IFolderChild[];
   location: Location;
 }
 
 const styles = createStyles({
-  list: {
-    padding: 0,
-    overflow: "auto",
-    height: "100%"
-  },
-  listItem: {
-    cursor: "pointer"
-  },
-  avatar: {
-    width: 35,
-    height: 35
-  },
-  icon: {
-    width: 25,
-    height: 25
+  container: {
+    // overflow: "auto",
+    // height: "100%"
   }
 });
 
-const FolderTree: SFC<IProps> = ({ classes, items, location }) => (
-  <List className={classes.list}>
-    {items.map(
-      ({ ChildType, ChildFolderId, ChildFolder, ChildItemId, ChildItem }) =>
-        ChildType === "F" ? (
-          <FolderContainer
-            nested={1}
-            key={ChildFolderId}
-            label={ChildFolder.Label}
-            childFolders={ChildFolder.Children}
-            location={location}
-          />
-        ) : (
-          <Item
-            nested={1}
-            key={ChildItemId}
-            itemTypeId={ChildItem.ItemTypeId}
-            itemId={ChildItem.ItemId}
-            label={ChildItem.Label}
-          />
-        )
-    )}
-  </List>
+const FolderTree: SFC<IProps> = ({
+  classes,
+  myItems,
+  sharedWithMe,
+  location
+}) => (
+  <Paper>
+    <FolderContainer
+      initExpanded={true}
+      nested={1}
+      label="My Items"
+      childFolders={myItems}
+      location={location}
+    />
+    <FolderContainer
+      nested={1}
+      label="Shared With me"
+      childFolders={sharedWithMe}
+      location={location}
+      CutomFolderIcon={SharedWithMeIcon}
+    />
+  </Paper>
 );
 
 export default withStyles(styles)(FolderTree);
