@@ -1,4 +1,4 @@
-import React, { Fragment, SFC } from "react";
+import React, { SFC } from "react";
 import { Location } from "history";
 
 import { IFolderChild } from "sidebar/userItems/types";
