@@ -13,6 +13,7 @@ interface IProps {
   nested: number;
   initExpanded?: boolean;
   CutomFolderIcon?: React.ComponentType<SvgIconProps>;
+  disabled?: boolean;
 }
 
 interface IState {
@@ -33,7 +34,8 @@ class FolderContainer extends Component<IProps, IState> {
     const match = childFolders.some(
       c =>
         c.ChildType === "I" &&
-        `/workbench/${c.ChildItemId}` === location.pathname
+        (`/workbench/${c.ChildItemId}` === location.pathname ||
+          `/pagebuilder/${c.ChildItemId}` === location.pathname)
     );
 
     if (match) {
@@ -47,15 +49,14 @@ class FolderContainer extends Component<IProps, IState> {
       location,
       label,
       childFolders,
-      CutomFolderIcon
+      CutomFolderIcon,
+      disabled
     } = this.props;
     const { expanded } = this.state;
-    // if (childFolders.length === 0) {
-    //   return null;
-    // }
 
     return (
       <Folder
+        disabled={disabled}
         nested={nested}
         label={label}
         childFolders={childFolders}

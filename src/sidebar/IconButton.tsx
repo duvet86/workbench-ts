@@ -30,8 +30,7 @@ const styles = (theme: Theme) =>
       fontSize: 14
     },
     listItem: {
-      paddingLeft: 12,
-      paddingRight: 12
+      padding: 12
     }
   });
 
