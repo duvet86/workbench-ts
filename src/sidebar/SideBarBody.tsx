@@ -8,7 +8,8 @@ interface IProps extends WithStyles<typeof styles> {
 
 const styles = createStyles({
   bodyContainer: {
-    height: "100%"
+    height: "100%",
+    display: "flex"
   }
 });
 

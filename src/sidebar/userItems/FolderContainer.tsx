@@ -50,9 +50,9 @@ class FolderContainer extends Component<IProps, IState> {
       CutomFolderIcon
     } = this.props;
     const { expanded } = this.state;
-    if (childFolders.length === 0) {
-      return null;
-    }
+    // if (childFolders.length === 0) {
+    //   return null;
+    // }
 
     return (
       <Folder

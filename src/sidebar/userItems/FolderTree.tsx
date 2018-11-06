@@ -5,8 +5,9 @@ import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 import { IFolderChild } from "sidebar/userItems/types";
 
 import FolderContainer from "sidebar/userItems/FolderContainer";
-import SharedWithMeIcon from "@material-ui/icons/FolderShared";
-import Paper from "@material-ui/core/Paper";
+import SharedWithMeIcon from "@material-ui/icons/People";
+import StarredIcon from "@material-ui/icons/Star";
+import TrashIcon from "@material-ui/icons/Delete";
 
 interface IProps extends WithStyles<typeof styles> {
   myItems: IFolderChild[];
@@ -16,8 +17,9 @@ interface IProps extends WithStyles<typeof styles> {
 
 const styles = createStyles({
   container: {
-    // overflow: "auto",
-    // height: "100%"
+    overflow: "auto",
+    height: "100%",
+    width: "100%"
   }
 });
 
@@ -27,9 +29,8 @@ const FolderTree: SFC<IProps> = ({
   sharedWithMe,
   location
 }) => (
-  <Paper>
+  <div className={classes.container}>
     <FolderContainer
-      initExpanded={true}
       nested={1}
       label="My Items"
       childFolders={myItems}
@@ -42,7 +43,21 @@ const FolderTree: SFC<IProps> = ({
       location={location}
       CutomFolderIcon={SharedWithMeIcon}
     />
-  </Paper>
+    <FolderContainer
+      nested={1}
+      label="Starred"
+      childFolders={[]}
+      location={location}
+      CutomFolderIcon={StarredIcon}
+    />
+    <FolderContainer
+      nested={1}
+      label="Trash"
+      childFolders={[]}
+      location={location}
+      CutomFolderIcon={TrashIcon}
+    />
+  </div>
 );
 
 export default withStyles(styles)(FolderTree);

@@ -35,7 +35,6 @@ const styles = (theme: Theme) =>
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen
       }),
-      display: "flex",
       flexDirection: "row"
     },
     drawerPaperClose: {
@@ -53,7 +52,9 @@ const styles = (theme: Theme) =>
     },
     bodyContainer: {
       width: drawerBodyWidth,
-      borderLeft: "1px solid rgba(0, 0, 0, 0.12)"
+      borderLeft: "1px solid rgba(0, 0, 0, 0.12)",
+      display: "flex",
+      flexDirection: "column"
     }
   });
 

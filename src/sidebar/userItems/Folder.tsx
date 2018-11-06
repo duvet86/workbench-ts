@@ -53,53 +53,64 @@ const Folder: SFC<IProps> = ({
   nested,
   theme,
   CutomFolderIcon
-}) => (
-  <>
-    <ListItem
-      divider
-      button
-      onClick={handleClick}
-      style={{ paddingLeft: nested * theme.spacing.unit * 2 }}
-    >
-      {expanded ? (
-        <FolderOpenIcon className={classes.icon} />
-      ) : CutomFolderIcon != null ? (
-        <CutomFolderIcon className={classes.icon} />
-      ) : (
-        <FolderIcon className={classes.icon} />
-      )}
-      <ListItemText
-        primary={label}
-        classes={{
-          primary: classes.heading
-        }}
-      />
-    </ListItem>
-    <Collapse in={expanded} timeout="auto" unmountOnExit>
-      <List disablePadding component="nav">
-        {childFolders.map(
-          ({ ChildType, ChildFolderId, ChildFolder, ChildItemId, ChildItem }) =>
-            ChildType === "F" ? (
-              <FolderContainer
-                nested={nested + 1}
-                key={ChildFolderId}
-                label={ChildFolder.Label}
-                childFolders={ChildFolder.Children}
-                location={location}
-              />
-            ) : (
-              <Item
-                nested={nested + 1}
-                key={ChildItemId}
-                itemTypeId={ChildItem.ItemTypeId}
-                itemId={ChildItem.ItemId}
-                label={ChildItem.Label}
-              />
-            )
-        )}
-      </List>
-    </Collapse>
-  </>
-);
+}) => {
+  const icon =
+    CutomFolderIcon != null ? (
+      <CutomFolderIcon className={classes.icon} />
+    ) : expanded ? (
+      <FolderOpenIcon className={classes.icon} />
+    ) : (
+      <FolderIcon className={classes.icon} />
+    );
+
+  return (
+    <>
+      <ListItem
+        divider
+        button
+        onClick={handleClick}
+        style={{ paddingLeft: nested * theme.spacing.unit * 2 }}
+      >
+        {icon}
+        <ListItemText
+          primary={label}
+          classes={{
+            primary: classes.heading
+          }}
+        />
+      </ListItem>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <List disablePadding component="nav">
+          {childFolders.map(
+            ({
+              ChildType,
+              ChildFolderId,
+              ChildFolder,
+              ChildItemId,
+              ChildItem
+            }) =>
+              ChildType === "F" ? (
+                <FolderContainer
+                  nested={nested + 1}
+                  key={ChildFolderId}
+                  label={ChildFolder.Label}
+                  childFolders={ChildFolder.Children}
+                  location={location}
+                />
+              ) : (
+                <Item
+                  nested={nested + 1}
+                  key={ChildItemId}
+                  itemTypeId={ChildItem.ItemTypeId}
+                  itemId={ChildItem.ItemId}
+                  label={ChildItem.Label}
+                />
+              )
+          )}
+        </List>
+      </Collapse>
+    </>
+  );
+};
 
 export default withStyles(styles, { withTheme: true })(Folder);

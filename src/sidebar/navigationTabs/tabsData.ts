@@ -1,7 +1,7 @@
 const tabButtons = [
   {
     id: 1,
-    label: "Menu"
+    label: "Items"
   },
   {
     id: 2,
