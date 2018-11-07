@@ -8,7 +8,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 
-import SettingsIcon from "@material-ui/icons/SettingsApplications";
+import ColumnIcon from "@material-ui/icons/SettingsApplications";
 
 interface IProps extends WithStyles<typeof styles> {
   style: React.CSSProperties;
@@ -34,16 +34,16 @@ const styles = createStyles({
 const Row: SFC<IProps> = ({ classes, style, option, handleClick }) => (
   <ListItem
     divider
-    style={style}
-    onClick={handleClick}
     disableGutters
     dense
     button
-    className={classes.listItem}
     ContainerComponent="div"
+    style={style}
+    onClick={handleClick}
+    className={classes.listItem}
   >
     <ListItemIcon>
-      <SettingsIcon className={classes.iconColour} />
+      <ColumnIcon className={classes.iconColour} />
     </ListItemIcon>
     <ListItemText
       classes={{
