@@ -8,6 +8,8 @@ import HelpPageCard from "welcomePage/HelpPageCard";
 
 import linksList from "common/linksList";
 
+import Summary from "workbench/query/summary/Summary";
+
 const styles = createStyles({
   container: {
     padding: 25
@@ -21,11 +23,14 @@ const WelcomePage: SFC<WithStyles<typeof styles>> = ({ classes }) => (
         Welcome
       </Typography>
     </Grid>
-    {linksList.map(({ id, ...rest }) => (
+    <Grid item xs={12}>
+      <Summary />
+    </Grid>
+    {/* {linksList.map(({ id, ...rest }) => (
       <Grid item md={4} xs={12} key={id}>
         <HelpPageCard {...rest} />
       </Grid>
-    ))}
+    ))} */}
   </Grid>
 );
 

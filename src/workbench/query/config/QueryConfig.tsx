@@ -10,18 +10,19 @@ import SourceSelectorContainer from "workbench/query/sourceSelector/SourceSelect
 import ColumnsSelectorContainer from "workbench/query/columnSelector/ColumnsSelectorContainer";
 import ConstraintSelectorContainer from "workbench/query/constraintSelector/ConstraintSelectorContainer";
 import ConfigActionsContainer from "workbench/query/config/ConfigActionsContainer";
+import Summary from "workbench/query/summary/Summary";
 
 function getStepContent(currentStep: number, selectedQuery: IQuery) {
   switch (currentStep) {
     case 0:
+      const targetDataViewId =
+        selectedQuery.TargetDataViewId != null
+          ? selectedQuery.TargetDataViewId
+          : "";
       return (
         <SourceSelectorContainer
           elementId={selectedQuery.ElementId}
-          targetDataViewId={
-            selectedQuery.TargetDataViewId != null
-              ? selectedQuery.TargetDataViewId
-              : ""
-          }
+          targetDataViewId={targetDataViewId}
         />
       );
 
@@ -32,6 +33,9 @@ function getStepContent(currentStep: number, selectedQuery: IQuery) {
       return (
         <ConstraintSelectorContainer elementId={selectedQuery.ElementId} />
       );
+
+    case 3:
+      return <Summary />;
 
     default:
       return "Unknown step";
