@@ -27,21 +27,21 @@ interface IProps extends WithStyles<typeof styles> {
 const styles = (theme: Theme) =>
   createStyles({
     container: {
-      position: "relative"
+      display: "flex"
     },
     listItem: {
       padding: 12
     },
     link: {
-      display: "block"
+      overflow: "hidden"
     },
     paperInfo: {
-      position: "absolute",
+      position: "fixed",
       left: 52,
-      bottom: 3,
       zIndex: 1,
       padding: 10,
       display: "none",
+      marginTop: 5,
       "&::after": {
         top: 13,
         left: -7,
