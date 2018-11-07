@@ -5,7 +5,7 @@ import { RootState } from "rootReducer";
 import { getQuery, getCompletedSteps } from "workbench/query/selectors";
 
 import { LoadingContainer } from "common/loading";
-import QueryConfig from "workbench/query/QueryConfig";
+import QueryConfig from "workbench/query/config/QueryConfig";
 
 class QueryConfigContainer extends Component<
   ReturnType<typeof mapStateToProps>

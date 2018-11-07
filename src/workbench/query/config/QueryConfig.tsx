@@ -5,11 +5,11 @@ import { IQuery } from "workbench/types";
 import Grid from "@material-ui/core/Grid";
 
 import HelperText from "workbench/query/HelperText";
-import StepperHeaderContainer from "workbench/query/StepperHeaderContainer";
+import StepperHeaderContainer from "workbench/query/config/StepperHeaderContainer";
 import SourceSelectorContainer from "workbench/query/sourceSelector/SourceSelectorContainer";
 import ColumnsSelectorContainer from "workbench/query/columnSelector/ColumnsSelectorContainer";
 import ConstraintSelectorContainer from "workbench/query/constraintSelector/ConstraintSelectorContainer";
-import ConfigActionsContainer from "workbench/query/ConfigActionsContainer";
+import ConfigActionsContainer from "workbench/query/config/ConfigActionsContainer";
 
 function getStepContent(currentStep: number, selectedQuery: IQuery) {
   switch (currentStep) {

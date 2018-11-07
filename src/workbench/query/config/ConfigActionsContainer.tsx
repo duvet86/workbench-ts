@@ -9,7 +9,7 @@ import {
   IGoToStep
 } from "workbench/query/actions";
 
-import ConfigActions from "workbench/query/ConfigActions";
+import ConfigActions from "workbench/query/config/ConfigActions";
 
 interface IOwnProps {
   currentStep: number;

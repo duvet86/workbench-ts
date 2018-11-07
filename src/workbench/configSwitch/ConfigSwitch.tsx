@@ -12,7 +12,7 @@ import { ElementType } from "sidebar/operators/operatorsData";
 import Grid from "@material-ui/core/Grid";
 import Drawer from "@material-ui/core/Drawer";
 
-import QueryConfigContainer from "workbench/query/QueryConfigContainer";
+import QueryConfigContainer from "workbench/query/config/QueryConfigContainer";
 
 interface IProps extends WithStyles<typeof styles> {
   elementType: ElementType;

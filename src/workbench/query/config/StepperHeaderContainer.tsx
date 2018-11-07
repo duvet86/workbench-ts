@@ -4,7 +4,7 @@ import { Dispatch } from "redux";
 
 import { goToStep, IGoToStep } from "workbench/query/actions";
 
-import StepperHeader from "workbench/query/StepperHeader";
+import StepperHeader from "workbench/query/config/StepperHeader";
 
 const stepLabels = ["Source", "Columns", "Constraints", "Summary"];
 
