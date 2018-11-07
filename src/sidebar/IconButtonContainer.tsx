@@ -26,7 +26,7 @@ class IconButtonContainer extends Component<IProps, IState> {
       <IconButton
         visible={visible}
         Icon={Icon}
-        link={link}
+        to={link}
         label={label}
         handlePopoverOpen={this.handlePopoverOpen}
         handlePopoverClose={this.handlePopoverClose}

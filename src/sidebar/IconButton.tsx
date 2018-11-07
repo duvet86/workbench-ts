@@ -1,5 +1,5 @@
 import React, { SFC } from "react";
-import { NavLink, LinkProps } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import classnames from "classnames";
 
 import {
@@ -14,11 +14,10 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-import { ButtonProps } from "@material-ui/core/Button";
 
 interface IProps extends WithStyles<typeof styles> {
   Icon: React.ComponentType<SvgIconProps>;
-  link: string;
+  to: string;
   label: string;
   visible: boolean;
   handlePopoverOpen: () => void;
@@ -33,15 +32,18 @@ const styles = (theme: Theme) =>
     listItem: {
       padding: 12
     },
+    link: {
+      display: "block"
+    },
     paperInfo: {
       position: "absolute",
-      left: 65,
-      bottom: 4,
+      left: 52,
+      bottom: 3,
       zIndex: 1,
-      padding: 7,
+      padding: 10,
       display: "none",
       "&::after": {
-        top: 10,
+        top: 13,
         left: -7,
         content: "''",
         position: "absolute",
@@ -59,16 +61,10 @@ const styles = (theme: Theme) =>
     }
   });
 
-const getLink = (url: string) => ({ children, ...props }: ButtonProps) => (
-  <NavLink exact to={url} {...props as LinkProps}>
-    {children}
-  </NavLink>
-);
-
 const IconButton: SFC<IProps> = ({
   classes,
   Icon,
-  link,
+  to,
   label,
   visible,
   handlePopoverOpen,
@@ -79,11 +75,13 @@ const IconButton: SFC<IProps> = ({
     onMouseEnter={handlePopoverOpen}
     onMouseLeave={handlePopoverClose}
   >
-    <ListItem button className={classes.listItem} component={getLink(link)}>
-      <ListItemIcon>
-        <Icon />
-      </ListItemIcon>
-    </ListItem>
+    <NavLink exact to={to} className={classes.link}>
+      <ListItem button className={classes.listItem}>
+        <ListItemIcon>
+          <Icon />
+        </ListItemIcon>
+      </ListItem>
+    </NavLink>
     <Paper
       className={classnames(classes.paperInfo, {
         [classes.paperInfoVisible]: visible
