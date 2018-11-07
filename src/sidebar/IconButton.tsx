@@ -35,23 +35,23 @@ const styles = (theme: Theme) =>
     },
     paperInfo: {
       position: "absolute",
-      left: 55,
-      bottom: 7,
+      left: 65,
+      bottom: 4,
       zIndex: 1,
       padding: 7,
       display: "none",
-      // transform: "translateX(-50%)",
-      overflow: "hidden",
       "&::after": {
+        top: 10,
+        left: -7,
         content: "''",
         position: "absolute",
-        width: 20,
-        height: 20,
-        background: "white",
-        transform: "translateX(-50%) translateY(-50%) rotate(45deg)",
-        top: 0,
-        left: "50%",
-        boxShadow: "1px 1px 20px 0px rgba(0,0,0,0.6)"
+        boxSizing: "border-box",
+        border: "7px solid black",
+        borderColor: `transparent transparent ${theme.palette.common.white} ${
+          theme.palette.common.white
+        }`,
+        transform: "rotate(45deg)",
+        boxShadow: "-3px 3px 3px 0 rgba(0, 0, 0, 0.1)"
       }
     },
     paperInfoVisible: {
@@ -86,7 +86,7 @@ const IconButton: SFC<IProps> = ({
     </ListItem>
     <Paper
       className={classnames(classes.paperInfo, {
-        [classes.paperInfoVisible]: true
+        [classes.paperInfoVisible]: visible
       })}
     >
       <Typography>{label}</Typography>
