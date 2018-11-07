@@ -11,7 +11,7 @@ import Divider from "@material-ui/core/Divider";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-import TableFooter from "@material-ui/core/TableFooter";
+import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
@@ -129,8 +129,23 @@ const Summary: SFC = () => (
         </List>
       </ExpansionPanelDetails>
     </ExpansionPanel>
-    <Paper square>
+    <Paper
+      square
+      style={{
+        padding: "10px 24px 8px 24px"
+      }}
+    >
+      <Typography variant="h6" gutterBottom>
+        Preview
+      </Typography>
       <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Desc</TableCell>
+            <TableCell numeric>Qty.</TableCell>
+            <TableCell numeric>@</TableCell>
+          </TableRow>
+        </TableHead>
         <TableBody>
           {rows
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -145,11 +160,6 @@ const Summary: SFC = () => (
                 </TableRow>
               );
             })}
-          {/* {emptyRows > 0 && (
-            <TableRow style={{ height: 48 * emptyRows }}>
-              <TableCell colSpan={6} />
-            </TableRow>
-          )} */}
         </TableBody>
         {/* <TableFooter>
           <TableRow>
