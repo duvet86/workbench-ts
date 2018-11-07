@@ -10,18 +10,18 @@ import {
 const linksList = [
   {
     id: 1,
+    IconComponent: DashboardIcon,
+    label: "New Pagebuilder",
+    description: "This is where you visualise your queries.",
+    to: "/pagebuilder/new"
+  },
+  {
+    id: 2,
     IconComponent: DataViewIcon,
     label: "New Workbench",
     description:
       "This is where you can query, filter and manipulate your data.",
     to: "/workbench/new"
-  },
-  {
-    id: 2,
-    IconComponent: DashboardIcon,
-    label: "New Pagebuilder",
-    description: "This is where you visualise your queries.",
-    to: "/pagebuilder/new"
   },
   {
     id: 3,
