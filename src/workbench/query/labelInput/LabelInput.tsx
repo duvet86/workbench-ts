@@ -12,7 +12,7 @@ import TextField from "@material-ui/core/TextField";
 
 interface IProps extends WithStyles<typeof styles> {
   initLabel: string;
-  handleChangeLabel: () => void;
+  handleChangeLabel: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const styles = (theme: Theme) =>
@@ -24,7 +24,13 @@ const styles = (theme: Theme) =>
 
 const LabelInput: SFC<IProps> = ({ classes, initLabel, handleChangeLabel }) => (
   <Paper className={classes.paper}>
-    <TextField fullWidth required label="Query Label" value={initLabel} />
+    <TextField
+      fullWidth
+      required
+      label="Query Label"
+      value={initLabel}
+      onChange={handleChangeLabel}
+    />
   </Paper>
 );
 

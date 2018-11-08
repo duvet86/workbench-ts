@@ -2,10 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { RootState } from "rootReducer";
-import { QueryAction } from "workbench/actions";
-import { DataServicesAction } from "workbench/query/actions";
-import { getDataServices } from "workbench/query/selectors";
+import { IUpdateQueryLabel, updateQueryLabel } from "workbench/actions";
 
 import LabelInput from "workbench/query/labelInput/LabelInput";
 
@@ -14,9 +11,7 @@ interface IOwnProps {
   initLabel: string;
 }
 
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  IOwnProps;
+type Props = ReturnType<typeof mapDispatchToProps> & IOwnProps;
 
 class LabelInputContainer extends Component<Props> {
   public render() {
@@ -30,21 +25,20 @@ class LabelInputContainer extends Component<Props> {
     );
   }
 
-  private handleChangeLabel = () => {
-    // tslint:disable-next-line:no-console
-    console.log("asd");
+  private handleChangeLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { elementId, dispatcLabelUpdate } = this.props;
+
+    dispatcLabelUpdate(elementId, event.target.value);
   };
 }
 
-const mapStateToProps = (state: RootState) => ({
-  dataServices: getDataServices(state)
+const mapDispatchToProps = (dispatch: Dispatch<IUpdateQueryLabel>) => ({
+  dispatcLabelUpdate: (elementId: number, label: string) => {
+    dispatch(updateQueryLabel(elementId, label));
+  }
 });
 
-const mapDispatchToProps = (
-  dispatch: Dispatch<DataServicesAction | QueryAction>
-) => ({});
-
 export default connect(
-  mapStateToProps,
+  undefined,
   mapDispatchToProps
 )(LabelInputContainer);
