@@ -155,10 +155,12 @@ export const updateQueryDataServiceEpic = (
 
       // Update the query label to the source name + elementId
       // if the user has not defined a label.
-      let queryLabel = "";
+      let queryLabel: string;
       if (queries[elementId].Label === "") {
         queryLabel =
           dataServiceLabel != null ? `${dataServiceLabel} ${elementId}` : "";
+      } else {
+        queryLabel = queries[elementId].Label;
       }
 
       const { TenantId, SessionId, QueryGraphId } = session;
