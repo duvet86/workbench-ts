@@ -70,6 +70,12 @@ const styles = (theme: Theme) =>
     }
   });
 
+const CustomTableCell = withStyles(theme => ({
+  head: {
+    ...theme.typography.subtitle2
+  }
+}))(TableCell);
+
 const columns = [
   "asd",
   "asd",
@@ -114,7 +120,7 @@ const Summary: SFC<WithStyles<typeof styles>> = ({ classes }) => (
       <Typography gutterBottom variant="h6" className={classes.labelContainer}>
         Query Label
       </Typography>
-      <Typography variant="subtitle1">Cycle</Typography>
+      <Typography variant="subtitle1">Query #1</Typography>
     </Paper>
     <Paper
       square
@@ -183,13 +189,13 @@ const Summary: SFC<WithStyles<typeof styles>> = ({ classes }) => (
         </List>
       </ExpansionPanelDetails>
     </ExpansionPanel>
-    <div style={{ marginTop: 16 }}>
+    <Paper style={{ marginTop: 16 }}>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Desc</TableCell>
-            <TableCell numeric>Qty.</TableCell>
-            <TableCell numeric>@</TableCell>
+            <CustomTableCell>Desc</CustomTableCell>
+            <CustomTableCell numeric>Qty.</CustomTableCell>
+            <CustomTableCell numeric>@</CustomTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -221,7 +227,7 @@ const Summary: SFC<WithStyles<typeof styles>> = ({ classes }) => (
           </TableRow>
         </TableFooter> */}
       </Table>
-    </div>
+    </Paper>
   </>
 );
 

@@ -31,6 +31,7 @@ interface IProps {
   inputLabel?: string;
   helperText?: string;
   noClear?: boolean;
+  required?: boolean;
   handleOptionClick: (option: IOption) => (event: React.MouseEvent) => void;
   handleSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleClickClearSelected: (event: React.MouseEvent<HTMLDivElement>) => void;
@@ -89,11 +90,13 @@ const SelectInput: React.SFC<IProps> = ({
   open,
   renderValue,
   handleSelectAllNone,
-  isMulti
+  isMulti,
+  required
 }) => (
   <TextField
     select
     fullWidth
+    required={required}
     label={inputLabel}
     helperText={helperText}
     value={value}
@@ -112,18 +115,17 @@ const SelectInput: React.SFC<IProps> = ({
       multiple: isMulti
     }}
     InputProps={{
-      endAdornment: !noClear &&
-        value !== "" && (
-          <InputAdornment position="end">
-            <IconButton
-              aria-label="Clear Selected"
-              onClick={handleClickClearSelected}
-              onMouseDown={handleMouseDownPassword}
-            >
-              <ClearIcon />
-            </IconButton>
-          </InputAdornment>
-        )
+      endAdornment: !noClear && value !== "" && (
+        <InputAdornment position="end">
+          <IconButton
+            aria-label="Clear Selected"
+            onClick={handleClickClearSelected}
+            onMouseDown={handleMouseDownPassword}
+          >
+            <ClearIcon />
+          </IconButton>
+        </InputAdornment>
+      )
     }}
   >
     <MenuItem component="div" disableRipple>

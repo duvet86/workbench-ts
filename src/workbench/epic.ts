@@ -17,6 +17,7 @@ import {
   GraphPushActionTypes,
   GraphSaveActionTypes,
   QueryActionTypes,
+  updateQueryLabel,
   graphPushSuccess,
   graphSaveChangesSuccess,
   sessionSuccess,
@@ -131,7 +132,7 @@ export const updateQueryDataServiceEpic = (
     ofType<Action, IUpdateQueryDataService>(
       QueryActionTypes.QUERY_DATASERVICE_UPDATE
     ),
-    mergeMap(({ elementId, targetDataViewId }) => {
+    mergeMap(({ elementId, targetDataViewId, dataServiceLabel }) => {
       if (targetDataViewId == null) {
         return [openQueryConfig(elementId)];
       }
@@ -152,6 +153,14 @@ export const updateQueryDataServiceEpic = (
         connections
       });
 
+      // Update the query label to the source name + elementId
+      // if the user has not defined a label.
+      let queryLabel = "";
+      if (queries[elementId].Label === "") {
+        queryLabel =
+          dataServiceLabel != null ? `${dataServiceLabel} ${elementId}` : "";
+      }
+
       const { TenantId, SessionId, QueryGraphId } = session;
       return saveGraphObs(
         TenantId,
@@ -165,7 +174,12 @@ export const updateQueryDataServiceEpic = (
             SessionId,
             QueryGraphId,
             graph.NextChangeNumber
-          ).pipe(map(() => queryDescribeRequest()))
+          ).pipe(
+            mergeMap(() => [
+              updateQueryLabel(elementId, queryLabel),
+              queryDescribeRequest()
+            ])
+          )
         ),
         catchError(error => handleException(error))
       );

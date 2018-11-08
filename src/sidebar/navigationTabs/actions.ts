@@ -1,7 +1,7 @@
 import { Action } from "redux";
 
 export const enum TabsActionTypes {
-  MYITEMS_SHOW = "MYITEMS_SHOW",
+  USER_ITEMS_SHOW = "USER_ITEMS_SHOW",
   FILTERS_SHOW = "FILTERS_SHOW",
   TOOLS_SHOW = "TOOLS_SHOW"
 }
@@ -9,7 +9,7 @@ export const enum TabsActionTypes {
 type TabsEnabled = [boolean, boolean, boolean];
 
 export interface IShowMyItems extends Action {
-  type: TabsActionTypes.MYITEMS_SHOW;
+  type: TabsActionTypes.USER_ITEMS_SHOW;
   tabsEnabled?: TabsEnabled;
 }
 
@@ -26,7 +26,7 @@ export interface IShowTools extends Action {
 export type TabsAction = IShowMyItems | IShowFilters | IShowTools;
 
 export const showMyItems = (tabsEnabled?: TabsEnabled): IShowMyItems => ({
-  type: TabsActionTypes.MYITEMS_SHOW,
+  type: TabsActionTypes.USER_ITEMS_SHOW,
   tabsEnabled
 });
 

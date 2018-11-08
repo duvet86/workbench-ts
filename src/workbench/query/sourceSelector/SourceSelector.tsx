@@ -4,40 +4,59 @@ import SelectInputContainer, {
   IOption
 } from "common/select/SelectInputContainer";
 
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import {
+  createStyles,
+  withStyles,
+  WithStyles,
+  Theme
+} from "@material-ui/core/styles";
+
+import Paper from "@material-ui/core/Paper";
 
 import StorageIcon from "@material-ui/icons/Storage";
 
-interface IProps {
-  targetDataViewId: string;
+interface IProps extends WithStyles<typeof styles> {
+  initTargetDataViewId: string;
   dataServices: IOption[];
   handleChangeDataService: (option?: IOption) => void;
 }
 
-const styles = createStyles({
+const iconStyles = createStyles({
   iconColour: {
     fill: "#003b86"
   }
 });
 
-const styledIcon: SFC<WithStyles<typeof styles>> = ({ classes }) => (
+const styledIcon: SFC<WithStyles<typeof iconStyles>> = ({ classes }) => (
   <StorageIcon className={classes.iconColour} />
 );
 
-const OptionsIcon = withStyles(styles)(styledIcon);
+const OptionsIcon = withStyles(iconStyles)(styledIcon);
+
+const styles = (theme: Theme) =>
+  createStyles({
+    paper: {
+      padding: theme.spacing.unit * 3,
+      marginBottom: theme.spacing.unit * 3
+    }
+  });
 
 const SourceSelector: SFC<IProps> = ({
-  targetDataViewId,
+  classes,
+  initTargetDataViewId,
   dataServices,
   handleChangeDataService
 }) => (
-  <SelectInputContainer
-    OptionsIcon={OptionsIcon}
-    inputLabel="Click here to select a source..."
-    initValue={targetDataViewId}
-    options={dataServices}
-    onChange={handleChangeDataService}
-  />
+  <Paper className={classes.paper}>
+    <SelectInputContainer
+      required
+      OptionsIcon={OptionsIcon}
+      inputLabel="Query Source"
+      initValue={initTargetDataViewId}
+      options={dataServices}
+      onChange={handleChangeDataService}
+    />
+  </Paper>
 );
 
-export default SourceSelector;
+export default withStyles(styles)(SourceSelector);

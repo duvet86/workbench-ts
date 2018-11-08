@@ -158,6 +158,7 @@ export const graphPopSuccess = (): IGraphPopSuccess => ({
 
 export const enum QueryActionTypes {
   QUERY_ADD = "QUERY_ADD",
+  QUERY_LABEL_UPDATE = "QUERY_LABEL_UPDATE",
   QUERY_DATASERVICE_UPDATE = "QUERY_DATASERVICE_UPDATE"
 }
 
@@ -171,9 +172,19 @@ export interface IUpdateQueryDataService extends Action {
   type: QueryActionTypes.QUERY_DATASERVICE_UPDATE;
   elementId: number;
   targetDataViewId?: string;
+  dataServiceLabel?: string;
 }
 
-export type QueryAction = IAddQuery | IUpdateQueryDataService;
+export interface IUpdateQueryLabel extends Action {
+  type: QueryActionTypes.QUERY_LABEL_UPDATE;
+  elementId: number;
+  label: string;
+}
+
+export type QueryAction =
+  | IAddQuery
+  | IUpdateQueryDataService
+  | IUpdateQueryLabel;
 
 export const addQuery = (
   elementId: number,
@@ -183,7 +194,7 @@ export const addQuery = (
   type: QueryActionTypes.QUERY_ADD,
   elementId,
   query: {
-    Label: "New Query",
+    Label: "",
     ElementId: elementId,
     IsConfigured: false,
     TargetDataServiceId: "",
@@ -203,11 +214,22 @@ export const addQuery = (
 
 export const updateQueryDataService = (
   elementId: number,
-  targetDataViewId?: string
+  targetDataViewId?: string,
+  dataServiceLabel?: string
 ): IUpdateQueryDataService => ({
   type: QueryActionTypes.QUERY_DATASERVICE_UPDATE,
   elementId,
-  targetDataViewId
+  targetDataViewId,
+  dataServiceLabel
+});
+
+export const updateQueryLabel = (
+  elementId: number,
+  label: string
+): IUpdateQueryLabel => ({
+  type: QueryActionTypes.QUERY_LABEL_UPDATE,
+  elementId,
+  label
 });
 
 export const enum QueryColumnActionTypes {
@@ -249,8 +271,8 @@ export const removeQueryColumn = (
 
 export const enum QueryConstraintActionTypes {
   QUERY_CONSTRAINT_ADD = "QUERY_CONSTRAINT_ADD",
-  QUERY_CONSTRAINT_TYPE = "QUERY_CONSTRAINT_TYPE",
-  QUERY_CONSTRAINT_VALUES = "QUERY_CONSTRAINT_VALUES",
+  QUERY_CONSTRAINT_TYPE_UPDATE = "QUERY_CONSTRAINT_TYPE_UPDATE",
+  QUERY_CONSTRAINT_VALUES_UPDATE = "QUERY_CONSTRAINT_VALUES_UPDATE",
   QUERY_CONSTRAINT_REMOVE = "QUERY_CONSTRAINT_REMOVE"
 }
 
@@ -261,14 +283,14 @@ export interface IAddQueryConstraint extends Action {
 }
 
 export interface IUpdateQueryConstraintType extends Action {
-  type: QueryConstraintActionTypes.QUERY_CONSTRAINT_TYPE;
+  type: QueryConstraintActionTypes.QUERY_CONSTRAINT_TYPE_UPDATE;
   elementId: number;
   constraintId: number;
   constraintType: string;
 }
 
 export interface IUpdateQueryConstraintValues extends Action {
-  type: QueryConstraintActionTypes.QUERY_CONSTRAINT_VALUES;
+  type: QueryConstraintActionTypes.QUERY_CONSTRAINT_VALUES_UPDATE;
   elementId: number;
   constraintId: number;
   vectorValues: any[][];
@@ -301,7 +323,7 @@ export const updateQueryConstraintType = (
   constraintId: number,
   constraintType: string
 ): IUpdateQueryConstraintType => ({
-  type: QueryConstraintActionTypes.QUERY_CONSTRAINT_TYPE,
+  type: QueryConstraintActionTypes.QUERY_CONSTRAINT_TYPE_UPDATE,
   elementId,
   constraintId,
   constraintType
@@ -313,7 +335,7 @@ export const updateQueryConstraintValues = (
   vectorValues: any[][],
   valuesHint?: string
 ): IUpdateQueryConstraintValues => ({
-  type: QueryConstraintActionTypes.QUERY_CONSTRAINT_VALUES,
+  type: QueryConstraintActionTypes.QUERY_CONSTRAINT_VALUES_UPDATE,
   elementId,
   constraintId,
   vectorValues,

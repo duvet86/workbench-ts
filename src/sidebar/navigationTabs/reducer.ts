@@ -17,7 +17,7 @@ function navigationTabs(
   const tabsEnabled = action.tabsEnabled || state.tabsEnabled;
 
   switch (action.type) {
-    case TabsActionTypes.MYITEMS_SHOW:
+    case TabsActionTypes.USER_ITEMS_SHOW:
       return {
         selectedTab: 0,
         tabsEnabled

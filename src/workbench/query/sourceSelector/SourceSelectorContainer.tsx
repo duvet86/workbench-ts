@@ -16,7 +16,7 @@ import SourceSelector from "workbench/query/sourceSelector/SourceSelector";
 
 interface IOwnProps {
   elementId: number;
-  targetDataViewId: string;
+  initTargetDataViewId: string;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -29,11 +29,11 @@ class SourceSelectorContainer extends Component<Props> {
   }
 
   public render() {
-    const { targetDataViewId, dataServices } = this.props;
+    const { initTargetDataViewId, dataServices } = this.props;
 
     return (
       <SourceSelector
-        targetDataViewId={targetDataViewId}
+        initTargetDataViewId={initTargetDataViewId}
         dataServices={dataServices}
         handleChangeDataService={this.handleChangeDataService}
       />
@@ -43,10 +43,10 @@ class SourceSelectorContainer extends Component<Props> {
   private handleChangeDataService = (option?: IOption) => {
     const { elementId, dispatchUpdateDataService } = this.props;
 
-    dispatchUpdateDataService(
-      elementId,
-      option != null ? option.value : undefined
-    );
+    const targetDataViewId = option != null ? option.value : undefined;
+    const dataServiceLabel = option != null ? option.label : undefined;
+
+    dispatchUpdateDataService(elementId, targetDataViewId, dataServiceLabel);
   };
 }
 
@@ -58,8 +58,14 @@ const mapDispatchToProps = (
   dispatch: Dispatch<DataServicesAction | QueryAction>
 ) => ({
   dispatchDataServicesRequest: () => dispatch(dataServicesRequest()),
-  dispatchUpdateDataService: (elementId: number, targetDataViewId?: string) =>
-    dispatch(updateQueryDataService(elementId, targetDataViewId))
+  dispatchUpdateDataService: (
+    elementId: number,
+    targetDataViewId?: string,
+    dataServiceLabel?: string
+  ) =>
+    dispatch(
+      updateQueryDataService(elementId, targetDataViewId, dataServiceLabel)
+    )
 });
 
 export default connect(

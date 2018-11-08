@@ -73,6 +73,17 @@ function session(
         }
       });
 
+    case QueryActionTypes.QUERY_LABEL_UPDATE:
+      return update(state, {
+        queries: {
+          [action.elementId]: {
+            $merge: {
+              Label: action.label
+            }
+          }
+        }
+      });
+
     case QueryActionTypes.QUERY_DATASERVICE_UPDATE:
       return update(state, {
         queries: {
@@ -118,7 +129,7 @@ function session(
         }
       });
 
-    case QueryConstraintActionTypes.QUERY_CONSTRAINT_TYPE:
+    case QueryConstraintActionTypes.QUERY_CONSTRAINT_TYPE_UPDATE:
       return update(state, {
         queries: {
           [action.elementId]: {
@@ -133,7 +144,7 @@ function session(
         }
       });
 
-    case QueryConstraintActionTypes.QUERY_CONSTRAINT_VALUES:
+    case QueryConstraintActionTypes.QUERY_CONSTRAINT_VALUES_UPDATE:
       return update(state, {
         queries: {
           [action.elementId]: {

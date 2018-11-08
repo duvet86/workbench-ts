@@ -35,6 +35,7 @@ export interface IProps<T> {
   helperText?: string;
   noClear?: boolean;
   reset?: boolean;
+  required?: boolean;
 }
 
 export interface IState<T> {
@@ -91,7 +92,8 @@ export default class SelectInputContainer<T> extends React.Component<
       inputLabel,
       helperText,
       noClear,
-      isMulti
+      isMulti,
+      required
     } = this.props;
     const { selectedOption, options, open } = this.state;
 
@@ -114,6 +116,7 @@ export default class SelectInputContainer<T> extends React.Component<
         open={open}
         value={value}
         options={options}
+        required={required}
         isMulti={isMulti}
         handleOptionClick={this.handleOptionClick}
         handleSearchChange={this.handleSearchChange}

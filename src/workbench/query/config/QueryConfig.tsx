@@ -7,6 +7,7 @@ import Grid from "@material-ui/core/Grid";
 import HelperText from "workbench/query/HelperText";
 import StepperHeaderContainer from "workbench/query/config/StepperHeaderContainer";
 import SourceSelectorContainer from "workbench/query/sourceSelector/SourceSelectorContainer";
+import LabelInputContainer from "workbench/query/labelInput/LabelInputContainer";
 import ColumnsSelectorContainer from "workbench/query/columnSelector/ColumnsSelectorContainer";
 import ConstraintSelectorContainer from "workbench/query/constraintSelector/ConstraintSelectorContainer";
 import ConfigActionsContainer from "workbench/query/config/ConfigActionsContainer";
@@ -15,15 +16,21 @@ import Summary from "workbench/query/summary/Summary";
 function getStepContent(currentStep: number, selectedQuery: IQuery) {
   switch (currentStep) {
     case 0:
-      const targetDataViewId =
+      const initTargetDataViewId =
         selectedQuery.TargetDataViewId != null
           ? selectedQuery.TargetDataViewId
           : "";
       return (
-        <SourceSelectorContainer
-          elementId={selectedQuery.ElementId}
-          targetDataViewId={targetDataViewId}
-        />
+        <>
+          <SourceSelectorContainer
+            elementId={selectedQuery.ElementId}
+            initTargetDataViewId={initTargetDataViewId}
+          />
+          <LabelInputContainer
+            elementId={selectedQuery.ElementId}
+            initLabel={selectedQuery.Label}
+          />
+        </>
       );
 
     case 1:
