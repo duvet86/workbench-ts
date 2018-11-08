@@ -1,4 +1,12 @@
 import React, { SFC } from "react";
+import classnames from "classnames";
+
+import {
+  createStyles,
+  Theme,
+  withStyles,
+  WithStyles
+} from "@material-ui/core/styles";
 
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
@@ -21,6 +29,46 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import ColumnIcon from "@material-ui/icons/SettingsApplications";
 import ConstraintIcon from "@material-ui/icons/FilterList";
+
+const styles = (theme: Theme) =>
+  createStyles({
+    paper: {
+      position: "relative",
+      display: "flex",
+      alignItems: "center",
+      padding: "8px 24px 4px 24px"
+    },
+    paperDivider: {
+      "&:before": {
+        position: "absolute",
+        left: 0,
+        top: -1,
+        right: 0,
+        height: 1,
+        content: "''",
+        opacity: 1,
+        backgroundColor: theme.palette.divider
+      }
+    },
+    labelContainer: {
+      flexShrink: 0,
+      width: "15%"
+    },
+    list: {
+      width: "100%",
+      maxHeight: 300,
+      overflow: "auto"
+    },
+    previewContainer: {
+      padding: "10px 24px 8px 24px"
+    },
+    expansionSummary: {
+      alignItems: "center"
+    },
+    helper: {
+      color: "rgba(0, 0, 0, 0.54)"
+    }
+  });
 
 const columns = [
   "asd",
@@ -60,37 +108,40 @@ const rows = [
 const page = 0;
 const rowsPerPage = 5;
 
-const Summary: SFC = () => (
+const Summary: SFC<WithStyles<typeof styles>> = ({ classes }) => (
   <>
-    <Paper
-      square
-      style={{
-        display: "flex",
-        padding: "10px 24px 8px 24px"
-      }}
-    >
-      <Typography
-        style={{ flexShrink: 0, marginRight: 46 }}
-        variant="h6"
-        gutterBottom
-      >
+    <Paper square elevation={1} className={classes.paper}>
+      <Typography gutterBottom variant="h6" className={classes.labelContainer}>
         Query Label
       </Typography>
-      <TextField fullWidth value="Cycle" placeholder="Query Label" required />
+      <Typography variant="subtitle1">Cycle</Typography>
+    </Paper>
+    <Paper
+      square
+      elevation={1}
+      className={classnames(classes.paper, classes.paperDivider)}
+    >
+      <Typography gutterBottom variant="h6" className={classes.labelContainer}>
+        Source
+      </Typography>
+      <Typography variant="subtitle1">Cycle</Typography>
     </Paper>
     <ExpansionPanel>
-      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography variant="h6">Columns (25)</Typography>
+      <ExpansionPanelSummary
+        classes={{
+          content: classes.expansionSummary
+        }}
+        expandIcon={<ExpandMoreIcon />}
+      >
+        <Typography variant="h6" className={classes.labelContainer}>
+          Columns (25)
+        </Typography>
+        <Typography variant="caption" className={classes.helper}>
+          Click to view more...
+        </Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
-        <List
-          dense
-          style={{
-            width: "100%",
-            maxHeight: 174,
-            overflow: "auto"
-          }}
-        >
+        <List dense className={classes.list}>
           <Divider />
           {columns.map((label, i) => (
             <ListItem key={i} divider>
@@ -104,18 +155,21 @@ const Summary: SFC = () => (
       </ExpansionPanelDetails>
     </ExpansionPanel>
     <ExpansionPanel>
-      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography variant="h6">Constraints (3)</Typography>
+      <ExpansionPanelSummary
+        classes={{
+          content: classes.expansionSummary
+        }}
+        expandIcon={<ExpandMoreIcon />}
+      >
+        <Typography variant="h6" className={classes.labelContainer}>
+          Constraints (3)
+        </Typography>
+        <Typography variant="caption" className={classes.helper}>
+          Click to view more...
+        </Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
-        <List
-          dense
-          style={{
-            width: "100%",
-            maxHeight: 174,
-            overflow: "auto"
-          }}
-        >
+        <List dense className={classes.list}>
           <Divider />
           {constrainsts.map((label, i) => (
             <ListItem key={i} divider>
@@ -129,15 +183,7 @@ const Summary: SFC = () => (
         </List>
       </ExpansionPanelDetails>
     </ExpansionPanel>
-    <Paper
-      square
-      style={{
-        padding: "10px 24px 8px 24px"
-      }}
-    >
-      <Typography variant="h6" gutterBottom>
-        Preview
-      </Typography>
+    <div style={{ marginTop: 16 }}>
       <Table>
         <TableHead>
           <TableRow>
@@ -175,8 +221,8 @@ const Summary: SFC = () => (
           </TableRow>
         </TableFooter> */}
       </Table>
-    </Paper>
+    </div>
   </>
 );
 
-export default Summary;
+export default withStyles(styles)(Summary);
