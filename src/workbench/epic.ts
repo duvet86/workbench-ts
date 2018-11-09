@@ -1,6 +1,6 @@
 import { denormalize } from "normalizr";
 import { ActionsObservable, StateObservable, ofType } from "redux-observable";
-import { catchError, map, mergeMap } from "rxjs/operators";
+import { catchError, map, mergeMap, withLatestFrom } from "rxjs/operators";
 import { Action } from "redux";
 
 import { handleException } from "errorPage/actions";
@@ -48,11 +48,8 @@ export const saveGraphEpic = (
 ) =>
   action$.pipe(
     ofType(GraphSaveActionTypes.GRAPH_SAVE_REQUEST),
-    mergeMap(() => {
-      const {
-        sessionReducer: { session, graph }
-      } = state$.value;
-
+    withLatestFrom(state$),
+    mergeMap(([, { sessionReducer: { session, graph } }]) => {
       if (session == null || graph == null) {
         throw new Error(
           "serviceDescriptionEpic: session or graph cannot be null."
@@ -60,7 +57,6 @@ export const saveGraphEpic = (
       }
 
       const { TenantId, SessionId, QueryGraphId } = session;
-
       return saveGraphObs(TenantId, SessionId, QueryGraphId, graph, true).pipe(
         map(() => graphSaveChangesSuccess()),
         catchError(error => handleException(error))
@@ -85,17 +81,13 @@ export const pushGraphChangesEpic = (
 ) =>
   action$.pipe(
     ofType(GraphPushActionTypes.GRAPH_PUSH_REQUEST),
-    mergeMap(() => {
-      const {
-        sessionReducer: { session }
-      } = state$.value;
-
+    withLatestFrom(state$),
+    mergeMap(([, { sessionReducer: { session } }]) => {
       if (session == null) {
         throw new Error("serviceDescriptionEpic: session cannot be null.");
       }
 
       const { TenantId, SessionId, QueryGraphId } = session;
-
       return pushGraphChangesObs(TenantId, SessionId, QueryGraphId).pipe(
         map(() => graphPushSuccess()),
         catchError(error => handleException(error))
@@ -106,10 +98,10 @@ export const pushGraphChangesEpic = (
 // export const popGraphChangesEpic = (action$, state$) =>
 //   action$.pipe(
 //     ofType(CLOSE_QUERY_CONFIG),
-//     mergeMap(() => {
-//       const {
+//     withLatestFrom(state$),
+//     mergeMap(([{
 //         sessionReducer: { session: { TenantId, SessionId, QueryGraphId } }
-//       } = state$.value;
+//       }]) => {
 
 //       return popGraphChangesObs(TenantId, SessionId, QueryGraphId).pipe(
 //         map(response => graphPopSuccess(response)),
@@ -132,58 +124,56 @@ export const updateQueryDataServiceEpic = (
     ofType<Action, IUpdateQueryDataService>(
       QueryActionTypes.QUERY_DATASERVICE_UPDATE
     ),
-    mergeMap(({ elementId, targetDataViewId, dataServiceLabel }) => {
-      if (targetDataViewId == null) {
-        return [openQueryConfig(elementId)];
-      }
+    withLatestFrom(state$),
+    mergeMap(
+      ([
+        { elementId, targetDataViewId, dataServiceLabel },
+        {
+          sessionReducer: { session, graph, queries, filters, connections }
+        }
+      ]) => {
+        if (targetDataViewId == null) {
+          return [openQueryConfig(elementId)];
+        }
+        if (session == null || graph == null) {
+          throw new Error(
+            "serviceDescriptionEpic: session or graph cannot be null."
+          );
+        }
 
-      const {
-        sessionReducer: { session, graph, queries, filters, connections }
-      } = state$.value;
+        const denormalizedGraph = denormalize(graph, graphSchema, {
+          queries,
+          filters,
+          connections
+        });
 
-      if (session == null || graph == null) {
-        throw new Error(
-          "serviceDescriptionEpic: session or graph cannot be null."
+        // Update the query label to the source name + elementId
+        // if the user has not defined a label yet.
+        const actionsToDispatch: Action[] = [queryDescribeRequest()];
+        if (queries[elementId].Label === "" && dataServiceLabel != null) {
+          // unshift to update the label first and then the describe action.
+          actionsToDispatch.unshift(
+            updateQueryLabel(elementId, `${dataServiceLabel} ${elementId}`)
+          );
+        }
+
+        const { TenantId, SessionId, QueryGraphId } = session;
+        return saveGraphObs(
+          TenantId,
+          SessionId,
+          QueryGraphId,
+          denormalizedGraph
+        ).pipe(
+          mergeMap(() =>
+            getGraphObs(
+              TenantId,
+              SessionId,
+              QueryGraphId,
+              graph.NextChangeNumber
+            ).pipe(mergeMap(() => actionsToDispatch))
+          ),
+          catchError(error => handleException(error))
         );
       }
-
-      const denormalizedGraph = denormalize(graph, graphSchema, {
-        queries,
-        filters,
-        connections
-      });
-
-      // Update the query label to the source name + elementId
-      // if the user has not defined a label.
-      let queryLabel: string;
-      if (queries[elementId].Label === "") {
-        queryLabel =
-          dataServiceLabel != null ? `${dataServiceLabel} ${elementId}` : "";
-      } else {
-        queryLabel = queries[elementId].Label;
-      }
-
-      const { TenantId, SessionId, QueryGraphId } = session;
-      return saveGraphObs(
-        TenantId,
-        SessionId,
-        QueryGraphId,
-        denormalizedGraph
-      ).pipe(
-        mergeMap(() =>
-          getGraphObs(
-            TenantId,
-            SessionId,
-            QueryGraphId,
-            graph.NextChangeNumber
-          ).pipe(
-            mergeMap(() => [
-              updateQueryLabel(elementId, queryLabel),
-              queryDescribeRequest()
-            ])
-          )
-        ),
-        catchError(error => handleException(error))
-      );
-    })
+    )
   );

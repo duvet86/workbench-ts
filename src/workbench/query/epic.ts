@@ -1,5 +1,5 @@
 import { ActionsObservable, StateObservable, ofType } from "redux-observable";
-import { mergeMap, map, catchError } from "rxjs/operators";
+import { mergeMap, map, catchError, withLatestFrom } from "rxjs/operators";
 import { Action } from "redux";
 
 import { handleException } from "errorPage/actions";
@@ -50,27 +50,31 @@ export const serviceDescriptionEpic = (
 ) =>
   action$.pipe(
     ofType(QueryDescActionTypes.QUERY_DESCRIBE_REQUEST),
-    mergeMap(() => {
-      const {
-        sessionReducer: { session },
-        queryConfigReducer: { elementId }
-      } = state$.value;
+    withLatestFrom(state$),
+    mergeMap(
+      ([
+        ,
+        {
+          sessionReducer: { session },
+          queryConfigReducer: { elementId }
+        }
+      ]) => {
+        if (session == null) {
+          throw new Error("serviceDescriptionEpic: session cannot be null.");
+        }
 
-      if (session == null) {
-        throw new Error("serviceDescriptionEpic: session cannot be null.");
+        const { TenantId, SessionId, QueryGraphId } = session;
+        return getDataServiceDescriptionObs(
+          TenantId,
+          SessionId,
+          QueryGraphId,
+          elementId
+        ).pipe(
+          map(serviceDescription =>
+            queryDescribeSuccess(serviceDescription, elementId)
+          ),
+          catchError(error => handleException(error, queryConfigError()))
+        );
       }
-
-      const { TenantId, SessionId, QueryGraphId } = session;
-      return getDataServiceDescriptionObs(
-        TenantId,
-        SessionId,
-        QueryGraphId,
-        elementId
-      ).pipe(
-        map(serviceDescription =>
-          queryDescribeSuccess(serviceDescription, elementId)
-        ),
-        catchError(error => handleException(error, queryConfigError()))
-      );
-    })
+    )
   );
