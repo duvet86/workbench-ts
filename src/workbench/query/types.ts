@@ -114,3 +114,11 @@ export interface IAllowedValueDtc {
   DisplayValue: string;
   Selected: boolean;
 }
+
+export interface IPagedRow {
+  PageNumber: number;
+  PageSize: number;
+  TotalRowCount: number;
+  VectorRows: any[];
+  DisplayRows: string[];
+}

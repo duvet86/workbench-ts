@@ -5,7 +5,8 @@ import {
   IUdsDescriptionDtc,
   IFilterCapabilitiesDic,
   IUdsFilterDescriptionDtc,
-  IUdsColumnDescriptionDtc
+  IUdsColumnDescriptionDtc,
+  IPagedRow
 } from "workbench/query/types";
 
 export const enum QueryConfigActionTypes {
@@ -143,4 +144,40 @@ export const queryDescribeSuccess = (
   availableColumns: Columns,
   availableFilters: AvailableFilters,
   elementId
+});
+
+export const enum QueryDataTableActionTypes {
+  QUERY_DATATABLE_REQUEST = "QUERY_DATATABLE_REQUEST",
+  QUERY_DATATABLE_SUCCESS = "QUERY_DATATABLE_SUCCESS"
+}
+
+export interface IQueryDataTableRequest extends Action {
+  type: QueryDataTableActionTypes.QUERY_DATATABLE_REQUEST;
+  pageSize: number;
+  pageNumber: number;
+}
+
+export interface IQueryDataTableSuccess extends Action {
+  type: QueryDataTableActionTypes.QUERY_DATATABLE_SUCCESS;
+  rows: IPagedRow[];
+}
+
+export type QueryDataTableAction =
+  | IQueryDataTableRequest
+  | IQueryDataTableSuccess;
+
+export const queryDataTableRequest = (
+  pageSize: number,
+  pageNumber: number
+): IQueryDataTableRequest => ({
+  type: QueryDataTableActionTypes.QUERY_DATATABLE_REQUEST,
+  pageSize,
+  pageNumber
+});
+
+export const queryDataTableSuccess = (
+  rows: IPagedRow[]
+): IQueryDataTableSuccess => ({
+  type: QueryDataTableActionTypes.QUERY_DATATABLE_SUCCESS,
+  rows
 });

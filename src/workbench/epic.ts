@@ -148,7 +148,7 @@ export const updateQueryDataServiceEpic = (
         });
 
         // Update the query label to the source name + elementId
-        // if the user has not defined a label yet.
+        // if the user hasn't defined a label yet.
         const actionsToDispatch: Action[] = [queryDescribeRequest()];
         if (queries[elementId].Label === "" && dataServiceLabel != null) {
           // unshift to update the label first and then the describe action.

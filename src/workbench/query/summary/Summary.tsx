@@ -7,9 +7,10 @@ import {
   withStyles,
   WithStyles
 } from "@material-ui/core/styles";
+import { IQuery } from "workbench/types";
+import { IPagedRow } from "workbench/query/types";
 
 import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -29,6 +30,13 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import ColumnIcon from "@material-ui/icons/SettingsApplications";
 import ConstraintIcon from "@material-ui/icons/FilterList";
+
+interface IProps extends WithStyles<typeof styles> {
+  isLoading: boolean;
+  query: IQuery;
+  querySourceLabel: string;
+  dataTableRows: IPagedRow[];
+}
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -76,51 +84,19 @@ const CustomTableCell = withStyles(theme => ({
   }
 }))(TableCell);
 
-const columns = [
-  "asd",
-  "asd",
-  "asd",
-  "asaaa",
-  "asdasdas",
-  "asdwwrwe",
-  "aaaaa",
-  "sadsadasdsa"
-];
-
-const constrainsts = ["asd", "asd", "asd"];
-
-let counter = 0;
-function createData(name: string, calories: number, fat: number) {
-  counter += 1;
-  return { id: counter, name, calories, fat };
-}
-
-const rows = [
-  createData("Cupcake", 305, 3.7),
-  createData("Donut", 452, 25.0),
-  createData("Eclair", 262, 16.0),
-  createData("Frozen yoghurt", 159, 6.0),
-  createData("Gingerbread", 356, 16.0),
-  createData("Honeycomb", 408, 3.2),
-  createData("Ice cream sandwich", 237, 9.0),
-  createData("Jelly Bean", 375, 0.0),
-  createData("KitKat", 518, 26.0),
-  createData("Lollipop", 392, 0.2),
-  createData("Marshmallow", 318, 0),
-  createData("Nougat", 360, 19.0),
-  createData("Oreo", 437, 18.0)
-].sort((a, b) => (a.calories < b.calories ? -1 : 1));
-
-const page = 0;
-const rowsPerPage = 5;
-
-const Summary: SFC<WithStyles<typeof styles>> = ({ classes }) => (
+const Summary: SFC<IProps> = ({
+  isLoading,
+  classes,
+  query,
+  querySourceLabel,
+  dataTableRows
+}) => (
   <>
     <Paper square elevation={1} className={classes.paper}>
       <Typography gutterBottom variant="h6" className={classes.labelContainer}>
         Query Label
       </Typography>
-      <Typography variant="subtitle1">Query #1</Typography>
+      <Typography variant="subtitle1">{query.Label}</Typography>
     </Paper>
     <Paper
       square
@@ -130,7 +106,7 @@ const Summary: SFC<WithStyles<typeof styles>> = ({ classes }) => (
       <Typography gutterBottom variant="h6" className={classes.labelContainer}>
         Source
       </Typography>
-      <Typography variant="subtitle1">Cycle</Typography>
+      <Typography variant="subtitle1">{querySourceLabel}</Typography>
     </Paper>
     <ExpansionPanel>
       <ExpansionPanelSummary
@@ -140,7 +116,7 @@ const Summary: SFC<WithStyles<typeof styles>> = ({ classes }) => (
         expandIcon={<ExpandMoreIcon />}
       >
         <Typography variant="h6" className={classes.labelContainer}>
-          Columns (25)
+          Columns ({query.Columns.length})
         </Typography>
         <Typography variant="caption" className={classes.helper}>
           Click to view more...
@@ -149,12 +125,12 @@ const Summary: SFC<WithStyles<typeof styles>> = ({ classes }) => (
       <ExpansionPanelDetails>
         <List dense className={classes.list}>
           <Divider />
-          {columns.map((label, i) => (
-            <ListItem key={i} divider>
+          {query.Columns.map(({ ColumnName, Label }) => (
+            <ListItem key={ColumnName} divider>
               <ListItemIcon>
                 <ColumnIcon />
               </ListItemIcon>
-              <ListItemText primary={label} />
+              <ListItemText primary={Label} />
             </ListItem>
           ))}
         </List>
@@ -168,7 +144,7 @@ const Summary: SFC<WithStyles<typeof styles>> = ({ classes }) => (
         expandIcon={<ExpandMoreIcon />}
       >
         <Typography variant="h6" className={classes.labelContainer}>
-          Constraints (3)
+          Constraints ({query.Constraints.length})
         </Typography>
         <Typography variant="caption" className={classes.helper}>
           Click to view more...
@@ -177,12 +153,12 @@ const Summary: SFC<WithStyles<typeof styles>> = ({ classes }) => (
       <ExpansionPanelDetails>
         <List dense className={classes.list}>
           <Divider />
-          {constrainsts.map((label, i) => (
-            <ListItem key={i} divider>
+          {query.Constraints.map(({ ConstraintId, ConstraintName }) => (
+            <ListItem key={ConstraintId} divider>
               <ListItemIcon>
                 <ConstraintIcon />
               </ListItemIcon>
-              <ListItemText primary={label} />
+              <ListItemText primary={ConstraintName} />
               <ListItemText primary={10} />
             </ListItem>
           ))}
@@ -199,19 +175,18 @@ const Summary: SFC<WithStyles<typeof styles>> = ({ classes }) => (
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows
-            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map(row => {
-              return (
-                <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell numeric>{row.calories}</TableCell>
-                  <TableCell numeric>{row.fat}</TableCell>
-                </TableRow>
-              );
-            })}
+          {dataTableRows.map(row => {
+            return "Luca";
+            // return (
+            //   <TableRow key={row.id}>
+            //     <TableCell component="th" scope="row">
+            //       {row.name}
+            //     </TableCell>
+            //     <TableCell numeric>{row.calories}</TableCell>
+            //     <TableCell numeric>{row.fat}</TableCell>
+            //   </TableRow>
+            // );
+          })}
         </TableBody>
         {/* <TableFooter>
           <TableRow>

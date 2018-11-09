@@ -11,7 +11,7 @@ import LabelInputContainer from "workbench/query/labelInput/LabelInputContainer"
 import ColumnsSelectorContainer from "workbench/query/columnSelector/ColumnsSelectorContainer";
 import ConstraintSelectorContainer from "workbench/query/constraintSelector/ConstraintSelectorContainer";
 import ConfigActionsContainer from "workbench/query/config/ConfigActionsContainer";
-import Summary from "workbench/query/summary/Summary";
+import SummaryContainer from "workbench/query/summary/SummaryContainer";
 
 function getStepContent(currentStep: number, selectedQuery: IQuery) {
   switch (currentStep) {
@@ -42,7 +42,7 @@ function getStepContent(currentStep: number, selectedQuery: IQuery) {
       );
 
     case 3:
-      return <Summary />;
+      return <SummaryContainer query={selectedQuery} />;
 
     default:
       return "Unknown step";

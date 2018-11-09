@@ -3,7 +3,8 @@ import { getWithJwtAsync } from "lib/http";
 import {
   IFilterCapabilitiesDic,
   IUdsDescriptionDtc,
-  IAllowedValueDtc
+  IAllowedValueDtc,
+  IPagedRow
 } from "workbench/query/types";
 import { IItemDtc } from "sidebar/userItems/types";
 
@@ -36,4 +37,18 @@ export const getAllowedValuesAsync = (
 ): Promise<IAllowedValueDtc[]> =>
   getWithJwtAsync(
     `api/qes/${tenantId}/sessions/${sessionId}/querygraph/${queryGraphId}/filters/${filterName}/allowedvalues`
+  );
+
+export const getDataTablePageObs = (
+  tenantId: string,
+  sessionId: string,
+  dataTableId: number,
+  pageSize: number,
+  pageNumber: number
+): Observable<IPagedRow[]> =>
+  from(
+    getWithJwtAsync(
+      // tslint:disable-next-line:max-line-length
+      `api/qes/${tenantId}/sessions/${sessionId}/datatables/${dataTableId}/rows?pageSize=${pageSize}&pageNumber=${pageNumber}&forDisplay=true`
+    )
   );

@@ -4,18 +4,21 @@ import {
   DataServicesActionTypes,
   FilterCapActionTypes,
   QueryDescActionTypes,
+  QueryDataTableActionTypes,
   QueryConfigAction,
   IGoToStep,
   DataServicesAction,
   FilterCapabilitiesAction,
-  QueryDescribeAction
+  QueryDescribeAction,
+  QueryDataTableAction
 } from "workbench/query/actions";
 
 import { IItemDtc } from "sidebar/userItems/types";
 import {
   IUdsColumnDescriptionDtc,
   IUdsFilterDescriptionDtc,
-  IFilterCapabilitiesDic
+  IFilterCapabilitiesDic,
+  IPagedRow
 } from "workbench/query/types";
 
 interface IQueryState {
@@ -26,6 +29,7 @@ interface IQueryState {
   availableColumns: IUdsColumnDescriptionDtc[];
   availableFilters: IUdsFilterDescriptionDtc[];
   filterCapabilities: IFilterCapabilitiesDic;
+  dataTableTows: IPagedRow[];
 }
 
 const initialState: IQueryState = {
@@ -35,7 +39,8 @@ const initialState: IQueryState = {
   dataServices: [],
   availableColumns: [],
   availableFilters: [],
-  filterCapabilities: {}
+  filterCapabilities: {},
+  dataTableTows: []
 };
 
 function queryConfig(
@@ -47,6 +52,7 @@ function queryConfig(
     | FilterCapabilitiesAction
     | QueryAction
     | QueryDescribeAction
+    | QueryDataTableAction
 ): IQueryState {
   switch (action.type) {
     case QueryConfigActionTypes.QUERY_CONFIG_OPEN:
@@ -101,6 +107,19 @@ function queryConfig(
         isLoading: false,
         availableColumns: action.availableColumns,
         availableFilters: action.availableFilters
+      };
+
+    case QueryDataTableActionTypes.QUERY_DATATABLE_REQUEST:
+      return {
+        ...state,
+        isLoading: true
+      };
+
+    case QueryDataTableActionTypes.QUERY_DATATABLE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        dataTableTows: action.rows
       };
 
     default:

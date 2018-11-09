@@ -3,7 +3,6 @@ import { createSelector } from "reselect";
 import { RootState } from "rootReducer";
 import { getConstraintDisplayValue } from "workbench/utils";
 import { IOption } from "common/select/SelectInputContainer";
-import { IConstraint } from "workbench/types";
 import { IAvailableColumns, IAvailableFilters } from "workbench/query/types";
 
 const dataServicesSelector = (state: RootState) =>
@@ -182,4 +181,19 @@ export const getQueryConstraints = createSelector(
   querySelector,
   (elementId, queries) =>
     queries[elementId].Constraints.map(c => getConstraintDisplayValue(c))
+);
+
+export const getQuerySourceLabel = createSelector(
+  elementIdSelector,
+  querySelector,
+  dataServicesSelector,
+  (elementId, queries, dataServices) => {
+    const selectedDataSource = dataServices.find(
+      ({ ItemId }) => ItemId === queries[elementId].TargetDataViewId
+    );
+    if (selectedDataSource == null) {
+      throw new Error("Cannot find selected datasource.");
+    }
+    return selectedDataSource.Label;
+  }
 );

@@ -15,7 +15,8 @@ import {
 import {
   dataServicesEpic,
   filterCapabilitiesEpic,
-  serviceDescriptionEpic
+  serviceDescriptionEpic,
+  getDataTableEpic
 } from "workbench/query/epic";
 
 const epics = [
@@ -31,7 +32,8 @@ const epics = [
   dataServicesEpic,
   filterCapabilitiesEpic,
   updateQueryDataServiceEpic,
-  serviceDescriptionEpic
+  serviceDescriptionEpic,
+  getDataTableEpic
 ];
 
 export default combineEpics(...epics);
