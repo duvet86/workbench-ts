@@ -5,6 +5,7 @@ import { Action } from "redux";
 
 import { graphSchema } from "workbench/schema";
 import { handleException } from "errorPage/actions";
+import { updateQueryChanges } from "workbench/actions";
 import {
   DataServicesActionTypes,
   FilterCapActionTypes,
@@ -14,6 +15,7 @@ import {
   dataServicesSuccess,
   queryDescribeSuccess,
   QueryDataTableActionTypes,
+  queryDataTableRequest,
   queryDataTableSuccess,
   IQueryDataTableRequest
 } from "workbench/query/actions";
@@ -100,22 +102,43 @@ export const getDataTableEpic = (
       ([
         { pageSize, pageNumber },
         {
-          sessionReducer: { session, graph, queries, filters, connections }
+          sessionReducer: { session, graph, queries, filters, connections },
+          queryConfigReducer: { elementId }
         }
       ]) => {
         if (session == null || graph == null) {
           throw new Error(
-            "serviceDescriptionEpic: session or graph cannot be null."
+            "getDataTableEpic: session and graph cannot be null."
           );
         }
-        debugger;
+
+        const { TenantId, SessionId, QueryGraphId } = session;
+        const dataTableId = queries[elementId].DataTableId;
+        // If the query dataTableId is not null get the rows.
+        if (dataTableId != null) {
+          return getDataTablePageObs(
+            TenantId,
+            SessionId,
+            dataTableId,
+            pageSize,
+            pageNumber
+          ).pipe(
+            map(rows => queryDataTableSuccess(rows)),
+            catchError(error => handleException(error))
+          );
+        }
+
+        // Otherwise apply changes with IsConfigured and ForceRun set to true
+        // and then retrigger queryDataTableRequest action.
+        queries[elementId].IsConfigured = true;
+        queries[elementId].ForceRun = true;
+
         const denormalizedGraph = denormalize(graph, graphSchema, {
           queries,
           filters,
           connections
         });
 
-        const { TenantId, SessionId, QueryGraphId } = session;
         return saveGraphObs(
           TenantId,
           SessionId,
@@ -129,43 +152,10 @@ export const getDataTableEpic = (
               QueryGraphId,
               graph.NextChangeNumber
             ).pipe(
-              withLatestFrom(state$),
-              mergeMap(
-                ([
-                  { ChangesGraph },
-                  {
-                    sessionReducer: { queries: updatedQueries },
-                    queryConfigReducer: { elementId }
-                  }
-                ]) => {
-                  debugger;
-                  if (session == null) {
-                    throw new Error(
-                      "getDataTableEpic: Session cannot be null."
-                    );
-                  }
-
-                  const selectedQuery = updatedQueries[elementId];
-                  if (selectedQuery.DataTableId == null) {
-                    throw new Error(
-                      "getDataTableEpic: DataTableId cannot be null."
-                    );
-                  }
-
-                  return getDataTablePageObs(
-                    TenantId,
-                    SessionId,
-                    selectedQuery.DataTableId,
-                    pageSize,
-                    pageNumber
-                  ).pipe(
-                    map(rows => queryDataTableSuccess(rows)),
-                    catchError(error =>
-                      handleException(error, queryConfigError())
-                    )
-                  );
-                }
-              )
+              mergeMap(queryChanges => [
+                updateQueryChanges(queryChanges),
+                queryDataTableRequest(pageSize, pageNumber)
+              ])
             )
           ),
           catchError(error => handleException(error))

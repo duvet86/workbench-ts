@@ -25,9 +25,6 @@ const styles = createStyles({
   },
   listItemText: {
     display: "flex"
-  },
-  listItemTextPrimary: {
-    flexBasis: "35%"
   }
 });
 
@@ -45,14 +42,7 @@ const Row: SFC<IProps> = ({ classes, style, option, handleClick }) => (
     <ListItemIcon>
       <ColumnIcon className={classes.iconColour} />
     </ListItemIcon>
-    <ListItemText
-      classes={{
-        primary: classes.listItemTextPrimary
-      }}
-      className={classes.listItemText}
-      primary={option.label}
-      // secondary={`(${queryColumn.DataType})`}
-    />
+    <ListItemText className={classes.listItemText} primary={option.label} />
   </ListItem>
 );
 

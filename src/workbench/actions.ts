@@ -5,12 +5,13 @@ import { graphSchema } from "workbench/schema";
 
 import {
   ISessionDtc,
-  IQueryGraphDataDtc,
+  IQueryGraphData,
   IQuery,
   IColumn,
   IConstraint,
   IInteractiveFilter,
-  IConnection
+  IConnection,
+  IQueryGraphChangesDtc
 } from "workbench/types";
 
 export const enum SessionActionTypes {
@@ -25,9 +26,9 @@ export interface ISessionRequest extends Action {
 
 export interface ISessionSuccess extends Action {
   type: SessionActionTypes.SESSION_SUCCESS;
-  payload: {
+  graphData: {
     session: ISessionDtc;
-    graph: IQueryGraphDataDtc;
+    graph: IQueryGraphData;
     queries: { [key: string]: IQuery };
     filters: { [key: string]: IInteractiveFilter };
     connections: { [key: string]: IConnection };
@@ -50,7 +51,7 @@ export const sessionSuccess = ({
 
   return {
     type: SessionActionTypes.SESSION_SUCCESS,
-    payload: {
+    graphData: {
       session: { ...sessionInfo },
       graph: normalizedGraph.result,
       queries: queries || {},
@@ -96,7 +97,7 @@ export interface IGraphRequest extends Action {
 
 export interface IGraphSuccess extends Action {
   type: GraphActionTypes.GRAPH_SUCCESS;
-  graphData: IQueryGraphDataDtc;
+  graphData: IQueryGraphData;
 }
 
 export type GraphAction = IGraphRequest | IGraphSuccess;
@@ -105,7 +106,7 @@ export const graphRequest = (): IGraphRequest => ({
   type: GraphActionTypes.GRAPH_REQUEST
 });
 
-export const graphSuccess = (graphData: IQueryGraphDataDtc): IGraphSuccess => ({
+export const graphSuccess = (graphData: IQueryGraphData): IGraphSuccess => ({
   type: GraphActionTypes.GRAPH_SUCCESS,
   graphData
 });
@@ -158,8 +159,17 @@ export const graphPopSuccess = (): IGraphPopSuccess => ({
 
 export const enum QueryActionTypes {
   QUERY_ADD = "QUERY_ADD",
+  QUERY_CHANGES_UPDATE = "QUERY_CHANGES_UPDATE",
   QUERY_LABEL_UPDATE = "QUERY_LABEL_UPDATE",
   QUERY_DATASERVICE_UPDATE = "QUERY_DATASERVICE_UPDATE"
+}
+
+export interface IUpdateQueryChanges extends Action {
+  type: QueryActionTypes.QUERY_CHANGES_UPDATE;
+  graph: IQueryGraphData;
+  queries: { [key: string]: IQuery };
+  filters: { [key: string]: IInteractiveFilter };
+  connections: { [key: string]: IConnection };
 }
 
 export interface IAddQuery extends Action {
@@ -183,6 +193,7 @@ export interface IUpdateQueryLabel extends Action {
 
 export type QueryAction =
   | IAddQuery
+  | IUpdateQueryChanges
   | IUpdateQueryDataService
   | IUpdateQueryLabel;
 
@@ -211,6 +222,21 @@ export const addQuery = (
     LayoutY: y
   }
 });
+
+export const updateQueryChanges = (
+  rawGraphChanges: IQueryGraphChangesDtc
+): IUpdateQueryChanges => {
+  const normalizedGraph = normalize(rawGraphChanges.ChangesGraph, graphSchema);
+  const { queries, filters, connections } = normalizedGraph.entities;
+
+  return {
+    type: QueryActionTypes.QUERY_CHANGES_UPDATE,
+    graph: normalizedGraph.result,
+    queries: queries || {},
+    filters: filters || {},
+    connections: connections || {}
+  };
+};
 
 export const updateQueryDataService = (
   elementId: number,

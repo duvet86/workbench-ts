@@ -1,4 +1,4 @@
-import React, { Fragment, SFC } from "react";
+import React, { SFC } from "react";
 
 import {
   createStyles,
@@ -25,7 +25,8 @@ const styles = ({ spacing }: Theme) =>
   createStyles({
     gridTitle: {
       position: "fixed",
-      width: "99%",
+      top: 0,
+      width: "98%",
       backgroundColor: "white",
       zIndex: 2,
       borderBottom: "1px solid #eee"
@@ -60,7 +61,7 @@ const StepperHeader: SFC<IProps> = ({
   };
 
   return (
-    <Fragment>
+    <>
       <Grid item xs={12} className={classes.gridTitle}>
         <div className={classes.titleContainer}>
           <Typography variant="h6" className={classes.title}>
@@ -90,7 +91,7 @@ const StepperHeader: SFC<IProps> = ({
           {`Step ${currentStep + 1}: ${stepLabels[currentStep]}`}
         </Typography>
       </Grid>
-    </Fragment>
+    </>
   );
 };
 

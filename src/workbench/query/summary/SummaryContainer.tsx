@@ -26,11 +26,10 @@ class SummaryContainer extends Component<Props> {
   }
 
   public render() {
-    const { isLoading, query, querySourceLabel, dataTableRows } = this.props;
+    const { query, querySourceLabel, dataTableRows } = this.props;
 
     return (
       <Summary
-        isLoading={isLoading}
         query={query}
         querySourceLabel={querySourceLabel}
         dataTableRows={dataTableRows}
@@ -41,7 +40,6 @@ class SummaryContainer extends Component<Props> {
 
 const mapStateToProps = (state: RootState) => ({
   querySourceLabel: getQuerySourceLabel(state),
-  isLoading: state.queryConfigReducer.isLoading,
   dataTableRows: state.queryConfigReducer.dataTableTows
 });
 

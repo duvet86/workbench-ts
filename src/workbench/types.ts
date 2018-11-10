@@ -160,7 +160,7 @@ export interface IQuery extends IQueryGraphElementBase {
   Constraints: IConstraint[];
   ColumnDependencySets?: string[][];
   AvailableFilterDependencySets?: string[][];
-  ExpandedSubQueryGraphData?: IQueryGraphDataDtc;
+  ExpandedSubQueryGraphData?: IQueryGraphData;
   EnableAggregation?: boolean;
   DataTableDescription?: IQesDataTableColumn[];
 }
@@ -198,7 +198,7 @@ export interface IConnection {
   IsInactive: boolean;
 }
 
-export interface IQueryGraphDataDtc {
+export interface IQueryGraphData {
   Type: "Complete" | "Partial";
   Limit: string;
   NextChangeNumber: number;
@@ -215,7 +215,7 @@ export interface IQueryGraphDataDtc {
   LimitExcludedElements: number[];
 }
 
-export interface IQueryGraphDataDenormalisedDtc {
+export interface IQueryGraphDataDenormalised {
   Type: "Complete" | "Partial" | "SaveOnly";
   Limit: string;
   NextChangeNumber: number;
@@ -250,7 +250,7 @@ export interface ISessionDtc {
   DataViewId?: string;
   UserName: string;
   CacheConfiguration?: ICacheConfiguration;
-  InitialQueryGraph?: IQueryGraphDataDtc;
+  InitialQueryGraph?: IQueryGraphData;
 }
 
 export interface IQueryGraphChangesDtc {
@@ -258,7 +258,7 @@ export interface IQueryGraphChangesDtc {
   Running: boolean;
   Cancelled: boolean;
   Exception: IException;
-  ChangesGraph: IQueryGraphDataDenormalisedDtc;
+  ChangesGraph: IQueryGraphDataDenormalised;
 }
 
 export interface IPushQueryGraphResultDtc {
@@ -266,5 +266,5 @@ export interface IPushQueryGraphResultDtc {
 }
 
 export interface IQueryGraphPopDtc {
-  QueryGraphData: IQueryGraphDataDtc;
+  QueryGraphData: IQueryGraphData;
 }

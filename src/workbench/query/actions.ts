@@ -6,7 +6,7 @@ import {
   IFilterCapabilitiesDic,
   IUdsFilterDescriptionDtc,
   IUdsColumnDescriptionDtc,
-  IPagedRow
+  IPagedRows
 } from "workbench/query/types";
 
 export const enum QueryConfigActionTypes {
@@ -159,7 +159,7 @@ export interface IQueryDataTableRequest extends Action {
 
 export interface IQueryDataTableSuccess extends Action {
   type: QueryDataTableActionTypes.QUERY_DATATABLE_SUCCESS;
-  rows: IPagedRow[];
+  rows: IPagedRows;
 }
 
 export type QueryDataTableAction =
@@ -176,7 +176,7 @@ export const queryDataTableRequest = (
 });
 
 export const queryDataTableSuccess = (
-  rows: IPagedRow[]
+  rows: IPagedRows
 ): IQueryDataTableSuccess => ({
   type: QueryDataTableActionTypes.QUERY_DATATABLE_SUCCESS,
   rows

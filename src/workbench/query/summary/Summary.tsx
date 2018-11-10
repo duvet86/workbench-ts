@@ -8,7 +8,7 @@ import {
   WithStyles
 } from "@material-ui/core/styles";
 import { IQuery } from "workbench/types";
-import { IPagedRow } from "workbench/query/types";
+import { IPagedRows } from "workbench/query/types";
 
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
@@ -28,14 +28,16 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
+import { LoadingContainer } from "common/loading";
+import Loading from "common/loading/BaseLoading";
+
 import ColumnIcon from "@material-ui/icons/SettingsApplications";
 import ConstraintIcon from "@material-ui/icons/FilterList";
 
 interface IProps extends WithStyles<typeof styles> {
-  isLoading: boolean;
   query: IQuery;
   querySourceLabel: string;
-  dataTableRows: IPagedRow[];
+  dataTableRows: IPagedRows | undefined;
 }
 
 const styles = (theme: Theme) =>
@@ -60,7 +62,7 @@ const styles = (theme: Theme) =>
     },
     labelContainer: {
       flexShrink: 0,
-      width: "15%"
+      width: "25%"
     },
     list: {
       width: "100%",
@@ -75,17 +77,19 @@ const styles = (theme: Theme) =>
     },
     helper: {
       color: "rgba(0, 0, 0, 0.54)"
+    },
+    dataTableContainer: {
+      marginTop: 16
     }
   });
 
-const CustomTableCell = withStyles(theme => ({
+const HeadTableCell = withStyles(theme => ({
   head: {
     ...theme.typography.subtitle2
   }
 }))(TableCell);
 
 const Summary: SFC<IProps> = ({
-  isLoading,
   classes,
   query,
   querySourceLabel,
@@ -165,30 +169,27 @@ const Summary: SFC<IProps> = ({
         </List>
       </ExpansionPanelDetails>
     </ExpansionPanel>
-    <Paper style={{ marginTop: 16 }}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <CustomTableCell>Desc</CustomTableCell>
-            <CustomTableCell numeric>Qty.</CustomTableCell>
-            <CustomTableCell numeric>@</CustomTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {dataTableRows.map(row => {
-            return "Luca";
-            // return (
-            //   <TableRow key={row.id}>
-            //     <TableCell component="th" scope="row">
-            //       {row.name}
-            //     </TableCell>
-            //     <TableCell numeric>{row.calories}</TableCell>
-            //     <TableCell numeric>{row.fat}</TableCell>
-            //   </TableRow>
-            // );
-          })}
-        </TableBody>
-        {/* <TableFooter>
+    <Paper className={classes.dataTableContainer}>
+      <LoadingContainer isLoading={dataTableRows == null}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              {query.Columns.map(({ ColumnName, Label }) => (
+                <HeadTableCell key={ColumnName}>{Label}</HeadTableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {dataTableRows &&
+              dataTableRows.DisplayRows.map((row, ri) => (
+                <TableRow key={ri}>
+                  {row.map((column, ci) => (
+                    <TableCell key={ci}>{column}</TableCell>
+                  ))}
+                </TableRow>
+              ))}
+          </TableBody>
+          {/* <TableFooter>
           <TableRow>
             <TablePagination
               colSpan={3}
@@ -201,7 +202,8 @@ const Summary: SFC<IProps> = ({
             />
           </TableRow>
         </TableFooter> */}
-      </Table>
+        </Table>
+      </LoadingContainer>
     </Paper>
   </>
 );

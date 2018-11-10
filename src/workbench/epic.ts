@@ -17,7 +17,6 @@ import {
   GraphPushActionTypes,
   GraphSaveActionTypes,
   QueryActionTypes,
-  updateQueryLabel,
   graphPushSuccess,
   graphSaveChangesSuccess,
   sessionSuccess,
@@ -25,7 +24,8 @@ import {
   SessionAction,
   IUpdateQueryDataService,
   ISessionRequest,
-  IAddQuery
+  IAddQuery,
+  updateQueryChanges
 } from "workbench/actions";
 import { openQueryConfig, queryDescribeRequest } from "workbench/query/actions";
 
@@ -141,23 +141,19 @@ export const updateQueryDataServiceEpic = (
           );
         }
 
+        // Update the query label to the source name + elementId
+        // if the user hasn't defined a label yet.
+        if (queries[elementId].Label === "" && dataServiceLabel != null) {
+          queries[elementId].Label = `${dataServiceLabel} ${elementId}`;
+        }
+
+        const { TenantId, SessionId, QueryGraphId } = session;
         const denormalizedGraph = denormalize(graph, graphSchema, {
           queries,
           filters,
           connections
         });
 
-        // Update the query label to the source name + elementId
-        // if the user hasn't defined a label yet.
-        const actionsToDispatch: Action[] = [queryDescribeRequest()];
-        if (queries[elementId].Label === "" && dataServiceLabel != null) {
-          // unshift to update the label first and then the describe action.
-          actionsToDispatch.unshift(
-            updateQueryLabel(elementId, `${dataServiceLabel} ${elementId}`)
-          );
-        }
-
-        const { TenantId, SessionId, QueryGraphId } = session;
         return saveGraphObs(
           TenantId,
           SessionId,
@@ -170,7 +166,12 @@ export const updateQueryDataServiceEpic = (
               SessionId,
               QueryGraphId,
               graph.NextChangeNumber
-            ).pipe(mergeMap(() => actionsToDispatch))
+            ).pipe(
+              mergeMap(queryChanges => [
+                updateQueryChanges(queryChanges),
+                queryDescribeRequest()
+              ])
+            )
           ),
           catchError(error => handleException(error))
         );

@@ -4,7 +4,7 @@ import {
   IFilterCapabilitiesDic,
   IUdsDescriptionDtc,
   IAllowedValueDtc,
-  IPagedRow
+  IPagedRows
 } from "workbench/query/types";
 import { IItemDtc } from "sidebar/userItems/types";
 
@@ -45,7 +45,7 @@ export const getDataTablePageObs = (
   dataTableId: number,
   pageSize: number,
   pageNumber: number
-): Observable<IPagedRow[]> =>
+): Observable<IPagedRows> =>
   from(
     getWithJwtAsync(
       // tslint:disable-next-line:max-line-length

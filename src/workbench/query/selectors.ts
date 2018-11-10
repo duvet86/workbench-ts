@@ -68,7 +68,9 @@ export const getCompletedSteps = createSelector(
   querySelector,
   (elementId, queries) => {
     const selectedQuery = queries[elementId];
-
+    if (selectedQuery.DataTableId != null) {
+      return [true, true, true, true];
+    }
     if (selectedQuery.Columns.length > 0) {
       return [true, true, true, false];
     }

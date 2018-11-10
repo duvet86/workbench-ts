@@ -1,11 +1,7 @@
 import fetch from "node-fetch";
 import { encode } from "base-64";
 import { getAsync, postAsync } from "lib/http";
-import {
-  ISessionDtc,
-  IQueryGraphChangesDtc,
-  IQueryGraphDataDenormalisedDtc
-} from "workbench/types";
+import { ISessionDtc, IQueryGraphChangesDtc } from "workbench/types";
 import { IUdsDescriptionDtc } from "workbench/query/types";
 
 export interface IFetchGlobal extends NodeJS.Global {
@@ -56,7 +52,7 @@ test("Test AllowedValues", async () => {
     headers
   );
 
-  // let graphData: IQueryGraphDataDenormalisedDtc = {
+  // let graphData: IQueryGraphDataDenormalised = {
   //   ...graphChanges.ChangesGraph,
   //   Type: "Partial",
   //   Queries: [],

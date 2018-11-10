@@ -13,7 +13,7 @@ import {
 
 import {
   ISessionDtc,
-  IQueryGraphDataDtc,
+  IQueryGraphData,
   IQuery,
   IInteractiveFilter,
   IConnection,
@@ -25,7 +25,7 @@ interface ISessionState {
   isLoading: boolean;
   dataViewId?: string;
   session: ISessionDtc;
-  graph: IQueryGraphDataDtc;
+  graph: IQueryGraphData;
   queries: { [id: string]: IQuery };
   filters: { [id: string]: IInteractiveFilter };
   connections: { [id: string]: IConnection };
@@ -35,7 +35,7 @@ function session(
   state: ISessionState = {
     isLoading: true,
     session: {} as ISessionDtc,
-    graph: {} as IQueryGraphDataDtc,
+    graph: {} as IQueryGraphData,
     queries: {},
     filters: {},
     connections: {}
@@ -58,7 +58,7 @@ function session(
       return {
         ...state,
         isLoading: false,
-        ...action.payload
+        ...action.graphData
       };
 
     case QueryActionTypes.QUERY_ADD:
@@ -69,6 +69,30 @@ function session(
             [action.elementId]: {
               ...action.query
             }
+          }
+        }
+      });
+
+    case QueryActionTypes.QUERY_CHANGES_UPDATE:
+      return update(state, {
+        graph: {
+          $merge: {
+            ...action.graph
+          }
+        },
+        queries: {
+          $merge: {
+            ...action.queries
+          }
+        },
+        filters: {
+          $merge: {
+            ...action.filters
+          }
+        },
+        connections: {
+          $merge: {
+            ...action.connections
           }
         }
       });

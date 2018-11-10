@@ -11,7 +11,7 @@ import {
   IQueryGraphChangesDtc,
   IPushQueryGraphResultDtc,
   IQueryGraphPopDtc,
-  IQueryGraphDataDtc
+  IQueryGraphData
 } from "workbench/types";
 
 export const getSessionInfoObs = (
@@ -32,7 +32,7 @@ export const saveGraphObs = (
   tenantId: string,
   sessionId: string,
   queryGraphId: number,
-  graphData: IQueryGraphDataDtc,
+  graphData: IQueryGraphData,
   isApplyOnly = false
 ) =>
   from(

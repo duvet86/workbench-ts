@@ -18,7 +18,7 @@ import {
   IUdsColumnDescriptionDtc,
   IUdsFilterDescriptionDtc,
   IFilterCapabilitiesDic,
-  IPagedRow
+  IPagedRows
 } from "workbench/query/types";
 
 interface IQueryState {
@@ -29,7 +29,7 @@ interface IQueryState {
   availableColumns: IUdsColumnDescriptionDtc[];
   availableFilters: IUdsFilterDescriptionDtc[];
   filterCapabilities: IFilterCapabilitiesDic;
-  dataTableTows: IPagedRow[];
+  dataTableTows?: IPagedRows;
 }
 
 const initialState: IQueryState = {
@@ -40,7 +40,7 @@ const initialState: IQueryState = {
   availableColumns: [],
   availableFilters: [],
   filterCapabilities: {},
-  dataTableTows: []
+  dataTableTows: undefined
 };
 
 function queryConfig(
@@ -107,12 +107,6 @@ function queryConfig(
         isLoading: false,
         availableColumns: action.availableColumns,
         availableFilters: action.availableFilters
-      };
-
-    case QueryDataTableActionTypes.QUERY_DATATABLE_REQUEST:
-      return {
-        ...state,
-        isLoading: true
       };
 
     case QueryDataTableActionTypes.QUERY_DATATABLE_SUCCESS:
