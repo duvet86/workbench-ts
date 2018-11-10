@@ -1,6 +1,6 @@
-import { RouteProps } from "react-router";
+import { RouteComponentProps } from "react-router";
 
 export interface IRouteProps {
-  component: React.ComponentType<RouteProps>;
+  component: React.ComponentType<RouteComponentProps>;
   path: string;
 }

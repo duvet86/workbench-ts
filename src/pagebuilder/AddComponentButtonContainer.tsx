@@ -11,7 +11,7 @@ import {
 } from "errorPage/actions";
 import { IComponentGroup } from "pagebuilder/types";
 
-import { LoadingContainer } from "common/loading";
+import LoadingContainer from "common/loading/LoadingContainer";
 import AddComponentButton from "pagebuilder/AddComponentButton";
 
 type Props = ReturnType<typeof mapDispatchToProps>;

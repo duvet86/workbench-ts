@@ -3,7 +3,7 @@ import "storm-react-diagrams/dist/style.min.css";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { match as Match } from "react-router";
+import { RouteComponentProps } from "react-router";
 import { DiagramModel, DiagramEngine, NodeModel } from "storm-react-diagrams";
 
 import { RootState } from "rootReducer";
@@ -26,16 +26,12 @@ import QueryNodeModel from "workbench/query/widget/QueryNodeModel";
 import FilterNodeFactory from "workbench/filter/FilterNodeFactory";
 import FilterNodeModel from "workbench/filter/FilterNodeModel";
 
-import { LoadingContainer } from "common/loading";
+import LoadingContainer from "common/loading/LoadingContainer";
 import Workbench from "workbench/Workbench";
-
-interface IRouterProps {
-  match: Match<{ id: string }>;
-}
 
 type Props = ReturnType<typeof mapDispatchToProps> &
   ReturnType<typeof mapStateToProps> &
-  IRouterProps;
+  RouteComponentProps<{ id: string }>;
 
 interface ILocalState {
   node: NodeModel;

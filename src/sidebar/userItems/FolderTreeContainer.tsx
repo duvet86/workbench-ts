@@ -6,7 +6,7 @@ import { Dispatch } from "redux";
 import { RootState } from "rootReducer";
 import { MyItemsAction, myItemsRequest } from "sidebar/userItems/actions";
 
-import { LoadingContainer } from "common/loading";
+import LoadingContainer from "common/loading/LoadingContainer";
 import FolderTree from "sidebar/userItems/FolderTree";
 
 interface IOwnProps {

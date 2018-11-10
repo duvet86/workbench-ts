@@ -5,7 +5,7 @@ import { Dispatch } from "redux";
 import { RootState } from "rootReducer";
 import { IProfileRequest, profileRequest } from "profile/actions";
 
-import { LoadingContainer } from "common/loading";
+import LoadingContainer from "common/loading/LoadingContainer";
 import Profile from "profile/Profile";
 
 type Props = ReturnType<typeof mapStateToProps> &

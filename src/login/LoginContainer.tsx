@@ -6,7 +6,7 @@ import { push, RouterAction } from "connected-react-router";
 import { getTokenAsync } from "lib/authApi";
 import { storeToken } from "lib/sessionStorageApi";
 
-import { LoadingContainer } from "common/loading";
+import LoadingContainer from "common/loading/LoadingContainer";
 import Login from "login/Login";
 
 interface IState {

@@ -5,7 +5,7 @@ import { Dispatch } from "redux";
 import { RootState } from "rootReducer";
 import { OperatorsAction, operatorsRequest } from "sidebar/operators/actions";
 
-import { LoadingContainer } from "common/loading";
+import LoadingContainer from "common/loading/LoadingContainer";
 import OperatorsList from "sidebar/operators/OperatorsList";
 
 type Props = ReturnType<typeof mapStateToProps> &

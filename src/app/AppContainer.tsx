@@ -1,21 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { Location } from "history";
+import { RouteComponentProps } from "react-router";
 
 import { RootState } from "rootReducer";
 import { QesEnabledAction, qesEnabledRequest } from "app/actions";
 
 import App from "app/App";
-import { LoadingContainer } from "common/loading";
-
-interface IOwnProps {
-  location: Location;
-}
+import LoadingContainer from "common/loading/LoadingContainer";
 
 type Props = ReturnType<typeof mapDispatchToProps> &
   ReturnType<typeof mapStateToProps> &
-  IOwnProps;
+  RouteComponentProps;
 
 interface ILocalState {
   open: boolean;

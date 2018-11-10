@@ -16,7 +16,7 @@ import {
   IUpdateQueryConstraintValues
 } from "workbench/actions";
 
-import { LoadingContainer } from "common/loading";
+import LoadingContainer from "common/loading/LoadingContainer";
 import AllowedValues from "workbench/query/constraintSelector/AllowedValues";
 import { IOption } from "common/select/SelectInputContainer";
 

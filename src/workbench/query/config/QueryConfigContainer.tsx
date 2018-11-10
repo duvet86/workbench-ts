@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { RootState } from "rootReducer";
 import { getQuery, getCompletedSteps } from "workbench/query/selectors";
 
-import { LoadingContainer } from "common/loading";
+import LoadingContainer from "common/loading/LoadingContainer";
 import QueryConfig from "workbench/query/config/QueryConfig";
 
 class QueryConfigContainer extends Component<
