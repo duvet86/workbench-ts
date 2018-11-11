@@ -1,4 +1,3 @@
-import { push, RouterAction } from "connected-react-router";
 import { Action } from "redux";
 import { batchActions } from "redux-batched-actions";
 
@@ -7,21 +6,30 @@ import { deleteTokenAndRedirectLogin } from "lib/authApi";
 export interface IErrorResponse {
   status: number;
   message: string;
-  error: any;
+  error: Error;
 }
 
 export const enum ErrorActionTypes {
-  ERROR_TRIGGER = "ERROR_TRIGGER"
+  ERROR_TRIGGER = "ERROR_TRIGGER",
+  ERROR_CLEAN = "ERROR_CLEAN"
 }
 
-export interface IErrorAction extends Action {
+export interface ITriggerErrorAction extends Action {
   type: ErrorActionTypes.ERROR_TRIGGER;
-  error: any;
+  error: Error;
 }
 
-export const triggerError = (error: any): IErrorAction => ({
+export interface ICleanErrorAction extends Action {
+  type: ErrorActionTypes.ERROR_CLEAN;
+}
+
+export const triggerError = (error: Error): ITriggerErrorAction => ({
   type: ErrorActionTypes.ERROR_TRIGGER,
   error
+});
+
+export const cleanError = (): ICleanErrorAction => ({
+  type: ErrorActionTypes.ERROR_CLEAN
 });
 
 // Same as:
@@ -32,13 +40,12 @@ export const triggerError = (error: any): IErrorAction => ({
 // This relies on the fact that in RxJs v5, arrays can be returned
 // whenever an observable is expected and will be consumed as one.
 // This is effectively identical to the previous example.
-const errorPage = (
-  error: any,
+const errorActions = (
+  error: Error,
   actions: Action[] = []
-): [IErrorAction, RouterAction, ...Action[]] => [
+): [ITriggerErrorAction, ...Action[]] => [
   // Fire 2 actions, one after the other.
   triggerError(error),
-  push("/error"),
   ...actions
 ];
 
@@ -52,7 +59,7 @@ export const handleException = (
     case 401:
       return deleteTokenAndRedirectLogin();
     default:
-      return errorPage(response.error || response.message, actions);
+      return errorActions(response.error || response.message, actions);
   }
 };
 

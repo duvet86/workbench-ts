@@ -2,7 +2,7 @@ import { ActionsObservable, ofType } from "redux-observable";
 import { catchError, map, mergeMap } from "rxjs/operators";
 import { Action } from "redux";
 
-import { handleException } from "errorPage/actions";
+import { handleException } from "common/errorBoundary/actions";
 import { ProfileActionTypes, profileSuccess } from "profile/actions";
 import { getUserInfoObs } from "profile/api";
 

@@ -3,7 +3,7 @@ import { RouteComponentProps } from "react-router";
 import { Redirect, Route } from "react-router-dom";
 
 import { isUserAuthenticated } from "lib/authApi";
-import { IRouteProps } from "routes/types";
+import { IRouteProps } from "common/routes/types";
 
 const AnonymousRoute: SFC<IRouteProps> = ({ component, ...props }) => {
   const boundRender = (routeProps: RouteComponentProps) =>

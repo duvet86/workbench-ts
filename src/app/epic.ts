@@ -4,7 +4,7 @@ import { Action } from "redux";
 
 import { QesEnabledActionTypes, qesEnabledSuccess } from "app/actions";
 import { getQesEnabledAsync } from "app/api";
-import { handleException } from "errorPage/actions";
+import { handleException } from "common/errorBoundary/actions";
 
 export const appEpic = (action$: ActionsObservable<Action>) =>
   action$.pipe(

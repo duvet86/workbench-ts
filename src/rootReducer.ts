@@ -3,7 +3,7 @@ import { History } from "history";
 import { connectRouter } from "connected-react-router";
 
 import appReducer from "app/reducer";
-import errorReducer from "errorPage/reducer";
+import errorReducer from "common/errorBoundary/reducer";
 import profileReducer from "profile/reducer";
 import myItemsReducer from "sidebar/userItems/reducer";
 import navigationTabsReducer from "sidebar/navigationTabs/reducer";

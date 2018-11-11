@@ -3,7 +3,7 @@ import { ActionsObservable, StateObservable, ofType } from "redux-observable";
 import { catchError, map, mergeMap, withLatestFrom } from "rxjs/operators";
 import { Action } from "redux";
 
-import { handleException } from "errorPage/actions";
+import { handleException } from "common/errorBoundary/actions";
 
 import {
   getSessionInfoObs,

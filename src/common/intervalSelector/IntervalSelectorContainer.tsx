@@ -16,7 +16,7 @@ import {
   ErrorActions,
   IErrorResponse,
   handleException
-} from "errorPage/actions";
+} from "common/errorBoundary/actions";
 
 import LoadingContainer from "common/loading/LoadingContainer";
 import IntervalSelector from "common/intervalSelector/IntervalSelector";

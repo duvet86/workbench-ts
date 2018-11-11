@@ -4,7 +4,7 @@ import { Action } from "redux";
 
 import { getDataObs } from "lib/apiCache";
 
-import { handleException } from "errorPage/actions";
+import { handleException } from "common/errorBoundary/actions";
 import {
   OperatorsActionTypes,
   operatorsSuccess

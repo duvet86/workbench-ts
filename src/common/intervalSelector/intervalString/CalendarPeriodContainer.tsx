@@ -9,7 +9,7 @@ import {
   ErrorActions,
   IErrorResponse,
   handleException
-} from "errorPage/actions";
+} from "common/errorBoundary/actions";
 
 import CalendarPeriod from "common/intervalSelector/intervalString/CalendarPeriod";
 

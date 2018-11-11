@@ -14,9 +14,10 @@ import configureTheme from "lib/configureTheme";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 
+import ErrorBoundaryContainer from "common/errorBoundary/ErrorBoundaryContainer";
 import LoadAsync from "common/loading/LoadAsync";
-import AnonymousRoute from "routes/AnonymousRoute";
-import AuthenticatedRoute from "routes/AuthenticatedRoute";
+import AnonymousRoute from "common/routes/AnonymousRoute";
+import AuthenticatedRoute from "common/routes/AuthenticatedRoute";
 
 const history = createBrowserHistory();
 const store = configureStore(history);
@@ -32,12 +33,14 @@ render(
     <ConnectedRouter history={history}>
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
-        <LoadAsync>
-          <Switch>
-            <AnonymousRoute path="/login" component={LoginContainerAsync} />
-            <AuthenticatedRoute path="/" component={AppContainerAsync} />
-          </Switch>
-        </LoadAsync>
+        <ErrorBoundaryContainer>
+          <LoadAsync>
+            <Switch>
+              <AnonymousRoute path="/login" component={LoginContainerAsync} />
+              <AuthenticatedRoute path="/" component={AppContainerAsync} />
+            </Switch>
+          </LoadAsync>
+        </ErrorBoundaryContainer>
       </MuiThemeProvider>
     </ConnectedRouter>
   </Provider>,

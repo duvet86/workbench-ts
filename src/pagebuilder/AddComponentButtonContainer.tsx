@@ -8,7 +8,7 @@ import {
   ErrorActions,
   IErrorResponse,
   handleException
-} from "errorPage/actions";
+} from "common/errorBoundary/actions";
 import { IComponentGroup } from "pagebuilder/types";
 
 import LoadingContainer from "common/loading/LoadingContainer";

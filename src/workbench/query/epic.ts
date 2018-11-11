@@ -4,7 +4,7 @@ import { mergeMap, map, catchError, withLatestFrom } from "rxjs/operators";
 import { Action } from "redux";
 
 import { graphSchema } from "workbench/schema";
-import { handleException } from "errorPage/actions";
+import { handleException } from "common/errorBoundary/actions";
 import { updateQueryChanges } from "workbench/actions";
 import {
   DataServicesActionTypes,
