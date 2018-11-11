@@ -6,7 +6,7 @@ import { deleteTokenAndRedirectLogin } from "lib/authApi";
 export interface IErrorResponse {
   status: number;
   message: string;
-  error: Error;
+  error: any;
 }
 
 export const enum ErrorActionTypes {
@@ -16,14 +16,14 @@ export const enum ErrorActionTypes {
 
 export interface ITriggerErrorAction extends Action {
   type: ErrorActionTypes.ERROR_TRIGGER;
-  error: Error;
+  error: any;
 }
 
 export interface ICleanErrorAction extends Action {
   type: ErrorActionTypes.ERROR_CLEAN;
 }
 
-export const triggerError = (error: Error): ITriggerErrorAction => ({
+export const triggerError = (error: any): ITriggerErrorAction => ({
   type: ErrorActionTypes.ERROR_TRIGGER,
   error
 });
@@ -41,7 +41,7 @@ export const cleanError = (): ICleanErrorAction => ({
 // whenever an observable is expected and will be consumed as one.
 // This is effectively identical to the previous example.
 const errorActions = (
-  error: Error,
+  error: any,
   actions: Action[] = []
 ): [ITriggerErrorAction, ...Action[]] => [
   // Fire 2 actions, one after the other.

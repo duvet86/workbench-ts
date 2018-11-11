@@ -15,7 +15,7 @@ import Typography from "@material-ui/core/Typography";
 import { WarningIcon, ContactUsIcon, HomeIcon } from "common/icons";
 
 interface IProps extends WithStyles<typeof styles> {
-  error: Error;
+  error: any;
 }
 
 const styles = createStyles({
@@ -25,12 +25,18 @@ const styles = createStyles({
     backgroundColor: "rgba(0, 0, 0, 0.08)"
   },
   card: {
-    overflow: "auto",
+    display: "flex",
+    height: "100%",
+    flexDirection: "column",
     paddingBottom: 12
   },
   cardTitle: {
     display: "flex",
     alignItems: "center"
+  },
+  cardBody: {
+    display: "flex",
+    height: "100%"
   },
   titleBody: {
     flex: 1,
@@ -50,14 +56,19 @@ const styles = createStyles({
     marginRight: 10
   },
   details: {
-    whiteSpace: "pre-wrap"
+    whiteSpace: "pre-wrap",
+    display: "flex",
+    height: "100%",
+    width: "100%",
+    overflow: "auto"
   },
   summary: {
     cursor: "pointer",
     display: "flex",
     alignItems: "center",
     border: "1px solid #ccc",
-    padding: 10
+    padding: 10,
+    outline: "none"
   },
   detailsBody: {
     padding: 15
@@ -81,13 +92,13 @@ const ErrorBoundary: SFC<IProps> = ({ classes, error }) => (
             </Typography>
           </div>
         </CardContent>
-        <CardContent>
+        <CardContent className={classes.cardBody}>
           <details className={classes.details}>
             <summary className={classes.summary}>
               <Typography>Error Details</Typography>
             </summary>
             <div className={classes.detailsBody}>
-              <Typography>{error.toString()}</Typography>
+              <Typography>{JSON.stringify(error)}</Typography>
             </div>
           </details>
         </CardContent>
