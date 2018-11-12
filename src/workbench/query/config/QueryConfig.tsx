@@ -4,7 +4,7 @@ import { IQuery } from "workbench/types";
 
 import Grid from "@material-ui/core/Grid";
 
-import HelperText from "workbench/query/HelperText";
+import HelperText from "workbench/query/config/HelperText";
 import StepperHeaderContainer from "workbench/query/config/StepperHeaderContainer";
 import SourceSelectorContainer from "workbench/query/sourceSelector/SourceSelectorContainer";
 import LabelInputContainer from "workbench/query/labelInput/LabelInputContainer";

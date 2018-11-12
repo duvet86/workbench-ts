@@ -38,6 +38,7 @@ import { openQueryConfig, queryDescribeRequest } from "workbench/query/actions";
 
 import { RootState } from "rootReducer";
 
+// This a utility epic.
 export const updateGraphEpic = (
   { TenantId, SessionId, QueryGraphId }: ISession,
   graph: IQueryGraphData,
@@ -92,9 +93,7 @@ export const saveGraphEpic = (
     withLatestFrom(state$),
     mergeMap(([, { sessionReducer: { session, graph } }]) => {
       if (session == null || graph == null) {
-        throw new Error(
-          "serviceDescriptionEpic: session or graph cannot be null."
-        );
+        throw new Error("saveGraphEpic: session or graph cannot be null.");
       }
 
       const { TenantId, SessionId, QueryGraphId } = session;
@@ -125,7 +124,7 @@ export const pushGraphChangesEpic = (
     withLatestFrom(state$),
     mergeMap(([, { sessionReducer: { session } }]) => {
       if (session == null) {
-        throw new Error("serviceDescriptionEpic: session cannot be null.");
+        throw new Error("pushGraphChangesEpic: session cannot be null.");
       }
 
       const { TenantId, SessionId, QueryGraphId } = session;
@@ -178,7 +177,7 @@ export const updateQueryDataServiceEpic = (
         }
         if (session == null || graph == null) {
           throw new Error(
-            "serviceDescriptionEpic: session or graph cannot be null."
+            "updateQueryDataServiceEpic: session or graph cannot be null."
           );
         }
 
