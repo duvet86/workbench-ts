@@ -111,6 +111,9 @@ export const getDataTableEpic = (
             "getDataTableEpic: session and graph cannot be null."
           );
         }
+        if (queries[elementId].Exception != null) {
+          throw new Error(queries[elementId].Exception);
+        }
 
         const { TenantId, SessionId, QueryGraphId } = session;
         const dataTableId = queries[elementId].DataTableId;
@@ -161,5 +164,6 @@ export const getDataTableEpic = (
           catchError(error => handleException(error))
         );
       }
-    )
+    ),
+    catchError(error => handleException(error))
   );
