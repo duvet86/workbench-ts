@@ -1,11 +1,9 @@
-import { denormalize } from "normalizr";
 import { ActionsObservable, StateObservable, ofType } from "redux-observable";
 import { mergeMap, map, catchError, withLatestFrom } from "rxjs/operators";
 import { Action } from "redux";
 
-import { graphSchema } from "workbench/schema";
 import { handleException } from "common/errorBoundary/actions";
-import { updateQueryChanges } from "workbench/actions";
+import { updateGraphEpic } from "workbench/epic";
 import {
   DataServicesActionTypes,
   FilterCapActionTypes,
@@ -20,7 +18,6 @@ import {
   IQueryDataTableRequest
 } from "workbench/query/actions";
 
-import { saveGraphObs, getGraphObs } from "workbench/api";
 import {
   getDataServicesObs,
   getFilterCapabilitiesObs,
@@ -115,7 +112,7 @@ export const getDataTableEpic = (
           throw new Error(queries[elementId].Exception);
         }
 
-        const { TenantId, SessionId, QueryGraphId } = session;
+        const { TenantId, SessionId } = session;
         const dataTableId = queries[elementId].DataTableId;
         // If the query dataTableId is not null get the rows.
         if (dataTableId != null) {
@@ -136,33 +133,9 @@ export const getDataTableEpic = (
         queries[elementId].IsConfigured = true;
         queries[elementId].ForceRun = true;
 
-        const denormalizedGraph = denormalize(graph, graphSchema, {
-          queries,
-          filters,
-          connections
-        });
-
-        return saveGraphObs(
-          TenantId,
-          SessionId,
-          QueryGraphId,
-          denormalizedGraph
-        ).pipe(
-          mergeMap(() =>
-            getGraphObs(
-              TenantId,
-              SessionId,
-              QueryGraphId,
-              graph.NextChangeNumber
-            ).pipe(
-              mergeMap(queryChanges => [
-                updateQueryChanges(queryChanges),
-                queryDataTableRequest(pageSize, pageNumber)
-              ])
-            )
-          ),
-          catchError(error => handleException(error))
-        );
+        return updateGraphEpic(session, graph, queries, filters, connections, [
+          queryDataTableRequest(pageSize, pageNumber)
+        ]);
       }
     ),
     catchError(error => handleException(error))

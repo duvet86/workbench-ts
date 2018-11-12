@@ -4,14 +4,14 @@ import { normalize } from "normalizr";
 import { graphSchema } from "workbench/schema";
 
 import {
-  ISessionDtc,
+  ISession,
   IQueryGraphData,
   IQuery,
   IColumn,
   IConstraint,
   IInteractiveFilter,
   IConnection,
-  IQueryGraphChangesDtc
+  IQueryGraphChanges
 } from "workbench/types";
 
 export const enum SessionActionTypes {
@@ -27,7 +27,7 @@ export interface ISessionRequest extends Action {
 export interface ISessionSuccess extends Action {
   type: SessionActionTypes.SESSION_SUCCESS;
   graphData: {
-    session: ISessionDtc;
+    session: ISession;
     graph: IQueryGraphData;
     queries: { [key: string]: IQuery };
     filters: { [key: string]: IInteractiveFilter };
@@ -45,7 +45,7 @@ export const sessionRequest = (dataViewId?: string): ISessionRequest => ({
 export const sessionSuccess = ({
   InitialQueryGraph,
   ...sessionInfo
-}: ISessionDtc): ISessionSuccess => {
+}: ISession): ISessionSuccess => {
   const normalizedGraph = normalize(InitialQueryGraph, graphSchema);
   const { queries, filters, connections } = normalizedGraph.entities;
 
@@ -224,7 +224,7 @@ export const addQuery = (
 });
 
 export const updateQueryChanges = (
-  rawGraphChanges: IQueryGraphChangesDtc
+  rawGraphChanges: IQueryGraphChanges
 ): IUpdateQueryChanges => {
   const normalizedGraph = normalize(rawGraphChanges.ChangesGraph, graphSchema);
   const { queries, filters, connections } = normalizedGraph.entities;

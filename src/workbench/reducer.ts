@@ -12,7 +12,7 @@ import {
 } from "workbench/actions";
 
 import {
-  ISessionDtc,
+  ISession,
   IQueryGraphData,
   IQuery,
   IInteractiveFilter,
@@ -24,7 +24,7 @@ import {
 interface ISessionState {
   isLoading: boolean;
   dataViewId?: string;
-  session: ISessionDtc;
+  session: ISession;
   graph: IQueryGraphData;
   queries: { [id: string]: IQuery };
   filters: { [id: string]: IInteractiveFilter };
@@ -34,7 +34,7 @@ interface ISessionState {
 function session(
   state: ISessionState = {
     isLoading: true,
-    session: {} as ISessionDtc,
+    session: {} as ISession,
     graph: {} as IQueryGraphData,
     queries: {},
     filters: {},

@@ -7,16 +7,14 @@ import {
 } from "lib/http";
 
 import {
-  ISessionDtc,
-  IQueryGraphChangesDtc,
-  IPushQueryGraphResultDtc,
-  IQueryGraphPopDtc,
+  ISession,
+  IQueryGraphChanges,
+  IPushQueryGraphResult,
+  IQueryGraphPop,
   IQueryGraphData
 } from "workbench/types";
 
-export const getSessionInfoObs = (
-  dataViewId?: string
-): Observable<ISessionDtc> =>
+export const getSessionInfoObs = (dataViewId?: string): Observable<ISession> =>
   from(
     postWithJwtAsync(
       `api/qes/${process.env.TENANT_ID}/sessions?applyOnly=true${
@@ -47,7 +45,7 @@ export const getGraphObs = (
   sessionId: string,
   queryGraphId: number,
   nextChangeNumber: number
-): Observable<IQueryGraphChangesDtc> =>
+): Observable<IQueryGraphChanges> =>
   from(
     getWithJwtAsync(
       // tslint:disable-next-line:max-line-length
@@ -59,7 +57,7 @@ export const pushGraphChangesObs = (
   tenantId: string,
   sessionId: string,
   queryGraphId: number
-): Observable<IPushQueryGraphResultDtc> =>
+): Observable<IPushQueryGraphResult> =>
   from(
     postWithJwtAsync(
       `api/qes/${tenantId}/sessions/${sessionId}/querygraph/${queryGraphId}/push`
@@ -70,7 +68,7 @@ export const popGraphChangesObs = (
   tenantId: string,
   sessionId: string,
   queryGraphId: number
-): Observable<IQueryGraphPopDtc> =>
+): Observable<IQueryGraphPop> =>
   from(
     postWithJwtAsync(
       `api/qes/${tenantId}/sessions/${sessionId}/querygraph/${queryGraphId}/pop`

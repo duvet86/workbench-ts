@@ -4,6 +4,13 @@ import { catchError, map, mergeMap, withLatestFrom } from "rxjs/operators";
 import { Action } from "redux";
 
 import { handleException } from "common/errorBoundary/actions";
+import {
+  ISession,
+  IQueryGraphData,
+  IQuery,
+  IInteractiveFilter,
+  IConnection
+} from "workbench/types";
 
 import {
   getSessionInfoObs,
@@ -30,6 +37,40 @@ import {
 import { openQueryConfig, queryDescribeRequest } from "workbench/query/actions";
 
 import { RootState } from "rootReducer";
+
+export const updateGraphEpic = (
+  { TenantId, SessionId, QueryGraphId }: ISession,
+  graph: IQueryGraphData,
+  queries: { [id: string]: IQuery },
+  filters: { [id: string]: IInteractiveFilter },
+  connections: { [id: string]: IConnection },
+  actions: Action[]
+) => {
+  const denormalizedGraph = denormalize(graph, graphSchema, {
+    queries,
+    filters,
+    connections
+  });
+
+  return saveGraphObs(
+    TenantId,
+    SessionId,
+    QueryGraphId,
+    denormalizedGraph
+  ).pipe(
+    mergeMap(() =>
+      getGraphObs(
+        TenantId,
+        SessionId,
+        QueryGraphId,
+        graph.NextChangeNumber
+      ).pipe(
+        mergeMap(queryChanges => [updateQueryChanges(queryChanges), ...actions])
+      )
+    ),
+    catchError(error => handleException(error))
+  );
+};
 
 export const sessionEpic = (action$: ActionsObservable<Action>) =>
   action$.pipe(
@@ -147,34 +188,9 @@ export const updateQueryDataServiceEpic = (
           queries[elementId].Label = `${dataServiceLabel} ${elementId}`;
         }
 
-        const { TenantId, SessionId, QueryGraphId } = session;
-        const denormalizedGraph = denormalize(graph, graphSchema, {
-          queries,
-          filters,
-          connections
-        });
-
-        return saveGraphObs(
-          TenantId,
-          SessionId,
-          QueryGraphId,
-          denormalizedGraph
-        ).pipe(
-          mergeMap(() =>
-            getGraphObs(
-              TenantId,
-              SessionId,
-              QueryGraphId,
-              graph.NextChangeNumber
-            ).pipe(
-              mergeMap(queryChanges => [
-                updateQueryChanges(queryChanges),
-                queryDescribeRequest()
-              ])
-            )
-          ),
-          catchError(error => handleException(error))
-        );
+        return updateGraphEpic(session, graph, queries, filters, connections, [
+          queryDescribeRequest()
+        ]);
       }
     )
   );

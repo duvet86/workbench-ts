@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 import { encode } from "base-64";
 import { getAsync, postAsync } from "lib/http";
-import { ISessionDtc, IQueryGraphChangesDtc } from "workbench/types";
+import { ISession, IQueryGraphChanges } from "workbench/types";
 import { IUdsDescriptionDtc } from "workbench/query/types";
 
 export interface IFetchGlobal extends NodeJS.Global {
@@ -28,7 +28,7 @@ test("Test AllowedValues", async () => {
   };
 
   // SESSION
-  const session = await postAsync<ISessionDtc>(
+  const session = await postAsync<ISession>(
     `api/qes/${
       process.env.TENANT_ID
     }/sessions?linkLabel=New+Data+View&linkType=Workbench`,
@@ -43,7 +43,7 @@ test("Test AllowedValues", async () => {
   expect(session.InitialQueryGraph.NextChangeNumber).toBe(1);
 
   // nextChangeNumber: 1
-  let graphChanges = await getAsync<IQueryGraphChangesDtc>(
+  let graphChanges = await getAsync<IQueryGraphChanges>(
     `api/qes/${process.env.TENANT_ID}/sessions/${
       session.SessionId
     }/querygraph/${session.QueryGraphId}/changes?nextChangeNumber=${
@@ -152,7 +152,7 @@ test("Test AllowedValues", async () => {
   expect(graphChanges.ChangesGraph.NextChangeNumber).toBe(1);
 
   // nextChangeNumber: 1
-  graphChanges = await getAsync<IQueryGraphChangesDtc>(
+  graphChanges = await getAsync<IQueryGraphChanges>(
     `api/qes/${process.env.TENANT_ID}/sessions/${
       session.SessionId
     }/querygraph/${session.QueryGraphId}/changes?nextChangeNumber=${
@@ -164,7 +164,7 @@ test("Test AllowedValues", async () => {
   expect(graphChanges.ChangesGraph.NextChangeNumber).toBe(4);
 
   // nextChangeNumber: 4
-  graphChanges = await getAsync<IQueryGraphChangesDtc>(
+  graphChanges = await getAsync<IQueryGraphChanges>(
     `api/qes/${process.env.TENANT_ID}/sessions/${
       session.SessionId
     }/querygraph/${session.QueryGraphId}/changes?nextChangeNumber=${
@@ -276,7 +276,7 @@ test("Test AllowedValues", async () => {
   expect(graphChanges.ChangesGraph.NextChangeNumber).toBe(4);
 
   // nextChangeNumber: 4
-  graphChanges = await getAsync<IQueryGraphChangesDtc>(
+  graphChanges = await getAsync<IQueryGraphChanges>(
     `api/qes/${process.env.TENANT_ID}/sessions/${
       session.SessionId
     }/querygraph/${session.QueryGraphId}/changes?nextChangeNumber=${
@@ -288,7 +288,7 @@ test("Test AllowedValues", async () => {
   expect(graphChanges.ChangesGraph.NextChangeNumber).toBe(5);
 
   // nextChangeNumber: 5
-  graphChanges = await getAsync<IQueryGraphChangesDtc>(
+  graphChanges = await getAsync<IQueryGraphChanges>(
     `api/qes/${process.env.TENANT_ID}/sessions/${
       session.SessionId
     }/querygraph/${session.QueryGraphId}/changes?nextChangeNumber=${
@@ -300,7 +300,7 @@ test("Test AllowedValues", async () => {
   expect(graphChanges.ChangesGraph.NextChangeNumber).toBe(6);
 
   // nextChangeNumber: 6
-  graphChanges = await getAsync<IQueryGraphChangesDtc>(
+  graphChanges = await getAsync<IQueryGraphChanges>(
     `api/qes/${process.env.TENANT_ID}/sessions/${
       session.SessionId
     }/querygraph/${session.QueryGraphId}/changes?nextChangeNumber=${
@@ -312,7 +312,7 @@ test("Test AllowedValues", async () => {
   expect(graphChanges.ChangesGraph.NextChangeNumber).toBe(7);
 
   // nextChangeNumber: 7
-  graphChanges = await getAsync<IQueryGraphChangesDtc>(
+  graphChanges = await getAsync<IQueryGraphChanges>(
     `api/qes/${process.env.TENANT_ID}/sessions/${
       session.SessionId
     }/querygraph/${session.QueryGraphId}/changes?nextChangeNumber=${
@@ -436,7 +436,7 @@ test("Test AllowedValues", async () => {
   expect(graphChanges.ChangesGraph.NextChangeNumber).toBe(7);
 
   // nextChangeNumber: 7
-  graphChanges = await getAsync<IQueryGraphChangesDtc>(
+  graphChanges = await getAsync<IQueryGraphChanges>(
     `api/qes/${process.env.TENANT_ID}/sessions/${
       session.SessionId
     }/querygraph/${session.QueryGraphId}/changes?nextChangeNumber=${
@@ -448,7 +448,7 @@ test("Test AllowedValues", async () => {
   expect(graphChanges.ChangesGraph.NextChangeNumber).toBe(8);
 
   // nextChangeNumber: 8
-  graphChanges = await getAsync<IQueryGraphChangesDtc>(
+  graphChanges = await getAsync<IQueryGraphChanges>(
     `api/qes/${process.env.TENANT_ID}/sessions/${
       session.SessionId
     }/querygraph/${session.QueryGraphId}/changes?nextChangeNumber=${
@@ -497,7 +497,7 @@ test("Test AllowedValues", async () => {
   expect(graphChanges.ChangesGraph.NextChangeNumber).toBe(8);
 
   // nextChangeNumber: 8
-  graphChanges = await getAsync<IQueryGraphChangesDtc>(
+  graphChanges = await getAsync<IQueryGraphChanges>(
     `api/qes/${process.env.TENANT_ID}/sessions/${
       session.SessionId
     }/querygraph/${session.QueryGraphId}/changes?nextChangeNumber=${
@@ -509,7 +509,7 @@ test("Test AllowedValues", async () => {
   expect(graphChanges.ChangesGraph.NextChangeNumber).toBe(13);
 
   // nextChangeNumber: 13
-  graphChanges = await getAsync<IQueryGraphChangesDtc>(
+  graphChanges = await getAsync<IQueryGraphChanges>(
     `api/qes/${process.env.TENANT_ID}/sessions/${
       session.SessionId
     }/querygraph/${session.QueryGraphId}/changes?nextChangeNumber=${

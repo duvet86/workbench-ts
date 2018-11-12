@@ -242,7 +242,7 @@ export interface IDisplayFormat {
   ConversionOffset?: number;
 }
 
-export interface ISessionDtc {
+export interface ISession {
   TenantId: string;
   SessionId: string;
   QueryGraphId: number;
@@ -253,7 +253,7 @@ export interface ISessionDtc {
   InitialQueryGraph?: IQueryGraphData;
 }
 
-export interface IQueryGraphChangesDtc {
+export interface IQueryGraphChanges {
   FoundChanges: boolean;
   Running: boolean;
   Cancelled: boolean;
@@ -261,10 +261,10 @@ export interface IQueryGraphChangesDtc {
   ChangesGraph: IQueryGraphDataDenormalised;
 }
 
-export interface IPushQueryGraphResultDtc {
+export interface IPushQueryGraphResult {
   HistoryNumber?: number;
 }
 
-export interface IQueryGraphPopDtc {
+export interface IQueryGraphPop {
   QueryGraphData: IQueryGraphData;
 }
