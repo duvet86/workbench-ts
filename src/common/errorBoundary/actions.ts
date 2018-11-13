@@ -1,7 +1,7 @@
 import { Action } from "redux";
 import { batchActions } from "redux-batched-actions";
 
-import { deleteTokenAndRedirectLogin } from "lib/authApi";
+import { deleteTokenAndLogout } from "lib/authApi";
 
 export interface IErrorResponse {
   status: number;
@@ -57,7 +57,7 @@ export const handleException = (
   console.error(response);
   switch (response.status) {
     case 401:
-      return deleteTokenAndRedirectLogin();
+      return deleteTokenAndLogout();
     default:
       return errorActions(response.error || response.message, actions);
   }

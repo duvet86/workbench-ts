@@ -1,5 +1,4 @@
 import { encode } from "base-64";
-import { push } from "connected-react-router";
 
 import { getAsync } from "lib/http";
 import { clearToken, getToken } from "lib/sessionStorageApi";
@@ -14,9 +13,9 @@ export const getTokenAsync = (
     Authorization: `Basic ${encode(userName + ":" + password)}`
   });
 
-export const deleteTokenAndRedirectLogin = () => {
+export const deleteTokenAndLogout = () => {
   clearToken();
-  return [logout(), push("/login")];
+  return [logout()];
 };
 
 export const isUserAuthenticated = () => {

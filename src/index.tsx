@@ -23,7 +23,9 @@ const history = createBrowserHistory();
 const store = configureStore(history);
 const theme = configureTheme();
 
-const LoginContainerAsync = React.lazy(() => import("login/LoginContainer"));
+const LoginContainerAsync = React.lazy<ComponentType<RouteComponentProps>>(() =>
+  import("login/LoginContainer")
+);
 const AppContainerAsync = React.lazy<ComponentType<RouteComponentProps>>(() =>
   import("app/AppContainer")
 );

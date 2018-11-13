@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import { Dispatch } from "redux";
-import { connect } from "react-redux";
-import { push, RouterAction } from "connected-react-router";
+import { RouteComponentProps } from "react-router";
 
 import { getTokenAsync } from "lib/authApi";
 import { storeToken } from "lib/sessionStorageApi";
@@ -15,9 +13,7 @@ interface IState {
   error: any;
 }
 
-type Props = ReturnType<typeof mapDispatchToProps>;
-
-class LoginContainer extends Component<Props, IState> {
+class LoginContainer extends Component<RouteComponentProps, IState> {
   public state = {
     isLoading: false,
     isInvalidCredentials: false,
@@ -53,7 +49,7 @@ class LoginContainer extends Component<Props, IState> {
     try {
       const token = await getTokenAsync(username, password);
       storeToken(token);
-      this.props.dispatchRedirectHome();
+      this.props.history.push("/");
     } catch (error) {
       if (error.status === 401) {
         this.setState({
@@ -69,13 +65,4 @@ class LoginContainer extends Component<Props, IState> {
   };
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<RouterAction>) => ({
-  dispatchRedirectHome: () => {
-    dispatch(push("/"));
-  }
-});
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(LoginContainer);
+export default LoginContainer;
