@@ -33,9 +33,7 @@ const SideBarBodyContainer: SFC<Props> = ({ selectedTab, ...props }) => {
   return <SideBarBody tabRenderer={renderer} />;
 };
 
-const mapStateToProps = ({
-  navigationTabsReducer: { selectedTab }
-}: RootState) => ({
+const mapStateToProps = ({ navigationTabs: { selectedTab } }: RootState) => ({
   selectedTab
 });
 

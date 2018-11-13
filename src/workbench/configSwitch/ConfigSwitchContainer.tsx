@@ -15,7 +15,7 @@ class ConfigSwitchContainer extends Component<
 }
 
 const mapStateToProps = (state: RootState) => ({
-  elementType: state.configSwitchReducer.elementType,
+  elementType: state.configSwitch.elementType,
   isDrawerOpen: isDrawerOpen(state)
 });
 

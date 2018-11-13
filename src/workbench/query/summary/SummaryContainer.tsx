@@ -40,7 +40,7 @@ class SummaryContainer extends Component<Props> {
 
 const mapStateToProps = (state: RootState) => ({
   querySourceLabel: getQuerySourceLabel(state),
-  dataTableRows: state.queryConfigReducer.dataTableTows
+  dataTableRows: state.queryConfig.dataTableTows
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<IQueryDataTableRequest>) => ({

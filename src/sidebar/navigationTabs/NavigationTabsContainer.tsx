@@ -62,7 +62,7 @@ class NavigationTabsContainer extends Component<Props> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  selectedTab: state.navigationTabsReducer.selectedTab,
+  selectedTab: state.navigationTabs.selectedTab,
   visibleTabs: getVisibleTabs(state)
 });
 

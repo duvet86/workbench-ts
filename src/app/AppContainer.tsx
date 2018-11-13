@@ -45,9 +45,7 @@ class AppContainer extends Component<Props, ILocalState> {
   };
 }
 
-const mapStateToProps = ({
-  appReducer: { isLoading, isQesEnabled }
-}: RootState) => ({
+const mapStateToProps = ({ app: { isLoading, isQesEnabled } }: RootState) => ({
   isLoading,
   isQesEnabled
 });

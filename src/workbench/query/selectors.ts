@@ -6,7 +6,7 @@ import { IOption } from "common/select/SelectInputContainer";
 import { IAvailableColumns, IAvailableFilters } from "workbench/query/types";
 
 const dataServicesSelector = (state: RootState) =>
-  state.queryConfigReducer.dataServices;
+  state.queryConfig.dataServices;
 
 export const getDataServices = createSelector(
   dataServicesSelector,
@@ -27,16 +27,15 @@ export const getDataServices = createSelector(
       })
 );
 
-const elementIdSelector = (state: RootState) =>
-  state.queryConfigReducer.elementId;
+const elementIdSelector = (state: RootState) => state.queryConfig.elementId;
 
-const querySelector = (state: RootState) => state.sessionReducer.queries;
+const querySelector = (state: RootState) => state.session.queries;
 
 const availableColumnsSelector = (state: RootState) =>
-  state.queryConfigReducer.availableColumns;
+  state.queryConfig.availableColumns;
 
 const availableFiltersSelector = (state: RootState) =>
-  state.queryConfigReducer.availableFilters;
+  state.queryConfig.availableFilters;
 
 export const getAvailableColumns = createSelector(
   elementIdSelector,

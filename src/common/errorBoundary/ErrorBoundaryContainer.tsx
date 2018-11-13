@@ -53,7 +53,7 @@ class ErrorBoundaryContainer extends Component<Props, IState> {
   }
 }
 
-const mapStateToProps = ({ errorReducer: { error } }: RootState) => ({
+const mapStateToProps = ({ error: { error } }: RootState) => ({
   error
 });
 

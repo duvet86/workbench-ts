@@ -25,9 +25,7 @@ class ProfileContainer extends Component<Props> {
   }
 }
 
-const mapStateToProps = ({
-  profileReducer: { isLoading, userInfo }
-}: RootState) => ({
+const mapStateToProps = ({ profile: { isLoading, userInfo } }: RootState) => ({
   isLoading,
   userInfo
 });

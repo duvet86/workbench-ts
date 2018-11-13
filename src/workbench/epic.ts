@@ -91,7 +91,7 @@ export const saveGraphEpic = (
   action$.pipe(
     ofType(GraphSaveActionTypes.GRAPH_SAVE_REQUEST),
     withLatestFrom(state$),
-    mergeMap(([, { sessionReducer: { session, graph } }]) => {
+    mergeMap(([, { session: { session, graph } }]) => {
       if (session == null || graph == null) {
         throw new Error("saveGraphEpic: session or graph cannot be null.");
       }
@@ -122,7 +122,7 @@ export const pushGraphChangesEpic = (
   action$.pipe(
     ofType(GraphPushActionTypes.GRAPH_PUSH_REQUEST),
     withLatestFrom(state$),
-    mergeMap(([, { sessionReducer: { session } }]) => {
+    mergeMap(([, { session: { session } }]) => {
       if (session == null) {
         throw new Error("pushGraphChangesEpic: session cannot be null.");
       }
@@ -169,7 +169,7 @@ export const updateQueryDataServiceEpic = (
       ([
         { elementId, targetDataViewId, dataServiceLabel },
         {
-          sessionReducer: { session, graph, queries, filters, connections }
+          session: { session, graph, queries, filters, connections }
         }
       ]) => {
         if (targetDataViewId == null) {

@@ -100,7 +100,7 @@ class ConstraintSelectorContainer extends Component<Props> {
 
 const mapStateToProps = (state: RootState) => ({
   queryConstraints: getQueryConstraints(state),
-  filterCapabilities: state.queryConfigReducer.filterCapabilities,
+  filterCapabilities: state.queryConfig.filterCapabilities,
   availableConstraints: getAvailableConstraint(state),
   availableFiltersDic: getAvailableFilterDic(state),
   availableColumnsDic: getAvailableColumnsDic(state)

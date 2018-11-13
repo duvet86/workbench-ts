@@ -180,7 +180,7 @@ class WorkbenchContainer extends Component<Props, ILocalState> {
   };
 }
 
-const mapStateToProps = ({ sessionReducer: { ...state } }: RootState) => state;
+const mapStateToProps = ({ session: { ...state } }: RootState) => state;
 
 const mapDispatchToProps = (
   dispatch: Dispatch<SessionAction | QueryAction>

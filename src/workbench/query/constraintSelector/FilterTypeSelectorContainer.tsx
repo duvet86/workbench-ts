@@ -65,7 +65,7 @@ class FilterTypeSelectorContainer extends Component<Props> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  filterCapabilities: state.queryConfigReducer.filterCapabilities
+  filterCapabilities: state.queryConfig.filterCapabilities
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<QueryConstraintAction>) => ({

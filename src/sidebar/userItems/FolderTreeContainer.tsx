@@ -38,7 +38,7 @@ class FolderTreeContainer extends Component<Props> {
 }
 
 const mapStateToProps = ({
-  myItemsReducer: { isLoading, myItems, sharedWithMe }
+  myItems: { isLoading, myItems, sharedWithMe }
 }: RootState) => ({
   isLoading,
   myItems,

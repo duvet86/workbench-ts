@@ -31,9 +31,9 @@ class QueryConfigContainer extends Component<
 }
 
 const mapStateToProps = (state: RootState) => ({
-  isLoading: state.queryConfigReducer.isLoading,
+  isLoading: state.queryConfig.isLoading,
   selectedQuery: getQuery(state),
-  currentStep: state.queryConfigReducer.currentStep,
+  currentStep: state.queryConfig.currentStep,
   completedSteps: getCompletedSteps(state)
 });
 

@@ -28,7 +28,7 @@ class OperatorsListContainer extends Component<Props> {
 }
 
 const mapStateToProps = ({
-  operatorsReducer: { isLoading, operators }
+  operators: { isLoading, operators }
 }: RootState) => ({
   operators,
   isLoading
