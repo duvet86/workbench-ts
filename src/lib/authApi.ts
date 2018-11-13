@@ -1,6 +1,5 @@
 import { encode } from "base-64";
 import { push } from "connected-react-router";
-import { from, Observable } from "rxjs";
 
 import { getAsync } from "lib/http";
 import { clearToken, getToken } from "lib/sessionStorageApi";
