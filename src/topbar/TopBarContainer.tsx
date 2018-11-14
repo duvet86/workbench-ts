@@ -1,20 +1,24 @@
 import React, { Component } from "react";
 import { History } from "history";
+import { Dispatch } from "redux";
+import { connect } from "react-redux";
 
-import { clearToken } from "lib/sessionStorageApi";
+import { IClearToken, clearToken } from "app/actions";
 
 import TopBar from "topbar/TopBar";
 
-interface IProps {
+interface IOwnProps {
   handleDrawerOpen: () => void;
   history: History;
 }
+
+type Props = IOwnProps & ReturnType<typeof mapDispatchToProps>;
 
 interface IState {
   anchorEl?: HTMLElement;
 }
 
-class TopBarContainer extends Component<IProps, IState> {
+class TopBarContainer extends Component<Props, IState> {
   public readonly state = {
     anchorEl: undefined
   };
@@ -55,9 +59,17 @@ class TopBarContainer extends Component<IProps, IState> {
 
   private onLogoutClickHandler = () => {
     this.onMenuCloseHandler();
-    clearToken();
-    this.props.history.push("/login");
+    this.props.dispatchClearToken();
   };
 }
 
-export default TopBarContainer;
+const mapDispatchToProps = (dispatch: Dispatch<IClearToken>) => ({
+  dispatchClearToken: () => {
+    dispatch(clearToken());
+  }
+});
+
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(TopBarContainer);

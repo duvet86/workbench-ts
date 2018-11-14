@@ -1,4 +1,33 @@
 import { Action } from "redux";
+import {
+  storeToken as sessionStoreToken,
+  clearToken as sessionClearToken
+} from "lib/sessionStorageApi";
+
+export const enum TokenActionTypes {
+  TOKEN_STORE = "TOKEN_STORE",
+  TOKEN_REMOVE = "TOKEN_REMOVE"
+}
+
+export interface IStoreToken extends Action {
+  type: TokenActionTypes.TOKEN_STORE;
+}
+
+export interface IClearToken extends Action {
+  type: TokenActionTypes.TOKEN_REMOVE;
+}
+
+export type TokenActions = IStoreToken | IClearToken;
+
+export const storeToken = (token: string): IStoreToken => {
+  sessionStoreToken(token);
+  return { type: TokenActionTypes.TOKEN_STORE };
+};
+
+export const clearToken = (): IClearToken => {
+  sessionClearToken();
+  return { type: TokenActionTypes.TOKEN_REMOVE };
+};
 
 export const enum QesEnabledActionTypes {
   QES_ENABLED_REQUEST = "QES_ENABLED_REQUEST",

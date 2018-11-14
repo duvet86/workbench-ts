@@ -1,20 +1,40 @@
-import { QesEnabledAction, QesEnabledActionTypes } from "app/actions";
+import {
+  TokenActionTypes,
+  TokenActions,
+  QesEnabledAction,
+  QesEnabledActionTypes
+} from "app/actions";
 
 interface IAppState {
   isLoading: boolean;
-  isUserAuthenticated: boolean;
+  hasToken: boolean;
   isQesEnabled: boolean;
 }
 
+const initialState: IAppState = {
+  isLoading: false,
+  hasToken: false,
+  isQesEnabled: false
+};
+
 function login(
   state: IAppState = {
-    isLoading: true,
-    isUserAuthenticated: false,
-    isQesEnabled: false
+    ...initialState
   },
-  action: QesEnabledAction
+  action: QesEnabledAction | TokenActions
 ): IAppState {
   switch (action.type) {
+    case TokenActionTypes.TOKEN_STORE:
+      return {
+        ...state,
+        hasToken: true
+      };
+
+    case TokenActionTypes.TOKEN_REMOVE:
+      return {
+        ...initialState
+      };
+
     case QesEnabledActionTypes.QES_ENABLED_REQUEST:
       return {
         ...state,

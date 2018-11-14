@@ -1,7 +1,7 @@
 import { encode } from "base-64";
 
 import { getAsync } from "lib/http";
-import { clearToken, getToken } from "lib/sessionStorageApi";
+import { getToken } from "lib/sessionStorageApi";
 
 export const getTokenAsync = (
   userName: string,
@@ -11,7 +11,7 @@ export const getTokenAsync = (
     Authorization: `Basic ${encode(userName + ":" + password)}`
   });
 
-export const isUserAuthenticated = () => {
+export const getValidTokenFromSession = () => {
   // attempt to grab the token from localstorage
   const jwtToken = getToken();
 
@@ -23,12 +23,11 @@ export const isUserAuthenticated = () => {
 
     // if the token has expired return false
     if (jwtToken.createdAt > expiry) {
-      clearToken();
-      return false;
+      return null;
     }
 
-    return true;
+    return jwtToken;
   }
 
-  return false;
+  return null;
 };

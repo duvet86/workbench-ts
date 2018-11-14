@@ -1,24 +1,56 @@
-import React, { SFC } from "react";
+import React, { Component } from "react";
 import { RouteComponentProps } from "react-router";
-import { Redirect, Route } from "react-router-dom";
+import { Redirect, Route } from "react-router";
+import { Dispatch } from "redux";
+import { connect } from "react-redux";
+import { RootState } from "rootReducer";
 
-import { isUserAuthenticated } from "lib/authApi";
+import { IClearToken, clearToken } from "app/actions";
+
+import { getValidTokenFromSession } from "lib/authApi";
 import { IRouteProps } from "common/routes/types";
 
-const AnonymousRoute: SFC<IRouteProps> = ({ component, ...props }) => {
-  const boundRender = (routeProps: RouteComponentProps) =>
-    !isUserAuthenticated() ? (
-      React.createElement(component, routeProps)
-    ) : (
-      <Redirect
-        to={{
-          pathname: "/",
-          state: { from: routeProps.location }
-        }}
-      />
-    );
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps> &
+  IRouteProps;
 
-  return <Route exact {...props} render={boundRender} />;
-};
+class AnonymousRoute extends Component<Props> {
+  public componentDidMount() {
+    const sessionToken = getValidTokenFromSession();
+    if (this.props.hasToken && sessionToken == null) {
+      this.props.dispatchClearToken();
+    }
+  }
 
-export default AnonymousRoute;
+  public render() {
+    const { component, hasToken, ...props } = this.props;
+    const boundRender = (routeProps: RouteComponentProps) =>
+      !hasToken ? (
+        React.createElement(component, routeProps)
+      ) : (
+        <Redirect
+          to={{
+            pathname: "/",
+            state: { from: routeProps.location }
+          }}
+        />
+      );
+
+    return <Route exact {...props} render={boundRender} />;
+  }
+}
+
+const mapStateToProps = ({ app: { hasToken } }: RootState) => ({
+  hasToken
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<IClearToken>) => ({
+  dispatchClearToken: () => {
+    dispatch(clearToken());
+  }
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AnonymousRoute);

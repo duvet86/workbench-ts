@@ -1,7 +1,7 @@
 import { Action } from "redux";
 import { batchActions } from "redux-batched-actions";
 
-import { logout } from "login/actions";
+import { clearToken } from "app/actions";
 
 export interface IErrorResponse {
   status: number;
@@ -53,11 +53,9 @@ export const handleException = (
   response: IErrorResponse,
   ...actions: Action[]
 ) => {
-  // tslint:disable-next-line:no-console
-  console.error(response);
   switch (response.status) {
     case 401:
-      return [logout()];
+      return [clearToken()];
     default:
       return errorActions(response.error || response.message, actions);
   }

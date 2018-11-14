@@ -1,24 +1,25 @@
 import React, { Component } from "react";
 import { RouteComponentProps } from "react-router";
-import { Redirect } from "react-router-dom";
+import { Dispatch } from "redux";
+import { connect } from "react-redux";
 
+import { IStoreToken, storeToken } from "app/actions";
 import { getTokenAsync } from "lib/authApi";
-import { storeToken, clearToken } from "lib/sessionStorageApi";
 
 import LoadingContainer from "common/loading/LoadingContainer";
 import Login from "login/Login";
 
 interface IState {
   isLoading: boolean;
-  isAuthenticated: boolean;
   isInvalidCredentials: boolean;
   error: any;
 }
 
-class LoginContainer extends Component<RouteComponentProps, IState> {
-  public state = {
+type Props = ReturnType<typeof mapDispatchToProps> & RouteComponentProps;
+
+class LoginContainer extends Component<Props, IState> {
+  public state: IState = {
     isLoading: false,
-    isAuthenticated: false,
     isInvalidCredentials: false,
     error: undefined
   };
@@ -32,16 +33,7 @@ class LoginContainer extends Component<RouteComponentProps, IState> {
   }
 
   public render() {
-    const {
-      isAuthenticated,
-      isLoading,
-      isInvalidCredentials,
-      error
-    } = this.state;
-    if (isAuthenticated) {
-      return <Redirect to="/" />;
-    }
-
+    const { isLoading, isInvalidCredentials, error } = this.state;
     return (
       <LoadingContainer isLoading={isLoading} error={error}>
         <Login
@@ -59,12 +51,8 @@ class LoginContainer extends Component<RouteComponentProps, IState> {
     });
     try {
       const token = await getTokenAsync(username, password);
-      storeToken(token);
-      this.setState({
-        isAuthenticated: true
-      });
+      this.props.dispatchStoreToken(token);
     } catch (error) {
-      clearToken();
       if (error.status === 401) {
         this.setState({
           isLoading: false,
@@ -79,4 +67,13 @@ class LoginContainer extends Component<RouteComponentProps, IState> {
   };
 }
 
-export default LoginContainer;
+const mapDispatchToProps = (dispatch: Dispatch<IStoreToken>) => ({
+  dispatchStoreToken: (token: string) => {
+    dispatch(storeToken(token));
+  }
+});
+
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(LoginContainer);

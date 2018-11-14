@@ -1,5 +1,5 @@
 import { ElementType } from "sidebar/operators/operatorsData";
-import { LoginActionTypes, ILogout } from "login/actions";
+import { TokenActionTypes, IClearToken } from "app/actions";
 import {
   QueryConfigActionTypes,
   QueryConfigAction
@@ -13,7 +13,7 @@ function configSwitch(
   state: IConfigSwitchState = {
     elementType: ElementType.NONE
   },
-  action: QueryConfigAction | ILogout
+  action: QueryConfigAction | IClearToken
 ): IConfigSwitchState {
   switch (action.type) {
     case QueryConfigActionTypes.QUERY_CONFIG_OPEN:
@@ -21,7 +21,7 @@ function configSwitch(
         elementType: ElementType.QUERY
       };
 
-    case LoginActionTypes.LOGOUT:
+    case TokenActionTypes.TOKEN_REMOVE:
     case QueryConfigActionTypes.QUERY_CONFIG_ERROR:
     case QueryConfigActionTypes.QUERY_CONFIG_CLOSE:
       return {
