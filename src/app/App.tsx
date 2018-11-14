@@ -1,5 +1,5 @@
 import React, { SFC } from "react";
-import { Location } from "history";
+import { RouteComponentProps } from "react-router";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
@@ -7,12 +7,13 @@ import AppBody from "appBody/AppBody";
 import SideBar from "sidebar/SideBar";
 import TopBarContainer from "topbar/TopBarContainer";
 
-interface IProps extends WithStyles<typeof styles> {
+interface IOwnProps extends WithStyles<typeof styles> {
   handleDrawerOpen: () => void;
   open: boolean;
   isQesEnabled: boolean;
-  location: Location;
 }
+
+type Props = RouteComponentProps & IOwnProps;
 
 const styles = createStyles({
   bodyContainer: {
@@ -22,16 +23,17 @@ const styles = createStyles({
   }
 });
 
-const App: SFC<IProps> = ({
+const App: SFC<Props> = ({
   classes,
   handleDrawerOpen,
   open,
   isQesEnabled,
+  history,
   ...props
 }) =>
   isQesEnabled ? (
     <>
-      <TopBarContainer handleDrawerOpen={handleDrawerOpen} />
+      <TopBarContainer history={history} handleDrawerOpen={handleDrawerOpen} />
       <div className={classes.bodyContainer}>
         <SideBar open={open} {...props} />
         <AppBody />

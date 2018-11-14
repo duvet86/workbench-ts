@@ -1,40 +1,31 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { push, RouterAction } from "connected-react-router";
-import { Dispatch } from "redux";
+import { History } from "history";
 
 import { clearToken } from "lib/sessionStorageApi";
 
 import TopBar from "topbar/TopBar";
 
-interface IOwnProps {
+interface IProps {
   handleDrawerOpen: () => void;
+  history: History;
 }
-
-type Props = ReturnType<typeof mapDispatchToProps> & IOwnProps;
 
 interface IState {
   anchorEl?: HTMLElement;
 }
 
-class TopBarContainer extends Component<Props, IState> {
+class TopBarContainer extends Component<IProps, IState> {
   public readonly state = {
     anchorEl: undefined
   };
 
   public render() {
     const { anchorEl } = this.state;
-    const {
-      dispatchLogout,
-      dispatchProfileClick,
-      dispatchWelcomePage,
-      ...props
-    } = this.props;
     const open = Boolean(anchorEl);
 
     return (
       <TopBar
-        {...props}
+        {...this.props}
         anchorEl={anchorEl}
         open={open}
         onMenuClickHandler={this.onMenuClickHandler}
@@ -54,37 +45,19 @@ class TopBarContainer extends Component<Props, IState> {
 
   private onWelcomePageClickHandler = () => {
     this.onMenuCloseHandler();
-    const { dispatchWelcomePage } = this.props;
-    dispatchWelcomePage();
+    this.props.history.push("/");
   };
 
   private onProfileClickHandler = () => {
     this.onMenuCloseHandler();
-    const { dispatchProfileClick } = this.props;
-    dispatchProfileClick();
+    this.props.history.push("/profile");
   };
 
   private onLogoutClickHandler = () => {
     this.onMenuCloseHandler();
-    const { dispatchLogout } = this.props;
-    dispatchLogout();
+    clearToken();
+    this.props.history.push("/login");
   };
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<RouterAction>) => ({
-  dispatchWelcomePage: () => {
-    dispatch(push("/"));
-  },
-  dispatchLogout: () => {
-    clearToken();
-    dispatch(push("/login"));
-  },
-  dispatchProfileClick: () => {
-    dispatch(push("/profile"));
-  }
-});
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(TopBarContainer);
+export default TopBarContainer;
