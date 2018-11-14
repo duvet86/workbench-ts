@@ -8,7 +8,7 @@ export const enum TabsActionTypes {
 
 type TabsEnabled = [boolean, boolean, boolean];
 
-export interface IShowMyItems extends Action {
+export interface IShowUserItems extends Action {
   type: TabsActionTypes.USER_ITEMS_SHOW;
   tabsEnabled?: TabsEnabled;
 }
@@ -23,9 +23,9 @@ export interface IShowTools extends Action {
   tabsEnabled?: TabsEnabled;
 }
 
-export type TabsAction = IShowMyItems | IShowFilters | IShowTools;
+export type TabsAction = IShowUserItems | IShowFilters | IShowTools;
 
-export const showMyItems = (tabsEnabled?: TabsEnabled): IShowMyItems => ({
+export const showUserItems = (tabsEnabled?: TabsEnabled): IShowUserItems => ({
   type: TabsActionTypes.USER_ITEMS_SHOW,
   tabsEnabled
 });

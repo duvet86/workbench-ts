@@ -6,7 +6,7 @@ interface ITabsState {
 }
 
 function navigationTabs(
-  // Only myItems enabled at the beginning.
+  // Only userItems enabled at the beginning.
   // Suppose we are on "/".
   state: ITabsState = {
     selectedTab: 0,

@@ -6,7 +6,7 @@ import { Dispatch } from "redux";
 import { RootState } from "rootReducer";
 import {
   showFilters,
-  showMyItems,
+  showUserItems,
   showTools,
   TabsAction
 } from "sidebar/navigationTabs/actions";
@@ -25,6 +25,16 @@ type Props = ReturnType<typeof mapStateToProps> &
   IOwnProps;
 
 class NavigationTabsContainer extends Component<Props> {
+  public componentDidMount() {
+    this.setTabsFromLocation(this.props.location);
+  }
+
+  public componentDidUpdate(prevProps: Props) {
+    if (this.props.location !== prevProps.location) {
+      this.setTabsFromLocation(this.props.location);
+    }
+  }
+
   public render() {
     const { selectedTab, visibleTabs } = this.props;
     if (visibleTabs.length === 1) {
@@ -42,9 +52,9 @@ class NavigationTabsContainer extends Component<Props> {
 
   private handleChange = (_: ChangeEvent<{}>, value: number) => {
     const {
-      dispatchShowMyItems,
+      dispatchShowUserItems,
       dispatchShowFilters,
-      dispatchShowMyTools
+      dispatchShowTools
     } = this.props;
 
     switch (value) {
@@ -52,13 +62,27 @@ class NavigationTabsContainer extends Component<Props> {
         dispatchShowFilters();
         break;
       case 2:
-        dispatchShowMyTools();
+        dispatchShowTools();
         break;
       default:
-        dispatchShowMyItems();
+        dispatchShowUserItems();
         break;
     }
   };
+
+  private setTabsFromLocation({ pathname }: Location) {
+    switch (pathname) {
+      case "/workbench/new":
+        this.props.dispatchShowTools([false, false, false]);
+        break;
+      case "/pagebuilder/new":
+        this.props.dispatchShowFilters([false, false, true]);
+        break;
+      default:
+        this.props.dispatchShowUserItems([false, true, true]);
+        break;
+    }
+  }
 }
 
 const mapStateToProps = (state: RootState) => ({
@@ -67,13 +91,13 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<TabsAction>) => ({
-  dispatchShowMyItems: (tabsEnabled?: TabsEnabled) => {
-    dispatch(showMyItems(tabsEnabled));
+  dispatchShowUserItems: (tabsEnabled?: TabsEnabled) => {
+    dispatch(showUserItems(tabsEnabled));
   },
   dispatchShowFilters: (tabsEnabled?: TabsEnabled) => {
     dispatch(showFilters(tabsEnabled));
   },
-  dispatchShowMyTools: (tabsEnabled?: TabsEnabled) => {
+  dispatchShowTools: (tabsEnabled?: TabsEnabled) => {
     dispatch(showTools(tabsEnabled));
   }
 });

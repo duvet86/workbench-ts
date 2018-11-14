@@ -88,7 +88,7 @@ const ErrorBoundary: SFC<IProps> = ({ classes, error }) => (
           <div className={classes.titleBody}>
             <WarningIcon className={classes.warningIcon} />
             <Typography variant="h5" component="h2">
-              OOPS SOMETHING WENT WRONG
+              SORRY, THIS PAGE HAS GENERATED AN ERROR
             </Typography>
           </div>
         </CardContent>

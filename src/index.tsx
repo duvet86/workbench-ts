@@ -5,8 +5,7 @@ import React, { ComponentType } from "react";
 import { render } from "react-dom";
 import { Provider } from "react-redux";
 import { createBrowserHistory } from "history";
-import { Switch, RouteComponentProps } from "react-router";
-import { ConnectedRouter } from "connected-react-router";
+import { Router, Switch, RouteComponentProps } from "react-router";
 
 import configureStore from "lib/configureStore";
 import configureTheme from "lib/configureTheme";
@@ -20,7 +19,7 @@ import AnonymousRoute from "common/routes/AnonymousRoute";
 import AuthenticatedRoute from "common/routes/AuthenticatedRoute";
 
 const history = createBrowserHistory();
-const store = configureStore(history);
+const store = configureStore();
 const theme = configureTheme();
 
 const LoginContainerAsync = React.lazy<ComponentType<RouteComponentProps>>(() =>
@@ -32,7 +31,7 @@ const AppContainerAsync = React.lazy<ComponentType<RouteComponentProps>>(() =>
 
 render(
   <Provider store={store}>
-    <ConnectedRouter history={history}>
+    <Router history={history}>
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
         <ErrorBoundaryContainer>
@@ -44,7 +43,7 @@ render(
           </LoadAsync>
         </ErrorBoundaryContainer>
       </MuiThemeProvider>
-    </ConnectedRouter>
+    </Router>
   </Provider>,
   document.getElementById("root")
 );
