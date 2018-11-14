@@ -1,4 +1,4 @@
-import React, { Fragment, SFC } from "react";
+import React, { SFC } from "react";
 import { Location } from "history";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
@@ -30,13 +30,13 @@ const App: SFC<IProps> = ({
   ...props
 }) =>
   isQesEnabled ? (
-    <Fragment>
+    <>
       <TopBarContainer handleDrawerOpen={handleDrawerOpen} />
       <div className={classes.bodyContainer}>
         <SideBar open={open} {...props} />
         <AppBody />
       </div>
-    </Fragment>
+    </>
   ) : (
     <div>Workbench features are not enabled.</div>
   );
