@@ -2,7 +2,7 @@ import { combineEpics } from "redux-observable";
 
 import { appEpic } from "app/epic";
 import { fetchProfileEpic } from "profile/epic";
-import { myItemsEpic } from "sidebar/userItems/epic";
+import { userItemsEpic } from "sidebar/userItems/epic";
 import { operatorsEpic } from "sidebar/operators/epic";
 import {
   addQueryEpic,
@@ -21,7 +21,7 @@ import {
 const epics = [
   appEpic,
   fetchProfileEpic,
-  myItemsEpic,
+  userItemsEpic,
   operatorsEpic,
   sessionEpic,
   saveGraphEpic,

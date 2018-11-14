@@ -4,7 +4,7 @@ import { getWithJwtAsync } from "lib/http";
 
 import { IFolderChild, ItemTypeIds } from "sidebar/userItems/types";
 
-export const getMyItemsObs = () =>
+export const getUserItemsObs = () =>
   from(
     Promise.all([
       getWithJwtAsync<IFolderChild[]>(

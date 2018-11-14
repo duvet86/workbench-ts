@@ -5,15 +5,18 @@ import { Action } from "redux";
 import { getDataObs } from "lib/apiCache";
 
 import { handleException } from "common/errorBoundary/actions";
-import { MyItemsActionTypes, myItemsSuccess } from "sidebar/userItems/actions";
-import { getMyItemsObs } from "sidebar/userItems/api";
+import {
+  UserItemsActionTypes,
+  userItemsSuccess
+} from "sidebar/userItems/actions";
+import { getUserItemsObs } from "sidebar/userItems/api";
 
-export const myItemsEpic = (action$: ActionsObservable<Action>) =>
+export const userItemsEpic = (action$: ActionsObservable<Action>) =>
   action$.pipe(
-    ofType(MyItemsActionTypes.MY_ITEMS_REQUEST),
+    ofType(UserItemsActionTypes.USER_ITEMS_REQUEST),
     mergeMap(() =>
-      getDataObs(MyItemsActionTypes.MY_ITEMS_REQUEST, getMyItemsObs).pipe(
-        map(response => myItemsSuccess(response)),
+      getDataObs(UserItemsActionTypes.USER_ITEMS_REQUEST, getUserItemsObs).pipe(
+        map(response => userItemsSuccess(response)),
         catchError(error => handleException(error))
       )
     )

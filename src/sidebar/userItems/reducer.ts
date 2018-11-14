@@ -1,31 +1,34 @@
-import { MyItemsActionTypes, MyItemsAction } from "sidebar/userItems/actions";
+import {
+  UserItemsActionTypes,
+  UserItemsActions
+} from "sidebar/userItems/actions";
 
 import { IFolderChild } from "sidebar/userItems/types";
 
-interface IMyItemsState {
+interface IUserItemsState {
   isLoading: boolean;
   currentTree: 0 | 1;
   myItems: IFolderChild[];
   sharedWithMe: IFolderChild[];
 }
 
-function myItems(
-  state: IMyItemsState = {
+function userItems(
+  state: IUserItemsState = {
     isLoading: true,
     currentTree: 0,
     myItems: [],
     sharedWithMe: []
   },
-  action: MyItemsAction
-): IMyItemsState {
+  action: UserItemsActions
+): IUserItemsState {
   switch (action.type) {
-    case MyItemsActionTypes.MY_ITEMS_REQUEST:
+    case UserItemsActionTypes.USER_ITEMS_REQUEST:
       return {
         ...state,
         isLoading: true
       };
 
-    case MyItemsActionTypes.MY_ITEMS_SUCCESS:
+    case UserItemsActionTypes.USER_ITEMS_SUCCESS:
       return {
         isLoading: false,
         currentTree: state.currentTree,
@@ -38,4 +41,4 @@ function myItems(
   }
 }
 
-export default myItems;
+export default userItems;

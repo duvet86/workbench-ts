@@ -2,38 +2,41 @@ import { Action } from "redux";
 
 import { ISideBarItems } from "sidebar/userItems/types";
 
-export const enum MyItemsActionTypes {
-  MY_ITEMS_REQUEST = "MY_ITEMS_REQUEST",
-  MY_ITEMS_SUCCESS = "MY_ITEMS_SUCCESS",
-  MY_ITEMS_ERROR = "MY_ITEMS_ERROR"
+export const enum UserItemsActionTypes {
+  USER_ITEMS_REQUEST = "USER_ITEMS_REQUEST",
+  USER_ITEMS_SUCCESS = "USER_ITEMS_SUCCESS",
+  USER_ITEMS_ERROR = "USER_ITEMS_ERROR"
 }
 
-export interface IMyItemsRequest extends Action {
-  type: MyItemsActionTypes.MY_ITEMS_REQUEST;
+export interface IUserItemsRequest extends Action {
+  type: UserItemsActionTypes.USER_ITEMS_REQUEST;
 }
 
-export interface IMyItemsSuccess extends Action {
-  type: MyItemsActionTypes.MY_ITEMS_SUCCESS;
+export interface IUserItemsSuccess extends Action {
+  type: UserItemsActionTypes.USER_ITEMS_SUCCESS;
   items: ISideBarItems;
 }
 
-export interface IMyItemsError extends Action {
-  type: MyItemsActionTypes.MY_ITEMS_ERROR;
+export interface IUserItemsError extends Action {
+  type: UserItemsActionTypes.USER_ITEMS_ERROR;
   error: any;
 }
 
-export type MyItemsAction = IMyItemsRequest | IMyItemsSuccess | IMyItemsError;
+export type UserItemsActions =
+  | IUserItemsRequest
+  | IUserItemsSuccess
+  | IUserItemsError;
 
-export const myItemsRequest = (): IMyItemsRequest => ({
-  type: MyItemsActionTypes.MY_ITEMS_REQUEST
+export const userItemsRequest = (): IUserItemsRequest => ({
+  type: UserItemsActionTypes.USER_ITEMS_REQUEST
 });
 
-export const myItemsSuccess = (items: ISideBarItems): IMyItemsSuccess => ({
-  type: MyItemsActionTypes.MY_ITEMS_SUCCESS,
+export const userItemsSuccess = (items: ISideBarItems): IUserItemsSuccess => ({
+  type: UserItemsActionTypes.USER_ITEMS_SUCCESS,
   items
 });
 
-export const myItemsError = (error: any): IMyItemsError => ({
-  type: MyItemsActionTypes.MY_ITEMS_ERROR,
+export const userItemsError = (error: any): IUserItemsError => ({
+  type: UserItemsActionTypes.USER_ITEMS_ERROR,
   error
 });

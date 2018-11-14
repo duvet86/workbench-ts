@@ -3,7 +3,7 @@ import { combineReducers } from "redux";
 import app from "app/reducer";
 import error from "common/errorBoundary/reducer";
 import profile from "profile/reducer";
-import myItems from "sidebar/userItems/reducer";
+import userItems from "sidebar/userItems/reducer";
 import navigationTabs from "sidebar/navigationTabs/reducer";
 import operators from "sidebar/operators/reducer";
 import configSwitch from "workbench/configSwitch/reducer";
@@ -14,7 +14,7 @@ const rootReducer = combineReducers({
   error,
   app,
   profile,
-  myItems,
+  userItems,
   navigationTabs,
   operators,
   session,

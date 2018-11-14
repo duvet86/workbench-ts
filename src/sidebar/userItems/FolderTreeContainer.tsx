@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { RootState } from "rootReducer";
-import { MyItemsAction, myItemsRequest } from "sidebar/userItems/actions";
+import { UserItemsActions, userItemsRequest } from "sidebar/userItems/actions";
 
 import LoadingContainer from "common/loading/LoadingContainer";
 import FolderTree from "sidebar/userItems/FolderTree";
@@ -19,7 +19,7 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 class FolderTreeContainer extends Component<Props> {
   public componentDidMount() {
-    this.props.dispatchLoadMyItems();
+    this.props.dispatchLoadUserItems();
   }
 
   public render() {
@@ -38,16 +38,16 @@ class FolderTreeContainer extends Component<Props> {
 }
 
 const mapStateToProps = ({
-  myItems: { isLoading, myItems, sharedWithMe }
+  userItems: { isLoading, myItems, sharedWithMe }
 }: RootState) => ({
   isLoading,
   myItems,
   sharedWithMe
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<MyItemsAction>) => ({
-  dispatchLoadMyItems: () => {
-    dispatch(myItemsRequest());
+const mapDispatchToProps = (dispatch: Dispatch<UserItemsActions>) => ({
+  dispatchLoadUserItems: () => {
+    dispatch(userItemsRequest());
   }
 });
 
