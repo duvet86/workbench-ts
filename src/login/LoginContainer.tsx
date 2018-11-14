@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 import { RouteComponentProps } from "react-router";
+import { Redirect } from "react-router-dom";
 
 import { getTokenAsync } from "lib/authApi";
-import { storeToken } from "lib/sessionStorageApi";
+import { storeToken, clearToken } from "lib/sessionStorageApi";
 
 import LoadingContainer from "common/loading/LoadingContainer";
 import Login from "login/Login";
 
 interface IState {
   isLoading: boolean;
+  isAuthenticated: boolean;
   isInvalidCredentials: boolean;
   error: any;
 }
@@ -16,6 +18,7 @@ interface IState {
 class LoginContainer extends Component<RouteComponentProps, IState> {
   public state = {
     isLoading: false,
+    isAuthenticated: false,
     isInvalidCredentials: false,
     error: undefined
   };
@@ -29,7 +32,15 @@ class LoginContainer extends Component<RouteComponentProps, IState> {
   }
 
   public render() {
-    const { isLoading, isInvalidCredentials, error } = this.state;
+    const {
+      isAuthenticated,
+      isLoading,
+      isInvalidCredentials,
+      error
+    } = this.state;
+    if (isAuthenticated) {
+      return <Redirect to="/" />;
+    }
 
     return (
       <LoadingContainer isLoading={isLoading} error={error}>
@@ -49,8 +60,11 @@ class LoginContainer extends Component<RouteComponentProps, IState> {
     try {
       const token = await getTokenAsync(username, password);
       storeToken(token);
-      this.props.history.push("/");
+      this.setState({
+        isAuthenticated: true
+      });
     } catch (error) {
+      clearToken();
       if (error.status === 401) {
         this.setState({
           isLoading: false,

@@ -3,8 +3,6 @@ import { encode } from "base-64";
 import { getAsync } from "lib/http";
 import { clearToken, getToken } from "lib/sessionStorageApi";
 
-import { logout } from "login/actions";
-
 export const getTokenAsync = (
   userName: string,
   password: string
@@ -12,11 +10,6 @@ export const getTokenAsync = (
   getAsync("api/token", {
     Authorization: `Basic ${encode(userName + ":" + password)}`
   });
-
-export const deleteTokenAndLogout = () => {
-  clearToken();
-  return [logout()];
-};
 
 export const isUserAuthenticated = () => {
   // attempt to grab the token from localstorage

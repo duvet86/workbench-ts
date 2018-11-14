@@ -163,7 +163,6 @@ const Summary: SFC<IProps> = ({
                 <ConstraintIcon />
               </ListItemIcon>
               <ListItemText primary={ConstraintName} />
-              <ListItemText primary={10} />
             </ListItem>
           ))}
         </List>
@@ -189,19 +188,25 @@ const Summary: SFC<IProps> = ({
                 </TableRow>
               ))}
           </TableBody>
-          {/* <TableFooter>
-          <TableRow>
-            <TablePagination
-              colSpan={3}
-              count={rows.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onChangePage={this.handleChangePage}
-              onChangeRowsPerPage={this.handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationActionsWrapped}
-            />
-          </TableRow>
-        </TableFooter> */}
+          {/* <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={5}
+            rowsPerPage={5}
+            page={1}
+            backIconButtonProps={{
+              "aria-label": "Previous Page"
+            }}
+            nextIconButtonProps={{
+              "aria-label": "Next Page"
+            }}
+            onChangePage={(event, page) => {
+              this.setState({ page });
+            }}
+            onChangeRowsPerPage={event => {
+              this.setState({ rowsPerPage: event.target.value });
+            }}
+          /> */}
         </Table>
       </LoadingContainer>
     </Paper>
