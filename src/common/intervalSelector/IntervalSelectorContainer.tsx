@@ -1,7 +1,7 @@
 import React, { ChangeEvent, Component } from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
-import { Observable, Subscriber } from "rxjs";
+import { Observable, Subscriber, Subscription } from "rxjs";
 import { debounceTime, buffer, share } from "rxjs/operators";
 
 import { IIntervalDtc, IIntervalTypesDtc } from "common/intervalSelector/types";
@@ -35,7 +35,8 @@ interface IState {
 
 class IntervalSelectorContainer extends Component<Props, IState> {
   private nextIntevalClick$: Observable<number>;
-  private handleNextIntevalClick!: (offset: number) => () => void;
+  private handleNextIntevalClick?: (offset: number) => () => void;
+  private clickSubscription?: Subscription;
 
   constructor(props: Props) {
     super(props);
@@ -48,12 +49,6 @@ class IntervalSelectorContainer extends Component<Props, IState> {
       }
     ).pipe(share());
 
-    // Debouncing the next and previous button clicks.
-    const debounced = this.nextIntevalClick$.pipe(debounceTime(250));
-    this.nextIntevalClick$.pipe(buffer(debounced)).subscribe(offset => {
-      this.debounceNextIntervalAsync(offset);
-    });
-
     this.state = {
       intervalTypes: {},
       intervalType: props.initValue && props.initValue.IntervalType,
@@ -63,6 +58,14 @@ class IntervalSelectorContainer extends Component<Props, IState> {
 
   public async componentDidMount() {
     const { initValue, onChange, dispatchHandleException } = this.props;
+
+    // Debouncing the next and previous button clicks.
+    const debounced = this.nextIntevalClick$.pipe(debounceTime(250));
+    this.clickSubscription = this.nextIntevalClick$
+      .pipe(buffer(debounced))
+      .subscribe(offset => {
+        this.debounceNextIntervalAsync(offset);
+      });
 
     try {
       const { intervalTypes, interval } = await initIntervalAsync(
@@ -88,7 +91,17 @@ class IntervalSelectorContainer extends Component<Props, IState> {
     }
   }
 
+  public componentWillUnmount() {
+    if (this.clickSubscription != null) {
+      this.clickSubscription.unsubscribe();
+    }
+  }
+
   public render() {
+    if (this.handleNextIntevalClick == null) {
+      return null;
+    }
+
     const { intervalType, interval, intervalTypes } = this.state;
     const isLoading = interval == null || intervalType == null;
 

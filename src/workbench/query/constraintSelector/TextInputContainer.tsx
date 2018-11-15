@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
-import { Observable, Subscriber } from "rxjs";
+import { Observable, Subscriber, Subscription } from "rxjs";
 import { debounceTime, share } from "rxjs/operators";
 
 import {
@@ -26,9 +26,11 @@ interface IState {
 
 class TextInputContainer extends Component<Props, IState> {
   private inputChange$: Observable<string>;
-  private handleInputChange!: (
+  private handleInputChange?: (
     event: React.ChangeEvent<HTMLInputElement>
   ) => void;
+  private inputSubscription?: Subscription;
+  private constraintSubscription?: Subscription;
 
   constructor(props: Props) {
     super(props);
@@ -39,24 +41,41 @@ class TextInputContainer extends Component<Props, IState> {
       };
     }).pipe(share());
 
+    this.state = {
+      displayValue: this.props.initDisplayValue
+    };
+  }
+
+  public componentDidMount() {
     // The display value changes synchoniously.
-    this.inputChange$.subscribe(eventValue => {
+    this.inputSubscription = this.inputChange$.subscribe(eventValue => {
       this.setState({
         displayValue: eventValue
       });
     });
 
     // The real constraint value gets applied after a debounce.
-    this.inputChange$.pipe(debounceTime(300)).subscribe(eventValue => {
-      this.applyConstraintValue(eventValue);
-    });
+    this.constraintSubscription = this.inputChange$
+      .pipe(debounceTime(300))
+      .subscribe(eventValue => {
+        this.applyConstraintValue(eventValue);
+      });
+  }
 
-    this.state = {
-      displayValue: this.props.initDisplayValue
-    };
+  public componentWillUnmount() {
+    if (this.inputSubscription != null) {
+      this.inputSubscription.unsubscribe();
+    }
+    if (this.constraintSubscription != null) {
+      this.constraintSubscription.unsubscribe();
+    }
   }
 
   public render() {
+    if (this.handleInputChange == null) {
+      return null;
+    }
+
     return (
       <TextInput
         inputType={this.props.inputType}

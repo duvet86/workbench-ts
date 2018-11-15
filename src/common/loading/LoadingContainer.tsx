@@ -22,7 +22,7 @@ class LoadingContainer extends Component<IProps, Readonly<IState>> {
   private delay?: number;
 
   public componentDidMount() {
-    this.delay = this.setTimeout(this.props.delay || 200);
+    this.delay = this.setDelay(this.props.delay || 200);
   }
 
   public componentDidUpdate(prevProps: IProps) {
@@ -32,7 +32,7 @@ class LoadingContainer extends Component<IProps, Readonly<IState>> {
       });
     }
     if (!prevProps.isLoading && this.props.isLoading && !this.state.pastDelay) {
-      this.delay = this.setTimeout(this.props.delay || 200);
+      this.delay = this.setDelay(this.props.delay || 200);
     }
   }
 
@@ -47,7 +47,7 @@ class LoadingContainer extends Component<IProps, Readonly<IState>> {
     const { error, isLoading, background, children } = this.props;
     const { pastDelay } = this.state;
 
-    const loadingComponent = background ? (
+    return background ? (
       <BackgroundLoading
         isLoading={isLoading}
         pastDelay={pastDelay}
@@ -61,11 +61,9 @@ class LoadingContainer extends Component<IProps, Readonly<IState>> {
         error={error}
       />
     );
-
-    return loadingComponent;
   }
 
-  private setTimeout(delay: number) {
+  private setDelay(delay: number) {
     return window.setTimeout(() => {
       this.setState({ pastDelay: true });
     }, delay);
