@@ -1,6 +1,6 @@
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
-import Banner from "content/PitBanner.jpg";
+import Banner from "pagebuilder/PitBanner.jpg";
 
 import React, { SFC, ChangeEvent } from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
