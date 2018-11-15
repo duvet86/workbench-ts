@@ -11,7 +11,7 @@ export const getTokenAsync = (
     Authorization: `Basic ${encode(userName + ":" + password)}`
   });
 
-export const getValidTokenFromSession = () => {
+export const getTokenFromSession = () => {
   // attempt to grab the token from localstorage
   const jwtToken = getToken();
 

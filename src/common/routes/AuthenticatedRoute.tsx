@@ -7,7 +7,7 @@ import { RootState } from "rootReducer";
 
 import { IStoreToken, storeToken } from "app/actions";
 
-import { getValidTokenFromSession } from "lib/authApi";
+import { getTokenFromSession } from "lib/authApi";
 import { IRouteProps } from "common/routes/types";
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -16,14 +16,15 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 class AuthenticatedRoute extends Component<Props> {
   public componentDidMount() {
-    const sessionToken = getValidTokenFromSession();
+    const sessionToken = getTokenFromSession();
+    // Keep in sync store with sessionStorage.
     if (!this.props.hasToken && sessionToken != null) {
       this.props.dispatchStoreToken(sessionToken.token);
     }
   }
 
   public render() {
-    const { component, hasToken, ...props } = this.props;
+    const { component, hasToken, dispatchStoreToken, ...rest } = this.props;
 
     const boundRender = (routeProps: RouteComponentProps) =>
       hasToken ? (
@@ -37,7 +38,7 @@ class AuthenticatedRoute extends Component<Props> {
         />
       );
 
-    return <Route exact {...props} render={boundRender} />;
+    return <Route exact {...rest} render={boundRender} />;
   }
 }
 

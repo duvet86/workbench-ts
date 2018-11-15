@@ -29,7 +29,6 @@ class TopBarContainer extends Component<Props, IState> {
 
     return (
       <TopBar
-        {...this.props}
         anchorEl={anchorEl}
         open={open}
         onMenuClickHandler={this.onMenuClickHandler}
