@@ -4,7 +4,7 @@ import { Action } from "redux";
 
 import { QesEnabledActionTypes, qesEnabledSuccess } from "app/actions";
 import { getQesEnabledObs } from "app/api";
-import { handleException } from "common/errorBoundary/actions";
+import { handleExceptionObs } from "common/errorBoundary/actions";
 
 export const qesEnabledEpic = (action$: ActionsObservable<Action>) =>
   action$.pipe(
@@ -12,7 +12,7 @@ export const qesEnabledEpic = (action$: ActionsObservable<Action>) =>
     mergeMap(() =>
       getQesEnabledObs().pipe(
         map(isQesEnabled => qesEnabledSuccess(isQesEnabled)),
-        catchError(error => handleException(error))
+        catchError(error => handleExceptionObs(error))
       )
     )
   );

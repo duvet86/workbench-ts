@@ -4,7 +4,7 @@ import { Action } from "redux";
 
 import { getDataObs } from "lib/apiCache";
 
-import { handleException } from "common/errorBoundary/actions";
+import { handleExceptionObs } from "common/errorBoundary/actions";
 import {
   OperatorsActionTypes,
   operatorsSuccess
@@ -17,7 +17,7 @@ export const operatorsEpic = (action$: ActionsObservable<Action>) =>
     mergeMap(() =>
       getDataObs(OperatorsActionTypes.OPERATORS_REQUEST, getOperatorsObs).pipe(
         map(operatorServices => operatorsSuccess(operatorServices)),
-        catchError(error => handleException(error))
+        catchError(error => handleExceptionObs(error))
       )
     )
   );

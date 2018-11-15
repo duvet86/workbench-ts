@@ -12,6 +12,8 @@ import {
   QueryDescribeAction,
   QueryDataTableAction
 } from "workbench/query/actions";
+import { ErrorActionTypes, ICleanError } from "common/errorBoundary/actions";
+import { TokenActionTypes, IClearToken } from "app/actions";
 
 import { IItemDtc } from "sidebar/userItems/types";
 import {
@@ -53,6 +55,8 @@ function queryConfig(
     | QueryAction
     | QueryDescribeAction
     | QueryDataTableAction
+    | ICleanError
+    | IClearToken
 ): IQueryState {
   switch (action.type) {
     case QueryConfigActionTypes.QUERY_CONFIG_OPEN:
@@ -60,12 +64,6 @@ function queryConfig(
         ...state,
         isLoading: false,
         elementId: action.elementId
-      };
-
-    case QueryConfigActionTypes.QUERY_CONFIG_ERROR:
-    case QueryConfigActionTypes.QUERY_CONFIG_CLOSE:
-      return {
-        ...initialState
       };
 
     case QueryConfigActionTypes.GO_TO_STEP:
@@ -114,6 +112,13 @@ function queryConfig(
         ...state,
         isLoading: false,
         dataTableTows: action.rows
+      };
+
+    case ErrorActionTypes.ERROR_CLEAN:
+    case TokenActionTypes.TOKEN_REMOVE:
+    case QueryConfigActionTypes.QUERY_CONFIG_CLOSE:
+      return {
+        ...initialState
       };
 
     default:

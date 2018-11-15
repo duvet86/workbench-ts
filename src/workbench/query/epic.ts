@@ -2,13 +2,12 @@ import { ActionsObservable, StateObservable, ofType } from "redux-observable";
 import { mergeMap, map, catchError, withLatestFrom } from "rxjs/operators";
 import { Action } from "redux";
 
-import { handleException } from "common/errorBoundary/actions";
+import { handleExceptionObs } from "common/errorBoundary/actions";
 import { updateGraphEpic } from "workbench/epic";
 import {
   DataServicesActionTypes,
   FilterCapActionTypes,
   QueryDescActionTypes,
-  queryConfigError,
   filterCapabilitiesSuccess,
   dataServicesSuccess,
   queryDescribeSuccess,
@@ -33,7 +32,7 @@ export const dataServicesEpic = (action$: ActionsObservable<Action>) =>
     mergeMap(() =>
       getDataServicesObs().pipe(
         map(dataServices => dataServicesSuccess(dataServices)),
-        catchError(error => handleException(error, queryConfigError()))
+        catchError(error => handleExceptionObs(error))
       )
     )
   );
@@ -46,7 +45,7 @@ export const filterCapabilitiesEpic = (action$: ActionsObservable<Action>) =>
         map(filterCapabilities =>
           filterCapabilitiesSuccess(filterCapabilities)
         ),
-        catchError(error => handleException(error, queryConfigError()))
+        catchError(error => handleExceptionObs(error))
       )
     )
   );
@@ -73,7 +72,7 @@ export const serviceDescriptionEpic = (
         map(serviceDescription =>
           queryDescribeSuccess(serviceDescription, elementId)
         ),
-        catchError(error => handleException(error, queryConfigError()))
+        catchError(error => handleExceptionObs(error))
       );
     })
   );
@@ -116,7 +115,7 @@ export const getDataTableEpic = (
             pageNumber
           ).pipe(
             map(rows => queryDataTableSuccess(rows)),
-            catchError(error => handleException(error))
+            catchError(error => handleExceptionObs(error))
           );
         }
 
@@ -130,5 +129,5 @@ export const getDataTableEpic = (
         ]);
       }
     ),
-    catchError(error => handleException(error))
+    catchError(error => handleExceptionObs(error))
   );

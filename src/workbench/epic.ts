@@ -3,7 +3,7 @@ import { ActionsObservable, StateObservable, ofType } from "redux-observable";
 import { catchError, map, mergeMap, withLatestFrom } from "rxjs/operators";
 import { Action } from "redux";
 
-import { handleException } from "common/errorBoundary/actions";
+import { handleExceptionObs } from "common/errorBoundary/actions";
 import {
   ISession,
   IQueryGraphData,
@@ -69,7 +69,7 @@ export const updateGraphEpic = (
         mergeMap(queryChanges => [updateQueryChanges(queryChanges), ...actions])
       )
     ),
-    catchError(error => handleException(error))
+    catchError(error => handleExceptionObs(error))
   );
 };
 
@@ -79,7 +79,7 @@ export const sessionEpic = (action$: ActionsObservable<Action>) =>
     mergeMap(({ dataViewId }) =>
       getSessionInfoObs(dataViewId).pipe(
         map(response => sessionSuccess(response)),
-        catchError(error => handleException(error))
+        catchError(error => handleExceptionObs(error))
       )
     )
   );
@@ -99,7 +99,7 @@ export const saveGraphEpic = (
       const { TenantId, SessionId, QueryGraphId } = session;
       return saveGraphObs(TenantId, SessionId, QueryGraphId, graph, true).pipe(
         map(() => graphSaveChangesSuccess()),
-        catchError(error => handleException(error))
+        catchError(error => handleExceptionObs(error))
       );
     })
   );
@@ -130,7 +130,7 @@ export const pushGraphChangesEpic = (
       const { TenantId, SessionId, QueryGraphId } = session;
       return pushGraphChangesObs(TenantId, SessionId, QueryGraphId).pipe(
         map(() => graphPushSuccess()),
-        catchError(error => handleException(error))
+        catchError(error => handleExceptionObs(error))
       );
     })
   );

@@ -12,7 +12,6 @@ import {
 export const enum QueryConfigActionTypes {
   QUERY_CONFIG_OPEN = "QUERY_CONFIG_OPEN",
   QUERY_CONFIG_CLOSE = "QUERY_CONFIG_CLOSE",
-  QUERY_CONFIG_ERROR = "QUERY_CONFIG_ERROR",
   GO_TO_STEP = "GO_TO_STEP"
 }
 
@@ -25,19 +24,12 @@ export interface ICloseQueryConfig extends Action {
   type: QueryConfigActionTypes.QUERY_CONFIG_CLOSE;
 }
 
-export interface IQueryConfigError extends Action {
-  type: QueryConfigActionTypes.QUERY_CONFIG_ERROR;
-}
-
 export interface IGoToStep extends Action {
   type: QueryConfigActionTypes.GO_TO_STEP;
   step: number;
 }
 
-export type QueryConfigAction =
-  | IOpenQueryConfig
-  | ICloseQueryConfig
-  | IQueryConfigError;
+export type QueryConfigAction = IOpenQueryConfig | ICloseQueryConfig;
 
 export const openQueryConfig = (elementId: number): IOpenQueryConfig => ({
   type: QueryConfigActionTypes.QUERY_CONFIG_OPEN,
@@ -46,10 +38,6 @@ export const openQueryConfig = (elementId: number): IOpenQueryConfig => ({
 
 export const closeQueryConfig = (): ICloseQueryConfig => ({
   type: QueryConfigActionTypes.QUERY_CONFIG_CLOSE
-});
-
-export const queryConfigError = (): IQueryConfigError => ({
-  type: QueryConfigActionTypes.QUERY_CONFIG_ERROR
 });
 
 export const goToStep = (step: number): IGoToStep => ({

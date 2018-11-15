@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
-import { batchActions } from "redux-batched-actions";
 import { RootState } from "rootReducer";
 
 import { getAllowedValuesAsync } from "workbench/query/api";
@@ -143,7 +142,7 @@ const mapDispatchToProps = (
   dispatch: Dispatch<ErrorActions | IUpdateQueryConstraintValues>
 ) => ({
   dispatchHandleException: (resp: IErrorResponse) => {
-    dispatch(batchActions(handleException(resp)));
+    dispatch(handleException(resp));
   },
   dispatchUpdateQueryConstraintValues: (
     elementId: number,

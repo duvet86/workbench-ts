@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
-import { batchActions } from "redux-batched-actions";
 
 import { IntervalTypes, ICalendarString } from "common/intervalSelector/types";
 import { getCalendarStringAsync } from "common/intervalSelector/api";
@@ -73,7 +72,7 @@ class CalendarPeriodContainer extends Component<Props, IState> {
 
 const mapDispatchToProps = (dispatch: Dispatch<ErrorActions>) => ({
   dispatchHandleException: (resp: IErrorResponse) => {
-    dispatch(batchActions(handleException(resp)));
+    dispatch(handleException(resp));
   }
 });
 

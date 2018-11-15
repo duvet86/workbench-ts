@@ -24,7 +24,6 @@ function configSwitch(
 
     case ErrorActionTypes.ERROR_CLEAN:
     case TokenActionTypes.TOKEN_REMOVE:
-    case QueryConfigActionTypes.QUERY_CONFIG_ERROR:
     case QueryConfigActionTypes.QUERY_CONFIG_CLOSE:
       return {
         elementType: ElementType.NONE

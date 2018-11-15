@@ -1,7 +1,6 @@
 import React, { ChangeEvent, Component } from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
-import { batchActions } from "redux-batched-actions";
 import { Observable, Subscriber } from "rxjs";
 import { debounceTime, buffer, share } from "rxjs/operators";
 
@@ -193,7 +192,7 @@ class IntervalSelectorContainer extends Component<Props, IState> {
 
 const mapDispatchToProps = (dispatch: Dispatch<ErrorActions>) => ({
   dispatchHandleException: (resp: IErrorResponse) => {
-    dispatch(batchActions(handleException(resp)));
+    dispatch(handleException(resp));
   }
 });
 

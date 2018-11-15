@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
-import { batchActions } from "redux-batched-actions";
 
 import { getComponentListAsync } from "pagebuilder/api";
 import {
@@ -71,7 +70,7 @@ class AddComponentButtonContainer extends Component<Props, IState> {
 
 const mapDispatchToProps = (dispatch: Dispatch<ErrorActions>) => ({
   dispatchHandleException: (resp: IErrorResponse) => {
-    dispatch(batchActions(handleException(resp)));
+    dispatch(handleException(resp));
   }
 });
 
