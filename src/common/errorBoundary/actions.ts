@@ -14,21 +14,21 @@ export const enum ErrorActionTypes {
   ERROR_CLEAN = "ERROR_CLEAN"
 }
 
-export interface ITriggerErrorAction extends Action {
+export interface ITriggerError extends Action {
   type: ErrorActionTypes.ERROR_TRIGGER;
   error: any;
 }
 
-export interface ICleanErrorAction extends Action {
+export interface ICleanError extends Action {
   type: ErrorActionTypes.ERROR_CLEAN;
 }
 
-export const triggerError = (error: any): ITriggerErrorAction => ({
+export const triggerError = (error: any): ITriggerError => ({
   type: ErrorActionTypes.ERROR_TRIGGER,
   error
 });
 
-export const cleanError = (): ICleanErrorAction => ({
+export const cleanError = (): ICleanError => ({
   type: ErrorActionTypes.ERROR_CLEAN
 });
 
@@ -43,7 +43,7 @@ export const cleanError = (): ICleanErrorAction => ({
 const errorActions = (
   error: any,
   actions: Action[] = []
-): [ITriggerErrorAction, ...Action[]] => [
+): [ITriggerError, ...Action[]] => [
   // Fire 2 actions, one after the other.
   triggerError(error),
   ...actions
@@ -61,4 +61,5 @@ export const handleException = (
   }
 };
 
+// batchActions because we can concat actions.
 export type ErrorActions = ReturnType<typeof batchActions>;

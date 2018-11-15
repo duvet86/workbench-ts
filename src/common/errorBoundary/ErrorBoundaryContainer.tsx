@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { RootState } from "rootReducer";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 
-import { ICleanErrorAction, cleanError } from "common/errorBoundary/actions";
+import { ICleanError, cleanError } from "common/errorBoundary/actions";
 
 import ErrorBoundary from "common/errorBoundary/ErrorBoundary";
 
@@ -57,7 +57,7 @@ const mapStateToProps = ({ error: { error } }: RootState) => ({
   error
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<ICleanErrorAction>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<ICleanError>) => ({
   dispatchCleanException: () => {
     dispatch(cleanError());
   }

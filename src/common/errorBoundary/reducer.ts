@@ -1,7 +1,7 @@
 import {
   ErrorActionTypes,
-  ITriggerErrorAction,
-  ICleanErrorAction
+  ITriggerError,
+  ICleanError
 } from "common/errorBoundary/actions";
 
 interface IErrorState {
@@ -12,7 +12,7 @@ function error(
   state: IErrorState = {
     error: undefined
   },
-  action: ITriggerErrorAction | ICleanErrorAction
+  action: ITriggerError | ICleanError
 ): IErrorState {
   switch (action.type) {
     case ErrorActionTypes.ERROR_TRIGGER:

@@ -31,6 +31,7 @@ class TopBarContainer extends Component<Props, IState> {
       <TopBar
         anchorEl={anchorEl}
         open={open}
+        handleDrawerOpen={this.props.handleDrawerOpen}
         onMenuClickHandler={this.onMenuClickHandler}
         onMenuCloseHandler={this.onMenuCloseHandler}
         onWelcomePageClickHandler={this.onWelcomePageClickHandler}

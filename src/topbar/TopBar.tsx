@@ -22,14 +22,14 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { ProfileIcon } from "common/icons";
 
 interface IProps extends WithStyles<typeof styles> {
-  anchorEl?: HTMLElement;
+  anchorEl: HTMLElement | undefined;
   open: boolean;
   onMenuClickHandler: (event: React.MouseEvent<HTMLElement>) => void;
   onMenuCloseHandler: React.ReactEventHandler;
   onWelcomePageClickHandler: React.ReactEventHandler;
   onLogoutClickHandler: React.ReactEventHandler;
   onProfileClickHandler: React.ReactEventHandler;
-  handleDrawerOpen?: React.ReactEventHandler;
+  handleDrawerOpen: React.ReactEventHandler;
 }
 
 const styles = (theme: Theme) =>
