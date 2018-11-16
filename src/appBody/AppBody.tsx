@@ -1,6 +1,6 @@
 import React, { SFC } from "react";
 import { Route, Switch } from "react-router-dom";
-import { routeRenderers } from "common/routes/routes";
+import { routeRenderers } from "appBody/routes";
 
 import Grid from "@material-ui/core/Grid";
 

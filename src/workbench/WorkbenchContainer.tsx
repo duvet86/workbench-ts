@@ -39,10 +39,11 @@ interface ILocalState {
 
 class WorkbenchContainer extends Component<Props, ILocalState> {
   private diagramEngine: DiagramEngine;
-  private activeModel?: DiagramModel;
+  private activeModel: DiagramModel | undefined;
 
   constructor(props: Props) {
     super(props);
+
     this.diagramEngine = new DiagramEngine();
     this.diagramEngine.installDefaultFactories();
 
@@ -51,6 +52,9 @@ class WorkbenchContainer extends Component<Props, ILocalState> {
     );
     this.diagramEngine.registerNodeFactory(new QueryNodeFactory());
     this.diagramEngine.registerNodeFactory(new FilterNodeFactory());
+
+    this.activeModel = new DiagramModel();
+    this.diagramEngine.setDiagramModel(this.activeModel);
   }
 
   public componentDidMount() {
@@ -81,7 +85,6 @@ class WorkbenchContainer extends Component<Props, ILocalState> {
       currentSession.SessionId !== prevSession.SessionId
     ) {
       this.activeModel = new DiagramModel();
-      this.diagramEngine.setDiagramModel(this.activeModel);
 
       const queryNodes = Object.keys(this.props.queries).map(
         id => new QueryNodeModel(this.props.queries[id])
@@ -107,7 +110,7 @@ class WorkbenchContainer extends Component<Props, ILocalState> {
         );
 
         if (nodeFrom == null || nodeTo == null) {
-          return;
+          break;
         }
 
         const portFrom = nodeFrom.getPort("from") as WidgetPortModel;
@@ -119,6 +122,9 @@ class WorkbenchContainer extends Component<Props, ILocalState> {
       }
 
       this.activeModel.addAll(...links);
+
+      this.diagramEngine.setDiagramModel(this.activeModel);
+      this.diagramEngine.clearRepaintEntities();
     }
   }
 
