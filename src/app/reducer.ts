@@ -7,32 +7,29 @@ import {
 
 interface IAppState {
   isLoading: boolean;
-  hasToken: boolean;
+  forceLogout: boolean;
   isQesEnabled: boolean;
 }
 
-const initialState: IAppState = {
-  isLoading: false,
-  hasToken: false,
-  isQesEnabled: false
-};
-
 function login(
   state: IAppState = {
-    ...initialState
+    isLoading: false,
+    forceLogout: false,
+    isQesEnabled: false
   },
   action: QesEnabledAction | TokenActions
 ): IAppState {
   switch (action.type) {
+    case TokenActionTypes.TOKEN_REMOVE:
+      return {
+        ...state,
+        forceLogout: true
+      };
+
     case TokenActionTypes.TOKEN_STORE:
       return {
         ...state,
-        hasToken: true
-      };
-
-    case TokenActionTypes.TOKEN_REMOVE:
-      return {
-        ...initialState
+        forceLogout: false
       };
 
     case QesEnabledActionTypes.QES_ENABLED_REQUEST:

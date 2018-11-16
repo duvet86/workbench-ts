@@ -52,6 +52,7 @@ class LoginContainer extends Component<Props, IState> {
     try {
       const token = await getTokenAsync(username, password);
       this.props.dispatchStoreToken(token);
+      this.props.history.push("/");
     } catch (error) {
       if (error.status === 401) {
         this.setState({

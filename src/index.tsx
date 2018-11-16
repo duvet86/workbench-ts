@@ -4,8 +4,8 @@ import "typeface-roboto";
 import React, { ComponentType } from "react";
 import { render } from "react-dom";
 import { Provider } from "react-redux";
-import { createBrowserHistory } from "history";
-import { Router, Switch, RouteComponentProps } from "react-router";
+import { Switch, RouteComponentProps } from "react-router";
+import { BrowserRouter } from "react-router-dom";
 
 import configureStore from "lib/configureStore";
 import configureTheme from "lib/configureTheme";
@@ -18,7 +18,6 @@ import LoadAsync from "common/loading/LoadAsync";
 import AnonymousRoute from "common/routes/AnonymousRoute";
 import AuthenticatedRoute from "common/routes/AuthenticatedRoute";
 
-const history = createBrowserHistory();
 const store = configureStore();
 const theme = configureTheme();
 
@@ -31,7 +30,7 @@ const AppContainerAsync = React.lazy<ComponentType<RouteComponentProps>>(() =>
 
 render(
   <Provider store={store}>
-    <Router history={history}>
+    <BrowserRouter>
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
         <ErrorBoundaryContainer>
@@ -43,7 +42,7 @@ render(
           </LoadAsync>
         </ErrorBoundaryContainer>
       </MuiThemeProvider>
-    </Router>
+    </BrowserRouter>
   </Provider>,
   document.getElementById("root")
 );
