@@ -23,22 +23,27 @@ import {
 
 interface ISessionState {
   isLoading: boolean;
-  dataViewId?: string;
-  session: ISession;
-  graph: IQueryGraphData;
+  dataViewId: string | undefined;
+  session: ISession | undefined;
+  graph: IQueryGraphData | undefined;
   queries: { [id: string]: IQuery };
   filters: { [id: string]: IInteractiveFilter };
   connections: { [id: string]: IConnection };
 }
 
+const initialState: ISessionState = {
+  isLoading: true,
+  dataViewId: undefined,
+  session: undefined,
+  graph: undefined,
+  queries: {},
+  filters: {},
+  connections: {}
+};
+
 function session(
   state: ISessionState = {
-    isLoading: true,
-    session: {} as ISession,
-    graph: {} as IQueryGraphData,
-    queries: {},
-    filters: {},
-    connections: {}
+    ...initialState
   },
   action:
     | SessionAction
@@ -49,7 +54,7 @@ function session(
   switch (action.type) {
     case SessionActionTypes.SESSION_REQUEST:
       return {
-        ...state,
+        ...initialState,
         isLoading: true,
         dataViewId: action.dataViewId
       };

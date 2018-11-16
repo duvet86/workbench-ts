@@ -39,7 +39,7 @@ interface ILocalState {
 
 class WorkbenchContainer extends Component<Props, ILocalState> {
   private diagramEngine: DiagramEngine;
-  private activeModel: DiagramModel;
+  private activeModel?: DiagramModel;
 
   constructor(props: Props) {
     super(props);
@@ -51,9 +51,6 @@ class WorkbenchContainer extends Component<Props, ILocalState> {
     );
     this.diagramEngine.registerNodeFactory(new QueryNodeFactory());
     this.diagramEngine.registerNodeFactory(new FilterNodeFactory());
-
-    this.activeModel = new DiagramModel();
-    this.diagramEngine.setDiagramModel(this.activeModel);
   }
 
   public componentDidMount() {
@@ -64,6 +61,15 @@ class WorkbenchContainer extends Component<Props, ILocalState> {
   }
 
   public componentDidUpdate(prevProps: Props) {
+    const { match } = this.props;
+    if (
+      match.params.id !== "new" &&
+      match.params.id !== prevProps.match.params.id
+    ) {
+      this.props.dispatchSessionRequest(match.params.id);
+      return;
+    }
+
     const currentSession = this.props.session;
     if (currentSession == null) {
       return;
@@ -74,6 +80,9 @@ class WorkbenchContainer extends Component<Props, ILocalState> {
       prevSession == null ||
       currentSession.SessionId !== prevSession.SessionId
     ) {
+      this.activeModel = new DiagramModel();
+      this.diagramEngine.setDiagramModel(this.activeModel);
+
       const queryNodes = Object.keys(this.props.queries).map(
         id => new QueryNodeModel(this.props.queries[id])
       );
@@ -114,11 +123,12 @@ class WorkbenchContainer extends Component<Props, ILocalState> {
   }
 
   public async componentWillUnmount() {
-    const {
-      session: { TenantId, SessionId }
-    } = this.props;
+    const { session } = this.props;
+    if (session == null) {
+      return;
+    }
     try {
-      await destroySessionAsync(TenantId, SessionId);
+      await destroySessionAsync(session.TenantId, session.SessionId);
     } catch (e) {
       // tslint:disable-next-line:no-console
       console.error(e);

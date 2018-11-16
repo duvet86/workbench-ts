@@ -4,7 +4,10 @@ import {
   QesFilterType,
   IUdsFilterDescriptionDtc
 } from "workbench/query/types";
+import { IIntervalDtc } from "common/intervalSelector/types";
 
+// tslint:disable-next-line:max-line-length
+import IntervalConstraintSelectorContainer from "workbench/query/constraintSelector/IntervalConstraintSelectorContainer";
 import TextInputContainer from "workbench/query/constraintSelector/TextInputContainer";
 import AllowedValuesContainer from "workbench/query/constraintSelector/AllowedValuesContainer";
 
@@ -29,7 +32,20 @@ class ValueSwitchContainer extends Component<IProps> {
     } = this.props;
 
     if (dataType === QesDataType.Interval) {
-      return <div>TODO: Interval</div>;
+      let initInterval: IIntervalDtc | undefined;
+      if (values != null) {
+        initInterval = {
+          IntervalType: values[0][0],
+          IntervalString: values[0][1]
+        };
+      }
+      return (
+        <IntervalConstraintSelectorContainer
+          elementId={elementId}
+          constraintId={constraintId}
+          initDisplayValue={initInterval}
+        />
+      );
     }
 
     const inputType =
