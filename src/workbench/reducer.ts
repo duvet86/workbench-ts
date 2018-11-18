@@ -137,7 +137,7 @@ function session(
         queries: {
           [action.elementId]: {
             Columns: { $push: [action.column] },
-            DataTableId: undefined // NOTE: remove DataTableId to retrigger graph changes.
+            DataTableId: { $set: undefined } // NOTE: remove DataTableId to retrigger graph changes.
           }
         }
       });
@@ -152,7 +152,7 @@ function session(
                   ({ ColumnName }) => ColumnName !== action.columnName
                 )
             },
-            DataTableId: undefined // NOTE: remove DataTableId to retrigger graph changes.
+            DataTableId: { $set: undefined } // NOTE: remove DataTableId to retrigger graph changes.
           }
         }
       });
