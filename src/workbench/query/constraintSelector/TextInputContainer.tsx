@@ -7,7 +7,7 @@ import { debounceTime, share } from "rxjs/operators";
 import {
   updateQueryConstraintValues,
   IUpdateQueryConstraintValues
-} from "workbench/actions";
+} from "workbench/query/constraintSelector/actions";
 
 import TextInput from "workbench/query/constraintSelector/TextInput";
 

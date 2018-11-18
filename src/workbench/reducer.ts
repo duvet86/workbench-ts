@@ -2,14 +2,19 @@ import update from "immutability-helper";
 
 import {
   SessionActionTypes,
-  QueryActionTypes,
-  QueryColumnActionTypes,
-  QueryConstraintActionTypes,
-  SessionAction,
-  QueryAction,
-  QueryColumnAction,
-  QueryConstraintAction
+  GraphChangesActionTypes,
+  IGraphChangesSuccess,
+  SessionAction
 } from "workbench/actions";
+import { QueryAction, QueryActionTypes } from "workbench/query/actions";
+import {
+  QueryColumnAction,
+  QueryColumnActionTypes
+} from "workbench/query/columnSelector/actions";
+import {
+  QueryConstraintAction,
+  QueryConstraintActionTypes
+} from "workbench/query/constraintSelector/actions";
 
 import {
   ISession,
@@ -47,6 +52,7 @@ function session(
   },
   action:
     | SessionAction
+    | IGraphChangesSuccess
     | QueryAction
     | QueryColumnAction
     | QueryConstraintAction
@@ -78,7 +84,7 @@ function session(
         }
       });
 
-    case QueryActionTypes.QUERY_CHANGES_UPDATE:
+    case GraphChangesActionTypes.GRAPH_CHANGES_SUCCESS:
       return update(state, {
         graph: {
           $merge: {
@@ -113,7 +119,7 @@ function session(
         }
       });
 
-    case QueryActionTypes.QUERY_DATASERVICE_UPDATE:
+    case QueryActionTypes.QUERY_SOURCE_UPDATE:
       return update(state, {
         queries: {
           [action.elementId]: {
@@ -130,7 +136,8 @@ function session(
       return update(state, {
         queries: {
           [action.elementId]: {
-            Columns: { $push: [action.column] }
+            Columns: { $push: [action.column] },
+            DataTableId: undefined // NOTE: remove DataTableId to retrigger graph changes.
           }
         }
       });
@@ -144,7 +151,8 @@ function session(
                 columns.filter(
                   ({ ColumnName }) => ColumnName !== action.columnName
                 )
-            }
+            },
+            DataTableId: undefined // NOTE: remove DataTableId to retrigger graph changes.
           }
         }
       });

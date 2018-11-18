@@ -20,10 +20,10 @@ module.exports = {
   output: {
     // Add /* filename */ comments to generated require()s in the output.
     pathinfo: true,
-    filename: "bundle.js",
-    chunkFilename: "[name].chunk.js",
+    filename: "static/js/bundle.js",
+    chunkFilename: "static/js/[name].chunk.js",
     path: path.resolve(__dirname, "public"),
-    publicPath: publicPath
+    publicPath
   },
   optimization: {
     // Automatically split vendor and commons
@@ -169,7 +169,7 @@ module.exports = {
     // having to parse `index.html`.
     new ManifestPlugin({
       fileName: "asset-manifest.json",
-      publicPath: publicPath
+      publicPath
     }),
     new DuplicatePackageCheckerPlugin()
   ],

@@ -4,7 +4,7 @@ import { ErrorActionTypes, ICleanError } from "common/errorBoundary/actions";
 import {
   QueryConfigActionTypes,
   QueryConfigAction
-} from "workbench/query/actions";
+} from "workbench/query/config/actions";
 
 interface IConfigSwitchState {
   elementType: ElementType;

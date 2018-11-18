@@ -13,7 +13,7 @@ import {
 import {
   updateQueryConstraintValues,
   IUpdateQueryConstraintValues
-} from "workbench/actions";
+} from "workbench/query/constraintSelector/actions";
 
 import LoadingContainer from "common/loading/LoadingContainer";
 import AllowedValues from "workbench/query/constraintSelector/AllowedValues";

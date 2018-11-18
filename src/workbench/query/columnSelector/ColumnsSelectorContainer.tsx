@@ -8,7 +8,7 @@ import {
   addQueryColumn,
   removeQueryColumn,
   QueryColumnAction
-} from "workbench/actions";
+} from "workbench/query/columnSelector/actions";
 import {
   getAvailableColumns,
   getQueryColumns

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { IUpdateQueryLabel, updateQueryLabel } from "workbench/actions";
+import { IUpdateQueryLabel, updateQueryLabel } from "workbench/query/actions";
 
 import LabelInput from "workbench/query/labelInput/LabelInput";
 

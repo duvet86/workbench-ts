@@ -1,106 +1,11 @@
 import { Action } from "redux";
 
-import { IItemDtc } from "sidebar/userItems/types";
+import { IQuery } from "workbench/types";
 import {
   IUdsDescriptionDtc,
-  IFilterCapabilitiesDic,
   IUdsFilterDescriptionDtc,
-  IUdsColumnDescriptionDtc,
-  IPagedRows
+  IUdsColumnDescriptionDtc
 } from "workbench/query/types";
-
-export const enum QueryConfigActionTypes {
-  QUERY_CONFIG_OPEN = "QUERY_CONFIG_OPEN",
-  QUERY_CONFIG_CLOSE = "QUERY_CONFIG_CLOSE",
-  GO_TO_STEP = "GO_TO_STEP"
-}
-
-export interface IOpenQueryConfig extends Action {
-  type: QueryConfigActionTypes.QUERY_CONFIG_OPEN;
-  elementId: number;
-}
-
-export interface ICloseQueryConfig extends Action {
-  type: QueryConfigActionTypes.QUERY_CONFIG_CLOSE;
-}
-
-export interface IGoToStep extends Action {
-  type: QueryConfigActionTypes.GO_TO_STEP;
-  step: number;
-}
-
-export type QueryConfigAction = IOpenQueryConfig | ICloseQueryConfig;
-
-export const openQueryConfig = (elementId: number): IOpenQueryConfig => ({
-  type: QueryConfigActionTypes.QUERY_CONFIG_OPEN,
-  elementId
-});
-
-export const closeQueryConfig = (): ICloseQueryConfig => ({
-  type: QueryConfigActionTypes.QUERY_CONFIG_CLOSE
-});
-
-export const goToStep = (step: number): IGoToStep => ({
-  type: QueryConfigActionTypes.GO_TO_STEP,
-  step
-});
-
-export const enum DataServicesActionTypes {
-  DATASERVICES_REQUEST = "DATASERVICES_REQUEST",
-  DATASERVICES_SUCCESS = "DATASERVICES_SUCCESS",
-  DATASERVICES_ERROR = "DATASERVICES_ERROR"
-}
-
-interface IDataServicesRequest extends Action {
-  type: DataServicesActionTypes.DATASERVICES_REQUEST;
-}
-
-interface IDataServicesSuccess extends Action {
-  type: DataServicesActionTypes.DATASERVICES_SUCCESS;
-  dataServices: IItemDtc[];
-}
-
-export type DataServicesAction = IDataServicesRequest | IDataServicesSuccess;
-
-export const dataServicesRequest = (): IDataServicesRequest => ({
-  type: DataServicesActionTypes.DATASERVICES_REQUEST
-});
-
-export const dataServicesSuccess = (
-  dataServices: IItemDtc[]
-): IDataServicesSuccess => ({
-  type: DataServicesActionTypes.DATASERVICES_SUCCESS,
-  dataServices
-});
-
-export const enum FilterCapActionTypes {
-  FILTER_CAPABILITIES_REQUEST = "FILTER_CAPABILITIES_REQUEST",
-  FILTER_CAPABILITIES_SUCCESS = "FILTER_CAPABILITIES_SUCCESS"
-}
-
-interface IFilterCapabilitiesRequest extends Action {
-  type: FilterCapActionTypes.FILTER_CAPABILITIES_REQUEST;
-}
-
-interface IFilterCapabilitiesSuccess extends Action {
-  type: FilterCapActionTypes.FILTER_CAPABILITIES_SUCCESS;
-  filterCapabilities: IFilterCapabilitiesDic;
-}
-
-export type FilterCapabilitiesAction =
-  | IFilterCapabilitiesRequest
-  | IFilterCapabilitiesSuccess;
-
-export const filterCapabilitiesRequest = (): IFilterCapabilitiesRequest => ({
-  type: FilterCapActionTypes.FILTER_CAPABILITIES_REQUEST
-});
-
-export const filterCapabilitiesSuccess = (
-  filterCapabilities: IFilterCapabilitiesDic
-): IFilterCapabilitiesSuccess => ({
-  type: FilterCapActionTypes.FILTER_CAPABILITIES_SUCCESS,
-  filterCapabilities
-});
 
 export const enum QueryDescActionTypes {
   QUERY_DESCRIBE_REQUEST = "QUERY_DESCRIBE_REQUEST",
@@ -134,38 +39,75 @@ export const queryDescribeSuccess = (
   elementId
 });
 
-export const enum QueryDataTableActionTypes {
-  QUERY_DATATABLE_REQUEST = "QUERY_DATATABLE_REQUEST",
-  QUERY_DATATABLE_SUCCESS = "QUERY_DATATABLE_SUCCESS"
+export const enum QueryActionTypes {
+  QUERY_ADD = "QUERY_ADD",
+  QUERY_SOURCE_UPDATE = "QUERY_SOURCE_UPDATE",
+  QUERY_LABEL_UPDATE = "QUERY_LABEL_UPDATE"
 }
 
-export interface IQueryDataTableRequest extends Action {
-  type: QueryDataTableActionTypes.QUERY_DATATABLE_REQUEST;
-  pageSize: number;
-  pageNumber: number;
+export interface IAddQuery extends Action {
+  type: QueryActionTypes.QUERY_ADD;
+  elementId: number;
+  query: IQuery;
 }
 
-export interface IQueryDataTableSuccess extends Action {
-  type: QueryDataTableActionTypes.QUERY_DATATABLE_SUCCESS;
-  rows: IPagedRows;
+export interface IUpdateQuerySource extends Action {
+  type: QueryActionTypes.QUERY_SOURCE_UPDATE;
+  elementId: number;
+  targetDataViewId?: string;
+  dataServiceLabel?: string;
 }
 
-export type QueryDataTableAction =
-  | IQueryDataTableRequest
-  | IQueryDataTableSuccess;
+export interface IUpdateQueryLabel extends Action {
+  type: QueryActionTypes.QUERY_LABEL_UPDATE;
+  elementId: number;
+  label: string;
+}
 
-export const queryDataTableRequest = (
-  pageSize: number,
-  pageNumber: number
-): IQueryDataTableRequest => ({
-  type: QueryDataTableActionTypes.QUERY_DATATABLE_REQUEST,
-  pageSize,
-  pageNumber
+export type QueryAction = IAddQuery | IUpdateQuerySource | IUpdateQueryLabel;
+
+export const addQuery = (
+  elementId: number,
+  x: number,
+  y: number
+): IAddQuery => ({
+  type: QueryActionTypes.QUERY_ADD,
+  elementId,
+  query: {
+    Label: "",
+    ElementId: elementId,
+    IsConfigured: false,
+    TargetDataServiceId: "",
+    TargetDataViewId: "",
+    ElementType: "Query",
+    Columns: [],
+    SortBys: [],
+    Constraints: [],
+    IsQueryGraphResult: false,
+    ChangeNumber: 0,
+    ForceRun: false,
+    State: "New",
+    LayoutX: x,
+    LayoutY: y
+  }
 });
 
-export const queryDataTableSuccess = (
-  rows: IPagedRows
-): IQueryDataTableSuccess => ({
-  type: QueryDataTableActionTypes.QUERY_DATATABLE_SUCCESS,
-  rows
+export const updateQuerySource = (
+  elementId: number,
+  targetDataViewId?: string,
+  dataServiceLabel?: string
+): IUpdateQuerySource => ({
+  type: QueryActionTypes.QUERY_SOURCE_UPDATE,
+  elementId,
+  targetDataViewId,
+  dataServiceLabel
+});
+
+export const updateQueryLabel = (
+  elementId: number,
+  label: string
+): IUpdateQueryLabel => ({
+  type: QueryActionTypes.QUERY_LABEL_UPDATE,
+  elementId,
+  label
 });

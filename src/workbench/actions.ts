@@ -7,8 +7,6 @@ import {
   ISession,
   IQueryGraphData,
   IQuery,
-  IColumn,
-  IConstraint,
   IInteractiveFilter,
   IConnection,
   IQueryGraphChanges
@@ -157,222 +155,29 @@ export const graphPopSuccess = (): IGraphPopSuccess => ({
   type: GraphPopActionTypes.GRAPH_POP_SUCCESS
 });
 
-export const enum QueryActionTypes {
-  QUERY_ADD = "QUERY_ADD",
-  QUERY_CHANGES_UPDATE = "QUERY_CHANGES_UPDATE",
-  QUERY_LABEL_UPDATE = "QUERY_LABEL_UPDATE",
-  QUERY_DATASERVICE_UPDATE = "QUERY_DATASERVICE_UPDATE"
+export const enum GraphChangesActionTypes {
+  GRAPH_CHANGES_SUCCESS = "GRAPH_CHANGES_SUCCESS"
 }
 
-export interface IUpdateQueryChanges extends Action {
-  type: QueryActionTypes.QUERY_CHANGES_UPDATE;
+export interface IGraphChangesSuccess extends Action {
+  type: GraphChangesActionTypes.GRAPH_CHANGES_SUCCESS;
   graph: IQueryGraphData;
   queries: { [key: string]: IQuery };
   filters: { [key: string]: IInteractiveFilter };
   connections: { [key: string]: IConnection };
 }
 
-export interface IAddQuery extends Action {
-  type: QueryActionTypes.QUERY_ADD;
-  elementId: number;
-  query: IQuery;
-}
-
-export interface IUpdateQueryDataService extends Action {
-  type: QueryActionTypes.QUERY_DATASERVICE_UPDATE;
-  elementId: number;
-  targetDataViewId?: string;
-  dataServiceLabel?: string;
-}
-
-export interface IUpdateQueryLabel extends Action {
-  type: QueryActionTypes.QUERY_LABEL_UPDATE;
-  elementId: number;
-  label: string;
-}
-
-export type QueryAction =
-  | IAddQuery
-  | IUpdateQueryChanges
-  | IUpdateQueryDataService
-  | IUpdateQueryLabel;
-
-export const addQuery = (
-  elementId: number,
-  x: number,
-  y: number
-): IAddQuery => ({
-  type: QueryActionTypes.QUERY_ADD,
-  elementId,
-  query: {
-    Label: "",
-    ElementId: elementId,
-    IsConfigured: false,
-    TargetDataServiceId: "",
-    TargetDataViewId: "",
-    ElementType: "Query",
-    Columns: [],
-    SortBys: [],
-    Constraints: [],
-    IsQueryGraphResult: false,
-    ChangeNumber: 0,
-    ForceRun: false,
-    State: "New",
-    LayoutX: x,
-    LayoutY: y
-  }
-});
-
-export const updateQueryChanges = (
+export const graphChangesSuccess = (
   rawGraphChanges: IQueryGraphChanges
-): IUpdateQueryChanges => {
+): IGraphChangesSuccess => {
   const normalizedGraph = normalize(rawGraphChanges.ChangesGraph, graphSchema);
   const { queries, filters, connections } = normalizedGraph.entities;
 
   return {
-    type: QueryActionTypes.QUERY_CHANGES_UPDATE,
+    type: GraphChangesActionTypes.GRAPH_CHANGES_SUCCESS,
     graph: normalizedGraph.result,
     queries: queries || {},
     filters: filters || {},
     connections: connections || {}
   };
 };
-
-export const updateQueryDataService = (
-  elementId: number,
-  targetDataViewId?: string,
-  dataServiceLabel?: string
-): IUpdateQueryDataService => ({
-  type: QueryActionTypes.QUERY_DATASERVICE_UPDATE,
-  elementId,
-  targetDataViewId,
-  dataServiceLabel
-});
-
-export const updateQueryLabel = (
-  elementId: number,
-  label: string
-): IUpdateQueryLabel => ({
-  type: QueryActionTypes.QUERY_LABEL_UPDATE,
-  elementId,
-  label
-});
-
-export const enum QueryColumnActionTypes {
-  QUERY_COLUMN_ADD = "QUERY_COLUMN_ADD",
-  QUERY_COLUMN_REMOVE = "QUERY_COLUMN_REMOVE"
-}
-
-export interface IAddQueryColumn extends Action {
-  type: QueryColumnActionTypes.QUERY_COLUMN_ADD;
-  elementId: number;
-  column: IColumn;
-}
-
-export interface IRemoveQueryColumn extends Action {
-  type: QueryColumnActionTypes.QUERY_COLUMN_REMOVE;
-  elementId: number;
-  columnName: string;
-}
-
-export type QueryColumnAction = IAddQueryColumn | IRemoveQueryColumn;
-
-export const addQueryColumn = (
-  elementId: number,
-  column: IColumn
-): IAddQueryColumn => ({
-  type: QueryColumnActionTypes.QUERY_COLUMN_ADD,
-  elementId,
-  column
-});
-
-export const removeQueryColumn = (
-  elementId: number,
-  columnName: string
-): IRemoveQueryColumn => ({
-  type: QueryColumnActionTypes.QUERY_COLUMN_REMOVE,
-  elementId,
-  columnName
-});
-
-export const enum QueryConstraintActionTypes {
-  QUERY_CONSTRAINT_ADD = "QUERY_CONSTRAINT_ADD",
-  QUERY_CONSTRAINT_TYPE_UPDATE = "QUERY_CONSTRAINT_TYPE_UPDATE",
-  QUERY_CONSTRAINT_VALUES_UPDATE = "QUERY_CONSTRAINT_VALUES_UPDATE",
-  QUERY_CONSTRAINT_REMOVE = "QUERY_CONSTRAINT_REMOVE"
-}
-
-export interface IAddQueryConstraint extends Action {
-  type: QueryConstraintActionTypes.QUERY_CONSTRAINT_ADD;
-  elementId: number;
-  constraint: IConstraint;
-}
-
-export interface IUpdateQueryConstraintType extends Action {
-  type: QueryConstraintActionTypes.QUERY_CONSTRAINT_TYPE_UPDATE;
-  elementId: number;
-  constraintId: number;
-  constraintType: string;
-}
-
-export interface IUpdateQueryConstraintValues extends Action {
-  type: QueryConstraintActionTypes.QUERY_CONSTRAINT_VALUES_UPDATE;
-  elementId: number;
-  constraintId: number;
-  vectorValues: any[][];
-  valuesHint?: string;
-}
-
-export interface IRemoveQueryConstraint extends Action {
-  type: QueryConstraintActionTypes.QUERY_CONSTRAINT_REMOVE;
-  elementId: number;
-  constraintId: number;
-}
-
-export type QueryConstraintAction =
-  | IAddQueryConstraint
-  | IUpdateQueryConstraintType
-  | IUpdateQueryConstraintValues
-  | IRemoveQueryConstraint;
-
-export const addQueryConstraint = (
-  elementId: number,
-  constraint: IConstraint
-): IAddQueryConstraint => ({
-  type: QueryConstraintActionTypes.QUERY_CONSTRAINT_ADD,
-  elementId,
-  constraint
-});
-
-export const updateQueryConstraintType = (
-  elementId: number,
-  constraintId: number,
-  constraintType: string
-): IUpdateQueryConstraintType => ({
-  type: QueryConstraintActionTypes.QUERY_CONSTRAINT_TYPE_UPDATE,
-  elementId,
-  constraintId,
-  constraintType
-});
-
-export const updateQueryConstraintValues = (
-  elementId: number,
-  constraintId: number,
-  vectorValues: any[][],
-  valuesHint?: string
-): IUpdateQueryConstraintValues => ({
-  type: QueryConstraintActionTypes.QUERY_CONSTRAINT_VALUES_UPDATE,
-  elementId,
-  constraintId,
-  vectorValues,
-  valuesHint
-});
-
-export const removeQueryConstraint = (
-  elementId: number,
-  constraintId: number
-): IRemoveQueryConstraint => ({
-  type: QueryConstraintActionTypes.QUERY_CONSTRAINT_REMOVE,
-  elementId,
-  constraintId
-});

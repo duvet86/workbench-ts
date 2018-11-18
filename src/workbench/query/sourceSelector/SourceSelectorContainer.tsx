@@ -3,11 +3,11 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { RootState } from "rootReducer";
-import { updateQueryDataService, QueryAction } from "workbench/actions";
+import { updateQuerySource, QueryAction } from "workbench/query/actions";
 import {
   dataServicesRequest,
   DataServicesAction
-} from "workbench/query/actions";
+} from "workbench/query/sourceSelector/actions";
 import { getDataServices } from "workbench/query/selectors";
 
 import { IOption } from "common/select/SelectInputContainer";
@@ -63,9 +63,7 @@ const mapDispatchToProps = (
     targetDataViewId?: string,
     dataServiceLabel?: string
   ) =>
-    dispatch(
-      updateQueryDataService(elementId, targetDataViewId, dataServiceLabel)
-    )
+    dispatch(updateQuerySource(elementId, targetDataViewId, dataServiceLabel))
 });
 
 export default connect(

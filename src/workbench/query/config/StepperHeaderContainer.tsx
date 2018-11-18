@@ -2,11 +2,17 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { goToStep, IGoToStep } from "workbench/query/actions";
+import { goToStep, IGoToStep } from "workbench/query/config/actions";
 
 import StepperHeader from "workbench/query/config/StepperHeader";
 
-const stepLabels = ["Source", "Columns", "Constraints", "Summary"];
+const stepLabels = [
+  "Source*",
+  "Columns*",
+  "Constraints",
+  "Data Preview*",
+  "Summary*"
+];
 
 interface IOwnProps {
   currentStep: number;

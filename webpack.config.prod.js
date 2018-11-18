@@ -15,6 +15,12 @@ const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 
 const publicPath = "/";
 
+// Assert this just to be safe.
+// Development builds of React are slow and not intended for production.
+if (env.stringified["process.env"].NODE_ENV !== '"production"') {
+  throw new Error("Production builds must have NODE_ENV=production.");
+}
+
 module.exports = {
   mode: "production",
   // Don't attempt to continue if there are any errors.
@@ -23,10 +29,10 @@ module.exports = {
   devtool: "source-map",
   entry: "./src/index.tsx",
   output: {
-    filename: "[name].[chunkhash:8].js",
-    chunkFilename: "[name].[chunkhash:8].chunk.js",
+    filename: "static/js/[name].[chunkhash:8].js",
+    chunkFilename: "static/js/[name].[chunkhash:8].chunk.js",
     path: path.resolve(__dirname, "build"),
-    publicPath: publicPath
+    publicPath
   },
   optimization: {
     minimizer: [
@@ -203,8 +209,8 @@ module.exports = {
       }
     }),
     new MiniCssExtractPlugin({
-      filename: "[name].[contenthash:8].css",
-      chunkFilename: "[name].[contenthash:8].chunk.css"
+      filename: "static/css/[name].[contenthash:8].css",
+      chunkFilename: "static/css/[name].[contenthash:8].chunk.css"
     }),
     // Generate a manifest file which contains a mapping of all asset filenames
     // to their corresponding output file so that tools can pick it up without

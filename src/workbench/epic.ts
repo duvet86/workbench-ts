@@ -1,7 +1,7 @@
 import { denormalize } from "normalizr";
+import { Action } from "redux";
 import { ActionsObservable, StateObservable, ofType } from "redux-observable";
 import { catchError, map, mergeMap, withLatestFrom } from "rxjs/operators";
-import { Action } from "redux";
 
 import { handleExceptionObs } from "common/errorBoundary/actions";
 import {
@@ -11,7 +11,6 @@ import {
   IInteractiveFilter,
   IConnection
 } from "workbench/types";
-
 import {
   getSessionInfoObs,
   pushGraphChangesObs,
@@ -23,18 +22,21 @@ import { graphSchema } from "workbench/schema";
 import {
   GraphPushActionTypes,
   GraphSaveActionTypes,
-  QueryActionTypes,
   graphPushSuccess,
   graphSaveChangesSuccess,
   sessionSuccess,
   SessionActionTypes,
   SessionAction,
-  IUpdateQueryDataService,
   ISessionRequest,
-  IAddQuery,
-  updateQueryChanges
+  graphChangesSuccess
 } from "workbench/actions";
-import { openQueryConfig, queryDescribeRequest } from "workbench/query/actions";
+import {
+  queryDescribeRequest,
+  IAddQuery,
+  IUpdateQuerySource,
+  QueryActionTypes
+} from "workbench/query/actions";
+import { openQueryConfig } from "workbench/query/config/actions";
 
 import { RootState } from "rootReducer";
 
@@ -66,7 +68,10 @@ export const updateGraphEpic = (
         QueryGraphId,
         graph.NextChangeNumber
       ).pipe(
-        mergeMap(queryChanges => [updateQueryChanges(queryChanges), ...actions])
+        mergeMap(queryChanges => [
+          graphChangesSuccess(queryChanges),
+          ...actions
+        ])
       )
     ),
     catchError(error => handleExceptionObs(error))
@@ -161,9 +166,7 @@ export const updateQueryDataServiceEpic = (
   state$: StateObservable<RootState>
 ) =>
   action$.pipe(
-    ofType<Action, IUpdateQueryDataService>(
-      QueryActionTypes.QUERY_DATASERVICE_UPDATE
-    ),
+    ofType<Action, IUpdateQuerySource>(QueryActionTypes.QUERY_SOURCE_UPDATE),
     withLatestFrom(state$),
     mergeMap(
       ([

@@ -30,7 +30,7 @@ const HelperText: SFC<IProps> = ({ currentStep }) => {
         To remove a column from the selected list click on it again.`;
       break;
     case 2:
-      title = "Query Constraints";
+      title = "(Optional) Query Constraints";
       text = `Narrow down your data with constraints.
         Constraints are part of the query you are creating and are not visible outside of it.`;
       break;

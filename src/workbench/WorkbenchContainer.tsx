@@ -7,12 +7,8 @@ import { RouteComponentProps } from "react-router";
 import { DiagramModel, DiagramEngine, NodeModel } from "storm-react-diagrams";
 
 import { RootState } from "rootReducer";
-import {
-  sessionRequest,
-  addQuery,
-  SessionAction,
-  QueryAction
-} from "workbench/actions";
+import { sessionRequest, SessionAction } from "workbench/actions";
+import { addQuery, QueryAction } from "workbench/query/actions";
 import { ElementType } from "sidebar/operators/operatorsData";
 
 import { destroySessionAsync } from "workbench/api";

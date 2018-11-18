@@ -9,11 +9,12 @@ import {
   getAvailableFilterDic,
   getAvailableColumnsDic
 } from "workbench/query/selectors";
-import { addQueryConstraint, QueryConstraintAction } from "workbench/actions";
 import {
+  addQueryConstraint,
+  QueryConstraintAction,
   filterCapabilitiesRequest,
   FilterCapabilitiesAction
-} from "workbench/query/actions";
+} from "workbench/query/constraintSelector/actions";
 import { QesFilterType } from "workbench/query/types";
 import { IConstraint } from "workbench/types";
 

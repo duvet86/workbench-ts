@@ -3,19 +3,25 @@ import { mergeMap, map, catchError, withLatestFrom } from "rxjs/operators";
 import { Action } from "redux";
 
 import { handleExceptionObs } from "common/errorBoundary/actions";
-import { updateGraphEpic } from "workbench/epic";
+import {
+  QueryDescActionTypes,
+  queryDescribeSuccess
+} from "workbench/query/actions";
 import {
   DataServicesActionTypes,
+  dataServicesSuccess
+} from "workbench/query/sourceSelector/actions";
+import {
   FilterCapActionTypes,
-  QueryDescActionTypes,
-  filterCapabilitiesSuccess,
-  dataServicesSuccess,
-  queryDescribeSuccess,
+  filterCapabilitiesSuccess
+} from "workbench/query/constraintSelector/actions";
+import {
+  IQueryDataTableRequest,
   QueryDataTableActionTypes,
-  queryDataTableRequest,
   queryDataTableSuccess,
-  IQueryDataTableRequest
-} from "workbench/query/actions";
+  queryDataTableRequest
+} from "workbench/query/dataPreview/actions";
+import { updateGraphEpic } from "workbench/epic";
 
 import {
   getDataServicesObs,

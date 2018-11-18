@@ -7,7 +7,7 @@ import { QesDataType, QesFilterType } from "workbench/query/types";
 import {
   updateQueryConstraintType,
   QueryConstraintAction
-} from "workbench/actions";
+} from "workbench/query/constraintSelector/actions";
 
 import FilterTypeSelector from "workbench/query/constraintSelector/FilterTypeSelector";
 

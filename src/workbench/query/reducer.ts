@@ -1,19 +1,28 @@
-import { QueryActionTypes, QueryAction } from "workbench/actions";
+import { TokenActionTypes, IClearToken } from "app/actions";
+import { ErrorActionTypes, ICleanError } from "common/errorBoundary/actions";
+import {
+  QueryActionTypes,
+  QueryAction,
+  QueryDescActionTypes,
+  QueryDescribeAction
+} from "workbench/query/actions";
 import {
   QueryConfigActionTypes,
-  DataServicesActionTypes,
-  FilterCapActionTypes,
-  QueryDescActionTypes,
-  QueryDataTableActionTypes,
   QueryConfigAction,
-  IGoToStep,
-  DataServicesAction,
-  FilterCapabilitiesAction,
-  QueryDescribeAction,
+  IGoToStep
+} from "workbench/query/config/actions";
+import {
+  DataServicesActionTypes,
+  DataServicesAction
+} from "workbench/query/sourceSelector/actions";
+import {
+  FilterCapActionTypes,
+  FilterCapabilitiesAction
+} from "workbench/query/constraintSelector/actions";
+import {
+  QueryDataTableActionTypes,
   QueryDataTableAction
-} from "workbench/query/actions";
-import { ErrorActionTypes, ICleanError } from "common/errorBoundary/actions";
-import { TokenActionTypes, IClearToken } from "app/actions";
+} from "workbench/query/dataPreview/actions";
 
 import { IItemDtc } from "sidebar/userItems/types";
 import {
@@ -93,7 +102,7 @@ function queryConfig(
 
     // It dispatches QUERY_DESCRIBE_REQUEST.
     // Starts the loading spinner when waiting for columns.
-    case QueryActionTypes.QUERY_DATASERVICE_UPDATE:
+    case QueryActionTypes.QUERY_SOURCE_UPDATE:
       return {
         ...state,
         isLoading: action.targetDataViewId != null // Show loading spinner if the targetDataViewId is valid.

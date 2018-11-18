@@ -6,7 +6,7 @@ import { RootState } from "rootReducer";
 import {
   removeQueryConstraint,
   QueryConstraintAction
-} from "workbench/actions";
+} from "workbench/query/constraintSelector/actions";
 
 import {
   getAvailableFilterDic,

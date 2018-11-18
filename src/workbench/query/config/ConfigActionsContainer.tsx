@@ -7,7 +7,7 @@ import {
   goToStep,
   QueryConfigAction,
   IGoToStep
-} from "workbench/query/actions";
+} from "workbench/query/config/actions";
 
 import ConfigActions from "workbench/query/config/ConfigActions";
 
