@@ -1,7 +1,7 @@
 import React, { SFC } from "react";
 
 import { withStyles } from "@material-ui/core/styles";
-import { IQuery } from "workbench/types";
+import { IColumn } from "workbench/types";
 import { IPagedRows } from "workbench/query/types";
 
 import Paper from "@material-ui/core/Paper";
@@ -16,8 +16,7 @@ import TableRow from "@material-ui/core/TableRow";
 import LoadingContainer from "common/loading/LoadingContainer";
 
 interface IProps {
-  query: IQuery;
-  querySourceLabel: string;
+  columns: IColumn[];
   dataTableRows: IPagedRows | undefined;
   rowsPerPageOptions: number[];
   onChangePage: (
@@ -34,7 +33,7 @@ const HeadTableCell = withStyles(theme => ({
 }))(TableCell);
 
 const DataPreview: SFC<IProps> = ({
-  query,
+  columns,
   dataTableRows,
   rowsPerPageOptions,
   onChangePage,
@@ -56,7 +55,7 @@ const DataPreview: SFC<IProps> = ({
               />
             </TableRow>
             <TableRow>
-              {query.Columns.map(({ ColumnName, Label }) => (
+              {columns.map(({ ColumnName, Label }) => (
                 <HeadTableCell key={ColumnName}>{Label}</HeadTableCell>
               ))}
             </TableRow>

@@ -2,10 +2,53 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { RootState } from "rootReducer";
+import { IQuery } from "workbench/types";
 import { getQuery, getCompletedSteps } from "workbench/query/selectors";
+
+import SourceSelectorContainer from "workbench/query/sourceSelector/SourceSelectorContainer";
+import LabelInputContainer from "workbench/query/labelInput/LabelInputContainer";
+import ColumnsSelectorContainer from "workbench/query/columnSelector/ColumnsSelectorContainer";
+import ConstraintSelectorContainer from "workbench/query/constraintSelector/ConstraintSelectorContainer";
+import DataPreviewContainer from "workbench/query/dataPreview/DataPreviewContainer";
 
 import LoadingContainer from "common/loading/LoadingContainer";
 import QueryConfig from "workbench/query/config/QueryConfig";
+
+function getStepContent(currentStep: number, selectedQuery: IQuery) {
+  switch (currentStep) {
+    case 0:
+      const initTargetDataViewId =
+        selectedQuery.TargetDataViewId != null
+          ? selectedQuery.TargetDataViewId
+          : "";
+      return (
+        <>
+          <SourceSelectorContainer
+            elementId={selectedQuery.ElementId}
+            initTargetDataViewId={initTargetDataViewId}
+          />
+          <LabelInputContainer
+            elementId={selectedQuery.ElementId}
+            initLabel={selectedQuery.Label}
+          />
+        </>
+      );
+
+    case 1:
+      return <ColumnsSelectorContainer elementId={selectedQuery.ElementId} />;
+
+    case 2:
+      return (
+        <ConstraintSelectorContainer elementId={selectedQuery.ElementId} />
+      );
+
+    case 3:
+      return <DataPreviewContainer columns={selectedQuery.Columns} />;
+
+    default:
+      return <div>Unknown step</div>;
+  }
+}
 
 class QueryConfigContainer extends Component<
   ReturnType<typeof mapStateToProps>
@@ -17,11 +60,12 @@ class QueryConfigContainer extends Component<
       currentStep,
       completedSteps
     } = this.props;
+    const currentComponent = () => getStepContent(currentStep, selectedQuery);
 
     return (
       <LoadingContainer background isLoading={isLoading}>
         <QueryConfig
-          selectedQuery={selectedQuery}
+          render={currentComponent}
           currentStep={currentStep}
           completedSteps={completedSteps}
         />

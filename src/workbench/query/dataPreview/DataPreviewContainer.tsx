@@ -8,12 +8,12 @@ import {
   queryDataTableRequest
 } from "workbench/query/dataPreview/actions";
 import { getQuerySourceLabel } from "workbench/query/selectors";
-import { IQuery } from "workbench/types";
+import { IColumn } from "workbench/types";
 
 import DataPreview from "workbench/query/dataPreview/DataPreview";
 
 interface IOwnProps {
-  query: IQuery;
+  columns: IColumn[];
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -28,12 +28,11 @@ class DataPreviewContainer extends Component<Props> {
   }
 
   public render() {
-    const { query, querySourceLabel, dataTableRows } = this.props;
+    const { columns, querySourceLabel, dataTableRows } = this.props;
 
     return (
       <DataPreview
-        query={query}
-        querySourceLabel={querySourceLabel}
+        columns={columns}
         dataTableRows={dataTableRows}
         rowsPerPageOptions={this.rowsPerPageOptions}
         onChangePage={this.handleChangePage}
