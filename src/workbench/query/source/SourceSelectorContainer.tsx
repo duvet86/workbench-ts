@@ -7,12 +7,11 @@ import { updateQuerySource, QueryAction } from "workbench/query/actions";
 import {
   dataServicesRequest,
   DataServicesAction
-} from "workbench/query/sourceSelector/actions";
+} from "workbench/query/source/actions";
 import { getDataServices } from "workbench/query/selectors";
 
 import { IOption } from "common/select/SelectInputContainer";
-
-import SourceSelector from "workbench/query/sourceSelector/SourceSelector";
+import SourceSelector from "workbench/query/source/SourceSelector";
 
 interface IOwnProps {
   elementId: number;

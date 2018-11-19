@@ -4,7 +4,7 @@ import { Dispatch } from "redux";
 
 import { IUpdateQueryLabel, updateQueryLabel } from "workbench/query/actions";
 
-import LabelInput from "workbench/query/labelInput/LabelInput";
+import LabelInput from "workbench/query/label/LabelInput";
 
 interface IOwnProps {
   elementId: number;

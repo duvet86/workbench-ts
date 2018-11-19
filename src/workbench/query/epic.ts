@@ -10,7 +10,7 @@ import {
 import {
   DataServicesActionTypes,
   dataServicesSuccess
-} from "workbench/query/sourceSelector/actions";
+} from "workbench/query/source/actions";
 import {
   FilterCapActionTypes,
   filterCapabilitiesSuccess

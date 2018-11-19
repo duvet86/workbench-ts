@@ -14,7 +14,7 @@ import {
 import {
   DataServicesActionTypes,
   DataServicesAction
-} from "workbench/query/sourceSelector/actions";
+} from "workbench/query/source/actions";
 import {
   FilterCapActionTypes,
   FilterCapabilitiesAction

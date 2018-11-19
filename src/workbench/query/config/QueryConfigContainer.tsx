@@ -5,8 +5,8 @@ import { RootState } from "rootReducer";
 import { IQuery } from "workbench/types";
 import { getQuery, getCompletedSteps } from "workbench/query/selectors";
 
-import SourceSelectorContainer from "workbench/query/sourceSelector/SourceSelectorContainer";
-import LabelInputContainer from "workbench/query/labelInput/LabelInputContainer";
+import SourceSelectorContainer from "workbench/query/source/SourceSelectorContainer";
+import LabelInputContainer from "workbench/query/label/LabelInputContainer";
 import ColumnsSelectorContainer from "workbench/query/columns/ColumnsSelectorContainer";
 import ConstraintSelectorContainer from "workbench/query/constraints/ConstraintSelectorContainer";
 import DataPreviewContainer from "workbench/query/dataPreview/DataPreviewContainer";
