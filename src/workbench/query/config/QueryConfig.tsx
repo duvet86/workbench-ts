@@ -8,11 +8,14 @@ import ConfigActionsContainer from "workbench/query/config/ConfigActionsContaine
 
 interface IProps {
   currentStep: number;
-  render: () => JSX.Element;
   completedSteps: boolean[];
 }
 
-const QueryConfig: SFC<IProps> = ({ currentStep, render, completedSteps }) => (
+const QueryConfig: SFC<IProps> = ({
+  currentStep,
+  completedSteps,
+  children
+}) => (
   <>
     <StepperHeaderContainer
       currentStep={currentStep}
@@ -20,7 +23,7 @@ const QueryConfig: SFC<IProps> = ({ currentStep, render, completedSteps }) => (
     />
     <HelperText currentStep={currentStep} />
     <Grid item xs={12}>
-      {render()}
+      {children}
     </Grid>
     <ConfigActionsContainer
       currentStep={currentStep}

@@ -7,7 +7,6 @@ import {
   IQueryDataTableRequest,
   queryDataTableRequest
 } from "workbench/query/dataPreview/actions";
-import { getQuerySourceLabel } from "workbench/query/selectors";
 import { IColumn } from "workbench/types";
 
 import DataPreview from "workbench/query/dataPreview/DataPreview";
@@ -28,7 +27,7 @@ class DataPreviewContainer extends Component<Props> {
   }
 
   public render() {
-    const { columns, querySourceLabel, dataTableRows } = this.props;
+    const { columns, dataTableRows } = this.props;
 
     return (
       <DataPreview
@@ -67,7 +66,6 @@ class DataPreviewContainer extends Component<Props> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  querySourceLabel: getQuerySourceLabel(state),
   dataTableRows: state.queryConfig.dataTableTows
 });
 

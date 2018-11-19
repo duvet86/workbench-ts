@@ -10,6 +10,8 @@ import {
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 
+import { totalNumberSteps } from "workbench/query/config/steps";
+
 interface IProps extends WithStyles<typeof styles> {
   currentStep: number;
   completedSteps: boolean[];
@@ -41,7 +43,7 @@ const ConfigActions: SFC<IProps> = ({
   const handleStep = (stepIndex: number) => () => {
     return dispatchGoToStep(stepIndex);
   };
-  const isLastStep = currentStep === 4;
+  const isLastStep = currentStep === totalNumberSteps;
   const disableNext = !completedSteps[currentStep] && !isLastStep;
   const nextLabel = isLastStep ? "Complete" : "Next";
 

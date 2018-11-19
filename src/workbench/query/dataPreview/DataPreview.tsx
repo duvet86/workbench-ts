@@ -32,6 +32,12 @@ const HeadTableCell = withStyles(theme => ({
   }
 }))(TableCell);
 
+const TitleTableCell = withStyles(theme => ({
+  head: {
+    ...theme.typography.h6
+  }
+}))(TableCell);
+
 const DataPreview: SFC<IProps> = ({
   columns,
   dataTableRows,
@@ -45,6 +51,7 @@ const DataPreview: SFC<IProps> = ({
         <Table>
           <TableHead>
             <TableRow>
+              <TitleTableCell>Preview</TitleTableCell>
               <TablePagination
                 rowsPerPageOptions={rowsPerPageOptions}
                 count={dataTableRows.TotalRowCount}

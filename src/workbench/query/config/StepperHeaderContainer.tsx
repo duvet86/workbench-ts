@@ -1,18 +1,9 @@
-import React, { Component } from "react";
+import React, { SFC } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { goToStep, IGoToStep } from "workbench/query/config/actions";
-
 import StepperHeader from "workbench/query/config/StepperHeader";
-
-const stepLabels = [
-  "Source*",
-  "Columns*",
-  "Constraints",
-  "Data Preview",
-  "Summary"
-];
 
 interface IOwnProps {
   currentStep: number;
@@ -21,27 +12,24 @@ interface IOwnProps {
 
 type Props = ReturnType<typeof mapDispatchToProps> & IOwnProps;
 
-class StepperHeaderContainer extends Component<Props> {
-  public render() {
-    const { currentStep, completedSteps, dispatchGoToStep } = this.props;
-
-    return (
-      <StepperHeader
-        title="Configure Query"
-        stepLabels={stepLabels}
-        currentStep={currentStep}
-        completedSteps={completedSteps}
-        dispatchGoToStep={dispatchGoToStep}
-      />
-    );
-  }
-}
+const StepperHeaderContainer: SFC<Props> = ({
+  currentStep,
+  completedSteps,
+  dispatchGoToStep
+}) => (
+  <StepperHeader
+    title="Configure Query"
+    currentStep={currentStep}
+    completedSteps={completedSteps}
+    dispatchGoToStep={dispatchGoToStep}
+  />
+);
 
 const mapDispatchToProps = (dispatch: Dispatch<IGoToStep>) => ({
   dispatchGoToStep: (step: number) => dispatch(goToStep(step))
 });
 
 export default connect(
-  null,
+  undefined,
   mapDispatchToProps
 )(StepperHeaderContainer);

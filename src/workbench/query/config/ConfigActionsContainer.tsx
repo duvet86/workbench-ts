@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { SFC } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -18,25 +18,19 @@ interface IOwnProps {
 
 type Props = IOwnProps & ReturnType<typeof mapDispatchToProps>;
 
-class ConfigActionsContainer extends Component<Props> {
-  public render() {
-    const {
-      currentStep,
-      completedSteps,
-      dispatchCloseQueryConfig,
-      dispatchGoToStep
-    } = this.props;
-
-    return (
-      <ConfigActions
-        currentStep={currentStep}
-        completedSteps={completedSteps}
-        dispatchCloseConfig={dispatchCloseQueryConfig}
-        dispatchGoToStep={dispatchGoToStep}
-      />
-    );
-  }
-}
+const ConfigActionsContainer: SFC<Props> = ({
+  currentStep,
+  completedSteps,
+  dispatchCloseQueryConfig,
+  dispatchGoToStep
+}) => (
+  <ConfigActions
+    currentStep={currentStep}
+    completedSteps={completedSteps}
+    dispatchCloseConfig={dispatchCloseQueryConfig}
+    dispatchGoToStep={dispatchGoToStep}
+  />
+);
 
 const mapDispatchToProps = (
   dispatch: Dispatch<QueryConfigAction | IGoToStep>
