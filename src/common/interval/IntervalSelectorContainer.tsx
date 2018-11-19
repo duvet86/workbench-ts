@@ -4,13 +4,13 @@ import { connect } from "react-redux";
 import { Observable, Subscriber, Subscription } from "rxjs";
 import { debounceTime, buffer, share } from "rxjs/operators";
 
-import { IIntervalDtc, IIntervalTypesDtc } from "common/intervalSelector/types";
+import { IIntervalDtc, IIntervalTypesDtc } from "common/interval/types";
 import {
   initIntervalAsync,
   resolveIntervalAsync,
   getNextIntervalAsync
-} from "common/intervalSelector/api";
-import { getDefaultInterval } from "common/intervalSelector/utils";
+} from "common/interval/api";
+import { getDefaultInterval } from "common/interval/utils";
 import {
   ErrorActions,
   IErrorResponse,
@@ -18,7 +18,7 @@ import {
 } from "common/errorBoundary/actions";
 
 import LoadingContainer from "common/loading/LoadingContainer";
-import IntervalSelector from "common/intervalSelector/IntervalSelector";
+import IntervalSelector from "common/interval/IntervalSelector";
 
 interface IOwnProps {
   initValue?: IIntervalDtc;

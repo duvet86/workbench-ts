@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 
-import { parseDateOpDate } from "common/intervalSelector/utils";
+import { parseDateOpDate } from "common/interval/utils";
 
-import DateOp from "common/intervalSelector/intervalString/DateOp";
+import DateOp from "common/interval/intervalString/DateOp";
 
 interface IProps {
   className: string;

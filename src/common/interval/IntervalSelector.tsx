@@ -7,15 +7,15 @@ import {
   WithStyles
 } from "@material-ui/core/styles";
 
-import { getIntervalTypes } from "common/intervalSelector/selector";
-import { IIntervalTypesDtc, IIntervalDtc } from "common/intervalSelector/types";
+import { getIntervalTypes } from "common/interval/selector";
+import { IIntervalTypesDtc, IIntervalDtc } from "common/interval/types";
 
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 
-import IntervalTypeSelector from "common/intervalSelector/IntervalTypeSelector";
+import IntervalTypeSelector from "common/interval/IntervalTypeSelector";
 import IntervalStringPickerContainer from "./IntervalStringPickerContainer";
 
 interface IProps extends WithStyles<typeof styles> {

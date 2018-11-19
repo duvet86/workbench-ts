@@ -1,12 +1,12 @@
 import React, { SFC } from "react";
 
-import { ICalendarString } from "common/intervalSelector/types";
+import { ICalendarString } from "common/interval/types";
 
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 
-import PreviousIntervalButton from "common/intervalSelector/intervalString/PreviousIntervalButton";
-import NextIntervalButton from "common/intervalSelector/intervalString/NextIntervalButton";
+import PreviousIntervalButton from "common/interval/intervalString/PreviousIntervalButton";
+import NextIntervalButton from "common/interval/intervalString/NextIntervalButton";
 
 interface IProps {
   className: string;

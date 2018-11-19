@@ -7,7 +7,7 @@ import {
   WithStyles
 } from "@material-ui/core/styles";
 
-import { IIntervalTypesDtc } from "common/intervalSelector/types";
+import { IIntervalTypesDtc } from "common/interval/types";
 
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";

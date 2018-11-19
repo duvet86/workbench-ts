@@ -1,10 +1,10 @@
 import React, { SFC } from "react";
 
-import { IIntervalDtc, IntervalTypes } from "common/intervalSelector/types";
-import { getDateOpStringDate } from "common/intervalSelector/selector";
+import { IIntervalDtc, IntervalTypes } from "common/interval/types";
+import { getDateOpStringDate } from "common/interval/selector";
 
-import DateOpContainer from "common/intervalSelector/intervalString/DateOpContainer";
-import CalendarPeriodContainer from "common/intervalSelector/intervalString/CalendarPeriodContainer";
+import DateOpContainer from "common/interval/intervalString/DateOpContainer";
+import CalendarPeriodContainer from "common/interval/intervalString/CalendarPeriodContainer";
 
 interface IProps {
   className: string;

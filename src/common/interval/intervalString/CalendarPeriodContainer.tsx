@@ -2,15 +2,15 @@ import React, { Component } from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 
-import { IntervalTypes, ICalendarString } from "common/intervalSelector/types";
-import { getCalendarStringAsync } from "common/intervalSelector/api";
+import { IntervalTypes, ICalendarString } from "common/interval/types";
+import { getCalendarStringAsync } from "common/interval/api";
 import {
   ErrorActions,
   IErrorResponse,
   handleException
 } from "common/errorBoundary/actions";
 
-import CalendarPeriod from "common/intervalSelector/intervalString/CalendarPeriod";
+import CalendarPeriod from "common/interval/intervalString/CalendarPeriod";
 
 interface IOwnProps {
   className: string;

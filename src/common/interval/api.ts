@@ -7,7 +7,7 @@ import {
   IntervalTypes,
   ICalendarString,
   ICalendarQuarterDtc
-} from "common/intervalSelector/types";
+} from "common/interval/types";
 
 export const initIntervalAsync = (
   initInterval: IIntervalDtc

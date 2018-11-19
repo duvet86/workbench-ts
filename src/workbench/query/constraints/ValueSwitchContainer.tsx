@@ -4,7 +4,7 @@ import {
   QesFilterType,
   IUdsFilterDescriptionDtc
 } from "workbench/query/types";
-import { IIntervalDtc } from "common/intervalSelector/types";
+import { IIntervalDtc } from "common/interval/types";
 
 // tslint:disable-next-line:max-line-length
 import IntervalConstraintSelectorContainer from "workbench/query/constraints/IntervalConstraintSelectorContainer";

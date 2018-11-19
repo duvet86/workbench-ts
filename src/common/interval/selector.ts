@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
-import { parseDateOpString } from "common/intervalSelector/utils";
-import { IIntervalTypesDtc } from "common/intervalSelector/types";
+import { parseDateOpString } from "common/interval/utils";
+import { IIntervalTypesDtc } from "common/interval/types";
 
 const intervalStringSelector = (intervalString: string) => intervalString;
 

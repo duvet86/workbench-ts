@@ -3,7 +3,7 @@ import {
   IShiftDtc,
   IIntervalDtc,
   IntervalTypes
-} from "common/intervalSelector/types";
+} from "common/interval/types";
 
 export const getDefaultInterval = () => ({
   IntervalType: IntervalTypes.DATEOP

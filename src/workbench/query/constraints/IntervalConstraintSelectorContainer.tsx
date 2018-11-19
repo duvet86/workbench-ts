@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 
-import { IIntervalDtc } from "common/intervalSelector/types";
+import { IIntervalDtc } from "common/interval/types";
 import {
   updateQueryConstraintValues,
   IUpdateQueryConstraintValues
 } from "workbench/query/constraints/actions";
 
-import IntervalSelectorContainer from "common/intervalSelector/IntervalSelectorContainer";
+import IntervalSelectorContainer from "common/interval/IntervalSelectorContainer";
 
 interface IOwnProps {
   elementId: number;

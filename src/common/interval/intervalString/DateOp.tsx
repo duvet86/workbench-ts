@@ -3,8 +3,8 @@ import React, { SFC } from "react";
 import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
 
-import PreviousIntervalButton from "common/intervalSelector/intervalString/PreviousIntervalButton";
-import NextIntervalButton from "common/intervalSelector/intervalString/NextIntervalButton";
+import PreviousIntervalButton from "common/interval/intervalString/PreviousIntervalButton";
+import NextIntervalButton from "common/interval/intervalString/NextIntervalButton";
 import CalendarContainer from "common/calendar/CalendarContainer";
 
 interface IProps {
