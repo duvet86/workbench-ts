@@ -10,6 +10,7 @@ import LabelInputContainer from "workbench/query/label/LabelInputContainer";
 import ColumnsSelectorContainer from "workbench/query/columns/ColumnsSelectorContainer";
 import ConstraintSelectorContainer from "workbench/query/constraints/ConstraintSelectorContainer";
 import DataPreviewContainer from "workbench/query/dataPreview/DataPreviewContainer";
+import SummaryContainer from "workbench/query/summary/SummaryContainer";
 
 import LoadingContainer from "common/loading/LoadingContainer";
 import QueryConfig from "workbench/query/config/QueryConfig";
@@ -44,6 +45,9 @@ function getStepContent(currentStep: number, selectedQuery: IQuery) {
 
     case 3:
       return <DataPreviewContainer columns={selectedQuery.Columns} />;
+
+    case 4:
+      return <SummaryContainer query={selectedQuery} />;
 
     default:
       return <div>Unknown step</div>;

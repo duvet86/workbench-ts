@@ -10,8 +10,8 @@ const stepLabels = [
   "Source*",
   "Columns*",
   "Constraints",
-  "Data Preview*",
-  "Summary*"
+  "Data Preview",
+  "Summary"
 ];
 
 interface IOwnProps {

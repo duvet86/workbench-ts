@@ -71,7 +71,7 @@ export const getCompletedSteps = createSelector(
       return [true, true, true, true];
     }
     if (selectedQuery.Columns.length > 0) {
-      return [true, true, true, false];
+      return [true, true, true];
     }
     if (selectedQuery.TargetDataViewId && selectedQuery.Label !== "") {
       return [true, false];
