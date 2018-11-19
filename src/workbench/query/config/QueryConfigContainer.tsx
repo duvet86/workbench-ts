@@ -7,8 +7,8 @@ import { getQuery, getCompletedSteps } from "workbench/query/selectors";
 
 import SourceSelectorContainer from "workbench/query/sourceSelector/SourceSelectorContainer";
 import LabelInputContainer from "workbench/query/labelInput/LabelInputContainer";
-import ColumnsSelectorContainer from "workbench/query/columnSelector/ColumnsSelectorContainer";
-import ConstraintSelectorContainer from "workbench/query/constraintSelector/ConstraintSelectorContainer";
+import ColumnsSelectorContainer from "workbench/query/columns/ColumnsSelectorContainer";
+import ConstraintSelectorContainer from "workbench/query/constraints/ConstraintSelectorContainer";
 import DataPreviewContainer from "workbench/query/dataPreview/DataPreviewContainer";
 
 import LoadingContainer from "common/loading/LoadingContainer";

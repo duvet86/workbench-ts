@@ -17,8 +17,8 @@ import IconButton from "@material-ui/core/IconButton";
 import ConstraintIcon from "@material-ui/icons/FilterList";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-import FilterTypeSelectorContainer from "workbench/query/constraintSelector/FilterTypeSelectorContainer";
-import ValueSwitchContainer from "workbench/query/constraintSelector/ValueSwitchContainer";
+import FilterTypeSelectorContainer from "workbench/query/constraints/FilterTypeSelectorContainer";
+import ValueSwitchContainer from "workbench/query/constraints/ValueSwitchContainer";
 
 interface IProps extends WithStyles<typeof styles> {
   elementId: number;

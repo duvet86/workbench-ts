@@ -6,7 +6,7 @@ import { RootState } from "rootReducer";
 import {
   removeQueryConstraint,
   QueryConstraintAction
-} from "workbench/query/constraintSelector/actions";
+} from "workbench/query/constraints/actions";
 
 import {
   getAvailableFilterDic,
@@ -14,7 +14,7 @@ import {
 } from "workbench/query/selectors";
 import { IConstraint } from "workbench/types";
 
-import Constraint from "workbench/query/constraintSelector/Constraint";
+import Constraint from "workbench/query/constraints/Constraint";
 
 interface IOwnProps {
   elementId: number;

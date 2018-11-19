@@ -13,10 +13,10 @@ import {
 import {
   updateQueryConstraintValues,
   IUpdateQueryConstraintValues
-} from "workbench/query/constraintSelector/actions";
+} from "workbench/query/constraints/actions";
 
 import LoadingContainer from "common/loading/LoadingContainer";
-import AllowedValues from "workbench/query/constraintSelector/AllowedValues";
+import AllowedValues from "workbench/query/constraints/AllowedValues";
 import { IOption } from "common/select/SelectInputContainer";
 
 interface IOwnProps {

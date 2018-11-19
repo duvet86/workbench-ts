@@ -14,7 +14,7 @@ import {
 import {
   FilterCapActionTypes,
   filterCapabilitiesSuccess
-} from "workbench/query/constraintSelector/actions";
+} from "workbench/query/constraints/actions";
 import {
   IQueryDataTableRequest,
   QueryDataTableActionTypes,

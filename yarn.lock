@@ -198,10 +198,10 @@
     csstype "^2.0.0"
     indefinite-observable "^1.0.1"
 
-"@types/node-fetch@^2.1.3":
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/@types/node-fetch/-/node-fetch-2.1.3.tgz#80538fbaee61bdc01449f4e00a11e11291e52dec"
-  integrity sha512-3P5f1st1wfjtA97KxQNK8ul1y+bM0b/+bMVPl3anPsdmOm794CQh3lRzphlFqTcJP01NtYDda/F/pbSbYUChmQ==
+"@types/node-fetch@^2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@types/node-fetch/-/node-fetch-2.1.4.tgz#093d1beae11541aef25999d70aa09286fd025b1a"
+  integrity sha512-tR1ekaXUGpmzOcDXWU9BW73YfA2/VW1DF1FH+wlJ82BbCSnWTbdX+JkqWQXWKIGsFPnPsYadbXfNgz28g+ccWg==
   dependencies:
     "@types/node" "*"
 
@@ -286,10 +286,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-virtualized@^9.18.8":
-  version "9.18.8"
-  resolved "https://registry.yarnpkg.com/@types/react-virtualized/-/react-virtualized-9.18.8.tgz#779ada1f530688d5ca0e64816c3f06ef4c875af6"
-  integrity sha512-XRzVJ2CN5P12jBMfu2Vg5jNTiOIZCes3Q6/OaVfnthyxWvFxmu8jBfkn4OsnKNSDwXSVQUdJiTzgbKLBwVHTfA==
+"@types/react-virtualized@^9.18.9":
+  version "9.18.9"
+  resolved "https://registry.yarnpkg.com/@types/react-virtualized/-/react-virtualized-9.18.9.tgz#3115743fe2e8dd8094134c07930e52b821846182"
+  integrity sha512-sJ93QlIc9/BOVvdBx0kurwZxWqTPOscVXksksna0foLEGF7iVvXJ2gHTJT5PPamOYnp7Okd5080GmJAdzhTQmw==
   dependencies:
     "@types/prop-types" "*"
     "@types/react" "*"

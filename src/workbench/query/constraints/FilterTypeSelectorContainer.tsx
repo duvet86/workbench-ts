@@ -7,9 +7,9 @@ import { QesDataType, QesFilterType } from "workbench/query/types";
 import {
   updateQueryConstraintType,
   QueryConstraintAction
-} from "workbench/query/constraintSelector/actions";
+} from "workbench/query/constraints/actions";
 
-import FilterTypeSelector from "workbench/query/constraintSelector/FilterTypeSelector";
+import FilterTypeSelector from "workbench/query/constraints/FilterTypeSelector";
 
 interface IOwnProps {
   elementId: number;

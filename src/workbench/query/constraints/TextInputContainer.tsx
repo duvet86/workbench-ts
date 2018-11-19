@@ -7,9 +7,9 @@ import { debounceTime, share } from "rxjs/operators";
 import {
   updateQueryConstraintValues,
   IUpdateQueryConstraintValues
-} from "workbench/query/constraintSelector/actions";
+} from "workbench/query/constraints/actions";
 
-import TextInput from "workbench/query/constraintSelector/TextInput";
+import TextInput from "workbench/query/constraints/TextInput";
 
 interface IOwnProps {
   elementId: number;

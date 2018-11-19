@@ -8,7 +8,7 @@ import {
   addQueryColumn,
   removeQueryColumn,
   QueryColumnAction
-} from "workbench/query/columnSelector/actions";
+} from "workbench/query/columns/actions";
 import {
   getAvailableColumns,
   getQueryColumns
@@ -17,7 +17,7 @@ import {
 import { IColumn } from "workbench/types";
 import { IOption } from "common/select/SelectInputContainer";
 
-import ColumnsSelector from "workbench/query/columnSelector/ColumnsSelector";
+import ColumnsSelector from "workbench/query/columns/ColumnsSelector";
 
 interface IOwnProps {
   elementId: number;

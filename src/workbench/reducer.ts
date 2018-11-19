@@ -10,11 +10,11 @@ import { QueryAction, QueryActionTypes } from "workbench/query/actions";
 import {
   QueryColumnAction,
   QueryColumnActionTypes
-} from "workbench/query/columnSelector/actions";
+} from "workbench/query/columns/actions";
 import {
   QueryConstraintAction,
   QueryConstraintActionTypes
-} from "workbench/query/constraintSelector/actions";
+} from "workbench/query/constraints/actions";
 
 import {
   ISession,

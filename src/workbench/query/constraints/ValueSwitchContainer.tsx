@@ -7,9 +7,9 @@ import {
 import { IIntervalDtc } from "common/intervalSelector/types";
 
 // tslint:disable-next-line:max-line-length
-import IntervalConstraintSelectorContainer from "workbench/query/constraintSelector/IntervalConstraintSelectorContainer";
-import TextInputContainer from "workbench/query/constraintSelector/TextInputContainer";
-import AllowedValuesContainer from "workbench/query/constraintSelector/AllowedValuesContainer";
+import IntervalConstraintSelectorContainer from "workbench/query/constraints/IntervalConstraintSelectorContainer";
+import TextInputContainer from "workbench/query/constraints/TextInputContainer";
+import AllowedValuesContainer from "workbench/query/constraints/AllowedValuesContainer";
 
 interface IProps {
   availableFilter?: IUdsFilterDescriptionDtc;

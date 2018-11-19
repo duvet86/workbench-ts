@@ -18,7 +18,7 @@ import {
 import {
   FilterCapActionTypes,
   FilterCapabilitiesAction
-} from "workbench/query/constraintSelector/actions";
+} from "workbench/query/constraints/actions";
 import {
   QueryDataTableActionTypes,
   QueryDataTableAction

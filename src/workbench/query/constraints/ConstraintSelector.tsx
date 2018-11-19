@@ -8,7 +8,7 @@ import { IFilterCapabilitiesDic } from "workbench/query/types";
 import SelectInputContainer, {
   IOption
 } from "common/select/SelectInputContainer";
-import ConstraintContainer from "workbench/query/constraintSelector/ConstraintContainer";
+import ConstraintContainer from "workbench/query/constraints/ConstraintContainer";
 
 import ConstraintIcon from "@material-ui/icons/FilterList";
 

@@ -6,7 +6,7 @@ import { IIntervalDtc } from "common/intervalSelector/types";
 import {
   updateQueryConstraintValues,
   IUpdateQueryConstraintValues
-} from "workbench/query/constraintSelector/actions";
+} from "workbench/query/constraints/actions";
 
 import IntervalSelectorContainer from "common/intervalSelector/IntervalSelectorContainer";
 
