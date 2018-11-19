@@ -1,17 +1,6 @@
 import React from "react";
 
-import {
-  createStyles,
-  Theme,
-  withStyles,
-  WithStyles
-} from "@material-ui/core/styles";
-
-import {
-  AutoSizer,
-  List as VirtualizedList,
-  ListRowProps
-} from "react-virtualized";
+import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";

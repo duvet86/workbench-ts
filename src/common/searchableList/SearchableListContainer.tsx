@@ -8,6 +8,7 @@ import SearchableList from "common/searchableList/SearchableList";
 interface IProps {
   label: string;
   items: IOption[];
+  emptyListLabel?: string;
   handleItemClick: (item: IOption) => (event: React.MouseEvent) => void;
 }
 
@@ -30,13 +31,14 @@ export default class SearchableListContainer extends Component<IProps, IState> {
   );
 
   public render() {
-    const { label, handleItemClick } = this.props;
+    const { label, emptyListLabel, handleItemClick } = this.props;
     const { searchString } = this.state;
     const filteredList = this.filterList(this.state, this.props);
 
     return (
       <SearchableList
         label={label}
+        emptyListLabel={emptyListLabel}
         totItems={filteredList.length}
         searchableItems={filteredList}
         searchString={searchString}

@@ -72,6 +72,7 @@ const ColumnsSelector: SFC<IProps> = ({
       )}
       <SearchableListContainer
         label="Selected Columns"
+        emptyListLabel="Seleact a Column"
         items={selectedColumns}
         handleItemClick={handleRemoveQueryColumn}
       />

@@ -13,10 +13,9 @@ import {
 } from "@material-ui/core/styles";
 
 import {
-  AutoSizer,
-  List as VirtualizedList,
-  ListRowProps
-} from "react-virtualized";
+  FixedSizeList as VirtualizedList,
+  ListChildComponentProps
+} from "react-window";
 
 import QueryColumn from "workbench/query/widget/QueryColumn";
 
@@ -101,10 +100,9 @@ const styles = ({
 
 const rowRenderer = (columns: IColumn[]) => ({
   index,
-  key,
   style
-}: ListRowProps) => (
-  <QueryColumn key={key} style={style} label={columns[index].Label} />
+}: ListChildComponentProps) => (
+  <QueryColumn style={style} label={columns[index].Label} />
 );
 
 const handleWheel = (event: React.WheelEvent) => {
@@ -133,20 +131,17 @@ const QueryNodeWidget: React.SFC<IProps> = ({ classes, node }) => {
           <Typography noWrap>Columns</Typography>
           <Divider />
           <List className={classes.list} onWheel={handleWheel} component="div">
-            <AutoSizer disableHeight>
-              {({ width }) => (
-                <VirtualizedList
-                  style={{
-                    outline: 0
-                  }}
-                  width={width}
-                  height={Math.min(Columns.length * 20, 150)}
-                  rowCount={Columns.length}
-                  rowHeight={20}
-                  rowRenderer={rowRenderer(Columns)}
-                />
-              )}
-            </AutoSizer>
+            <VirtualizedList
+              style={{
+                outline: 0
+              }}
+              width="100%"
+              height={Math.min(Columns.length * 20, 150)}
+              itemCount={Columns.length}
+              itemSize={20}
+            >
+              {rowRenderer(Columns)}
+            </VirtualizedList>
           </List>
         </div>
         <div className={classes.bottomPort}>

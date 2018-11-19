@@ -1,12 +1,10 @@
 import React from "react";
+import {
+  FixedSizeList as VirtualizedList,
+  ListChildComponentProps
+} from "react-window";
 
 import { IOption } from "common/select/SelectInputContainer";
-
-import {
-  List as VirtualizedList,
-  ListRowProps,
-  AutoSizer
-} from "react-virtualized";
 
 import TextField from "@material-ui/core/TextField";
 import Input from "@material-ui/core/Input";
@@ -51,13 +49,12 @@ const rowRenderer = (
   handleOptionClick: (option: IOption) => (event: React.MouseEvent) => void,
   isMulti?: boolean,
   OptionsIcon?: React.ComponentType<SvgIconProps>
-) => ({ index, key, style }: ListRowProps) => {
+) => ({ index, style }: ListChildComponentProps) => {
   const option = options[index];
   const handleClick = handleOptionClick(option);
 
   return (
     <Option
-      key={key}
       selectedValue={value}
       style={style}
       option={option}
@@ -67,8 +64,6 @@ const rowRenderer = (
     />
   );
 };
-
-const noRowsRenderer = () => <NoOption />;
 
 const handleSearchClick = (e: React.MouseEvent<HTMLInputElement>) => {
   e.stopPropagation();
@@ -138,26 +133,16 @@ const SelectInput: React.SFC<IProps> = ({
       />
     </MenuItem>
     {isMulti && <MenuItemSelectAll value={value[0]} />}
-    <AutoSizer disableHeight>
-      {({ width }) => (
-        <VirtualizedList
-          width={width}
-          height={
-            options.length === 0 ? 45 : Math.min(options.length * 40, 300)
-          }
-          rowCount={options.length}
-          rowHeight={40}
-          rowRenderer={rowRenderer(
-            value,
-            options,
-            handleOptionClick,
-            isMulti,
-            OptionsIcon
-          )}
-          noRowsRenderer={noRowsRenderer}
-        />
-      )}
-    </AutoSizer>
+    {options.length === 0 && <NoOption />}
+    <VirtualizedList
+      style={{ overflowX: "hidden" }}
+      width="100%"
+      height={Math.min(options.length * 40, 300)}
+      itemCount={options.length}
+      itemSize={40}
+    >
+      {rowRenderer(value, options, handleOptionClick, isMulti, OptionsIcon)}
+    </VirtualizedList>
   </TextField>
 );
 

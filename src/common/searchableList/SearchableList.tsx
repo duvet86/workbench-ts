@@ -1,15 +1,13 @@
 import React, { ChangeEventHandler, SFC } from "react";
 
 import {
-  AutoSizer,
-  List as VirtualizedList,
-  ListRowProps
-} from "react-virtualized";
+  FixedSizeList as VirtualizedList,
+  ListChildComponentProps
+} from "react-window";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
 import { IOption } from "common/select/SelectInputContainer";
-import NoOption from "common/select/NoOption";
 
 import FormControl from "@material-ui/core/FormControl";
 import IconButton from "@material-ui/core/IconButton";
@@ -23,6 +21,9 @@ import Typography from "@material-ui/core/Typography";
 import ClearIcon from "@material-ui/icons/Clear";
 
 import Row from "common/searchableList/Row";
+import EmptyList from "common/searchableList/EmptyList";
+
+export const LIST_HEIGHT = 245;
 
 interface IProps extends WithStyles<typeof styles> {
   label: string;
@@ -32,6 +33,7 @@ interface IProps extends WithStyles<typeof styles> {
   handleItemClick: (column: IOption) => (event: React.MouseEvent) => void;
   handleChange: ChangeEventHandler<HTMLInputElement>;
   handleClickClearIcon: () => void;
+  emptyListLabel?: string;
 }
 
 const styles = createStyles({
@@ -43,18 +45,14 @@ const styles = createStyles({
   }
 });
 
-const noRowsRenderer = () => <NoOption />;
-
 const rowRenderer = (
   searchableItems: IOption[],
   handleItemClick: (column: IOption) => (event: React.MouseEvent) => void
-) => ({ index, key, style }: ListRowProps) => {
+) => ({ index, style }: ListChildComponentProps) => {
   const option = searchableItems[index];
   const handleClick = handleItemClick(option);
 
-  return (
-    <Row key={key} style={style} option={option} handleClick={handleClick} />
-  );
+  return <Row style={style} option={option} handleClick={handleClick} />;
 };
 
 const SearchableList: SFC<IProps> = ({
@@ -65,7 +63,8 @@ const SearchableList: SFC<IProps> = ({
   searchString,
   handleItemClick,
   handleChange,
-  handleClickClearIcon
+  handleClickClearIcon,
+  emptyListLabel
 }) => (
   <Paper className={classes.paper}>
     <Typography variant="subtitle1">{`${label} (${totItems})`}</Typography>
@@ -89,18 +88,19 @@ const SearchableList: SFC<IProps> = ({
           }
         />
       </FormControl>
-      <AutoSizer disableHeight>
-        {({ width }) => (
-          <VirtualizedList
-            width={width}
-            height={245}
-            rowCount={searchableItems.length}
-            rowHeight={41}
-            rowRenderer={rowRenderer(searchableItems, handleItemClick)}
-            noRowsRenderer={noRowsRenderer}
-          />
-        )}
-      </AutoSizer>
+      {searchableItems.length === 0 && (
+        <EmptyList emptyListLabel={emptyListLabel} />
+      )}
+      {searchableItems.length > 0 && (
+        <VirtualizedList
+          width="100%"
+          height={LIST_HEIGHT}
+          itemCount={searchableItems.length}
+          itemSize={41}
+        >
+          {rowRenderer(searchableItems, handleItemClick)}
+        </VirtualizedList>
+      )}
     </List>
   </Paper>
 );
