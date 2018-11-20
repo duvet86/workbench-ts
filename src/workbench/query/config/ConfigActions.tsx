@@ -43,9 +43,7 @@ const ConfigActions: SFC<IProps> = ({
   const handleStep = (stepIndex: number) => () => {
     return dispatchGoToStep(stepIndex);
   };
-  const isLastStep = currentStep === totalNumberSteps;
-  const disableNext = !completedSteps[currentStep] && !isLastStep;
-  const nextLabel = isLastStep ? "Complete" : "Next";
+  const nextLabel = currentStep === totalNumberSteps ? "Complete" : "Next";
 
   return (
     <Grid item xs={12} className={classes.actionButtons}>
@@ -66,7 +64,7 @@ const ConfigActions: SFC<IProps> = ({
         Back
       </Button>
       <Button
-        disabled={disableNext}
+        disabled={!completedSteps[currentStep]}
         onClick={handleStep(currentStep + 1)}
         variant="contained"
         color="secondary"

@@ -78,7 +78,8 @@ class WorkbenchContainer extends Component<Props, ILocalState> {
     const prevSession = prevProps.session;
     if (
       prevSession == null ||
-      currentSession.SessionId !== prevSession.SessionId
+      currentSession.SessionId !== prevSession.SessionId ||
+      this.props.queries !== prevProps.queries
     ) {
       this.activeModel = new DiagramModel();
 
@@ -120,7 +121,7 @@ class WorkbenchContainer extends Component<Props, ILocalState> {
       this.activeModel.addAll(...links);
 
       this.diagramEngine.setDiagramModel(this.activeModel);
-      this.diagramEngine.clearRepaintEntities();
+      this.diagramEngine.repaintCanvas();
     }
   }
 
