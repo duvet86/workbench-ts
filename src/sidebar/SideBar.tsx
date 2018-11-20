@@ -8,14 +8,12 @@ import {
   WithStyles,
   Theme
 } from "@material-ui/core/styles";
-import linksList from "common/linksList";
-import { HomeIcon } from "common/icons";
 
 import Drawer from "@material-ui/core/Drawer";
 
 import NavigationTabsContainer from "sidebar/navigationTabs/NavigationTabsContainer";
 import SideBarBodyContainer from "sidebar/SideBarBodyContainer";
-import IconButtonContainer from "sidebar/IconButtonContainer";
+import NavButtons from "sidebar/NavButtons";
 
 export const drawerBodyWidth = 312;
 
@@ -66,17 +64,7 @@ const SideBar: SFC<IProps> = ({ theme, classes, open, ...props }) => (
     }}
     open={open}
   >
-    <div className={classes.buttonsContainer}>
-      <IconButtonContainer Icon={HomeIcon} link="/" label="Home Page" />
-      {linksList.map(({ id, IconComponent, to, label }) => (
-        <IconButtonContainer
-          key={id}
-          Icon={IconComponent}
-          link={to}
-          label={label}
-        />
-      ))}
-    </div>
+    <NavButtons />
     <div className={classes.bodyContainer}>
       <NavigationTabsContainer {...props} />
       <SideBarBodyContainer {...props} />
