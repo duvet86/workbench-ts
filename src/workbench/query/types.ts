@@ -1,54 +1,7 @@
-import { IDisplayFormat } from "workbench/types";
-
-export enum QesDataType {
-  NotSpecified = "NotSpecified",
-  IntValue = "IntValue",
-  DoubleValue = "DoubleValue",
-  TextValue = "TextValue",
-  DateTimeValue = "DateTimeValue",
-  Ratio = "Ratio",
-  ValueWithWeight = "ValueWithWeight",
-  ValueWithDisplayFormat = "ValueWithDisplayFormat",
-  ValueWithFormatString = "ValueWithFormatString",
-  ListValue = "ListValue",
-  Entity = "Entity",
-  Interval = "Interval",
-  IntValueWithMask = "IntValueWithMask",
-  TextValueWithMask = "TextValueWithMask",
-  TextValueWithLabel = "TextValueWithLabel",
-  TextValueWithOrder = "TextValueWithOrder",
-  Range = "Range",
-  Vector = "Vector",
-  Vector3 = "Vector3",
-  BoolValue = "BoolValue",
-  MeasurementValue = "MeasurementValue",
-  TimeValue = "TimeValue",
-  DateValue = "DateValue",
-  LinkValue = "LinkValue"
-}
-
-export const enum QesFilterType {
-  NotSpecified = "NotSpecified",
-  Interval = "Interval",
-  InList = "InList",
-  SingleSelect = "SingleSelect",
-  Equal = "Equal",
-  NotEqual = "NotEqual",
-  NotInList = "NotInList",
-  BetweenInclusive = "BetweenInclusive",
-  BetweenExclusive = "BetweenExclusive",
-  GreaterThan = "GreaterThan",
-  LessThan = "LessThan",
-  GreaterThanEqualTo = "GreaterThanEqualTo",
-  LessThanEqualTo = "LessThanEqualTo",
-  Like = "Like",
-  BoolValue = "BoolValue",
-  IsNull = "IsNull",
-  IsNotNull = "IsNotNull"
-}
+import { IDisplayFormat, QesDataType, QesFilterType } from "workbench/types";
 
 interface IFilterTypeMapping {
-  Type: string;
+  Type: QesFilterType;
   Label: string;
 }
 
@@ -59,7 +12,7 @@ export interface IUdsColumnDescriptionDtc {
   DisplayLabel: string;
   Description: string;
   DisplayFormat: IDisplayFormat;
-  DataType: string;
+  DataType: QesDataType;
   DataLength?: number;
   DefaultAggregate: string;
   ProhibitedAggregations: string[];
@@ -75,7 +28,7 @@ export interface IUdsFilterDescriptionDtc {
   FilterName: string;
   Label: string;
   Description: string;
-  DataType: string;
+  DataType: QesDataType;
   SupportedFilterTypes: string[];
   FilterRequired: boolean;
   HasAllowedValues: boolean;

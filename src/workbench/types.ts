@@ -1,3 +1,58 @@
+export const enum QueryGraphElementTypes {
+  None = "None",
+  Query = "Query",
+  InteractiveFilter = "InteractiveFilter",
+  Operator = "Operator",
+  Aspect2 = "Aspect2"
+}
+
+export enum QesDataType {
+  NotSpecified = "NotSpecified",
+  IntValue = "IntValue",
+  DoubleValue = "DoubleValue",
+  TextValue = "TextValue",
+  DateTimeValue = "DateTimeValue",
+  Ratio = "Ratio",
+  ValueWithWeight = "ValueWithWeight",
+  ValueWithDisplayFormat = "ValueWithDisplayFormat",
+  ValueWithFormatString = "ValueWithFormatString",
+  ListValue = "ListValue",
+  Entity = "Entity",
+  Interval = "Interval",
+  IntValueWithMask = "IntValueWithMask",
+  TextValueWithMask = "TextValueWithMask",
+  TextValueWithLabel = "TextValueWithLabel",
+  TextValueWithOrder = "TextValueWithOrder",
+  Range = "Range",
+  Vector = "Vector",
+  Vector3 = "Vector3",
+  BoolValue = "BoolValue",
+  MeasurementValue = "MeasurementValue",
+  TimeValue = "TimeValue",
+  DateValue = "DateValue",
+  LinkValue = "LinkValue"
+}
+
+export const enum QesFilterType {
+  NotSpecified = "NotSpecified",
+  Interval = "Interval",
+  InList = "InList",
+  SingleSelect = "SingleSelect",
+  Equal = "Equal",
+  NotEqual = "NotEqual",
+  NotInList = "NotInList",
+  BetweenInclusive = "BetweenInclusive",
+  BetweenExclusive = "BetweenExclusive",
+  GreaterThan = "GreaterThan",
+  LessThan = "LessThan",
+  GreaterThanEqualTo = "GreaterThanEqualTo",
+  LessThanEqualTo = "LessThanEqualTo",
+  Like = "Like",
+  BoolValue = "BoolValue",
+  IsNull = "IsNull",
+  IsNotNull = "IsNotNull"
+}
+
 interface ICacheConfiguration {
   Mode: string;
   ExpiryTimeSeconds?: number;
@@ -15,7 +70,7 @@ interface IQueryGraphElementBase {
   LastExecuteStartTime?: Date;
   State: string;
   StateReason?: string;
-  ElementType: string;
+  ElementType: QueryGraphElementTypes;
   Exception?: string;
   ExceptionSummary?: string;
   ExtraData?: object;
@@ -80,7 +135,7 @@ interface IQesDataTableColumn {
   DisplayLabel: string;
   Description: string;
   DisplayFormat: IDisplayFormat;
-  DataType: string;
+  DataType: QesDataType;
   DataLength?: number;
   DefaultAggregate: string;
   ProhibitedAggregations: string[];
@@ -120,9 +175,9 @@ interface IException {
 
 export interface IConstraint {
   ConstraintId: number;
-  DataType: string;
+  DataType: QesDataType;
   ColumnName: string;
-  FilterType: string;
+  FilterType: QesFilterType;
 
   ConstraintName?: string;
   FilterName?: string;
@@ -166,18 +221,19 @@ export interface IQuery extends IQueryGraphElementBase {
 }
 
 export interface IInteractiveFilter extends IQueryGraphElementBase {
-  FilterGuid: string;
-  FilterName: string;
-  FilterType: string;
   Label: string;
-  DataType: string;
   Required: boolean;
-  SelectAllHasNoEffect: boolean;
-  ValuesHint: string;
-  Values: object[][];
-  FilterJson: string;
-  ResolvedDependsOnFilterNames: string[];
-  HasAllowedValues: boolean;
+  DataType: QesDataType;
+  FilterName: string;
+  FilterType: QesFilterType;
+
+  ValuesHint?: string;
+  Values?: any[][];
+  ResolvedDependsOnFilterNames?: string[];
+  HasAllowedValues?: boolean;
+  SelectAllHasNoEffect?: boolean;
+  FilterGuid?: string;
+  FilterJson?: string;
 }
 
 export interface IConnection {

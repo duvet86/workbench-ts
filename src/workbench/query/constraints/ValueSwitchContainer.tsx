@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import {
-  QesDataType,
-  QesFilterType,
-  IUdsFilterDescriptionDtc
-} from "workbench/query/types";
+
+import { QesDataType, QesFilterType } from "workbench/types";
+import { IUdsFilterDescriptionDtc } from "workbench/query/types";
 import { IIntervalDtc } from "common/interval/types";
 
 // tslint:disable-next-line:max-line-length

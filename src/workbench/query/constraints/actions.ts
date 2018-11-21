@@ -1,6 +1,6 @@
 import { Action } from "redux";
 
-import { IConstraint } from "workbench/types";
+import { IConstraint, QesFilterType } from "workbench/types";
 import { IFilterCapabilitiesDic } from "workbench/query/types";
 
 export const enum FilterCapActionTypes {
@@ -49,7 +49,7 @@ export interface IUpdateQueryConstraintType extends Action {
   type: QueryConstraintActionTypes.QUERY_CONSTRAINT_TYPE_UPDATE;
   elementId: number;
   constraintId: number;
-  constraintType: string;
+  constraintType: QesFilterType;
 }
 
 export interface IUpdateQueryConstraintValues extends Action {
@@ -84,7 +84,7 @@ export const addQueryConstraint = (
 export const updateQueryConstraintType = (
   elementId: number,
   constraintId: number,
-  constraintType: string
+  constraintType: QesFilterType
 ): IUpdateQueryConstraintType => ({
   type: QueryConstraintActionTypes.QUERY_CONSTRAINT_TYPE_UPDATE,
   elementId,

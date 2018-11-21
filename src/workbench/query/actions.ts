@@ -1,6 +1,6 @@
 import { Action } from "redux";
 
-import { IQuery } from "workbench/types";
+import { IQuery, QueryGraphElementTypes } from "workbench/types";
 import {
   IUdsDescriptionDtc,
   IUdsFilterDescriptionDtc,
@@ -74,12 +74,12 @@ export const addQuery = (
   type: QueryActionTypes.QUERY_ADD,
   elementId,
   query: {
-    Label: "",
     ElementId: elementId,
+    ElementType: QueryGraphElementTypes.Query,
+    Label: "",
     IsConfigured: false,
     TargetDataServiceId: "",
     TargetDataViewId: "",
-    ElementType: "Query",
     Columns: [],
     SortBys: [],
     Constraints: [],

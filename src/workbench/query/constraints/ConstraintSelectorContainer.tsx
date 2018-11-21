@@ -15,8 +15,7 @@ import {
   filterCapabilitiesRequest,
   FilterCapabilitiesAction
 } from "workbench/query/constraints/actions";
-import { QesFilterType } from "workbench/query/types";
-import { IConstraint } from "workbench/types";
+import { IConstraint, QesFilterType } from "workbench/types";
 
 import ConstraintSelector from "workbench/query/constraints/ConstraintSelector";
 import { IOption } from "common/select/SelectInputContainer";

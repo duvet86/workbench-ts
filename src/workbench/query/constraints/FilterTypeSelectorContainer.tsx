@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { RootState } from "rootReducer";
 
-import { QesDataType, QesFilterType } from "workbench/query/types";
+import { QesDataType, QesFilterType } from "workbench/types";
 import {
   updateQueryConstraintType,
   QueryConstraintAction
@@ -56,11 +56,8 @@ class FilterTypeSelectorContainer extends Component<Props> {
   ) => {
     const { elementId, dispatchUpdateQueryConstraintType } = this.props;
 
-    dispatchUpdateQueryConstraintType(
-      elementId,
-      constraintId,
-      event.target.value
-    );
+    dispatchUpdateQueryConstraintType(elementId, constraintId, event.target
+      .value as QesFilterType);
   };
 }
 
@@ -72,7 +69,7 @@ const mapDispatchToProps = (dispatch: Dispatch<QueryConstraintAction>) => ({
   dispatchUpdateQueryConstraintType: (
     elementId: number,
     constraintId: number,
-    constraintType: string
+    constraintType: QesFilterType
   ) =>
     dispatch(updateQueryConstraintType(elementId, constraintId, constraintType))
 });

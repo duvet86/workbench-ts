@@ -1,7 +1,5 @@
-import { IConstraint } from "workbench/types";
+import { IConstraint, QesDataType } from "workbench/types";
 import { IOption } from "common/select/SelectInputContainer";
-
-import { QesDataType } from "workbench/query/types";
 
 import NewIcon from "@material-ui/icons/RestorePage";
 import SaveIcon from "@material-ui/icons/Save";
