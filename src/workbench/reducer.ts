@@ -6,7 +6,7 @@ import {
   IGraphChangesSuccess,
   SessionAction
 } from "workbench/actions";
-import { QueryAction } from "workbench/query/actions";
+import { QueryAction, QueryActionTypes } from "workbench/query/actions";
 import { QueryColumnAction } from "workbench/query/columns/actions";
 import { QueryConstraintAction } from "workbench/query/constraints/actions";
 
@@ -86,6 +86,18 @@ function session(
         connections: {
           $merge: {
             ...action.connections
+          }
+        }
+      });
+
+    case QueryActionTypes.QUERY_ADD:
+      return update(state, {
+        graph: { Queries: { $push: [action.elementId] } },
+        queries: {
+          $merge: {
+            [action.elementId]: {
+              ...action.query
+            }
           }
         }
       });

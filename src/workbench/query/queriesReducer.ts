@@ -21,15 +21,6 @@ function session(
   action: QueryAction | QueryColumnAction | QueryConstraintAction
 ): IQueryState {
   switch (action.type) {
-    case QueryActionTypes.QUERY_ADD:
-      return update(state, {
-        $merge: {
-          [action.elementId]: {
-            ...action.query
-          }
-        }
-      });
-
     case QueryActionTypes.QUERY_LABEL_UPDATE:
       return update(state, {
         [action.elementId]: {
