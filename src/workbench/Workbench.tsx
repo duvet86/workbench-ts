@@ -67,10 +67,6 @@ const Workbench: SFC<IProps> = ({
         diagramEngine={diagramEngine}
         handleDragOver={handleDragOver}
         handleDrop={handleDrop}
-        // session={session}
-        // queries={queries}
-        // connections={connections}
-        // filters={filters}
       />
     </div>
   </div>

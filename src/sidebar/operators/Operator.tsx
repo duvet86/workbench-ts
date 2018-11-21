@@ -23,15 +23,15 @@ interface IProps extends WithStyles<typeof styles> {
   operatorServiceId: string;
 }
 
-const styles = ({ typography }: Theme) =>
+const styles = (theme: Theme) =>
   createStyles({
     listItemRoot: {
       minHeight: 70,
       padding: "3px 8px 3px 16px"
     },
     heading: {
-      fontSize: typography.pxToRem(15),
-      fontWeight: typography.fontWeightRegular
+      fontSize: theme.typography.pxToRem(15),
+      fontWeight: theme.typography.fontWeightRegular
     },
     description: {
       whiteSpace: "initial"
@@ -42,7 +42,8 @@ const styles = ({ typography }: Theme) =>
       cursor: "pointer",
       padding: 8,
       borderRadius: 5,
-      border: "1px solid #ddd"
+      border: "1px solid #ddd",
+      backgroundColor: theme.palette.common.white
     }
   });
 

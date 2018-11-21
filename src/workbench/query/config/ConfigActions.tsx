@@ -16,6 +16,7 @@ interface IProps extends WithStyles<typeof styles> {
   currentStep: number;
   completedSteps: boolean[];
   dispatchCloseConfig: () => void;
+  dispatchCompleteQueryConfig: () => void;
   dispatchGoToStep: (stepIndex: number) => void;
 }
 
@@ -38,12 +39,17 @@ const ConfigActions: SFC<IProps> = ({
   currentStep,
   completedSteps,
   dispatchCloseConfig,
+  dispatchCompleteQueryConfig,
   dispatchGoToStep
 }) => {
   const handleStep = (stepIndex: number) => () => {
     return dispatchGoToStep(stepIndex);
   };
-  const nextLabel = currentStep === totalNumberSteps ? "Complete" : "Next";
+  const isLastStep = currentStep === totalNumberSteps;
+  const nextLabel = isLastStep ? "Complete" : "Next";
+  const nextClickhandler = isLastStep
+    ? dispatchCompleteQueryConfig
+    : handleStep(currentStep + 1);
 
   return (
     <Grid item xs={12} className={classes.actionButtons}>
@@ -65,7 +71,7 @@ const ConfigActions: SFC<IProps> = ({
       </Button>
       <Button
         disabled={!completedSteps[currentStep]}
-        onClick={handleStep(currentStep + 1)}
+        onClick={nextClickhandler}
         variant="contained"
         color="secondary"
         className={classes.button}

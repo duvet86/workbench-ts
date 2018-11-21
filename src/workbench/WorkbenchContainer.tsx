@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { RouteComponentProps } from "react-router";
-import { DiagramModel, DiagramEngine, NodeModel } from "storm-react-diagrams";
+import { DiagramModel, DiagramEngine } from "storm-react-diagrams";
 
 import { RootState } from "rootReducer";
 import { sessionRequest, SessionAction } from "workbench/actions";
@@ -29,13 +29,8 @@ type Props = ReturnType<typeof mapDispatchToProps> &
   ReturnType<typeof mapStateToProps> &
   RouteComponentProps<{ id: string }>;
 
-interface ILocalState {
-  node: NodeModel;
-}
-
-class WorkbenchContainer extends Component<Props, ILocalState> {
+class WorkbenchContainer extends Component<Props> {
   private diagramEngine: DiagramEngine;
-  private activeModel: DiagramModel | undefined;
 
   constructor(props: Props) {
     super(props);
@@ -48,9 +43,6 @@ class WorkbenchContainer extends Component<Props, ILocalState> {
     );
     this.diagramEngine.registerNodeFactory(new QueryNodeFactory());
     this.diagramEngine.registerNodeFactory(new FilterNodeFactory());
-
-    this.activeModel = new DiagramModel();
-    this.diagramEngine.setDiagramModel(this.activeModel);
   }
 
   public componentDidMount() {
@@ -81,7 +73,7 @@ class WorkbenchContainer extends Component<Props, ILocalState> {
       currentSession.SessionId !== prevSession.SessionId ||
       this.props.queries !== prevProps.queries
     ) {
-      this.activeModel = new DiagramModel();
+      const activeModel = new DiagramModel();
 
       const queryNodes = Object.keys(this.props.queries).map(
         id => new QueryNodeModel(this.props.queries[id])
@@ -91,20 +83,18 @@ class WorkbenchContainer extends Component<Props, ILocalState> {
         id => new FilterNodeModel(this.props.filters[id])
       );
 
-      this.activeModel.addAll(...queryNodes);
-      this.activeModel.addAll(...filterNodes);
+      activeModel.addAll(...queryNodes);
+      activeModel.addAll(...filterNodes);
 
       const links = [];
       for (const id of Object.keys(this.props.connections)) {
         const connection = this.props.connections[id];
 
-        const nodeFrom = this.activeModel.getNode(
+        const nodeFrom = activeModel.getNode(
           connection.FromElementId.toString()
         );
 
-        const nodeTo = this.activeModel.getNode(
-          connection.ToElementId.toString()
-        );
+        const nodeTo = activeModel.getNode(connection.ToElementId.toString());
 
         if (nodeFrom == null || nodeTo == null) {
           break;
@@ -118,9 +108,9 @@ class WorkbenchContainer extends Component<Props, ILocalState> {
         links.push(link);
       }
 
-      this.activeModel.addAll(...links);
+      activeModel.addAll(...links);
 
-      this.diagramEngine.setDiagramModel(this.activeModel);
+      this.diagramEngine.setDiagramModel(activeModel);
       this.diagramEngine.repaintCanvas();
     }
   }
@@ -139,18 +129,8 @@ class WorkbenchContainer extends Component<Props, ILocalState> {
   }
 
   public render() {
-    const {
-      isLoading
-      // dispatchAddQuery,
-      // session,
-      // graph,
-      // queries,
-      // connections,
-      // filters
-    } = this.props;
-
     return (
-      <LoadingContainer isLoading={isLoading}>
+      <LoadingContainer isLoading={this.props.isLoading}>
         <Workbench
           diagramEngine={this.diagramEngine}
           handleDragOver={this.handleDragOver}
@@ -166,7 +146,6 @@ class WorkbenchContainer extends Component<Props, ILocalState> {
 
   private handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     const { graph, dispatchAddQuery } = this.props;
-
     if (graph == null) {
       throw new Error("Graph cannot be null.");
     }
@@ -181,15 +160,6 @@ class WorkbenchContainer extends Component<Props, ILocalState> {
       default:
         break;
     }
-
-    // const data = JSON.parse(event.dataTransfer.getData("ELEMENT"));
-    // const points = this.diagramEngine.getRelativeMousePoint(event);
-    // const node = new QueryNodeModel("Pippo", points.x, points.y);
-    // this.diagramEngine.getDiagramModel().addNode(node);
-    // // Updating the state triggers a re render.
-    // this.setState({
-    //   node
-    // });
   };
 }
 

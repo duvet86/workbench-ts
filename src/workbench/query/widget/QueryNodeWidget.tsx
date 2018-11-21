@@ -136,7 +136,7 @@ const QueryNodeWidget: React.SFC<IProps> = ({ classes, node }) => {
                 outline: 0
               }}
               width="100%"
-              height={Math.min(Columns.length * 20, 150)}
+              height={Math.min(Columns.length * 20 + 2, 150)}
               itemCount={Columns.length}
               itemSize={20}
             >

@@ -7,8 +7,6 @@ import { getQuery, getCompletedSteps } from "workbench/query/selectors";
 import LoadingContainer from "common/loading/LoadingContainer";
 import QueryConfig from "workbench/query/config/QueryConfig";
 
-import { stepRenderComponents } from "workbench/query/config/steps";
-
 type Props = ReturnType<typeof mapStateToProps>;
 
 const QueryConfigContainer: SFC<Props> = ({
@@ -18,9 +16,11 @@ const QueryConfigContainer: SFC<Props> = ({
   completedSteps
 }) => (
   <LoadingContainer background isLoading={isLoading}>
-    <QueryConfig currentStep={currentStep} completedSteps={completedSteps}>
-      {stepRenderComponents[currentStep](selectedQuery)}
-    </QueryConfig>
+    <QueryConfig
+      query={selectedQuery}
+      currentStep={currentStep}
+      completedSteps={completedSteps}
+    />
   </LoadingContainer>
 );
 
