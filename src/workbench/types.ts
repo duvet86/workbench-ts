@@ -174,7 +174,7 @@ interface IException {
 }
 
 export interface IConstraint {
-  ConstraintId: number;
+  ConstraintIndex: number;
   DataType: QesDataType;
   ColumnName: string;
   FilterType: QesFilterType;

@@ -132,8 +132,8 @@ const Summary: SFC<IProps> = ({ classes, query, querySourceLabel }) => (
       <ExpansionPanelDetails>
         <List dense className={classes.list}>
           <Divider />
-          {query.Constraints.map(({ ConstraintId, ConstraintName }) => (
-            <ListItem key={ConstraintId} divider>
+          {query.Constraints.map(({ ConstraintIndex, ConstraintName }) => (
+            <ListItem key={ConstraintIndex} divider>
               <ListItemIcon>
                 <ConstraintIcon />
               </ListItemIcon>

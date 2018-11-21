@@ -63,7 +63,7 @@ export interface IUpdateQueryConstraintValues extends Action {
 export interface IRemoveQueryConstraint extends Action {
   type: QueryConstraintActionTypes.QUERY_CONSTRAINT_REMOVE;
   elementId: number;
-  constraintId: number;
+  constraintIndex: number;
 }
 
 export type QueryConstraintAction =
@@ -107,9 +107,9 @@ export const updateQueryConstraintValues = (
 
 export const removeQueryConstraint = (
   elementId: number,
-  constraintId: number
+  constraintIndex: number
 ): IRemoveQueryConstraint => ({
   type: QueryConstraintActionTypes.QUERY_CONSTRAINT_REMOVE,
   elementId,
-  constraintId
+  constraintIndex
 });

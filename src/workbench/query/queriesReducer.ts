@@ -111,7 +111,8 @@ function session(
           Constraints: {
             $apply: (constraints: IConstraint[]) =>
               constraints.filter(
-                ({ ConstraintId }) => ConstraintId !== action.constraintId
+                ({ ConstraintIndex }) =>
+                  ConstraintIndex !== action.constraintIndex
               )
           }
         }

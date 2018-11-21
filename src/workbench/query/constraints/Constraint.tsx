@@ -51,7 +51,7 @@ const FilterConstraint: SFC<IProps> = ({
   classes,
   elementId,
   label,
-  constraint: { ConstraintId, FilterType, DataType, Values },
+  constraint: { ConstraintIndex, FilterType, DataType, Values },
   handledRemoveQueryConstraint,
   availableFilter
 }) => (
@@ -62,21 +62,21 @@ const FilterConstraint: SFC<IProps> = ({
     </Typography>
     <FilterTypeSelectorContainer
       elementId={elementId}
-      constraintId={ConstraintId}
+      constraintId={ConstraintIndex}
       filterType={FilterType}
       dataType={DataType}
     />
     <ValueSwitchContainer
       availableFilter={availableFilter}
       elementId={elementId}
-      constraintId={ConstraintId}
+      constraintId={ConstraintIndex}
       filterType={FilterType}
       dataType={DataType}
       values={Values}
     />
     <IconButton
       aria-label="Delete"
-      onClick={handledRemoveQueryConstraint(ConstraintId)}
+      onClick={handledRemoveQueryConstraint(ConstraintIndex)}
     >
       <DeleteIcon />
     </IconButton>

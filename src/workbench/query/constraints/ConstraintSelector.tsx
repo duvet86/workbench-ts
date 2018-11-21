@@ -45,7 +45,7 @@ const ConstraintSelector: SFC<IProps> = ({
     </div>
     {queryConstraints.map(constraint => (
       <ConstraintContainer
-        key={constraint.ConstraintId}
+        key={constraint.ConstraintIndex}
         elementId={elementId}
         constraint={constraint}
       />

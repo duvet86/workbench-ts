@@ -86,7 +86,7 @@ class ConstraintSelectorContainer extends Component<Props> {
       filterCapabilities[dataType][0].Type;
 
     const constraint: IConstraint = {
-      ConstraintId: queryConstraints.length,
+      ConstraintIndex: queryConstraints.length,
       ConstraintName: constraintColumn && constraintColumn.ColumnName,
       FilterName: constraintFilter && constraintFilter.FilterName,
       DataType: dataType,
