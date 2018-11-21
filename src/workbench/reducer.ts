@@ -6,25 +6,19 @@ import {
   IGraphChangesSuccess,
   SessionAction
 } from "workbench/actions";
-import { QueryAction, QueryActionTypes } from "workbench/query/actions";
-import {
-  QueryColumnAction,
-  QueryColumnActionTypes
-} from "workbench/query/columns/actions";
-import {
-  QueryConstraintAction,
-  QueryConstraintActionTypes
-} from "workbench/query/constraints/actions";
+import { QueryAction } from "workbench/query/actions";
+import { QueryColumnAction } from "workbench/query/columns/actions";
+import { QueryConstraintAction } from "workbench/query/constraints/actions";
 
 import {
   ISession,
   IQueryGraphData,
   IQuery,
   IInteractiveFilter,
-  IConnection,
-  IColumn,
-  IConstraint
+  IConnection
 } from "workbench/types";
+
+import queriesReducer from "workbench/query/queriesReducer";
 
 interface ISessionState {
   isLoading: boolean;
@@ -72,18 +66,6 @@ function session(
         ...action.graphData
       };
 
-    case QueryActionTypes.QUERY_ADD:
-      return update(state, {
-        graph: { Queries: { $push: [action.elementId] } },
-        queries: {
-          $merge: {
-            [action.elementId]: {
-              ...action.query
-            }
-          }
-        }
-      });
-
     case GraphChangesActionTypes.GRAPH_CHANGES_SUCCESS:
       return update(state, {
         graph: {
@@ -108,111 +90,11 @@ function session(
         }
       });
 
-    case QueryActionTypes.QUERY_LABEL_UPDATE:
-      return update(state, {
-        queries: {
-          [action.elementId]: {
-            $merge: {
-              Label: action.label
-            }
-          }
-        }
-      });
-
-    case QueryActionTypes.QUERY_SOURCE_UPDATE:
-      return update(state, {
-        queries: {
-          [action.elementId]: {
-            $merge: {
-              TargetDataViewId: action.targetDataViewId,
-              Columns: [],
-              Constraints: []
-            }
-          }
-        }
-      });
-
-    case QueryColumnActionTypes.QUERY_COLUMN_ADD:
-      return update(state, {
-        queries: {
-          [action.elementId]: {
-            Columns: { $push: [action.column] },
-            DataTableId: { $set: undefined } // NOTE: remove DataTableId to retrigger graph changes.
-          }
-        }
-      });
-
-    case QueryColumnActionTypes.QUERY_COLUMN_REMOVE:
-      return update(state, {
-        queries: {
-          [action.elementId]: {
-            Columns: {
-              $apply: (columns: IColumn[]) =>
-                columns.filter(
-                  ({ ColumnName }) => ColumnName !== action.columnName
-                )
-            },
-            DataTableId: { $set: undefined } // NOTE: remove DataTableId to retrigger graph changes.
-          }
-        }
-      });
-
-    case QueryConstraintActionTypes.QUERY_CONSTRAINT_ADD:
-      return update(state, {
-        queries: {
-          [action.elementId]: {
-            Constraints: { $push: [action.constraint] }
-          }
-        }
-      });
-
-    case QueryConstraintActionTypes.QUERY_CONSTRAINT_TYPE_UPDATE:
-      return update(state, {
-        queries: {
-          [action.elementId]: {
-            Constraints: {
-              [action.constraintId]: {
-                $merge: {
-                  FilterType: action.constraintType
-                }
-              }
-            }
-          }
-        }
-      });
-
-    case QueryConstraintActionTypes.QUERY_CONSTRAINT_VALUES_UPDATE:
-      return update(state, {
-        queries: {
-          [action.elementId]: {
-            Constraints: {
-              [action.constraintId]: {
-                $merge: {
-                  Values: action.vectorValues,
-                  ValuesHint: action.valuesHint
-                }
-              }
-            }
-          }
-        }
-      });
-
-    case QueryConstraintActionTypes.QUERY_CONSTRAINT_REMOVE:
-      return update(state, {
-        queries: {
-          [action.elementId]: {
-            Constraints: {
-              $apply: (constraints: IConstraint[]) =>
-                constraints.filter(
-                  ({ ConstraintId }) => ConstraintId !== action.constraintId
-                )
-            }
-          }
-        }
-      });
-
     default:
-      return state;
+      return {
+        ...state,
+        queries: queriesReducer(state.queries, action)
+      };
   }
 }
 

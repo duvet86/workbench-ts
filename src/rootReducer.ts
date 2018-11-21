@@ -7,7 +7,7 @@ import userItems from "sidebar/userItems/reducer";
 import navigationTabs from "sidebar/navigationTabs/reducer";
 import operators from "sidebar/operators/reducer";
 import configSwitch from "workbench/configSwitch/reducer";
-import queryConfig from "workbench/query/reducer";
+import queryConfig from "workbench/query/configReducer";
 import session from "workbench/reducer";
 
 const rootReducer = combineReducers({
