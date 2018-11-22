@@ -29,7 +29,7 @@ export const getDataServices = createSelector(
 
 const elementIdSelector = (state: RootState) => state.queryConfig.elementId;
 
-const querySelector = (state: RootState) => state.session.queries;
+const querySelector = (state: RootState) => state.sessionGraph.queries;
 
 const availableColumnsSelector = (state: RootState) =>
   state.queryConfig.availableColumns;

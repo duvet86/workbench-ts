@@ -63,24 +63,32 @@ export const serviceDescriptionEpic = (
   action$.pipe(
     ofType(QueryDescActionTypes.QUERY_DESCRIBE_REQUEST),
     withLatestFrom(state$),
-    mergeMap(([, { session: { session }, queryConfig: { elementId } }]) => {
-      if (session == null) {
-        throw new Error("serviceDescriptionEpic: session cannot be null.");
-      }
+    mergeMap(
+      ([
+        ,
+        {
+          sessionGraph: { session },
+          queryConfig: { elementId }
+        }
+      ]) => {
+        if (session == null) {
+          throw new Error("serviceDescriptionEpic: session cannot be null.");
+        }
 
-      const { TenantId, SessionId, QueryGraphId } = session;
-      return getDataServiceDescriptionObs(
-        TenantId,
-        SessionId,
-        QueryGraphId,
-        elementId
-      ).pipe(
-        map(serviceDescription =>
-          queryDescribeSuccess(serviceDescription, elementId)
-        ),
-        catchError(error => handleExceptionObs(error))
-      );
-    })
+        const { TenantId, SessionId, QueryGraphId } = session;
+        return getDataServiceDescriptionObs(
+          TenantId,
+          SessionId,
+          QueryGraphId,
+          elementId
+        ).pipe(
+          map(serviceDescription =>
+            queryDescribeSuccess(serviceDescription, elementId)
+          ),
+          catchError(error => handleExceptionObs(error))
+        );
+      }
+    )
   );
 
 export const getDataTableEpic = (
@@ -96,7 +104,7 @@ export const getDataTableEpic = (
       ([
         { pageSize, pageNumber },
         {
-          session: { session, graph, queries, filters, connections },
+          sessionGraph: { session, graph, queries, filters, connections },
           queryConfig: { elementId }
         }
       ]) => {

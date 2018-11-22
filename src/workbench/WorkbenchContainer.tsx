@@ -163,7 +163,7 @@ class WorkbenchContainer extends Component<Props> {
   };
 }
 
-const mapStateToProps = ({ session: { ...state } }: RootState) => state;
+const mapStateToProps = ({ sessionGraph: { ...state } }: RootState) => state;
 
 const mapDispatchToProps = (
   dispatch: Dispatch<SessionAction | QueryAction>

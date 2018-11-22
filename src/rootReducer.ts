@@ -8,7 +8,7 @@ import navigationTabs from "sidebar/navigationTabs/reducer";
 import operators from "sidebar/operators/reducer";
 import configSwitch from "workbench/configSwitch/reducer";
 import queryConfig from "workbench/query/configReducer";
-import session from "workbench/reducer";
+import sessionGraph from "workbench/sessionGraphReducer";
 
 const rootReducer = combineReducers({
   error,
@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
   userItems,
   navigationTabs,
   operators,
-  session,
+  sessionGraph,
   configSwitch,
   queryConfig
 });

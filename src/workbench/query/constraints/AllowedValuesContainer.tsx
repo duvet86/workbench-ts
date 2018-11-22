@@ -134,7 +134,7 @@ class AllowedValuesContainer extends Component<Props, IState> {
   };
 }
 
-const mapStateToProps = ({ session: { session } }: RootState) => ({
+const mapStateToProps = ({ sessionGraph: { session } }: RootState) => ({
   session
 });
 
