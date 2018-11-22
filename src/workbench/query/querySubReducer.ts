@@ -11,7 +11,6 @@ import {
 } from "workbench/query/constraints/actions";
 
 import { IQuery, IColumn, IConstraint } from "workbench/types";
-import { FilterActions } from "workbench/filter/actions";
 
 interface IQueryState {
   [id: string]: IQuery;
@@ -19,11 +18,7 @@ interface IQueryState {
 
 function session(
   state: IQueryState = {},
-  action:
-    | QueryActions
-    | QueryColumnAction
-    | QueryConstraintAction
-    | FilterActions
+  action: QueryActions | QueryColumnAction | QueryConstraintAction
 ): IQueryState {
   switch (action.type) {
     case QueryActionTypes.QUERY_LABEL_UPDATE:

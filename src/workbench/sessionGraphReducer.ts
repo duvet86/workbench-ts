@@ -3,7 +3,6 @@ import update from "immutability-helper";
 import { GraphActions, GraphActionTypes } from "workbench/graphActions";
 import { SessionActionTypes, SessionAction } from "workbench/sessionActions";
 import { QueryActions } from "workbench/query/actions";
-import { FilterActions, FilterActionTypes } from "workbench/filter/actions";
 import { QueryColumnAction } from "workbench/query/columns/actions";
 import { QueryConstraintAction } from "workbench/query/constraints/actions";
 
@@ -45,7 +44,6 @@ function session(
     | SessionAction
     | GraphActions
     | QueryActions
-    | FilterActions
     | QueryColumnAction
     | QueryConstraintAction
 ): ISessionState {
@@ -99,7 +97,7 @@ function session(
         }
       });
 
-    case FilterActionTypes.FILTER_ADD:
+    case GraphActionTypes.GRAPH_FILTER_ADD:
       return update(state, {
         graph: { InteractiveFilters: { $push: [action.elementId] } },
         filters: {

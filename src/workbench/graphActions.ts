@@ -9,11 +9,14 @@ import {
   IInteractiveFilter,
   IConnection,
   IQueryGraphChanges,
-  QueryGraphElementTypes
+  QueryGraphElementTypes,
+  QesDataType,
+  QesFilterType
 } from "workbench/types";
 
 export const enum GraphActionTypes {
   GRAPH_QUERY_ADD = "GRAPH_QUERY_ADD",
+  GRAPH_FILTER_ADD = "GRAPH_FILTER_ADD",
   GRAPH_CHANGES_SUCCESS = "GRAPH_CHANGES_SUCCESS"
 }
 
@@ -21,6 +24,12 @@ export interface IGraphAddQuery extends Action {
   type: GraphActionTypes.GRAPH_QUERY_ADD;
   elementId: number;
   query: IQuery;
+}
+
+export interface IGraphAddFilter extends Action {
+  type: GraphActionTypes.GRAPH_FILTER_ADD;
+  elementId: number;
+  filter: IInteractiveFilter;
 }
 
 export interface IGraphChangesSuccess extends Action {
@@ -31,7 +40,10 @@ export interface IGraphChangesSuccess extends Action {
   connections: { [key: string]: IConnection };
 }
 
-export type GraphActions = IGraphAddQuery | IGraphChangesSuccess;
+export type GraphActions =
+  | IGraphAddQuery
+  | IGraphAddFilter
+  | IGraphChangesSuccess;
 
 export const graphAddQuery = (
   elementId: number,
@@ -51,6 +63,30 @@ export const graphAddQuery = (
     SortBys: [],
     Constraints: [],
     IsQueryGraphResult: false,
+    ChangeNumber: 0,
+    ForceRun: false,
+    State: "New",
+    LayoutX: x,
+    LayoutY: y
+  }
+});
+
+export const graphAddFilter = (
+  elementId: number,
+  x: number,
+  y: number
+): IGraphAddFilter => ({
+  type: GraphActionTypes.GRAPH_FILTER_ADD,
+  elementId,
+  filter: {
+    ElementId: elementId,
+    ElementType: QueryGraphElementTypes.InteractiveFilter,
+    Label: "",
+    FilterName: `FILTER_${elementId}`,
+    DataType: QesDataType.NotSpecified,
+    FilterType: QesFilterType.NotSpecified,
+    Required: false,
+    IsConfigured: false,
     ChangeNumber: 0,
     ForceRun: false,
     State: "New",
