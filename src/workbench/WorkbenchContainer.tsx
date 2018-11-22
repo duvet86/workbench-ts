@@ -8,7 +8,7 @@ import { DiagramModel, DiagramEngine } from "storm-react-diagrams";
 
 import { RootState } from "rootReducer";
 import { sessionRequest, SessionAction } from "workbench/sessionActions";
-import { addQuery, IAddQuery } from "workbench/graphActions";
+import { graphAddQuery, IGraphAddQuery } from "workbench/graphActions";
 import { ElementType } from "sidebar/operators/operatorsData";
 
 import { destroySessionAsync } from "workbench/api";
@@ -165,12 +165,14 @@ class WorkbenchContainer extends Component<Props> {
 
 const mapStateToProps = ({ sessionGraph: { ...state } }: RootState) => state;
 
-const mapDispatchToProps = (dispatch: Dispatch<SessionAction | IAddQuery>) => ({
+const mapDispatchToProps = (
+  dispatch: Dispatch<SessionAction | IGraphAddQuery>
+) => ({
   dispatchSessionRequest: (dataViewId?: string) => {
     dispatch(sessionRequest(dataViewId));
   },
   dispatchAddQuery: (elementId: number, x: number, y: number) =>
-    dispatch(addQuery(elementId, x, y))
+    dispatch(graphAddQuery(elementId, x, y))
 });
 
 export default connect(

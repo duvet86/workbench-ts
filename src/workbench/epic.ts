@@ -21,7 +21,7 @@ import {
   SessionAction,
   ISessionRequest
 } from "workbench/sessionActions";
-import { IAddQuery, GraphActionTypes } from "workbench/graphActions";
+import { IGraphAddQuery, GraphActionTypes } from "workbench/graphActions";
 import {
   queryDescribeRequest,
   IUpdateQuerySource,
@@ -82,7 +82,7 @@ export const sessionEpic = (action$: ActionsObservable<Action>) =>
 
 export const addQueryEpic = (action$: ActionsObservable<Action>) =>
   action$.pipe(
-    ofType<Action, IAddQuery>(GraphActionTypes.GRAPH_QUERY_ADD),
+    ofType<Action, IGraphAddQuery>(GraphActionTypes.GRAPH_QUERY_ADD),
     map(({ elementId }) => openQueryConfig(elementId))
   );
 

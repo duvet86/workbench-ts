@@ -17,7 +17,7 @@ export const enum GraphActionTypes {
   GRAPH_CHANGES_SUCCESS = "GRAPH_CHANGES_SUCCESS"
 }
 
-export interface IAddQuery extends Action {
+export interface IGraphAddQuery extends Action {
   type: GraphActionTypes.GRAPH_QUERY_ADD;
   elementId: number;
   query: IQuery;
@@ -31,13 +31,13 @@ export interface IGraphChangesSuccess extends Action {
   connections: { [key: string]: IConnection };
 }
 
-export type GraphActions = IAddQuery | IGraphChangesSuccess;
+export type GraphActions = IGraphAddQuery | IGraphChangesSuccess;
 
-export const addQuery = (
+export const graphAddQuery = (
   elementId: number,
   x: number,
   y: number
-): IAddQuery => ({
+): IGraphAddQuery => ({
   type: GraphActionTypes.GRAPH_QUERY_ADD,
   elementId,
   query: {
