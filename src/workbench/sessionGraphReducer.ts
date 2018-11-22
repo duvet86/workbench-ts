@@ -18,7 +18,7 @@ import {
   IConnection
 } from "workbench/types";
 
-import queriesReducer from "workbench/query/queriesReducer";
+import querySubReducer from "workbench/query/querySubReducer";
 
 interface ISessionState {
   isLoading: boolean;
@@ -105,7 +105,7 @@ function session(
     default:
       return {
         ...state,
-        queries: queriesReducer(state.queries, action)
+        queries: querySubReducer(state.queries, action)
       };
   }
 }
