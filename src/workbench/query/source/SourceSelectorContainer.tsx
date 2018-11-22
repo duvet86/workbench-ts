@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { RootState } from "rootReducer";
-import { updateQuerySource, QueryAction } from "workbench/query/actions";
+import { updateQuerySource, QueryActions } from "workbench/query/actions";
 import {
   dataServicesRequest,
   DataServicesAction
@@ -54,7 +54,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (
-  dispatch: Dispatch<DataServicesAction | QueryAction>
+  dispatch: Dispatch<DataServicesAction | QueryActions>
 ) => ({
   dispatchDataServicesRequest: () => dispatch(dataServicesRequest()),
   dispatchUpdateDataService: (

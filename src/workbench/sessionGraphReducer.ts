@@ -1,12 +1,9 @@
 import update from "immutability-helper";
 
-import {
-  SessionActionTypes,
-  GraphChangesActionTypes,
-  IGraphChangesSuccess,
-  SessionAction
-} from "workbench/actions";
-import { QueryAction, QueryActionTypes } from "workbench/query/actions";
+import { GraphActions, GraphActionTypes } from "workbench/graphActions";
+import { SessionActionTypes, SessionAction } from "workbench/sessionActions";
+import { QueryActions } from "workbench/query/actions";
+import { FilterActions, FilterActionTypes } from "workbench/filter/actions";
 import { QueryColumnAction } from "workbench/query/columns/actions";
 import { QueryConstraintAction } from "workbench/query/constraints/actions";
 
@@ -46,8 +43,9 @@ function session(
   },
   action:
     | SessionAction
-    | IGraphChangesSuccess
-    | QueryAction
+    | GraphActions
+    | QueryActions
+    | FilterActions
     | QueryColumnAction
     | QueryConstraintAction
 ): ISessionState {
@@ -55,7 +53,6 @@ function session(
     case SessionActionTypes.SESSION_REQUEST:
       return {
         ...initialState,
-        isLoading: true,
         dataViewId: action.dataViewId
       };
 
@@ -66,7 +63,7 @@ function session(
         ...action.graphData
       };
 
-    case GraphChangesActionTypes.GRAPH_CHANGES_SUCCESS:
+    case GraphActionTypes.GRAPH_CHANGES_SUCCESS:
       return update(state, {
         graph: {
           $merge: {
@@ -90,13 +87,25 @@ function session(
         }
       });
 
-    case QueryActionTypes.QUERY_ADD:
+    case GraphActionTypes.GRAPH_QUERY_ADD:
       return update(state, {
         graph: { Queries: { $push: [action.elementId] } },
         queries: {
           $merge: {
             [action.elementId]: {
               ...action.query
+            }
+          }
+        }
+      });
+
+    case FilterActionTypes.FILTER_ADD:
+      return update(state, {
+        graph: { InteractiveFilters: { $push: [action.elementId] } },
+        filters: {
+          $merge: {
+            [action.elementId]: {
+              ...action.filter
             }
           }
         }

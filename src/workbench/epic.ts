@@ -11,28 +11,19 @@ import {
   IInteractiveFilter,
   IConnection
 } from "workbench/types";
-import {
-  getSessionInfoObs,
-  pushGraphChangesObs,
-  saveGraphObs,
-  getGraphObs
-} from "workbench/api";
+import { getSessionInfoObs, saveGraphObs, getGraphObs } from "workbench/api";
 import { graphSchema } from "workbench/schema";
 
+import { graphChangesSuccess } from "workbench/graphActions";
 import {
-  GraphPushActionTypes,
-  GraphSaveActionTypes,
-  graphPushSuccess,
-  graphSaveChangesSuccess,
   sessionSuccess,
   SessionActionTypes,
   SessionAction,
-  ISessionRequest,
-  graphChangesSuccess
-} from "workbench/actions";
+  ISessionRequest
+} from "workbench/sessionActions";
+import { IAddQuery, GraphActionTypes } from "workbench/graphActions";
 import {
   queryDescribeRequest,
-  IAddQuery,
   IUpdateQuerySource,
   QueryActionTypes
 } from "workbench/query/actions";
@@ -89,75 +80,9 @@ export const sessionEpic = (action$: ActionsObservable<Action>) =>
     )
   );
 
-export const saveGraphEpic = (
-  action$: ActionsObservable<Action>,
-  state$: StateObservable<RootState>
-) =>
-  action$.pipe(
-    ofType(GraphSaveActionTypes.GRAPH_SAVE_REQUEST),
-    withLatestFrom(state$),
-    mergeMap(([, { sessionGraph: { session, graph } }]) => {
-      if (session == null || graph == null) {
-        throw new Error("saveGraphEpic: session or graph cannot be null.");
-      }
-
-      const { TenantId, SessionId, QueryGraphId } = session;
-      return saveGraphObs(TenantId, SessionId, QueryGraphId, graph, true).pipe(
-        map(() => graphSaveChangesSuccess()),
-        catchError(error => handleExceptionObs(error))
-      );
-    })
-  );
-
-// export const getGraphEpic = action$ =>
-//   action$.pipe(
-//     ofType(GRAPH_REQUEST),
-//     mergeMap(() =>
-//       getGraphObs().pipe(
-//         map(response => graphSuccess(response)),
-//         catchError(error => handleException(error))
-//       )
-//     )
-//   );
-
-export const pushGraphChangesEpic = (
-  action$: ActionsObservable<Action>,
-  state$: StateObservable<RootState>
-) =>
-  action$.pipe(
-    ofType(GraphPushActionTypes.GRAPH_PUSH_REQUEST),
-    withLatestFrom(state$),
-    mergeMap(([, { sessionGraph: { session } }]) => {
-      if (session == null) {
-        throw new Error("pushGraphChangesEpic: session cannot be null.");
-      }
-
-      const { TenantId, SessionId, QueryGraphId } = session;
-      return pushGraphChangesObs(TenantId, SessionId, QueryGraphId).pipe(
-        map(() => graphPushSuccess()),
-        catchError(error => handleExceptionObs(error))
-      );
-    })
-  );
-
-// export const popGraphChangesEpic = (action$, state$) =>
-//   action$.pipe(
-//     ofType(CLOSE_QUERY_CONFIG),
-//     withLatestFrom(state$),
-//     mergeMap(([{
-//         sessionReducer: { session: { TenantId, SessionId, QueryGraphId } }
-//       }]) => {
-
-//       return popGraphChangesObs(TenantId, SessionId, QueryGraphId).pipe(
-//         map(response => graphPopSuccess(response)),
-//         catchError(error => handleException(error))
-//       );
-//     })
-//   );
-
 export const addQueryEpic = (action$: ActionsObservable<Action>) =>
   action$.pipe(
-    ofType<Action, IAddQuery>(QueryActionTypes.QUERY_ADD),
+    ofType<Action, IAddQuery>(GraphActionTypes.GRAPH_QUERY_ADD),
     map(({ elementId }) => openQueryConfig(elementId))
   );
 

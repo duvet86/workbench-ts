@@ -2,9 +2,9 @@ import { TokenActionTypes, IClearToken } from "app/actions";
 import { ErrorActionTypes, ICleanError } from "common/errorBoundary/actions";
 import {
   QueryActionTypes,
-  QueryAction,
+  QueryActions,
   QueryDescActionTypes,
-  QueryDescribeAction
+  QueryDescribeActions
 } from "workbench/query/actions";
 import {
   QueryConfigActionTypes,
@@ -61,8 +61,8 @@ function queryConfig(
     | IGoToStep
     | DataServicesAction
     | FilterCapabilitiesAction
-    | QueryAction
-    | QueryDescribeAction
+    | QueryActions
+    | QueryDescribeActions
     | QueryDataTableAction
     | ICleanError
     | IClearToken

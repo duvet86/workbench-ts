@@ -6,8 +6,6 @@ import { userItemsEpic } from "sidebar/userItems/epic";
 import { operatorsEpic } from "sidebar/operators/epic";
 import {
   addQueryEpic,
-  pushGraphChangesEpic,
-  saveGraphEpic,
   sessionEpic,
   updateQueryDataServiceEpic
 } from "workbench/epic";
@@ -24,8 +22,6 @@ const epics = [
   userItemsEpic,
   operatorsEpic,
   sessionEpic,
-  saveGraphEpic,
-  pushGraphChangesEpic,
   addQueryEpic,
   dataServicesEpic,
   filterCapabilitiesEpic,

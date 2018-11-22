@@ -1,6 +1,5 @@
 import { Action } from "redux";
 
-import { IQuery, QueryGraphElementTypes } from "workbench/types";
 import {
   IUdsDescriptionDtc,
   IUdsFilterDescriptionDtc,
@@ -23,7 +22,9 @@ interface IQueryDescribeSuccess extends Action {
   elementId: number;
 }
 
-export type QueryDescribeAction = IQueryDescribeRequest | IQueryDescribeSuccess;
+export type QueryDescribeActions =
+  | IQueryDescribeRequest
+  | IQueryDescribeSuccess;
 
 export const queryDescribeRequest = (): IQueryDescribeRequest => ({
   type: QueryDescActionTypes.QUERY_DESCRIBE_REQUEST
@@ -40,15 +41,8 @@ export const queryDescribeSuccess = (
 });
 
 export const enum QueryActionTypes {
-  QUERY_ADD = "QUERY_ADD",
   QUERY_SOURCE_UPDATE = "QUERY_SOURCE_UPDATE",
   QUERY_LABEL_UPDATE = "QUERY_LABEL_UPDATE"
-}
-
-export interface IAddQuery extends Action {
-  type: QueryActionTypes.QUERY_ADD;
-  elementId: number;
-  query: IQuery;
 }
 
 export interface IUpdateQuerySource extends Action {
@@ -64,33 +58,7 @@ export interface IUpdateQueryLabel extends Action {
   label: string;
 }
 
-export type QueryAction = IAddQuery | IUpdateQuerySource | IUpdateQueryLabel;
-
-export const addQuery = (
-  elementId: number,
-  x: number,
-  y: number
-): IAddQuery => ({
-  type: QueryActionTypes.QUERY_ADD,
-  elementId,
-  query: {
-    ElementId: elementId,
-    ElementType: QueryGraphElementTypes.Query,
-    Label: "",
-    IsConfigured: false,
-    TargetDataServiceId: "",
-    TargetDataViewId: "",
-    Columns: [],
-    SortBys: [],
-    Constraints: [],
-    IsQueryGraphResult: false,
-    ChangeNumber: 0,
-    ForceRun: false,
-    State: "New",
-    LayoutX: x,
-    LayoutY: y
-  }
-});
+export type QueryActions = IUpdateQuerySource | IUpdateQueryLabel;
 
 export const updateQuerySource = (
   elementId: number,
