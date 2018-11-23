@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { RootState } from "rootReducer";
-import { isDrawerOpen } from "workbench/configSwitch/selectors";
+import { isDrawerOpen } from "workbench/configOperators/selectors";
 
-import ConfigSwitch from "workbench/configSwitch/ConfigSwitch";
+import ConfigSwitch from "workbench/configOperators/ConfigSwitch";
 
 class ConfigSwitchContainer extends Component<
   ReturnType<typeof mapStateToProps>
