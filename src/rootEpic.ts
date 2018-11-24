@@ -5,7 +5,7 @@ import { fetchProfileEpic } from "profile/epic";
 import { userItemsEpic } from "sidebar/userItems/epic";
 import { operatorsEpic } from "sidebar/operators/epic";
 import {
-  addQueryEpic,
+  openQueryConfigEpic,
   sessionEpic,
   updateQueryDataServiceEpic
 } from "workbench/epic";
@@ -22,7 +22,7 @@ const epics = [
   userItemsEpic,
   operatorsEpic,
   sessionEpic,
-  addQueryEpic,
+  openQueryConfigEpic,
   dataServicesEpic,
   filterCapabilitiesEpic,
   updateQueryDataServiceEpic,

@@ -3,11 +3,11 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import {
-  closeQueryConfig,
+  closeConfig,
   goToStep,
-  QueryConfigAction,
+  ICloseConfig,
   IGoToStep
-} from "workbench/query/config/actions";
+} from "workbench/configElements/actions";
 
 import ConfigActions from "workbench/query/config/ConfigActions";
 
@@ -34,12 +34,10 @@ const ConfigActionsContainer: SFC<Props> = ({
   />
 );
 
-const mapDispatchToProps = (
-  dispatch: Dispatch<QueryConfigAction | IGoToStep>
-) => ({
+const mapDispatchToProps = (dispatch: Dispatch<ICloseConfig | IGoToStep>) => ({
   dispatchGoToStep: (step: number) => dispatch(goToStep(step)),
-  dispatchCloseQueryConfig: () => dispatch(closeQueryConfig()),
-  dispatchCompleteQueryConfig: () => dispatch(closeQueryConfig())
+  dispatchCloseQueryConfig: () => dispatch(closeConfig()),
+  dispatchCompleteQueryConfig: () => dispatch(closeConfig())
 });
 
 export default connect(

@@ -7,7 +7,7 @@ import { RouteComponentProps } from "react-router";
 import { DiagramModel, DiagramEngine } from "storm-react-diagrams";
 
 import { RootState } from "rootReducer";
-import { sessionRequest, SessionAction } from "workbench/sessionActions";
+import { sessionRequest, ISessionRequest } from "workbench/sessionActions";
 import { graphAddQuery, IGraphAddQuery } from "workbench/graphActions";
 import { OperatorServiceIds } from "workbench/types";
 
@@ -166,7 +166,7 @@ class WorkbenchContainer extends Component<Props> {
 const mapStateToProps = ({ sessionGraph: { ...state } }: RootState) => state;
 
 const mapDispatchToProps = (
-  dispatch: Dispatch<SessionAction | IGraphAddQuery>
+  dispatch: Dispatch<ISessionRequest | IGraphAddQuery>
 ) => ({
   dispatchSessionRequest: (dataViewId?: string) => {
     dispatch(sessionRequest(dataViewId));

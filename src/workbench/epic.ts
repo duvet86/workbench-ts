@@ -9,7 +9,8 @@ import {
   IQueryGraphData,
   IQuery,
   IInteractiveFilter,
-  IConnection
+  IConnection,
+  OperatorServiceIds
 } from "workbench/types";
 import { getSessionInfoObs, saveGraphObs, getGraphObs } from "workbench/api";
 import { graphSchema } from "workbench/schema";
@@ -27,7 +28,7 @@ import {
   IUpdateQuerySource,
   QueryActionTypes
 } from "workbench/query/actions";
-import { openQueryConfig } from "workbench/query/config/actions";
+import { openConfig } from "workbench/configElements/actions";
 
 import { RootState } from "rootReducer";
 
@@ -80,10 +81,10 @@ export const sessionEpic = (action$: ActionsObservable<Action>) =>
     )
   );
 
-export const addQueryEpic = (action$: ActionsObservable<Action>) =>
+export const openQueryConfigEpic = (action$: ActionsObservable<Action>) =>
   action$.pipe(
     ofType<Action, IGraphAddQuery>(GraphActionTypes.GRAPH_QUERY_ADD),
-    map(({ elementId }) => openQueryConfig(elementId))
+    map(({ elementId }) => openConfig(OperatorServiceIds.QUERY, elementId))
   );
 
 export const updateQueryDataServiceEpic = (
@@ -101,7 +102,9 @@ export const updateQueryDataServiceEpic = (
         }
       ]) => {
         if (targetDataViewId == null) {
-          return [openQueryConfig(elementId)];
+          throw new Error(
+            "updateQueryDataServiceEpic: session or graph cannot be null."
+          );
         }
         if (session == null || graph == null) {
           throw new Error(

@@ -2,7 +2,7 @@ import React, { SFC } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { goToStep, IGoToStep } from "workbench/query/config/actions";
+import { goToStep, IGoToStep } from "workbench/configElements/actions";
 import StepperHeader from "workbench/query/config/StepperHeader";
 
 interface IOwnProps {
