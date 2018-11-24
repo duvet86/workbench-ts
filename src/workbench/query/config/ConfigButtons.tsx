@@ -34,7 +34,7 @@ const styles = ({ spacing: { unit } }: Theme) =>
     }
   });
 
-const ConfigActions: SFC<IProps> = ({
+const ConfigButtons: SFC<IProps> = ({
   classes,
   currentStep,
   completedSteps,
@@ -82,4 +82,4 @@ const ConfigActions: SFC<IProps> = ({
   );
 };
 
-export default withStyles(styles)(ConfigActions);
+export default withStyles(styles)(ConfigButtons);

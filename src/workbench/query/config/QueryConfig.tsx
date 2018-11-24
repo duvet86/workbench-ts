@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 
 import HelperText from "workbench/query/config/HelperText";
 import StepperHeaderContainer from "workbench/query/config/StepperHeaderContainer";
-import ConfigActionsContainer from "workbench/query/config/ConfigActionsContainer";
+import ConfigButtonsContainer from "workbench/query/config/ConfigButtonsContainer";
 
 import { stepRenderComponents } from "workbench/query/config/steps";
 
@@ -25,7 +25,7 @@ const QueryConfig: SFC<IProps> = ({ currentStep, completedSteps, query }) => (
     <Grid item xs={12}>
       {stepRenderComponents[currentStep](query)}
     </Grid>
-    <ConfigActionsContainer
+    <ConfigButtonsContainer
       currentStep={currentStep}
       completedSteps={completedSteps}
     />

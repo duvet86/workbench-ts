@@ -9,7 +9,7 @@ import {
   IGoToStep
 } from "workbench/configElements/actions";
 
-import ConfigActions from "workbench/query/config/ConfigActions";
+import ConfigButtons from "workbench/query/config/ConfigButtons";
 
 interface IOwnProps {
   currentStep: number;
@@ -18,14 +18,14 @@ interface IOwnProps {
 
 type Props = IOwnProps & ReturnType<typeof mapDispatchToProps>;
 
-const ConfigActionsContainer: SFC<Props> = ({
+const ConfigButtonsContainer: SFC<Props> = ({
   currentStep,
   completedSteps,
   dispatchCloseQueryConfig,
   dispatchCompleteQueryConfig,
   dispatchGoToStep
 }) => (
-  <ConfigActions
+  <ConfigButtons
     currentStep={currentStep}
     completedSteps={completedSteps}
     dispatchCloseConfig={dispatchCloseQueryConfig}
@@ -43,4 +43,4 @@ const mapDispatchToProps = (dispatch: Dispatch<ICloseConfig | IGoToStep>) => ({
 export default connect(
   undefined,
   mapDispatchToProps
-)(ConfigActionsContainer);
+)(ConfigButtonsContainer);
