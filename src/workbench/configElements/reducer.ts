@@ -2,31 +2,47 @@ import { OperatorServiceIds } from "workbench/types";
 import { TokenActionTypes, IClearToken } from "app/actions";
 import { ErrorActionTypes, ICleanError } from "common/errorBoundary/actions";
 import {
-  QueryConfigActionTypes,
-  QueryConfigAction
-} from "workbench/query/config/actions";
+  ConfigElementsActionTypes,
+  ConfigElementsActions
+} from "workbench/configElements/actions";
 
 interface IConfigSwitchState {
   operatorServiceId: OperatorServiceIds;
+  elementId: number;
+  currentStep: number;
 }
+
+const initialState: IConfigSwitchState = {
+  operatorServiceId: OperatorServiceIds.NONE,
+  elementId: 0,
+  currentStep: 0
+};
 
 function configSwitch(
   state: IConfigSwitchState = {
-    operatorServiceId: OperatorServiceIds.NONE
+    ...initialState
   },
-  action: QueryConfigAction | IClearToken | ICleanError
+  action: ConfigElementsActions | IClearToken | ICleanError
 ): IConfigSwitchState {
   switch (action.type) {
-    case QueryConfigActionTypes.QUERY_CONFIG_OPEN:
+    case ConfigElementsActionTypes.CONFIG_OPEN:
       return {
-        operatorServiceId: OperatorServiceIds.QUERY
+        operatorServiceId: action.operatorServiceId,
+        elementId: action.elementId,
+        currentStep: 0
+      };
+
+    case ConfigElementsActionTypes.GO_TO_STEP:
+      return {
+        ...state,
+        currentStep: action.step
       };
 
     case ErrorActionTypes.ERROR_CLEAN:
     case TokenActionTypes.TOKEN_REMOVE:
-    case QueryConfigActionTypes.QUERY_CONFIG_CLOSE:
+    case ConfigElementsActionTypes.CONFIG_CLOSE:
       return {
-        operatorServiceId: OperatorServiceIds.NONE
+        ...initialState
       };
 
     default:

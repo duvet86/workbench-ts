@@ -27,7 +27,7 @@ export const getDataServices = createSelector(
       })
 );
 
-const elementIdSelector = (state: RootState) => state.queryConfig.elementId;
+const elementIdSelector = (state: RootState) => state.configElements.elementId;
 
 const querySelector = (state: RootState) => state.sessionGraph.queries;
 

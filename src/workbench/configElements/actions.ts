@@ -1,4 +1,5 @@
 import { Action } from "redux";
+import { OperatorServiceIds } from "workbench/types";
 
 export const enum ConfigElementsActionTypes {
   CONFIG_OPEN = "CONFIG_OPEN",
@@ -8,6 +9,7 @@ export const enum ConfigElementsActionTypes {
 
 export interface IOpenConfig extends Action {
   type: ConfigElementsActionTypes.CONFIG_OPEN;
+  operatorServiceId: OperatorServiceIds;
   elementId: number;
 }
 
@@ -22,8 +24,12 @@ export interface IGoToStep extends Action {
 
 export type ConfigElementsActions = IOpenConfig | ICloseConfig | IGoToStep;
 
-export const openConfig = (elementId: number): IOpenConfig => ({
+export const openConfig = (
+  operatorServiceId: OperatorServiceIds,
+  elementId: number
+): IOpenConfig => ({
   type: ConfigElementsActionTypes.CONFIG_OPEN,
+  operatorServiceId,
   elementId
 });
 

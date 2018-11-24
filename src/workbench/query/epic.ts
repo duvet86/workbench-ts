@@ -68,7 +68,7 @@ export const serviceDescriptionEpic = (
         ,
         {
           sessionGraph: { session },
-          queryConfig: { elementId }
+          configElements: { elementId }
         }
       ]) => {
         if (session == null) {
@@ -105,7 +105,7 @@ export const getDataTableEpic = (
         { pageSize, pageNumber },
         {
           sessionGraph: { session, graph, queries, filters, connections },
-          queryConfig: { elementId }
+          configElements: { elementId }
         }
       ]) => {
         if (session == null || graph == null) {

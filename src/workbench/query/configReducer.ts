@@ -1,16 +1,15 @@
 import { TokenActionTypes, IClearToken } from "app/actions";
 import { ErrorActionTypes, ICleanError } from "common/errorBoundary/actions";
 import {
+  ConfigElementsActionTypes,
+  ICloseConfig
+} from "workbench/configElements/actions";
+import {
   QueryActionTypes,
   QueryActions,
   QueryDescActionTypes,
   QueryDescribeActions
 } from "workbench/query/actions";
-import {
-  QueryConfigActionTypes,
-  QueryConfigAction,
-  IGoToStep
-} from "workbench/query/config/actions";
 import {
   DataServicesActionTypes,
   DataServicesAction
@@ -33,9 +32,7 @@ import {
 } from "workbench/query/types";
 
 interface IQueryState {
-  currentStep: number;
   isLoading: boolean;
-  elementId: number;
   dataServices: IItemDtc[];
   availableColumns: IUdsColumnDescriptionDtc[];
   availableFilters: IUdsFilterDescriptionDtc[];
@@ -44,9 +41,7 @@ interface IQueryState {
 }
 
 const initialState: IQueryState = {
-  currentStep: 0,
   isLoading: true,
-  elementId: 0,
   dataServices: [],
   availableColumns: [],
   availableFilters: [],
@@ -57,8 +52,6 @@ const initialState: IQueryState = {
 function queryConfig(
   state: IQueryState = { ...initialState },
   action:
-    | QueryConfigAction
-    | IGoToStep
     | DataServicesAction
     | FilterCapabilitiesAction
     | QueryActions
@@ -66,21 +59,9 @@ function queryConfig(
     | QueryDataTableAction
     | ICleanError
     | IClearToken
+    | ICloseConfig
 ): IQueryState {
   switch (action.type) {
-    case QueryConfigActionTypes.QUERY_CONFIG_OPEN:
-      return {
-        ...state,
-        isLoading: false,
-        elementId: action.elementId
-      };
-
-    case QueryConfigActionTypes.GO_TO_STEP:
-      return {
-        ...state,
-        currentStep: action.step
-      };
-
     case DataServicesActionTypes.DATASERVICES_REQUEST:
       return {
         ...state,
@@ -125,7 +106,7 @@ function queryConfig(
 
     case ErrorActionTypes.ERROR_CLEAN:
     case TokenActionTypes.TOKEN_REMOVE:
-    case QueryConfigActionTypes.QUERY_CONFIG_CLOSE:
+    case ConfigElementsActionTypes.CONFIG_CLOSE:
       return {
         ...initialState
       };
