@@ -14,6 +14,7 @@ import ConfigButtons from "workbench/configElements/ConfigButtons";
 interface IOwnProps {
   currentStep: number;
   completedSteps: boolean[];
+  totalNumberSteps: number;
 }
 
 type Props = IOwnProps & ReturnType<typeof mapDispatchToProps>;
@@ -21,6 +22,7 @@ type Props = IOwnProps & ReturnType<typeof mapDispatchToProps>;
 const ConfigButtonsContainer: SFC<Props> = ({
   currentStep,
   completedSteps,
+  totalNumberSteps,
   dispatchCloseQueryConfig,
   dispatchCompleteQueryConfig,
   dispatchGoToStep
@@ -28,6 +30,7 @@ const ConfigButtonsContainer: SFC<Props> = ({
   <ConfigButtons
     currentStep={currentStep}
     completedSteps={completedSteps}
+    totalNumberSteps={totalNumberSteps}
     dispatchCloseConfig={dispatchCloseQueryConfig}
     dispatchCompleteQueryConfig={dispatchCompleteQueryConfig}
     dispatchGoToStep={dispatchGoToStep}

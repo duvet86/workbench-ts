@@ -13,10 +13,9 @@ import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepButton from "@material-ui/core/StepButton";
 
-import { stepLabels } from "workbench/query/config/steps";
-
 interface IProps extends WithStyles<typeof styles> {
   title: string;
+  stepLabels: string[];
   currentStep: number;
   completedSteps: boolean[];
   dispatchGoToStep: (stepIndex: number) => void;
@@ -52,6 +51,7 @@ const styles = ({ spacing }: Theme) =>
 const StepperHeader: SFC<IProps> = ({
   classes,
   title,
+  stepLabels,
   currentStep,
   completedSteps,
   dispatchGoToStep

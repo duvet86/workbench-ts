@@ -7,7 +7,11 @@ import HelperText from "workbench/query/config/HelperText";
 import StepperHeaderContainer from "workbench/configElements/StepperHeaderContainer";
 import ConfigButtonsContainer from "workbench/configElements/ConfigButtonsContainer";
 
-import { stepRenderComponents } from "workbench/query/config/steps";
+import {
+  stepRenderComponents,
+  totalNumberSteps,
+  stepLabels
+} from "workbench/query/config/steps";
 
 interface IProps {
   currentStep: number;
@@ -19,6 +23,7 @@ const QueryConfig: SFC<IProps> = ({ currentStep, completedSteps, query }) => (
   <>
     <StepperHeaderContainer
       title="Configure Query"
+      stepLabels={stepLabels}
       currentStep={currentStep}
       completedSteps={completedSteps}
     />
@@ -29,6 +34,7 @@ const QueryConfig: SFC<IProps> = ({ currentStep, completedSteps, query }) => (
     <ConfigButtonsContainer
       currentStep={currentStep}
       completedSteps={completedSteps}
+      totalNumberSteps={totalNumberSteps}
     />
   </>
 );

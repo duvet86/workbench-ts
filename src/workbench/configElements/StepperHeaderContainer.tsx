@@ -7,6 +7,7 @@ import StepperHeader from "workbench/configElements/StepperHeader";
 
 interface IOwnProps {
   title: string;
+  stepLabels: string[];
   currentStep: number;
   completedSteps: boolean[];
 }
