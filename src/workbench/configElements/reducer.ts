@@ -1,4 +1,4 @@
-import { ElementType } from "sidebar/operators/operatorsData";
+import { OperatorServiceIds } from "workbench/types";
 import { TokenActionTypes, IClearToken } from "app/actions";
 import { ErrorActionTypes, ICleanError } from "common/errorBoundary/actions";
 import {
@@ -7,26 +7,26 @@ import {
 } from "workbench/query/config/actions";
 
 interface IConfigSwitchState {
-  elementType: ElementType;
+  operatorServiceId: OperatorServiceIds;
 }
 
 function configSwitch(
   state: IConfigSwitchState = {
-    elementType: ElementType.NONE
+    operatorServiceId: OperatorServiceIds.NONE
   },
   action: QueryConfigAction | IClearToken | ICleanError
 ): IConfigSwitchState {
   switch (action.type) {
     case QueryConfigActionTypes.QUERY_CONFIG_OPEN:
       return {
-        elementType: ElementType.QUERY
+        operatorServiceId: OperatorServiceIds.QUERY
       };
 
     case ErrorActionTypes.ERROR_CLEAN:
     case TokenActionTypes.TOKEN_REMOVE:
     case QueryConfigActionTypes.QUERY_CONFIG_CLOSE:
       return {
-        elementType: ElementType.NONE
+        operatorServiceId: OperatorServiceIds.NONE
       };
 
     default:

@@ -1,12 +1,12 @@
 import { createSelector } from "reselect";
 
 import { RootState } from "rootReducer";
-import { ElementType } from "sidebar/operators/operatorsData";
+import { OperatorServiceIds } from "workbench/types";
 
 const elementTypeSelector = (state: RootState) =>
-  state.configSwitch.elementType;
+  state.configElements.operatorServiceId;
 
 export const isDrawerOpen = createSelector(
   elementTypeSelector,
-  elementType => elementType !== ElementType.NONE
+  elementType => elementType !== OperatorServiceIds.NONE
 );

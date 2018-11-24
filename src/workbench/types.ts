@@ -1,3 +1,15 @@
+export enum OperatorServiceIds {
+  NONE = "NONE",
+  QUERY = "QUERY",
+  FILTER = "FILTER",
+  CALCULATOR = "f2b180d1-8c2c-422c-bd70-3a84cad759ee",
+  HISTOGRAM = "6ac6ee28-4adf-4a94-9c9c-60393a089b53",
+  JOIN = "447a2ad9-6201-4c24-88d9-7dd2b761482f",
+  LINK = "51574f40-5959-4550-b599-15d11721e8d9",
+  PIVOT = "e27b60fb-e3f4-4619-82db-e7b1ecf572b2",
+  UNPIVOT = "b5d85439-cffb-4198-8818-3921607a4e8b"
+}
+
 export const enum QueryGraphElementTypes {
   None = "None",
   Query = "Query",

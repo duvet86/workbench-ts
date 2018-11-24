@@ -6,7 +6,7 @@ import profile from "profile/reducer";
 import userItems from "sidebar/userItems/reducer";
 import navigationTabs from "sidebar/navigationTabs/reducer";
 import operators from "sidebar/operators/reducer";
-import configSwitch from "workbench/configOperators/reducer";
+import configElements from "workbench/configElements/reducer";
 import queryConfig from "workbench/query/configReducer";
 import sessionGraph from "workbench/sessionGraphReducer";
 
@@ -18,7 +18,7 @@ const rootReducer = combineReducers({
   navigationTabs,
   operators,
   sessionGraph,
-  configSwitch,
+  configElements,
   queryConfig
 });
 

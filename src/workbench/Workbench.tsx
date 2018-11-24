@@ -4,7 +4,7 @@ import { DiagramEngine } from "storm-react-diagrams";
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
 import WorkbenchToolbar from "workbench/toolBar/WorkbenchToolbar";
-import ConfigSwitchContainer from "workbench/configOperators/ConfigSwitchContainer";
+import ConfigSwitchContainer from "workbench/configElements/ConfigSwitchContainer";
 import Canvas from "workbench/Canvas";
 
 interface IProps extends WithStyles<typeof styles> {

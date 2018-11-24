@@ -9,7 +9,7 @@ import { DiagramModel, DiagramEngine } from "storm-react-diagrams";
 import { RootState } from "rootReducer";
 import { sessionRequest, SessionAction } from "workbench/sessionActions";
 import { graphAddQuery, IGraphAddQuery } from "workbench/graphActions";
-import { ElementType } from "sidebar/operators/operatorsData";
+import { OperatorServiceIds } from "workbench/types";
 
 import { destroySessionAsync } from "workbench/api";
 
@@ -154,7 +154,7 @@ class WorkbenchContainer extends Component<Props> {
     const points = this.diagramEngine.getRelativeMousePoint(event);
 
     switch (operatorServiceId) {
-      case ElementType.QUERY:
+      case OperatorServiceIds.QUERY:
         dispatchAddQuery(graph.NextElementId, points.x, points.y);
         break;
       default:

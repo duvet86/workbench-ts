@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { RootState } from "rootReducer";
-import { isDrawerOpen } from "workbench/configOperators/selectors";
+import { isDrawerOpen } from "workbench/configElements/selectors";
 
-import ConfigSwitch from "workbench/configOperators/ConfigSwitch";
+import ConfigSwitch from "workbench/configElements/ConfigSwitch";
 
 class ConfigSwitchContainer extends Component<
   ReturnType<typeof mapStateToProps>
@@ -15,7 +15,7 @@ class ConfigSwitchContainer extends Component<
 }
 
 const mapStateToProps = (state: RootState) => ({
-  elementType: state.configSwitch.elementType,
+  operatorServiceId: state.configElements.operatorServiceId,
   isDrawerOpen: isDrawerOpen(state)
 });
 
