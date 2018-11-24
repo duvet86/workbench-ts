@@ -4,8 +4,8 @@ import { IQuery } from "workbench/types";
 import Grid from "@material-ui/core/Grid";
 
 import HelperText from "workbench/query/config/HelperText";
-import StepperHeaderContainer from "workbench/query/config/StepperHeaderContainer";
-import ConfigButtonsContainer from "workbench/query/config/ConfigButtonsContainer";
+import StepperHeaderContainer from "workbench/configElements/StepperHeaderContainer";
+import ConfigButtonsContainer from "workbench/configElements/ConfigButtonsContainer";
 
 import { stepRenderComponents } from "workbench/query/config/steps";
 
@@ -18,6 +18,7 @@ interface IProps {
 const QueryConfig: SFC<IProps> = ({ currentStep, completedSteps, query }) => (
   <>
     <StepperHeaderContainer
+      title="Configure Query"
       currentStep={currentStep}
       completedSteps={completedSteps}
     />

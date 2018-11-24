@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { SFC, lazy } from "react";
 
 import {
   createStyles,
@@ -11,8 +11,11 @@ import { OperatorServiceIds } from "workbench/types";
 
 import Grid from "@material-ui/core/Grid";
 import Drawer from "@material-ui/core/Drawer";
+import LoadAsync from "common/loading/LoadAsync";
 
-import QueryConfigContainer from "workbench/query/config/QueryConfigContainer";
+const QueryConfigContainerLazy = lazy(() =>
+  import("workbench/query/config/QueryConfigContainer")
+);
 
 interface IProps extends WithStyles<typeof styles> {
   operatorServiceId: OperatorServiceIds;
@@ -37,7 +40,11 @@ const styles = ({ spacing }: Theme) =>
 const drawerByType = (operatorServiceId: OperatorServiceIds) => {
   switch (operatorServiceId) {
     case OperatorServiceIds.QUERY:
-      return <QueryConfigContainer />;
+      return (
+        <LoadAsync>
+          <QueryConfigContainerLazy />
+        </LoadAsync>
+      );
     case OperatorServiceIds.FILTER:
       return "TODO";
     default:
