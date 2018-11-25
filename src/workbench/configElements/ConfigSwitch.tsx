@@ -16,6 +16,9 @@ import LoadAsync from "common/loading/LoadAsync";
 const QueryConfigContainerLazy = lazy(() =>
   import("workbench/query/config/QueryConfigContainer")
 );
+const FilterConfigContainerLazy = lazy(() =>
+  import("workbench/filter/config/FilterConfigContainer")
+);
 
 interface IProps extends WithStyles<typeof styles> {
   operatorServiceId: OperatorServiceIds;
@@ -38,18 +41,19 @@ const styles = ({ spacing }: Theme) =>
   });
 
 const drawerByType = (operatorServiceId: OperatorServiceIds) => {
+  let component;
   switch (operatorServiceId) {
     case OperatorServiceIds.QUERY:
-      return (
-        <LoadAsync>
-          <QueryConfigContainerLazy />
-        </LoadAsync>
-      );
+      component = <QueryConfigContainerLazy />;
+      break;
     case OperatorServiceIds.FILTER:
-      return "TODO";
+      component = <FilterConfigContainerLazy />;
+      break;
     default:
       return null;
   }
+
+  return <LoadAsync>{component}</LoadAsync>;
 };
 
 const ConfigSwitch: SFC<IProps> = ({
