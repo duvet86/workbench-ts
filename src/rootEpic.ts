@@ -4,11 +4,8 @@ import { qesEnabledEpic } from "app/epic";
 import { fetchProfileEpic } from "profile/epic";
 import { userItemsEpic } from "sidebar/userItems/epic";
 import { operatorsEpic } from "sidebar/operators/epic";
-import {
-  openQueryConfigEpic,
-  sessionEpic,
-  updateQueryDataServiceEpic
-} from "workbench/epic";
+import { sessionEpic, updateQueryDataServiceEpic } from "workbench/epic";
+import { openQueryConfigEpic } from "workbench/configElements/epic";
 import {
   dataServicesEpic,
   filterCapabilitiesEpic,

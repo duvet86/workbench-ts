@@ -11,7 +11,8 @@ import {
   IQueryGraphChanges,
   QueryGraphElementTypes,
   QesDataType,
-  QesFilterType
+  QesFilterType,
+  OperatorServiceIds
 } from "workbench/types";
 
 export const enum GraphActionTypes {
@@ -22,12 +23,14 @@ export const enum GraphActionTypes {
 
 export interface IGraphAddQuery extends Action {
   type: GraphActionTypes.GRAPH_QUERY_ADD;
+  operatorServiceId: OperatorServiceIds.QUERY;
   elementId: number;
   query: IQuery;
 }
 
 export interface IGraphAddFilter extends Action {
   type: GraphActionTypes.GRAPH_FILTER_ADD;
+  operatorServiceId: OperatorServiceIds.FILTER;
   elementId: number;
   filter: IInteractiveFilter;
 }
@@ -51,6 +54,7 @@ export const graphAddQuery = (
   y: number
 ): IGraphAddQuery => ({
   type: GraphActionTypes.GRAPH_QUERY_ADD,
+  operatorServiceId: OperatorServiceIds.QUERY,
   elementId,
   query: {
     ElementId: elementId,
@@ -77,6 +81,7 @@ export const graphAddFilter = (
   y: number
 ): IGraphAddFilter => ({
   type: GraphActionTypes.GRAPH_FILTER_ADD,
+  operatorServiceId: OperatorServiceIds.FILTER,
   elementId,
   filter: {
     ElementId: elementId,

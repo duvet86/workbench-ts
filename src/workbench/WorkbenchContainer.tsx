@@ -8,7 +8,12 @@ import { DiagramModel, DiagramEngine } from "storm-react-diagrams";
 
 import { RootState } from "rootReducer";
 import { sessionRequest, ISessionRequest } from "workbench/sessionActions";
-import { graphAddQuery, IGraphAddQuery } from "workbench/graphActions";
+import {
+  IGraphAddQuery,
+  IGraphAddFilter,
+  graphAddQuery,
+  graphAddFilter
+} from "workbench/graphActions";
 import { OperatorServiceIds } from "workbench/types";
 
 import { destroySessionAsync } from "workbench/api";
@@ -64,14 +69,17 @@ class WorkbenchContainer extends Component<Props> {
 
     const currentSession = this.props.session;
     if (currentSession == null) {
-      return;
+      throw new Error(
+        "Session is null. At this point I should always have a session."
+      );
     }
 
     const prevSession = prevProps.session;
     if (
       prevSession == null ||
       currentSession.SessionId !== prevSession.SessionId ||
-      this.props.queries !== prevProps.queries
+      this.props.queries !== prevProps.queries ||
+      this.props.filters !== prevProps.filters
     ) {
       const activeModel = new DiagramModel();
 
@@ -145,7 +153,7 @@ class WorkbenchContainer extends Component<Props> {
   };
 
   private handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
-    const { graph, dispatchAddQuery } = this.props;
+    const { graph, dispatchAddQuery, dispatchAddFilter } = this.props;
     if (graph == null) {
       throw new Error("Graph cannot be null.");
     }
@@ -157,6 +165,9 @@ class WorkbenchContainer extends Component<Props> {
       case OperatorServiceIds.QUERY:
         dispatchAddQuery(graph.NextElementId, points.x, points.y);
         break;
+      case OperatorServiceIds.FILTER:
+        dispatchAddFilter(graph.NextElementId, points.x, points.y);
+        break;
       default:
         break;
     }
@@ -166,13 +177,15 @@ class WorkbenchContainer extends Component<Props> {
 const mapStateToProps = ({ sessionGraph: { ...state } }: RootState) => state;
 
 const mapDispatchToProps = (
-  dispatch: Dispatch<ISessionRequest | IGraphAddQuery>
+  dispatch: Dispatch<ISessionRequest | IGraphAddQuery | IGraphAddFilter>
 ) => ({
   dispatchSessionRequest: (dataViewId?: string) => {
     dispatch(sessionRequest(dataViewId));
   },
   dispatchAddQuery: (elementId: number, x: number, y: number) =>
-    dispatch(graphAddQuery(elementId, x, y))
+    dispatch(graphAddQuery(elementId, x, y)),
+  dispatchAddFilter: (elementId: number, x: number, y: number) =>
+    dispatch(graphAddFilter(elementId, x, y))
 });
 
 export default connect(

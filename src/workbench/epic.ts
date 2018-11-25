@@ -9,8 +9,7 @@ import {
   IQueryGraphData,
   IQuery,
   IInteractiveFilter,
-  IConnection,
-  OperatorServiceIds
+  IConnection
 } from "workbench/types";
 import { getSessionInfoObs, saveGraphObs, getGraphObs } from "workbench/api";
 import { graphSchema } from "workbench/schema";
@@ -22,13 +21,11 @@ import {
   SessionAction,
   ISessionRequest
 } from "workbench/sessionActions";
-import { IGraphAddQuery, GraphActionTypes } from "workbench/graphActions";
 import {
   queryDescribeRequest,
   IUpdateQuerySource,
   QueryActionTypes
 } from "workbench/query/actions";
-import { openConfig } from "workbench/configElements/actions";
 
 import { RootState } from "rootReducer";
 
@@ -79,12 +76,6 @@ export const sessionEpic = (action$: ActionsObservable<Action>) =>
         catchError(error => handleExceptionObs(error))
       )
     )
-  );
-
-export const openQueryConfigEpic = (action$: ActionsObservable<Action>) =>
-  action$.pipe(
-    ofType<Action, IGraphAddQuery>(GraphActionTypes.GRAPH_QUERY_ADD),
-    map(({ elementId }) => openConfig(OperatorServiceIds.QUERY, elementId))
   );
 
 export const updateQueryDataServiceEpic = (
