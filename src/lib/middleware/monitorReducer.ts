@@ -1,15 +1,16 @@
 // tslint:disable:no-console
-import { StoreCreator, Reducer, StoreEnhancer, Action } from "redux";
-import { RootState } from "rootReducer";
+import { AnyAction, Reducer, StoreEnhancer, Action, DeepPartial } from "redux";
 
 const round = (n: number) => Math.round(n * 100) / 100;
 
-const monitorReducerEnhancer = (createStore: StoreCreator) => (
-  reducer: Reducer<RootState, Action>,
-  initialState: RootState,
-  enhancer: StoreEnhancer
+const monitorReducerEnhancer: StoreEnhancer = next => <
+  S,
+  A extends Action = AnyAction
+>(
+  reducer: Reducer<S, A>,
+  preloadedState?: DeepPartial<S>
 ) => {
-  const monitoredReducer = (state: RootState | undefined, action: Action) => {
+  const monitoredReducer: Reducer<S, A> = (state, action) => {
     const start = performance.now();
     const newState = reducer(state, action);
     const end = performance.now();
@@ -19,7 +20,7 @@ const monitorReducerEnhancer = (createStore: StoreCreator) => (
     return newState;
   };
 
-  return createStore(monitoredReducer, initialState, enhancer);
+  return next(monitoredReducer, preloadedState);
 };
 
 export default monitorReducerEnhancer;

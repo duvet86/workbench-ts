@@ -1,7 +1,12 @@
 // tslint:disable:no-console
-import { Middleware } from "redux";
+import { Middleware, Dispatch } from "redux";
+import { RootState } from "rootReducer";
 
-const logger: Middleware = store => next => action => {
+const loggerMiddleware: Middleware<
+  Dispatch,
+  RootState,
+  Dispatch
+> = store => next => action => {
   console.group(action.type);
   console.info("Dispatching", action);
   const result = next(action);
@@ -11,4 +16,4 @@ const logger: Middleware = store => next => action => {
   return result;
 };
 
-export default logger;
+export default loggerMiddleware;

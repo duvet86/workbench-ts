@@ -47,7 +47,7 @@
     "postcss-preset-env": "^6.4.0",
     "postcss-safe-parser": "^4.0.1",
     "react-test-renderer": "^16.6.3",
-    "redux-devtools-extension": "^2.13.5",
+    "redux-devtools-extension": "^2.13.6",
     "style-loader": "^0.23.1",
     "terser-webpack-plugin": "^1.1.0",
     "ts-jest": "^23.10.5",

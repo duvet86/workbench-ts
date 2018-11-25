@@ -8,7 +8,7 @@ import {
 import { createEpicMiddleware } from "redux-observable";
 import { composeWithDevTools } from "redux-devtools-extension";
 
-import { logger, monitorReducer } from "lib/middleware";
+import { loggerMiddleware, monitorReducerEnhancer } from "lib/middleware";
 
 import rootEpic from "rootEpic";
 import rootReducer, { RootState } from "rootReducer";
@@ -18,14 +18,17 @@ const configureStore = (preloadedState?: RootState) => {
 
   const middlewares: Middleware[] = [epicMiddleware];
   if (process.env.NODE_ENV === "development") {
-    middlewares.push(logger);
+    middlewares.push(loggerMiddleware);
   }
 
   const middlewareEnhancer = applyMiddleware(...middlewares);
 
   let composedEnhancers;
   if (process.env.NODE_ENV === "development") {
-    composedEnhancers = composeWithDevTools(middlewareEnhancer, monitorReducer);
+    composedEnhancers = composeWithDevTools(
+      middlewareEnhancer,
+      monitorReducerEnhancer
+    );
   } else {
     composedEnhancers = compose(middlewareEnhancer);
   }
