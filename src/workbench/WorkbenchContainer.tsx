@@ -58,29 +58,24 @@ class WorkbenchContainer extends Component<Props> {
   }
 
   public componentDidUpdate(prevProps: Props) {
-    const { match } = this.props;
+    const { match, session: currentSession } = this.props;
     if (
-      match.params.id !== "new" &&
+      currentSession == null ||
       match.params.id !== prevProps.match.params.id
     ) {
-      this.props.dispatchSessionRequest(match.params.id);
-      return;
-    }
-
-    const currentSession = this.props.session;
-    if (currentSession == null) {
-      throw new Error(
-        "Session is null. At this point I should always have a session."
-      );
+      const dataViewId =
+        match.params.id === "new" ? undefined : match.params.id;
+      return this.props.dispatchSessionRequest(dataViewId);
     }
 
     const prevSession = prevProps.session;
     if (
-      prevSession == null ||
-      currentSession.SessionId !== prevSession.SessionId ||
+      (prevSession != null &&
+        currentSession.SessionId !== prevSession.SessionId) ||
       this.props.queries !== prevProps.queries ||
       this.props.filters !== prevProps.filters
     ) {
+      debugger;
       const activeModel = new DiagramModel();
 
       const queryNodes = Object.keys(this.props.queries).map(

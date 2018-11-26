@@ -1,4 +1,5 @@
 import React, { SFC } from "react";
+import classnames from "classnames";
 
 import {
   createStyles,
@@ -47,6 +48,10 @@ const styles = (theme: Theme) =>
       borderRadius: 5,
       border: "1px solid #ddd",
       backgroundColor: theme.palette.common.white
+    },
+    avatarContainerDisabled: {
+      backgroundColor: "#ccc",
+      cursor: "no-drop"
     }
   });
 
@@ -64,13 +69,11 @@ const Operator: SFC<IProps> = ({
   backgroundColor,
   operatorServiceId,
   areOperatorsEnabled
-}) => (
-  <>
+}) => {
+  const isDisabled =
+    operatorServiceId !== OperatorServiceIds.QUERY && areOperatorsEnabled;
+  return (
     <ListItem divider classes={{ root: classes.listItemRoot }}>
-      --
-      {(
-        operatorServiceId !== OperatorServiceIds.QUERY && !areOperatorsEnabled
-      ).toString()}
       <ListItemText
         primary={label}
         secondary={description}
@@ -80,10 +83,10 @@ const Operator: SFC<IProps> = ({
         }}
       />
       <div
-        className={classes.avatarContainer}
-        draggable={
-          operatorServiceId !== OperatorServiceIds.QUERY && !areOperatorsEnabled
-        }
+        className={classnames(classes.avatarContainer, {
+          [classes.avatarContainerDisabled]: isDisabled
+        })}
+        draggable={!isDisabled}
         onDragStart={handleDrag(operatorServiceId)}
       >
         <ListItemIcon>
@@ -91,14 +94,14 @@ const Operator: SFC<IProps> = ({
         </ListItemIcon>
         <Avatar
           style={{
-            backgroundColor
+            backgroundColor: (!isDisabled && backgroundColor) || undefined
           }}
         >
           <IconComponent />
         </Avatar>
       </div>
     </ListItem>
-  </>
-);
+  );
+};
 
 export default withStyles(styles)(Operator);
