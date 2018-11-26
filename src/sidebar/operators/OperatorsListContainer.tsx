@@ -28,10 +28,12 @@ class OperatorsListContainer extends Component<Props> {
 }
 
 const mapStateToProps = ({
-  operators: { isLoading, operators }
+  operators: { isLoading, operators },
+  sessionGraph: { queries }
 }: RootState) => ({
   operators,
-  isLoading
+  isLoading,
+  areOperatorsEnabled: Object.keys(queries).length === 0
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<OperatorsAction>) => ({

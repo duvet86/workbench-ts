@@ -1,8 +1,9 @@
+import { OperatorServiceIds } from "workbench/types";
 import { SvgIconProps } from "@material-ui/core/SvgIcon";
 
 export interface IOperatorServiceDtc {
   TenantId?: string;
-  OperatorServiceId: string;
+  OperatorServiceId: OperatorServiceIds;
   Label: string;
   IconColor?: string;
   IconBorderColor?: string;
@@ -20,7 +21,7 @@ export interface IOperatorExtraInfo {
 }
 
 export interface IOperatorResult extends IExtraInfo {
-  operatorServiceId: string;
+  operatorServiceId: OperatorServiceIds;
   label: string;
   description?: string;
 }

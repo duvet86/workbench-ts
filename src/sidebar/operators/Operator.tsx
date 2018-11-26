@@ -1,4 +1,4 @@
-import React, { Fragment, SFC } from "react";
+import React, { SFC } from "react";
 
 import {
   createStyles,
@@ -6,6 +6,8 @@ import {
   withStyles,
   WithStyles
 } from "@material-ui/core/styles";
+
+import { OperatorServiceIds } from "workbench/types";
 
 import Avatar from "@material-ui/core/Avatar";
 import ListItem from "@material-ui/core/ListItem";
@@ -20,7 +22,8 @@ interface IProps extends WithStyles<typeof styles> {
   description?: string;
   backgroundColor: string;
   IconComponent: React.ComponentType<SvgIconProps>;
-  operatorServiceId: string;
+  operatorServiceId: OperatorServiceIds;
+  areOperatorsEnabled: boolean;
 }
 
 const styles = (theme: Theme) =>
@@ -59,10 +62,15 @@ const Operator: SFC<IProps> = ({
   description,
   IconComponent,
   backgroundColor,
-  operatorServiceId
+  operatorServiceId,
+  areOperatorsEnabled
 }) => (
   <>
     <ListItem divider classes={{ root: classes.listItemRoot }}>
+      --
+      {(
+        operatorServiceId !== OperatorServiceIds.QUERY && !areOperatorsEnabled
+      ).toString()}
       <ListItemText
         primary={label}
         secondary={description}
@@ -73,7 +81,9 @@ const Operator: SFC<IProps> = ({
       />
       <div
         className={classes.avatarContainer}
-        draggable={true}
+        draggable={
+          operatorServiceId !== OperatorServiceIds.QUERY && !areOperatorsEnabled
+        }
         onDragStart={handleDrag(operatorServiceId)}
       >
         <ListItemIcon>

@@ -21,12 +21,12 @@ export const DEFAULTS = {
 
 export const staticOperatorsList: IOperatorServiceDtc[] = [
   {
-    OperatorServiceId: "QUERY",
+    OperatorServiceId: OperatorServiceIds.QUERY,
     Label: "Query",
     Description: "Query your data"
   },
   {
-    OperatorServiceId: "FILTER",
+    OperatorServiceId: OperatorServiceIds.FILTER,
     Label: "Filter",
     Description: "Filter your data"
   }
