@@ -1,6 +1,7 @@
 import React from "react";
 
 import { IQuery } from "workbench/types";
+import { IHelperText } from "workbench/configElements/types";
 
 import SourceSelectorContainer from "workbench/query/source/SourceSelectorContainer";
 import LabelInputContainer from "workbench/query/label/LabelInputContainer";
@@ -13,7 +14,7 @@ export const stepLabels = ["Source*", "Columns*", "Constraints", "Summary"];
 
 export const totalNumberSteps = stepLabels.length - 1;
 
-export const helperText = [
+export const helperText: IHelperText[] = [
   {
     title: "Query source",
     text: `Select from the drop down the source of your query.

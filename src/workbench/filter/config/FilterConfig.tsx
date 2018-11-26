@@ -19,6 +19,7 @@ const QueryConfig: SFC<IProps> = ({ currentStep, completedSteps }) => (
       stepLabels={stepLabels}
       currentStep={currentStep}
       completedSteps={completedSteps}
+      stepsHelpText={[]}
     />
     <Grid item xs={12}>
       Filter

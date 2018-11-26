@@ -8,7 +8,7 @@ import {
   WithStyles
 } from "@material-ui/core/styles";
 
-import FilterNodeModel from "workbench/filter/FilterNodeModel";
+import FilterNodeModel from "workbench/filter/widget/FilterNodeModel";
 import { operatorsExtraInfo } from "sidebar/operators/operatorsData";
 
 import Avatar from "@material-ui/core/Avatar";

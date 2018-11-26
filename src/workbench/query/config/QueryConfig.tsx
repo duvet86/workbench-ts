@@ -3,14 +3,14 @@ import React, { SFC } from "react";
 import { IQuery } from "workbench/types";
 import Grid from "@material-ui/core/Grid";
 
-import HelperText from "workbench/query/config/HelperText";
 import StepperHeaderContainer from "workbench/configElements/StepperHeaderContainer";
 import ConfigButtonsContainer from "workbench/configElements/ConfigButtonsContainer";
 
 import {
   stepRenderComponents,
   totalNumberSteps,
-  stepLabels
+  stepLabels,
+  helperText
 } from "workbench/query/config/steps";
 
 interface IProps {
@@ -26,8 +26,8 @@ const QueryConfig: SFC<IProps> = ({ currentStep, completedSteps, query }) => (
       stepLabels={stepLabels}
       currentStep={currentStep}
       completedSteps={completedSteps}
+      stepsHelpText={helperText}
     />
-    <HelperText currentStep={currentStep} />
     <Grid item xs={12}>
       {stepRenderComponents[currentStep](query)}
     </Grid>

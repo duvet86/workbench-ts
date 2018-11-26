@@ -5,8 +5,8 @@ import {
   NodeModel
 } from "storm-react-diagrams";
 
-import FilterNodeModel from "workbench/filter/FilterNodeModel";
-import FilterNodeWidget from "workbench/filter/FilterNodeWidget";
+import FilterNodeModel from "workbench/filter/widget/FilterNodeModel";
+import FilterNodeWidget from "workbench/filter/widget/FilterNodeWidget";
 
 export default class FilterNodeFactory extends AbstractNodeFactory {
   constructor() {

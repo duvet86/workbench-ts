@@ -24,8 +24,8 @@ import WidgetPortModel from "workbench/WidgetPortModel";
 import QueryNodeFactory from "workbench/query/widget/QueryNodeFactory";
 import QueryNodeModel from "workbench/query/widget/QueryNodeModel";
 
-import FilterNodeFactory from "workbench/filter/FilterNodeFactory";
-import FilterNodeModel from "workbench/filter/FilterNodeModel";
+import FilterNodeFactory from "workbench/filter/widget/FilterNodeFactory";
+import FilterNodeModel from "workbench/filter/widget/FilterNodeModel";
 
 import LoadingContainer from "common/loading/LoadingContainer";
 import Workbench from "workbench/Workbench";
