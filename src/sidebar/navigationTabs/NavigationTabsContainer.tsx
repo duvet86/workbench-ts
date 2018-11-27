@@ -26,12 +26,12 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 class NavigationTabsContainer extends Component<Props> {
   public componentDidMount() {
-    this.setTabsFromLocation(this.props.location);
+    this.setTabsFromLocation(this.props.location.pathname);
   }
 
   public componentDidUpdate(prevProps: Props) {
     if (this.props.location !== prevProps.location) {
-      this.setTabsFromLocation(this.props.location);
+      this.setTabsFromLocation(this.props.location.pathname);
     }
   }
 
@@ -70,18 +70,17 @@ class NavigationTabsContainer extends Component<Props> {
     }
   };
 
-  private setTabsFromLocation({ pathname }: Location) {
-    switch (pathname) {
-      case "/workbench/new":
-        this.props.dispatchShowTools([false, false, false]);
-        break;
-      case "/pagebuilder/new":
-        this.props.dispatchShowFilters([false, false, true]);
-        break;
-      default:
-        this.props.dispatchShowUserItems([false, true, true]);
-        break;
+  private setTabsFromLocation(pathname: string) {
+    if (pathname === "/workbench/new") {
+      return this.props.dispatchShowTools([false, false, false]);
     }
+    if (pathname === "/pagebuilder/new") {
+      return this.props.dispatchShowFilters([false, false, true]);
+    }
+    if (pathname.includes("/pagebuilder") || pathname.includes("/workbench")) {
+      return this.props.dispatchShowUserItems([false, false, false]);
+    }
+    return this.props.dispatchShowUserItems([false, true, true]);
   }
 }
 
