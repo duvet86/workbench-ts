@@ -1,5 +1,3 @@
-import { number } from "prop-types";
-
 export const enum IntervalTypes {
   ALLTIME = "ALLTIME",
   BIHOURLY = "BIHOURLY",

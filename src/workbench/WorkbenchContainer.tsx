@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { RouteComponentProps } from "react-router";
 import { DiagramModel, DiagramEngine } from "storm-react-diagrams";
+import Log from "lib/Log";
 
 import { RootState } from "rootReducer";
 import {
@@ -130,8 +131,7 @@ class WorkbenchContainer extends Component<Props> {
     try {
       await destroySessionAsync(session.TenantId, session.SessionId);
     } catch (e) {
-      // tslint:disable-next-line:no-console
-      console.error(e);
+      Log.error("WorkbenchContainer.componentWillUnmount", e);
     } finally {
       dispatchSessionClean();
     }

@@ -1,4 +1,5 @@
 import { getToken } from "lib/sessionStorageApi";
+import Log from "lib/Log";
 
 const getJwtToken = (): string => {
   const tokenInfo = getToken();
@@ -35,8 +36,7 @@ const handleErrors = async (response: Response) => {
   try {
     return (res && JSON.parse(res)) || {};
   } catch (e) {
-    // tslint:disable-next-line:no-console
-    console.error(e);
+    Log.error("http.handleErrors", e);
     throw {
       error: e.toString(),
       status: "javascript error",

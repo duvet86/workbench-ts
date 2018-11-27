@@ -15,7 +15,7 @@ import Typography from "@material-ui/core/Typography";
 import { WarningIcon, ContactUsIcon, HomeIcon } from "common/icons";
 
 interface IProps extends WithStyles<typeof styles> {
-  error: any;
+  errorMessage: string;
 }
 
 const styles = createStyles({
@@ -79,7 +79,7 @@ const homePageLink = (props: ButtonProps) => (
   <Link to="/" {...props as LinkProps} />
 );
 
-const ErrorBoundary: SFC<IProps> = ({ classes, error }) => (
+const ErrorBoundary: SFC<IProps> = ({ classes, errorMessage }) => (
   <Grid container className={classes.grid} justify="center">
     <Grid item xs={12}>
       <Card className={classes.card}>
@@ -98,7 +98,7 @@ const ErrorBoundary: SFC<IProps> = ({ classes, error }) => (
               <Typography>Error Details</Typography>
             </summary>
             <div className={classes.detailsBody}>
-              <Typography>{JSON.stringify(error)}</Typography>
+              <Typography>{errorMessage}</Typography>
             </div>
           </details>
         </CardContent>

@@ -1,8 +1,9 @@
-import React, { Component } from "react";
+import React, { Component, ErrorInfo } from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { RootState } from "rootReducer";
 import { withRouter, RouteComponentProps } from "react-router-dom";
+import Log from "lib/Log";
 
 import { ICleanError, cleanError } from "common/errorBoundary/actions";
 
@@ -26,9 +27,9 @@ class ErrorBoundaryContainer extends Component<Props, IState> {
     error: undefined
   };
 
-  // public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-  //   TODO: logging.
-  // }
+  public componentDidCatch(error: Error, _: ErrorInfo) {
+    Log.error("Caught by ErrorBoundary", error);
+  }
 
   public componentDidUpdate(prevProps: Props) {
     if (this.props.location !== prevProps.location) {
@@ -46,7 +47,11 @@ class ErrorBoundaryContainer extends Component<Props, IState> {
   public render() {
     const error = this.state.error || this.props.error;
     if (error != null) {
-      return <ErrorBoundary error={error} />;
+      const errorMessage =
+        error instanceof Error
+          ? error.stack || error.message
+          : JSON.stringify(error);
+      return <ErrorBoundary errorMessage={errorMessage} />;
     }
 
     return this.props.children;
