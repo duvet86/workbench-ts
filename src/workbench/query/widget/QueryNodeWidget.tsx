@@ -34,11 +34,6 @@ const styles = ({
   }
 }: Theme) =>
   createStyles({
-    container: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center"
-    },
     operatorContainer: {
       display: "flex",
       flexFlow: "column",
@@ -114,39 +109,37 @@ const QueryNodeWidget: React.SFC<IProps> = ({ classes, node }) => {
   const { backgroundColor, IconComponent } = operatorsExtraInfo.QUERY;
 
   return (
-    <div className={classes.container}>
-      <div className={classes.operatorContainer}>
-        <div className={classes.topPort}>
-          <PortWidget name="to" node={node} />
-        </div>
-        <div className={classes.titleContainer}>
-          <Avatar className={classes.avatar} style={{ backgroundColor }}>
-            {React.createElement(IconComponent)}
-          </Avatar>
-          <Typography variant="subtitle1" noWrap>
-            {QueyLabel}
-          </Typography>
-        </div>
-        <div>
-          <Typography noWrap>Columns</Typography>
-          <Divider />
-          <List className={classes.list} onWheel={handleWheel} component="div">
-            <VirtualizedList
-              style={{
-                outline: 0
-              }}
-              width="100%"
-              height={Math.min(Columns.length * 20 + 2, 150)}
-              itemCount={Columns.length}
-              itemSize={20}
-            >
-              {rowRenderer(Columns)}
-            </VirtualizedList>
-          </List>
-        </div>
-        <div className={classes.bottomPort}>
-          <PortWidget name="from" node={node} />
-        </div>
+    <div className={classes.operatorContainer}>
+      <div className={classes.topPort}>
+        <PortWidget name="to" node={node} />
+      </div>
+      <div className={classes.titleContainer}>
+        <Avatar className={classes.avatar} style={{ backgroundColor }}>
+          {React.createElement(IconComponent)}
+        </Avatar>
+        <Typography variant="subtitle1" noWrap>
+          {QueyLabel}
+        </Typography>
+      </div>
+      <div>
+        <Typography noWrap>Columns</Typography>
+        <Divider />
+        <List className={classes.list} onWheel={handleWheel} component="div">
+          <VirtualizedList
+            style={{
+              outline: 0
+            }}
+            width="100%"
+            height={Math.min(Columns.length * 20 + 2, 150)}
+            itemCount={Columns.length}
+            itemSize={20}
+          >
+            {rowRenderer(Columns)}
+          </VirtualizedList>
+        </List>
+      </div>
+      <div className={classes.bottomPort}>
+        <PortWidget name="from" node={node} />
       </div>
     </div>
   );
