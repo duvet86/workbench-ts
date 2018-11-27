@@ -129,10 +129,11 @@ class WorkbenchContainer extends Component<Props> {
     }
     try {
       await destroySessionAsync(session.TenantId, session.SessionId);
-      dispatchSessionClean();
     } catch (e) {
       // tslint:disable-next-line:no-console
       console.error(e);
+    } finally {
+      dispatchSessionClean();
     }
   }
 
