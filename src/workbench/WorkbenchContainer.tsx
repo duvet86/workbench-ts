@@ -7,7 +7,12 @@ import { RouteComponentProps } from "react-router";
 import { DiagramModel, DiagramEngine } from "storm-react-diagrams";
 
 import { RootState } from "rootReducer";
-import { sessionRequest, ISessionRequest } from "workbench/sessionActions";
+import {
+  sessionRequest,
+  ISessionRequest,
+  ISessionClean,
+  sessionClean
+} from "workbench/sessionActions";
 import {
   IGraphAddQuery,
   IGraphAddFilter,
@@ -70,12 +75,11 @@ class WorkbenchContainer extends Component<Props> {
 
     const prevSession = prevProps.session;
     if (
-      (prevSession != null &&
-        currentSession.SessionId !== prevSession.SessionId) ||
+      prevSession == null ||
+      currentSession.SessionId !== prevSession.SessionId ||
       this.props.queries !== prevProps.queries ||
       this.props.filters !== prevProps.filters
     ) {
-      debugger;
       const activeModel = new DiagramModel();
 
       const queryNodes = Object.keys(this.props.queries).map(
@@ -119,12 +123,13 @@ class WorkbenchContainer extends Component<Props> {
   }
 
   public async componentWillUnmount() {
-    const { session } = this.props;
+    const { session, dispatchSessionClean } = this.props;
     if (session == null) {
       return;
     }
     try {
       await destroySessionAsync(session.TenantId, session.SessionId);
+      dispatchSessionClean();
     } catch (e) {
       // tslint:disable-next-line:no-console
       console.error(e);
@@ -172,7 +177,9 @@ class WorkbenchContainer extends Component<Props> {
 const mapStateToProps = ({ sessionGraph: { ...state } }: RootState) => state;
 
 const mapDispatchToProps = (
-  dispatch: Dispatch<ISessionRequest | IGraphAddQuery | IGraphAddFilter>
+  dispatch: Dispatch<
+    ISessionRequest | ISessionClean | IGraphAddQuery | IGraphAddFilter
+  >
 ) => ({
   dispatchSessionRequest: (dataViewId?: string) => {
     dispatch(sessionRequest(dataViewId));
@@ -180,7 +187,8 @@ const mapDispatchToProps = (
   dispatchAddQuery: (elementId: number, x: number, y: number) =>
     dispatch(graphAddQuery(elementId, x, y)),
   dispatchAddFilter: (elementId: number, x: number, y: number) =>
-    dispatch(graphAddFilter(elementId, x, y))
+    dispatch(graphAddFilter(elementId, x, y)),
+  dispatchSessionClean: () => dispatch(sessionClean())
 });
 
 export default connect(

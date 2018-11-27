@@ -36,7 +36,7 @@ const initialState: ISessionState = {
   connections: {}
 };
 
-function session(
+function sessionGraph(
   state: ISessionState = {
     ...initialState
   },
@@ -59,6 +59,11 @@ function session(
         ...state,
         isLoading: false,
         ...action.graphData
+      };
+
+    case SessionActionTypes.SESSION_CLEAN:
+      return {
+        ...initialState
       };
 
     case GraphActionTypes.GRAPH_CHANGES_SUCCESS:
@@ -117,4 +122,4 @@ function session(
   }
 }
 
-export default session;
+export default sessionGraph;

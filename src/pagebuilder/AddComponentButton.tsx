@@ -9,7 +9,7 @@ import {
 
 import { IComponentGroup } from "pagebuilder/types";
 
-import Button from "@material-ui/core/Button";
+import Fab from "@material-ui/core/Fab";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -69,14 +69,9 @@ const AddComponentButton: SFC<IProps> = ({
   handleClose
 }) => (
   <>
-    <Button
-      className={classes.addButton}
-      variant="fab"
-      color="primary"
-      onClick={handleClick}
-    >
+    <Fab className={classes.addButton} color="primary" onClick={handleClick}>
       <AddIcon />
-    </Button>
+    </Fab>
     <Menu
       anchorEl={anchorEl}
       open={Boolean(anchorEl)}

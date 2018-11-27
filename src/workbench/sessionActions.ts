@@ -13,7 +13,8 @@ import {
 
 export const enum SessionActionTypes {
   SESSION_REQUEST = "SESSION_REQUEST",
-  SESSION_SUCCESS = "SESSION_SUCCESS"
+  SESSION_SUCCESS = "SESSION_SUCCESS",
+  SESSION_CLEAN = "SESSION_CLEAN"
 }
 
 export interface ISessionRequest extends Action {
@@ -32,7 +33,11 @@ export interface ISessionSuccess extends Action {
   };
 }
 
-export type SessionAction = ISessionRequest | ISessionSuccess;
+export interface ISessionClean extends Action {
+  type: SessionActionTypes.SESSION_CLEAN;
+}
+
+export type SessionAction = ISessionRequest | ISessionSuccess | ISessionClean;
 
 export const sessionRequest = (dataViewId?: string): ISessionRequest => ({
   type: SessionActionTypes.SESSION_REQUEST,
@@ -57,3 +62,7 @@ export const sessionSuccess = ({
     }
   };
 };
+
+export const sessionClean = (): ISessionClean => ({
+  type: SessionActionTypes.SESSION_CLEAN
+});
