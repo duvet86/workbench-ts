@@ -3,12 +3,7 @@ import React, { SFC } from "react";
 import { IQuery } from "workbench/types";
 
 import ConfigBody from "workbench/configElements/ConfigBody";
-
-import {
-  stepRenderComponents,
-  stepLabels,
-  helperText
-} from "workbench/query/config/steps";
+import { steps } from "workbench/query/config/steps";
 
 interface IProps {
   currentStep: number;
@@ -19,12 +14,11 @@ interface IProps {
 const QueryConfig: SFC<IProps> = ({ currentStep, completedSteps, query }) => (
   <ConfigBody
     title="Configure Query"
-    stepLabels={stepLabels}
+    steps={steps}
     currentStep={currentStep}
     completedSteps={completedSteps}
-    stepsHelpText={helperText}
   >
-    {stepRenderComponents[currentStep](query)}
+    {steps[currentStep].renderComponent(query)}
   </ConfigBody>
 );
 

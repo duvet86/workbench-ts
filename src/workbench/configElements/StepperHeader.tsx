@@ -6,6 +6,7 @@ import {
   withStyles,
   WithStyles
 } from "@material-ui/core/styles";
+import { IConfigSteps } from "workbench/configElements/types";
 
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -15,7 +16,7 @@ import StepButton from "@material-ui/core/StepButton";
 
 interface IProps extends WithStyles<typeof styles> {
   title: string;
-  stepLabels: string[];
+  steps: Array<IConfigSteps<any>>;
   currentStep: number;
   completedSteps: boolean[];
   dispatchGoToStep: (stepIndex: number) => void;
@@ -51,7 +52,7 @@ const styles = ({ spacing }: Theme) =>
 const StepperHeader: SFC<IProps> = ({
   classes,
   title,
-  stepLabels,
+  steps,
   currentStep,
   completedSteps,
   dispatchGoToStep
@@ -73,7 +74,7 @@ const StepperHeader: SFC<IProps> = ({
           nonLinear
           activeStep={currentStep}
         >
-          {stepLabels.map((label, index) => (
+          {steps.map(({ label }, index) => (
             <Step key={label}>
               <StepButton
                 onClick={handleStep(index)}
@@ -88,7 +89,7 @@ const StepperHeader: SFC<IProps> = ({
       </Grid>
       <Grid item xs={12} className={classes.stepTitle}>
         <Typography variant="h5">
-          {`Step ${currentStep + 1}: ${stepLabels[currentStep]}`}
+          {`Step ${currentStep + 1}: ${steps[currentStep].label}`}
         </Typography>
       </Grid>
     </>

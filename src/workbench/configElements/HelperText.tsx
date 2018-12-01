@@ -10,13 +10,11 @@ import Avatar from "@material-ui/core/Avatar";
 import InfoIcon from "@material-ui/icons/InfoOutlined";
 
 interface IProps {
-  currentStep: number;
-  stepsHelpText: Array<IHelperText | undefined>;
+  stepHelpText: IHelperText | undefined;
 }
 
-const HelperText: SFC<IProps> = ({ stepsHelpText, currentStep }) => {
-  const helper = stepsHelpText[currentStep];
-  if (helper == null) {
+const HelperText: SFC<IProps> = ({ stepHelpText }) => {
+  if (stepHelpText == null) {
     return null;
   }
 
@@ -29,8 +27,8 @@ const HelperText: SFC<IProps> = ({ stepsHelpText, currentStep }) => {
               <InfoIcon />
             </Avatar>
           }
-          title={helper.title}
-          subheader={helper.text}
+          title={stepHelpText.title}
+          subheader={stepHelpText.text}
         />
       </Card>
     </Grid>

@@ -4,7 +4,6 @@ import { getMultiSelectValue } from "common/select/selectors";
 
 import { Overwrite, StyledComponentProps } from "@material-ui/core";
 
-import Chip from "@material-ui/core/Chip";
 import { SelectProps } from "@material-ui/core/Select";
 import SelectInput from "common/select/SelectInput";
 import MultiSelectValue from "common/select/MultiSelectValue";

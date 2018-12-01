@@ -2,7 +2,7 @@ import React, { SFC } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { IHelperText } from "workbench/configElements/types";
+import { IConfigSteps } from "workbench/configElements/types";
 
 import { goToStep, IGoToStep } from "workbench/configElements/actions";
 import StepperHeader from "workbench/configElements/StepperHeader";
@@ -10,24 +10,29 @@ import HelperText from "workbench/configElements/HelperText";
 
 interface IOwnProps {
   title: string;
-  stepLabels: string[];
+  steps: Array<IConfigSteps<any>>;
   currentStep: number;
   completedSteps: boolean[];
-  stepsHelpText?: Array<IHelperText | undefined>;
 }
 
 type Props = ReturnType<typeof mapDispatchToProps> & IOwnProps;
 
 const StepperHeaderContainer: SFC<Props> = ({
-  stepsHelpText,
+  title,
+  steps,
   currentStep,
-  ...rest
+  completedSteps,
+  dispatchGoToStep
 }) => (
   <>
-    <StepperHeader currentStep={currentStep} {...rest} />
-    {stepsHelpText && (
-      <HelperText stepsHelpText={stepsHelpText} currentStep={currentStep} />
-    )}
+    <StepperHeader
+      title={title}
+      steps={steps}
+      currentStep={currentStep}
+      completedSteps={completedSteps}
+      dispatchGoToStep={dispatchGoToStep}
+    />
+    <HelperText stepHelpText={steps[currentStep].helper} />
   </>
 );
 

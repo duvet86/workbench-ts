@@ -1,35 +1,32 @@
-import React, { SFC } from "react";
+import React, { ReactNode } from "react";
 
-import { IHelperText } from "workbench/configElements/types";
+import { IConfigSteps } from "workbench/configElements/types";
 
 import Grid from "@material-ui/core/Grid";
 
 import StepperHeaderContainer from "workbench/configElements/StepperHeaderContainer";
 import ConfigButtonsContainer from "workbench/configElements/ConfigButtonsContainer";
 
-interface IProps {
+interface IProps<T> {
   title: string;
-  stepLabels: string[];
+  steps: Array<IConfigSteps<T>>;
   currentStep: number;
   completedSteps: boolean[];
-  stepsHelpText?: IHelperText[];
 }
 
-const ConfigBody: SFC<IProps> = ({
+const ConfigBody = <T extends {}>({
   title,
-  stepLabels,
-  stepsHelpText,
+  steps,
   currentStep,
   completedSteps,
   children
-}) => (
+}: IProps<T> & { children?: ReactNode }) => (
   <>
     <StepperHeaderContainer
       title={title}
-      stepLabels={stepLabels}
+      steps={steps}
       currentStep={currentStep}
       completedSteps={completedSteps}
-      stepsHelpText={stepsHelpText}
     />
     <Grid item xs={12}>
       {children}
@@ -37,7 +34,7 @@ const ConfigBody: SFC<IProps> = ({
     <ConfigButtonsContainer
       currentStep={currentStep}
       completedSteps={completedSteps}
-      totalNumberSteps={stepLabels.length}
+      totalNumberSteps={steps.length}
     />
   </>
 );

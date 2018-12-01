@@ -2,7 +2,7 @@ import React, { SFC } from "react";
 
 import ConfigBody from "workbench/configElements/ConfigBody";
 
-import { stepLabels } from "workbench/filter/config/steps";
+import { steps } from "workbench/filter/config/steps";
 
 interface IProps {
   currentStep: number;
@@ -12,11 +12,11 @@ interface IProps {
 const QueryConfig: SFC<IProps> = ({ currentStep, completedSteps }) => (
   <ConfigBody
     title="Configure Filter"
-    stepLabels={stepLabels}
+    steps={steps}
     currentStep={currentStep}
     completedSteps={completedSteps}
   >
-    Filter
+    {steps[currentStep].renderComponent(1)}
   </ConfigBody>
 );
 

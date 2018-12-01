@@ -62,7 +62,7 @@ export const getQueryColumns = createSelector(
   (elementId, queries) => queries[elementId].Columns
 );
 
-export const getCompletedSteps = createSelector(
+export const getQueryCompletedSteps = createSelector(
   elementIdSelector,
   querySelector,
   (elementId, queries) => {
