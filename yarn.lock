@@ -259,10 +259,10 @@
     "@types/history" "*"
     "@types/react" "*"
 
-"@types/react-select@^2.0.8":
-  version "2.0.8"
-  resolved "https://registry.yarnpkg.com/@types/react-select/-/react-select-2.0.8.tgz#657e9582ac305ceb91e8d330417f67a7993f5449"
-  integrity sha512-pdzsq7A5O+1us/MJHK/EnYOjJoBwBkl10wGcKZfv+4pJ1PvgIw7ZdyJlqUEDdr1zMDV6bkmSXcPMU9Tx/SmXfQ==
+"@types/react-select@^2.0.10":
+  version "2.0.10"
+  resolved "https://registry.yarnpkg.com/@types/react-select/-/react-select-2.0.10.tgz#04bfec166e87f24d46c1048af44c1963ea6b82d4"
+  integrity sha512-KpgFYzrPvIEcQys3EBBub02plGgI2CunV4lMN+6+ELr+XGcXPpQ9jC54qTLbXHaHZYzXYlChrVUKdnsaYZx5Gg==
   dependencies:
     "@types/react" "*"
     "@types/react-dom" "*"
@@ -297,10 +297,10 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
-"@types/react@^16.7.8":
-  version "16.7.8"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.7.8.tgz#ca24ba280f79debfc86578278a503c6d917d402e"
-  integrity sha512-7Vua2IYokMiPBk0WWXaDt4Cg3XVcwU6HpkuPhvwhBrVEy4SafpcvEfGYByoY9jxyFMiegYQPaSOT+H+AY00CPw==
+"@types/react@^16.7.11":
+  version "16.7.11"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.7.11.tgz#1743b82ea6a0c659467f0c7317c233edb1f10be9"
+  integrity sha512-KZvX2XjzBPz+Dh7cjgDzzLxUmg4k8CnCSsB1V2Vtt1YtSIGe1sfHp2+Htl3S5DzeKrHnioaDHTMN/fjAvnEsSg==
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
