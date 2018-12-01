@@ -13,7 +13,7 @@ interface IOwnProps {
   stepLabels: string[];
   currentStep: number;
   completedSteps: boolean[];
-  stepsHelpText: Array<IHelperText | undefined>;
+  stepsHelpText?: Array<IHelperText | undefined>;
 }
 
 type Props = ReturnType<typeof mapDispatchToProps> & IOwnProps;
@@ -25,7 +25,9 @@ const StepperHeaderContainer: SFC<Props> = ({
 }) => (
   <>
     <StepperHeader currentStep={currentStep} {...rest} />
-    <HelperText stepsHelpText={stepsHelpText} currentStep={currentStep} />
+    {stepsHelpText && (
+      <HelperText stepsHelpText={stepsHelpText} currentStep={currentStep} />
+    )}
   </>
 );
 

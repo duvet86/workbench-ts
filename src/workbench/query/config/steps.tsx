@@ -12,8 +12,6 @@ import SummaryContainer from "workbench/query/summary/SummaryContainer";
 
 export const stepLabels = ["Source*", "Columns*", "Constraints", "Summary"];
 
-export const totalNumberSteps = stepLabels.length - 1;
-
 export const helperText: IHelperText[] = [
   {
     title: "Query source",

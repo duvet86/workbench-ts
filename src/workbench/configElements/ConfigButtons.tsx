@@ -45,7 +45,7 @@ const ConfigButtons: SFC<IProps> = ({
   const handleStep = (stepIndex: number) => () => {
     return dispatchGoToStep(stepIndex);
   };
-  const isLastStep = currentStep === totalNumberSteps;
+  const isLastStep = currentStep === totalNumberSteps - 1;
   const nextLabel = isLastStep ? "Complete" : "Next";
   const nextClickhandler = isLastStep
     ? dispatchCompleteQueryConfig

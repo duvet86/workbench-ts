@@ -1,11 +1,8 @@
 import React, { SFC } from "react";
 
-import Grid from "@material-ui/core/Grid";
+import ConfigBody from "workbench/configElements/ConfigBody";
 
-import StepperHeaderContainer from "workbench/configElements/StepperHeaderContainer";
-import ConfigButtonsContainer from "workbench/configElements/ConfigButtonsContainer";
-
-import { totalNumberSteps, stepLabels } from "workbench/filter/config/steps";
+import { stepLabels } from "workbench/filter/config/steps";
 
 interface IProps {
   currentStep: number;
@@ -13,23 +10,14 @@ interface IProps {
 }
 
 const QueryConfig: SFC<IProps> = ({ currentStep, completedSteps }) => (
-  <>
-    <StepperHeaderContainer
-      title="Configure Filter"
-      stepLabels={stepLabels}
-      currentStep={currentStep}
-      completedSteps={completedSteps}
-      stepsHelpText={[]}
-    />
-    <Grid item xs={12}>
-      Filter
-    </Grid>
-    <ConfigButtonsContainer
-      currentStep={currentStep}
-      completedSteps={completedSteps}
-      totalNumberSteps={totalNumberSteps}
-    />
-  </>
+  <ConfigBody
+    title="Configure Filter"
+    stepLabels={stepLabels}
+    currentStep={currentStep}
+    completedSteps={completedSteps}
+  >
+    Filter
+  </ConfigBody>
 );
 
 export default QueryConfig;
