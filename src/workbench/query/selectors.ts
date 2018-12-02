@@ -29,7 +29,7 @@ export const getDataServices = createSelector(
 
 const elementIdSelector = (state: RootState) => state.configElements.elementId;
 
-const querySelector = (state: RootState) => state.sessionGraph.queries;
+const queriesSelector = (state: RootState) => state.sessionGraph.queries;
 
 const availableColumnsSelector = (state: RootState) =>
   state.queryConfig.availableColumns;
@@ -39,7 +39,7 @@ const availableFiltersSelector = (state: RootState) =>
 
 export const getAvailableColumns = createSelector(
   elementIdSelector,
-  querySelector,
+  queriesSelector,
   availableColumnsSelector,
   (elementId, queries, availableColumns) =>
     availableColumns.filter(
@@ -52,19 +52,19 @@ export const getAvailableColumns = createSelector(
 
 export const getQuery = createSelector(
   elementIdSelector,
-  querySelector,
+  queriesSelector,
   (elementId, queries) => queries[elementId]
 );
 
 export const getQueryColumns = createSelector(
   elementIdSelector,
-  querySelector,
+  queriesSelector,
   (elementId, queries) => queries[elementId].Columns
 );
 
 export const getQueryCompletedSteps = createSelector(
   elementIdSelector,
-  querySelector,
+  queriesSelector,
   (elementId, queries) => {
     const selectedQuery = queries[elementId];
 
@@ -94,7 +94,7 @@ export const getAvailableConstraint = createSelector(
   availableColumnsSelector,
   availableFiltersSelector,
   elementIdSelector,
-  querySelector,
+  queriesSelector,
   (columns, filters, elementId, queries) => {
     const optionFilters = filters.map<IOption<string>>(
       ({ Label, FilterName }) => ({
@@ -180,14 +180,14 @@ export const getAvailableColumnsDic = createSelector(
 
 export const getQueryConstraints = createSelector(
   elementIdSelector,
-  querySelector,
+  queriesSelector,
   (elementId, queries) =>
     queries[elementId].Constraints.map(c => getConstraintDisplayValue(c))
 );
 
 export const getQuerySourceLabel = createSelector(
   elementIdSelector,
-  querySelector,
+  queriesSelector,
   dataServicesSelector,
   (elementId, queries, dataServices) => {
     const selectedDataSource = dataServices.find(

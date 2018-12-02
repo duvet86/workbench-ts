@@ -26,8 +26,8 @@ const QueryConfigContainer: SFC<Props> = ({
 
 const mapStateToProps = (state: RootState) => ({
   isLoading: state.queryConfig.isLoading,
-  selectedQuery: getQuery(state),
   currentStep: state.configElements.currentStep,
+  selectedQuery: getQuery(state),
   completedSteps: getQueryCompletedSteps(state)
 });
 

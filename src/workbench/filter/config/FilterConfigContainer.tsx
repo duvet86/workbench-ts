@@ -2,25 +2,19 @@ import React, { SFC } from "react";
 import { connect } from "react-redux";
 
 import { RootState } from "rootReducer";
+import { getFilter } from "workbench/filter/selectors";
 
-import LoadingContainer from "common/loading/LoadingContainer";
 import FilterConfig from "workbench/filter/config/FilterConfig";
 
 type Props = ReturnType<typeof mapStateToProps>;
 
-const QueryConfigContainer: SFC<Props> = ({
-  isLoading,
-  currentStep,
-  completedSteps
-}) => (
-  <LoadingContainer background isLoading={isLoading}>
-    <FilterConfig currentStep={currentStep} completedSteps={completedSteps} />
-  </LoadingContainer>
+const QueryConfigContainer: SFC<Props> = ({ currentStep, completedSteps }) => (
+  <FilterConfig currentStep={currentStep} completedSteps={completedSteps} />
 );
 
 const mapStateToProps = (state: RootState) => ({
-  isLoading: state.queryConfig.isLoading,
   currentStep: state.configElements.currentStep,
+  selectedFilter: getFilter(state),
   completedSteps: []
 });
 
