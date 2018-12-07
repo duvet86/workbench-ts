@@ -7561,10 +7561,10 @@ stealthy-require@^1.1.0:
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
   integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
 
-storm-react-diagrams2@^5.2.2:
-  version "5.2.2"
-  resolved "https://registry.yarnpkg.com/storm-react-diagrams2/-/storm-react-diagrams2-5.2.2.tgz#068f13d872539dac5321ddc8129fc98372a8604d"
-  integrity sha512-ZP2E1xYG44q6zb+LHNufQiYN6rVDtqNUL4mfP1UWTPHLMfnp3thsEU+3reSZ5mgYtfq9kgsN4kI4tMmj9rNTHg==
+storm-react-diagrams2@^5.2.5:
+  version "5.2.5"
+  resolved "https://registry.yarnpkg.com/storm-react-diagrams2/-/storm-react-diagrams2-5.2.5.tgz#568e2077e3d288e9ae9ea4fc71666a4c4ecd097b"
+  integrity sha512-7d+pYrQ9jOXxB4Tgktx6fxLkmezWPJMoE/TIlQ9qdye/U/8wtzPwYTs/+bHu8zU/qEJvK+D3HIptHmjt33jb5g==
   dependencies:
     closest "^0.0.1"
     lodash "^4.17.11"

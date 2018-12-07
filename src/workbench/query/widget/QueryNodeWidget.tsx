@@ -139,7 +139,7 @@ const QueryNodeWidget: React.SFC<IProps> = ({ classes, node }) => {
         </List>
       </div>
       <div className={classes.bottomPort}>
-        <PortWidget name="from" node={node} />
+        {/* <PortWidget name="from" node={node} /> */}
       </div>
     </div>
   );

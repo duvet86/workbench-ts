@@ -24,15 +24,15 @@ export default class WorkbenchPortModel extends PortModel {
     this.position = data.position;
   }
 
-  public link(port: PortModel): LinkModel {
-    const link = this.createLinkModel();
-    link.setSourcePort(this);
-    link.setTargetPort(port);
+  // public link(port: PortModel): LinkModel {
+  //   const link = this.createLinkModel();
+  //   link.setSourcePort(this);
+  //   link.setTargetPort(port);
 
-    return link;
-  }
+  //   return link;
+  // }
 
-  public createLinkModel(): LinkModel {
-    return new DefaultLinkModel();
-  }
+  // public createLinkModel(): LinkModel {
+  //   return new DefaultLinkModel();
+  // }
 }

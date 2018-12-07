@@ -170,8 +170,8 @@ module.exports = {
     new ManifestPlugin({
       fileName: "asset-manifest.json",
       publicPath
-    }),
-    new DuplicatePackageCheckerPlugin()
+    })
+    // new DuplicatePackageCheckerPlugin()
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
@@ -196,7 +196,7 @@ module.exports = {
     // by listening to the compiler events with `compiler.hooks[...].tap` calls above.
     //quiet: true,
     hot: true,
-    open: true,
+    // open: true,
     overlay: true,
     historyApiFallback: true,
     stats: "minimal"
