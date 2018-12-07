@@ -3,7 +3,7 @@ import {
   DiagramEngine,
   PortModel,
   DefaultLinkModel
-} from "storm-react-diagrams";
+} from "storm-react-diagrams2";
 
 export default class WorkbenchPortModel extends PortModel {
   private position: string;

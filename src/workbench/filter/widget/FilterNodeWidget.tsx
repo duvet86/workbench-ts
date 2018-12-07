@@ -1,5 +1,5 @@
 import React from "react";
-import { PortWidget } from "storm-react-diagrams";
+import { PortWidget } from "storm-react-diagrams2";
 
 import {
   createStyles,

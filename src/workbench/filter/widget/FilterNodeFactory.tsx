@@ -3,7 +3,7 @@ import {
   AbstractNodeFactory,
   DiagramEngine,
   NodeModel
-} from "storm-react-diagrams";
+} from "storm-react-diagrams2";
 
 import FilterNodeModel from "workbench/filter/widget/FilterNodeModel";
 import FilterNodeWidget from "workbench/filter/widget/FilterNodeWidget";

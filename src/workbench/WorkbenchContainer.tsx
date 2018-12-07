@@ -1,10 +1,10 @@
-import "storm-react-diagrams/dist/style.min.css";
+import "storm-react-diagrams2/dist/style.min.css";
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { RouteComponentProps } from "react-router";
-import { DiagramModel, DiagramEngine } from "storm-react-diagrams";
+import { DiagramModel, DiagramEngine } from "storm-react-diagrams2";
 import Log from "lib/Log";
 
 import { RootState } from "rootReducer";
