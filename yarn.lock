@@ -202,6 +202,11 @@
     csstype "^2.0.0"
     indefinite-observable "^1.0.1"
 
+"@types/lodash@^4.14.119":
+  version "4.14.119"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.119.tgz#be847e5f4bc3e35e46d041c394ead8b603ad8b39"
+  integrity sha512-Z3TNyBL8Vd/M9D9Ms2S3LmFq2sSMzahodD6rCS9V2N44HUMINb75jNkSuwAx7eo2ufqTdfOdtGQpNbieUjPQmw==
+
 "@types/node-fetch@^2.1.4":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@types/node-fetch/-/node-fetch-2.1.4.tgz#093d1beae11541aef25999d70aa09286fd025b1a"
@@ -7549,10 +7554,10 @@ stealthy-require@^1.1.0:
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
   integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
 
-storm-react-diagrams2@^5.2.7:
-  version "5.2.7"
-  resolved "https://registry.yarnpkg.com/storm-react-diagrams2/-/storm-react-diagrams2-5.2.7.tgz#496d85991963eafa12e9ed9fb215c8ece85cdf36"
-  integrity sha512-N7HGTD38YMDhYEQqpfI5UQlNP3ve1tg4yUSErg4Kobh4BfbRGCZprRBLGILtBrLcyeDQuEBumxbxeNNceT+E0A==
+storm-react-diagrams2@^5.2.8:
+  version "5.2.8"
+  resolved "https://registry.yarnpkg.com/storm-react-diagrams2/-/storm-react-diagrams2-5.2.8.tgz#003ea3009e8f4db71882f26db55407dca6835153"
+  integrity sha512-Kj2EAIVGb13FtZk2/BXRev9sNGf4pnZk7/z8sJJ0wqBrG8F9WeDXZTKSn5EWoEGQ/rq4Xf3cYngKUcSKgLArnA==
   dependencies:
     closest "^0.0.1"
     lodash "^4.17.11"
