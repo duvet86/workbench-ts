@@ -8,7 +8,7 @@ import { DiagramEngine } from "../main";
 */
 export const ROUTING_SCALING_FACTOR = 5;
 
-const pathFinderInstance = new PF.JumpPointFinder({
+const pathFinderInstance = PF.JumpPointFinder({
   heuristic: PF.Heuristic.manhattan,
   diagonalMovement: PF.DiagonalMovement.Never
 });

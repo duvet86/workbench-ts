@@ -5,8 +5,8 @@ import { DefaultLinkModel } from "./DefaultLinkModel";
 import { LinkModel } from "../../models/LinkModel";
 
 export class DefaultPortModel extends PortModel {
-  private in: boolean;
-  private label: string;
+  public in: boolean;
+  public label: string;
 
   constructor(isInput: boolean, name: string, label?: string, id?: string) {
     super(name, "default", id);

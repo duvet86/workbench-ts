@@ -14,9 +14,9 @@ import { PortModel } from "../models/PortModel";
 import { LinkModel } from "../models/LinkModel";
 import { BaseModel, IBaseModelListener } from "../models/BaseModel";
 import { BaseEntity } from "../BaseEntity";
-import { BaseWidget, BaseWidgetProps } from "./BaseWidget";
+import { BaseWidget, IBaseWidgetProps } from "./BaseWidget";
 
-export interface IDiagramProps extends BaseWidgetProps {
+export interface IDiagramProps extends IBaseWidgetProps {
   diagramEngine: DiagramEngine;
 
   allowLooseLinks?: boolean;
@@ -78,8 +78,8 @@ export class DiagramWidget extends BaseWidget<IDiagramProps, IDiagramState> {
   public componentWillUnmount() {
     this.props.diagramEngine.removeListener(this.state.diagramEngineListener);
     this.props.diagramEngine.setCanvas(null);
+    this.state.document.removeEventListener("mouseup", this.onMouseUp);
     window.removeEventListener("keyup", this.onKeyUpPointer);
-    window.removeEventListener("mouseup", this.onMouseUp);
     window.removeEventListener("mousemove", this.onMouseMove);
   }
 
@@ -139,7 +139,7 @@ export class DiagramWidget extends BaseWidget<IDiagramProps, IDiagramState> {
    * Gets a model and element under the mouse cursor
    */
   public getMouseElement(
-    event: MouseEvent
+    event: React.MouseEvent
   ): {
     model: BaseModel<BaseEntity, IBaseModelListener>;
     element: Element;
@@ -374,7 +374,7 @@ export class DiagramWidget extends BaseWidget<IDiagramProps, IDiagramState> {
     }
   }
 
-  public onMouseUp(event: MouseEvent) {
+  public onMouseUp(event: React.MouseEvent) {
     const diagramEngine = this.props.diagramEngine;
     // Are we going to connect a link to something?
     if (this.state.action instanceof MoveItemsAction) {
@@ -615,10 +615,10 @@ export class DiagramWidget extends BaseWidget<IDiagramProps, IDiagramState> {
     }
   };
 
-  private handleMouseDown = (event: MouseEvent) => {
-    // if (event.nativeEvent.which === 3) {
-    //   return;
-    // }
+  private handleMouseDown = (event: React.MouseEvent) => {
+    if (event.nativeEvent.which === 3) {
+      return;
+    }
 
     const { diagramEngine } = this.props;
     const diagramModel = diagramEngine.getDiagramModel();
@@ -690,7 +690,10 @@ export class DiagramWidget extends BaseWidget<IDiagramProps, IDiagramState> {
     this.state.document.addEventListener("mouseup", this.onMouseUp);
   };
 
-  private handlePointAdded = (point: PointModel, event) => {
+  private handlePointAdded = (point: PointModel, event: React.MouseEvent) => {
+    const { diagramEngine } = this.props;
+    const diagramModel = diagramEngine.getDiagramModel();
+
     this.state.document.addEventListener("mousemove", this.onMouseMove);
     this.state.document.addEventListener("mouseup", this.onMouseUp);
     event.stopPropagation();

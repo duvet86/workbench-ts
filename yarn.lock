@@ -219,6 +219,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.10.tgz#4fa76e6598b7de3f0cb6ec3abacc4f59e5b3a2ce"
   integrity sha512-8xZEYckCbUVgK8Eg7lf5Iy4COKJ5uXlnIOnePN0WUwSQggy9tolM+tDJf7wMOnT/JT/W9xDYIaYggt3mRV2O5w==
 
+"@types/pathfinding@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@types/pathfinding/-/pathfinding-0.0.2.tgz#71eca97ce9f8da40f25e3a703cea14a587876cd5"
+  integrity sha1-ceypfOn42kDyXjpwPOoUpYeHbNU=
+
 "@types/prop-types@*":
   version "15.5.6"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.5.6.tgz#9c03d3fed70a8d517c191b7734da2879b50ca26c"
@@ -7553,17 +7558,6 @@ stealthy-require@^1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
   integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
-
-storm-react-diagrams2@^5.2.8:
-  version "5.2.8"
-  resolved "https://registry.yarnpkg.com/storm-react-diagrams2/-/storm-react-diagrams2-5.2.8.tgz#003ea3009e8f4db71882f26db55407dca6835153"
-  integrity sha512-Kj2EAIVGb13FtZk2/BXRev9sNGf4pnZk7/z8sJJ0wqBrG8F9WeDXZTKSn5EWoEGQ/rq4Xf3cYngKUcSKgLArnA==
-  dependencies:
-    closest "^0.0.1"
-    lodash "^4.17.11"
-    pathfinding "^0.4.18"
-    paths-js "^0.4.7"
-    react "^16.6.3"
 
 stream-browserify@^2.0.1:
   version "2.0.1"

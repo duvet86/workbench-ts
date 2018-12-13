@@ -33,7 +33,7 @@ export interface IDiagramEngineListener extends IBaseListener {
 export class DiagramEngine extends BaseEntity<IDiagramEngineListener> {
   public diagramModel: DiagramModel;
   public linksThatHaveInitiallyRendered: { [id: string]: boolean } = {};
-  public canvas: Element | null;
+  public canvas: HTMLElement | null;
   public nodesRendered: boolean | undefined;
 
   private nodeFactories: { [s: string]: AbstractNodeFactory };
@@ -143,7 +143,7 @@ export class DiagramEngine extends BaseEntity<IDiagramEngineListener> {
     return this.paintableWidgets[baseModel.getID()] !== undefined;
   }
 
-  public setCanvas(canvas: Element | null) {
+  public setCanvas(canvas: HTMLElement | null) {
     this.canvas = canvas;
   }
 

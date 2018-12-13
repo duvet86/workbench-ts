@@ -4,6 +4,7 @@ import _ from "lodash";
 import { DiagramEngine } from "../DiagramEngine";
 import { DiagramModel } from "./DiagramModel";
 import { PointModel } from "../models/PointModel";
+import { DefaultPortModel } from "../defaults/models/DefaultPortModel";
 
 export class NodeModel extends BaseModel<DiagramModel, IBaseModelListener> {
   public x: number;
@@ -12,8 +13,8 @@ export class NodeModel extends BaseModel<DiagramModel, IBaseModelListener> {
   public width: number = 0;
   public height: number = 0;
 
-  private extras: any;
-  private ports: { [s: string]: PortModel };
+  public extras: any;
+  public ports: { [s: string]: DefaultPortModel };
 
   constructor(nodeType: string = "default", id?: string) {
     super(nodeType, id);
@@ -72,10 +73,12 @@ export class NodeModel extends BaseModel<DiagramModel, IBaseModelListener> {
     this.extras = ob.extras;
 
     // Deserialize ports.
-    _.forEach(ob.ports, (port: any) => {
-      const portOb = engine.getPortFactory(port.type).getNewInstance();
-      portOb.deSerialize(port, engine);
-      this.addPort(portOb);
+    _.forEach(ob.ports, (port: DefaultPortModel) => {
+      if (port.type != null) {
+        const portOb = engine.getPortFactory(port.type).getNewInstance();
+        portOb.deSerialize(port, engine);
+        this.addPort(portOb as DefaultPortModel);
+      }
     });
   }
 
@@ -132,7 +135,7 @@ export class NodeModel extends BaseModel<DiagramModel, IBaseModelListener> {
     }
   }
 
-  public addPort<T extends PortModel>(port: T): T {
+  public addPort<T extends DefaultPortModel>(port: T): T {
     port.setParent(this);
     this.ports[port.name] = port;
     return port;

@@ -4,7 +4,6 @@ import { DiagramEngine } from "../DiagramEngine";
 
 export interface IBaseModelListener extends IBaseListener {
   selectionChanged?(event: IBaseEvent & { isSelected: boolean }): void;
-
   entityRemoved?(event: IBaseEvent): void;
 }
 
@@ -16,8 +15,8 @@ export class BaseModel<
   T extends IBaseModelListener = IBaseModelListener
 > extends BaseEntity<T> {
   public parent: X | undefined;
+  public type: string | undefined;
 
-  private type: string | undefined;
   private selected: boolean;
 
   constructor(type?: string, id?: string) {

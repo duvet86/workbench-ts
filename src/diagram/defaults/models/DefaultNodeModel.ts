@@ -1,6 +1,5 @@
 import { DefaultPortModel } from "./DefaultPortModel";
 import _ from "lodash";
-
 import { NodeModel } from "../../models/NodeModel";
 import { Toolkit } from "../../Toolkit";
 import { DiagramEngine } from "../../DiagramEngine";
@@ -9,8 +8,8 @@ import { DiagramEngine } from "../../DiagramEngine";
  * @author Dylan Vorster
  */
 export class DefaultNodeModel extends NodeModel {
-  private name: string;
-  private color: string;
+  public name: string;
+  public color: string;
 
   constructor(name: string = "Untitled", color: string = "rgb(0,192,255)") {
     super("default");

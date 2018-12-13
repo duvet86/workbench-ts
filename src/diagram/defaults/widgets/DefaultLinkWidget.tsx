@@ -7,15 +7,15 @@ import { DefaultLinkModel } from "../models/DefaultLinkModel";
 import PathFinding from "../../routing/PathFinding";
 import _ from "lodash";
 import { LabelModel } from "../../models/LabelModel";
-import { BaseWidget, BaseWidgetProps } from "../../widgets/BaseWidget";
+import { BaseWidget, IBaseWidgetProps } from "../../widgets/BaseWidget";
 
-export interface IDefaultLinkProps extends BaseWidgetProps {
+export interface IDefaultLinkProps extends IBaseWidgetProps {
   color?: string;
   width?: number;
   smooth?: boolean;
   link: DefaultLinkModel;
   diagramEngine: DiagramEngine;
-  pointAdded: (point: PointModel, event: React.MouseEvent) => void;
+  pointAdded?: (point: PointModel, event: React.MouseEvent) => void;
 }
 
 export interface IDefaultLinkState {
@@ -231,7 +231,9 @@ export class DefaultLinkWidget extends BaseWidget<
       point.setSelected(true);
       this.forceUpdate();
       this.props.link.addPoint(point, index);
-      this.props.pointAdded(point, event);
+      if (this.props.pointAdded) {
+        this.props.pointAdded(point, event);
+      }
     }
   };
 
@@ -277,7 +279,12 @@ export class DefaultLinkWidget extends BaseWidget<
   };
 
   private generateLabel(label: LabelModel) {
-    const canvas = this.props.diagramEngine.canvas as HTMLElement;
+    const canvas = this.props.diagramEngine.canvas;
+    const labelModel = this.props.diagramEngine.getFactoryForLabel(label);
+    if (canvas == null || labelModel == null) {
+      throw new Error();
+    }
+
     return (
       <foreignObject
         key={label.id}
@@ -286,9 +293,7 @@ export class DefaultLinkWidget extends BaseWidget<
         height={canvas.offsetHeight}
       >
         <div ref={this.setRef(label)}>
-          {this.props.diagramEngine
-            .getFactoryForLabel(label)
-            .generateReactWidget(this.props.diagramEngine, label)}
+          {labelModel.generateReactWidget(this.props.diagramEngine, label)}
         </div>
       </foreignObject>
     );
@@ -317,7 +322,7 @@ export class DefaultLinkWidget extends BaseWidget<
         path
       ),
       {
-        ref: ref => ref && this.refPaths.push(ref)
+        ref: (ref: SVGPathElement) => ref && this.refPaths.push(ref)
       }
     );
 

@@ -16,9 +16,8 @@ export interface IDefaultLinkModelListener extends ILinkModelListener {
 
 export class DefaultLinkModel extends LinkModel<IDefaultLinkModelListener> {
   public curvyness: number;
-
-  private width: number;
-  private color: string;
+  public width: number;
+  public color: string;
 
   constructor(type: string = "default") {
     super(type);

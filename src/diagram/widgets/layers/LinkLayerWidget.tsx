@@ -3,11 +3,11 @@ import { DiagramEngine } from "../../DiagramEngine";
 import { LinkWidget } from "../LinkWidget";
 import _ from "lodash";
 import { PointModel } from "../../models/PointModel";
-import { BaseWidget, BaseWidgetProps } from "../BaseWidget";
+import { BaseWidget, IBaseWidgetProps } from "../BaseWidget";
 
-export interface ILinkLayerProps extends BaseWidgetProps {
+export interface ILinkLayerProps extends IBaseWidgetProps {
   diagramEngine: DiagramEngine;
-  pointAdded: (point: PointModel, event: MouseEvent) => any;
+  pointAdded: (point: PointModel, event: React.MouseEvent) => any;
 }
 
 /**
@@ -66,7 +66,11 @@ export class LinkLayerWidget extends BaseWidget<ILinkLayerProps> {
                   const portCenter = this.props.diagramEngine.getPortCenter(
                     link.targetPort
                   );
-                  _.last(link.points).updateLocation(portCenter);
+                  const last = _.last(link.points);
+                  if (last == null) {
+                    throw new Error();
+                  }
+                  last.updateLocation(portCenter);
 
                   const portCoords = this.props.diagramEngine.getPortCoords(
                     link.targetPort
@@ -82,8 +86,8 @@ export class LinkLayerWidget extends BaseWidget<ILinkLayerProps> {
               }
             }
 
-            //generate links
-            var generatedLink = this.props.diagramEngine.generateWidgetForLink(
+            // Generate links.
+            const generatedLink = this.props.diagramEngine.generateWidgetForLink(
               link
             );
             if (!generatedLink) {

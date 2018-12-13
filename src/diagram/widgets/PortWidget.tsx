@@ -1,8 +1,8 @@
 import React from "react";
 import { NodeModel } from "../models/NodeModel";
-import { BaseWidget, BaseWidgetProps } from "./BaseWidget";
+import { BaseWidget, IBaseWidgetProps } from "./BaseWidget";
 
-export interface IPortProps extends BaseWidgetProps {
+export interface IPortProps extends IBaseWidgetProps {
   name: string;
   node: NodeModel;
 }
