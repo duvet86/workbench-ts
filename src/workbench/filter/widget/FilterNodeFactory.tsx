@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  AbstractNodeFactory,
-  DiagramEngine,
-  NodeModel
-} from "storm-react-diagrams2";
+import { AbstractNodeFactory, DiagramEngine, NodeModel } from "diagram/main";
 
 import FilterNodeModel from "workbench/filter/widget/FilterNodeModel";
 import FilterNodeWidget from "workbench/filter/widget/FilterNodeWidget";

@@ -196,7 +196,7 @@ module.exports = {
     // by listening to the compiler events with `compiler.hooks[...].tap` calls above.
     //quiet: true,
     hot: true,
-    // open: true,
+    open: true,
     overlay: true,
     historyApiFallback: true,
     stats: "minimal"

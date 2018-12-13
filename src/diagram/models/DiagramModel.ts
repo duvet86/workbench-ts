@@ -33,9 +33,6 @@ export interface IDiagramListener extends IBaseListener {
   gridUpdated?(event: IBaseEvent & { size: number }): void;
 }
 
-/**
- *
- */
 export class DiagramModel extends BaseEntity<IDiagramListener> {
   public rendered: boolean;
   // Models.

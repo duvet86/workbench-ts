@@ -1,9 +1,9 @@
 import React from "react";
 import { DiagramEngine } from "../DiagramEngine";
 import { NodeModel } from "../models/NodeModel";
-import { BaseWidget, BaseWidgetProps } from "./BaseWidget";
+import { BaseWidget, IBaseWidgetProps } from "./BaseWidget";
 
-export interface INodeProps extends BaseWidgetProps {
+export interface INodeProps extends IBaseWidgetProps {
   node: NodeModel;
   children?: any;
   diagramEngine: DiagramEngine;

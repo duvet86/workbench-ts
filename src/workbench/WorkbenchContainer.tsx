@@ -1,10 +1,7 @@
-import "storm-react-diagrams2/dist/style.min.css";
-
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { RouteComponentProps } from "react-router";
-import { DiagramModel, DiagramEngine } from "storm-react-diagrams2";
 import Log from "lib/Log";
 
 import { RootState } from "rootReducer";
@@ -35,6 +32,8 @@ import FilterNodeModel from "workbench/filter/widget/FilterNodeModel";
 
 import LoadingContainer from "common/loading/LoadingContainer";
 import Workbench from "workbench/Workbench";
+
+import { DiagramModel, DiagramEngine } from "diagram/main";
 
 type Props = ReturnType<typeof mapDispatchToProps> &
   ReturnType<typeof mapStateToProps> &

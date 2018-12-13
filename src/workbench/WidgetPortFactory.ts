@@ -1,4 +1,4 @@
-import { PortModel, AbstractPortFactory } from "storm-react-diagrams2";
+import { PortModel, AbstractPortFactory } from "diagram/main";
 
 export default class DiagramPortFactory extends AbstractPortFactory {
   private portModel: PortModel;

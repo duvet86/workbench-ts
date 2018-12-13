@@ -1,9 +1,9 @@
 import React from "react";
 import { DiagramEngine } from "../DiagramEngine";
 import { LinkModel } from "../models/LinkModel";
-import { BaseWidget, BaseWidgetProps } from "./BaseWidget";
+import { BaseWidget, IBaseWidgetProps } from "./BaseWidget";
 
-export interface ILinkProps extends BaseWidgetProps {
+export interface ILinkProps extends IBaseWidgetProps {
   link: LinkModel;
   diagramEngine: DiagramEngine;
   children?: any;

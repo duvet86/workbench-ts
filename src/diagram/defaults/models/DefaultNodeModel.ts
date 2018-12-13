@@ -39,14 +39,20 @@ export class DefaultNodeModel extends NodeModel {
   }
 
   public getInPorts(): DefaultPortModel[] {
-    return _.filter(this.ports, portModel => {
-      return portModel.in;
-    });
+    return _.filter(
+      this.ports as { [s: string]: DefaultPortModel },
+      portModel => {
+        return portModel.in;
+      }
+    );
   }
 
   public getOutPorts(): DefaultPortModel[] {
-    return _.filter(this.ports, portModel => {
-      return !portModel.in;
-    });
+    return _.filter(
+      this.ports as { [s: string]: DefaultPortModel },
+      portModel => {
+        return !portModel.in;
+      }
+    );
   }
 }

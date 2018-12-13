@@ -1,7 +1,5 @@
-import "storm-react-diagrams2/dist/style.min.css";
-
 import React, { SFC } from "react";
-import { DiagramEngine, DiagramWidget } from "storm-react-diagrams2";
+import { DiagramEngine, DiagramWidget } from "diagram/main";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 

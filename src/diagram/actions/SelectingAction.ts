@@ -2,8 +2,8 @@ import { BaseAction } from "./BaseAction";
 import { DiagramModel } from "../models/DiagramModel";
 
 export class SelectingAction extends BaseAction {
-  private mouseX2: number;
-  private mouseY2: number;
+  public mouseX2: number;
+  public mouseY2: number;
 
   constructor(mouseX: number, mouseY: number) {
     super(mouseX, mouseY);

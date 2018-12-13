@@ -1,5 +1,5 @@
 import React, { SFC } from "react";
-import { DiagramEngine } from "storm-react-diagrams2";
+import { DiagramEngine } from "diagram/main";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 

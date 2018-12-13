@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  AbstractNodeFactory,
-  DiagramEngine,
-  NodeModel
-} from "storm-react-diagrams2";
+import { AbstractNodeFactory, DiagramEngine, NodeModel } from "diagram/main";
 
 import QueryNodeModel from "workbench/query/widget/QueryNodeModel";
 import QueryNodeWidget from "workbench/query/widget/QueryNodeWidget";
