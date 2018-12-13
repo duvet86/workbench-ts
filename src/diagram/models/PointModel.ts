@@ -1,6 +1,6 @@
 import { BaseModel, IBaseModelListener } from "./BaseModel";
 import { LinkModel } from "./LinkModel";
-import _ from "lodash";
+import { merge } from "lodash";
 import { DiagramEngine } from "../DiagramEngine";
 
 export class PointModel extends BaseModel<LinkModel, IBaseModelListener> {
@@ -36,7 +36,7 @@ export class PointModel extends BaseModel<LinkModel, IBaseModelListener> {
   }
 
   public serialize() {
-    return _.merge(super.serialize(), {
+    return merge(super.serialize(), {
       x: this.x,
       y: this.y
     });

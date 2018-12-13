@@ -1,5 +1,5 @@
 import { LabelModel } from "../../models/LabelModel";
-import _ from "lodash";
+import { merge } from "lodash";
 import { DiagramEngine } from "../../DiagramEngine";
 
 export class DefaultLabelModel extends LabelModel {
@@ -20,7 +20,7 @@ export class DefaultLabelModel extends LabelModel {
   }
 
   public serialize() {
-    return _.merge(super.serialize(), {
+    return merge(super.serialize(), {
       label: this.label
     });
   }

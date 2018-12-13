@@ -1,5 +1,5 @@
 import React from "react";
-import _ from "lodash";
+import { map } from "lodash";
 import { DefaultNodeModel } from "../models/DefaultNodeModel";
 import { DefaultPortLabel } from "./DefaultPortLabelWidget";
 import { DefaultPortModel } from "../models/DefaultPortModel";
@@ -28,10 +28,10 @@ export class DefaultNodeWidget extends BaseWidget<IDefaultNodeProps> {
         </div>
         <div className={this.bem("__ports")}>
           <div className={this.bem("__in")}>
-            {_.map(this.props.node.getInPorts(), this.generatePort.bind(this))}
+            {map(this.props.node.getInPorts(), this.generatePort.bind(this))}
           </div>
           <div className={this.bem("__out")}>
-            {_.map(this.props.node.getOutPorts(), this.generatePort.bind(this))}
+            {map(this.props.node.getOutPorts(), this.generatePort.bind(this))}
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import { BaseModel, IBaseModelListener } from "./BaseModel";
 import { PortModel } from "./PortModel";
 import { PointModel } from "./PointModel";
-import _ from "lodash";
+import { map, forEach, merge } from "lodash";
 import { IBaseEvent } from "../BaseEntity";
 import { LabelModel } from "./LabelModel";
 import { DiagramEngine } from "../DiagramEngine";
@@ -37,14 +37,14 @@ export class LinkModel<
   public deSerialize(ob: any, engine: DiagramEngine) {
     super.deSerialize(ob, engine);
     this.extras = ob.extras;
-    this.points = _.map(ob.points || [], (point: { x: any; y: any }) => {
+    this.points = map(ob.points || [], (point: { x: any; y: any }) => {
       const p = new PointModel(this, { x: point.x, y: point.y });
       p.deSerialize(point, engine);
       return p;
     });
 
     // Deserialize labels.
-    _.forEach(ob.labels || [], (label: any) => {
+    forEach(ob.labels || [], (label: any) => {
       const labelOb = engine.getLabelFactory(label.type).getNewInstance();
       labelOb.deSerialize(label, engine);
       this.addLabel(labelOb);
@@ -83,7 +83,7 @@ export class LinkModel<
   }
 
   public serialize() {
-    return _.merge(super.serialize(), {
+    return merge(super.serialize(), {
       source:
         this.sourcePort && this.sourcePort.getParent()
           ? this.sourcePort.getParent()!.id
@@ -94,11 +94,11 @@ export class LinkModel<
           ? this.targetPort.getParent()!.id
           : null,
       targetPort: this.targetPort ? this.targetPort.id : null,
-      points: _.map(this.points, point => {
+      points: map(this.points, point => {
         return point.serialize();
       }),
       extras: this.extras,
-      labels: _.map(this.labels, label => {
+      labels: map(this.labels, label => {
         return label.serialize();
       })
     });
@@ -106,7 +106,7 @@ export class LinkModel<
 
   public doClone(lookupTable = {}, clone: any) {
     clone.setPoints(
-      _.map(this.getPoints(), (point: PointModel) => {
+      map(this.getPoints(), (point: PointModel) => {
         return point.clone(lookupTable);
       })
     );
@@ -236,7 +236,7 @@ export class LinkModel<
   }
 
   public setPoints(points: PointModel[]) {
-    _.forEach(points, point => {
+    forEach(points, point => {
       point.setParent(this);
     });
     this.points = points;

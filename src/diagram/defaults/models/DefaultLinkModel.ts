@@ -3,7 +3,7 @@
  */
 import { LinkModel, ILinkModelListener } from "../../models/LinkModel";
 import { IBaseEvent } from "../../BaseEntity";
-import _ from "lodash";
+import { merge } from "lodash";
 import { DiagramEngine } from "../../DiagramEngine";
 import { DefaultLabelModel } from "./DefaultLabelModel";
 import { LabelModel } from "../../models/LabelModel";
@@ -27,7 +27,7 @@ export class DefaultLinkModel extends LinkModel<IDefaultLinkModelListener> {
   }
 
   public serialize() {
-    return _.merge(super.serialize(), {
+    return merge(super.serialize(), {
       width: this.width,
       color: this.color,
       curvyness: this.curvyness

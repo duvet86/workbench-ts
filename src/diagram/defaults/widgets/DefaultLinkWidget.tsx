@@ -5,7 +5,7 @@ import { Toolkit } from "../../Toolkit";
 import { DefaultLinkFactory } from "../factories/DefaultLinkFactory";
 import { DefaultLinkModel } from "../models/DefaultLinkModel";
 import PathFinding from "../../routing/PathFinding";
-import _ from "lodash";
+import { first, last, map, forEach } from "lodash";
 import { LabelModel } from "../../models/LabelModel";
 import { BaseWidget, IBaseWidgetProps } from "../../widgets/BaseWidget";
 
@@ -78,16 +78,16 @@ export class DefaultLinkWidget extends BaseWidget<
       if (this.pathFinding == null) {
         throw new Error();
       }
-      const first = _.first(points);
-      const last = _.last(points);
-      if (first == null || last == null) {
+      const firstPoint = first(points);
+      const lastPoint = last(points);
+      if (firstPoint == null || lastPoint == null) {
         throw new Error();
       }
 
       // First step: calculate a direct path between the points being linked.
       const directPathCoords = this.pathFinding.calculateDirectPath(
-        first,
-        last
+        firstPoint,
+        lastPoint
       );
 
       const routingMatrix = diagramEngine.getRoutingMatrix();
@@ -204,7 +204,7 @@ export class DefaultLinkWidget extends BaseWidget<
     return (
       <g {...this.getProps()}>
         {paths}
-        {_.map(this.props.link.labels, labelModel => {
+        {map(this.props.link.labels, labelModel => {
           return this.generateLabel(labelModel);
         })}
       </g>
@@ -212,7 +212,7 @@ export class DefaultLinkWidget extends BaseWidget<
   }
 
   private calculateAllLabelPosition() {
-    _.forEach(this.props.link.labels, (label, index) => {
+    forEach(this.props.link.labels, (label, index) => {
       this.calculateLabelPosition(label, index + 1);
     });
   }

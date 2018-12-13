@@ -1,6 +1,6 @@
 import { BaseModel, IBaseModelListener } from "./BaseModel";
 import { PortModel } from "./PortModel";
-import _ from "lodash";
+import { forEach, merge, map } from "lodash";
 import { DiagramEngine } from "../DiagramEngine";
 import { DiagramModel } from "./DiagramModel";
 import { PointModel } from "../models/PointModel";
@@ -27,8 +27,8 @@ export class NodeModel extends BaseModel<DiagramModel, IBaseModelListener> {
     // Store position
     const oldX = this.x;
     const oldY = this.y;
-    _.forEach(this.ports, port => {
-      _.forEach(port.getLinks(), link => {
+    forEach(this.ports, port => {
+      forEach(port.getLinks(), link => {
         const point = link.getPointForPort(port);
         if (point != null) {
           point.x = point.x + x - oldX;
@@ -45,7 +45,7 @@ export class NodeModel extends BaseModel<DiagramModel, IBaseModelListener> {
 
     // add the points of each link that are selected here
     if (this.isSelected()) {
-      _.forEach(this.ports, port => {
+      forEach(this.ports, port => {
         const links = port.getLinks();
         entities = entities.concat(
           Object.keys(links).reduce(
@@ -72,7 +72,7 @@ export class NodeModel extends BaseModel<DiagramModel, IBaseModelListener> {
     this.extras = ob.extras;
 
     // Deserialize ports.
-    _.forEach(ob.ports, (port: PortModel) => {
+    forEach(ob.ports, (port: PortModel) => {
       if (port.type != null) {
         const portOb = engine.getPortFactory(port.type).getNewInstance();
         portOb.deSerialize(port, engine);
@@ -82,11 +82,11 @@ export class NodeModel extends BaseModel<DiagramModel, IBaseModelListener> {
   }
 
   public serialize() {
-    return _.merge(super.serialize(), {
+    return merge(super.serialize(), {
       x: this.x,
       y: this.y,
       extras: this.extras,
-      ports: _.map(this.ports, port => {
+      ports: map(this.ports, port => {
         return port.serialize();
       })
     });
@@ -95,15 +95,15 @@ export class NodeModel extends BaseModel<DiagramModel, IBaseModelListener> {
   public doClone(lookupTable = {}, clone: any) {
     // also clone the ports
     clone.ports = {};
-    _.forEach(this.ports, port => {
+    forEach(this.ports, port => {
       clone.addPort(port.clone(lookupTable));
     });
   }
 
   public remove() {
     super.remove();
-    _.forEach(this.ports, port => {
-      _.forEach(port.getLinks(), link => {
+    forEach(this.ports, port => {
+      forEach(port.getLinks(), link => {
         link.remove();
       });
     });

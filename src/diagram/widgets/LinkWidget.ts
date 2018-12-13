@@ -1,4 +1,3 @@
-import React from "react";
 import { DiagramEngine } from "../DiagramEngine";
 import { LinkModel } from "../models/LinkModel";
 import { BaseWidget, IBaseWidgetProps } from "./BaseWidget";

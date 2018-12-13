@@ -1,6 +1,6 @@
 import React from "react";
 import { DiagramEngine } from "../DiagramEngine";
-import _ from "lodash";
+import { forEach, some, values } from "lodash";
 import { LinkLayerWidget } from "./layers/LinkLayerWidget";
 import { NodeLayerWidget } from "./layers/NodeLayerWidget";
 import { Toolkit } from "../Toolkit";
@@ -56,10 +56,6 @@ export class DiagramWidget extends BaseWidget<IDiagramProps, IDiagramState> {
   //     smartRouting: false,
   //     deleteKeys: [46, 8]
   //   };
-
-  // private onKeyUpPointer:
-  //   | ((this: Window, ev: KeyboardEvent) => void)
-  //   | null = null;
 
   constructor(props: IDiagramProps) {
     super("srd-diagram", props);
@@ -270,7 +266,7 @@ export class DiagramWidget extends BaseWidget<IDiagramProps, IDiagramState> {
         event.clientY
       );
 
-      _.forEach(diagramModel.getNodes(), node => {
+      forEach(diagramModel.getNodes(), node => {
         if (
           (this.state.action as SelectingAction).containsElement(
             node.x,
@@ -282,9 +278,9 @@ export class DiagramWidget extends BaseWidget<IDiagramProps, IDiagramState> {
         }
       });
 
-      _.forEach(diagramModel.getLinks(), link => {
+      forEach(diagramModel.getLinks(), link => {
         let allSelected = true;
-        _.forEach(link.points, point => {
+        forEach(link.points, point => {
           if (
             (this.state.action as SelectingAction).containsElement(
               point.x,
@@ -314,7 +310,7 @@ export class DiagramWidget extends BaseWidget<IDiagramProps, IDiagramState> {
       const amountY = event.clientY - this.state.action.mouseY;
       const amountZoom = diagramModel.getZoomLevel() / 100;
 
-      _.forEach(this.state.action.selectionModels, model => {
+      forEach(this.state.action.selectionModels, model => {
         // in this case we need to also work out the relative grid position
         if (
           model.model instanceof NodeModel ||
@@ -330,7 +326,7 @@ export class DiagramWidget extends BaseWidget<IDiagramProps, IDiagramState> {
 
           // update port coordinates as well
           if (model.model instanceof NodeModel) {
-            _.forEach(model.model.getPorts(), port => {
+            forEach(model.model.getPorts(), port => {
               const portCoords = this.props.diagramEngine.getPortCoords(port);
               port.updateCoords(portCoords);
             });
@@ -379,7 +375,7 @@ export class DiagramWidget extends BaseWidget<IDiagramProps, IDiagramState> {
     // Are we going to connect a link to something?
     if (this.state.action instanceof MoveItemsAction) {
       const element = this.getMouseElement(event);
-      _.forEach(this.state.action.selectionModels, model => {
+      forEach(this.state.action.selectionModels, model => {
         // Only care about points connecting to things.
         if (!(model.model instanceof PointModel)) {
           return;
@@ -433,7 +429,7 @@ export class DiagramWidget extends BaseWidget<IDiagramProps, IDiagramState> {
 
       // Check for / remove any loose links in any models which have been moved.
       if (!this.props.allowLooseLinks && this.state.wasMoved) {
-        _.forEach(this.state.action.selectionModels, model => {
+        forEach(this.state.action.selectionModels, model => {
           // Only care about points connecting to things.
           if (!(model.model instanceof PointModel)) {
             return;
@@ -451,7 +447,7 @@ export class DiagramWidget extends BaseWidget<IDiagramProps, IDiagramState> {
       }
 
       // Remove any invalid links.
-      _.forEach(this.state.action.selectionModels, model => {
+      forEach(this.state.action.selectionModels, model => {
         // Only care about points connecting to things.
         if (!(model.model instanceof PointModel)) {
           return;
@@ -469,8 +465,8 @@ export class DiagramWidget extends BaseWidget<IDiagramProps, IDiagramState> {
             // Link not allowed.
             link.remove();
           } else if (
-            _.some(
-              _.values(targetPort.getLinks()),
+            some(
+              values(targetPort.getLinks()),
               (l: LinkModel) =>
                 l !== link &&
                 (l.getSourcePort() === sourcePort ||
@@ -545,7 +541,7 @@ export class DiagramWidget extends BaseWidget<IDiagramProps, IDiagramState> {
 
     // Delete all selected.
     if (deleteKeys.indexOf(event.keyCode) !== -1) {
-      _.forEach(
+      forEach(
         this.props.diagramEngine.getDiagramModel().getSelectedItems(),
         element => {
           // Only delete items which are not locked.

@@ -1,6 +1,15 @@
 import { BaseEntity, IBaseListener } from "./BaseEntity";
 import { DiagramModel } from "./models/DiagramModel";
-import _ from "lodash";
+import {
+  forEach,
+  range,
+  cloneDeep,
+  values,
+  flatMap,
+  minBy,
+  maxBy,
+  concat
+} from "lodash";
 import { BaseModel, IBaseModelListener } from "./models/BaseModel";
 import { NodeModel } from "./models/NodeModel";
 import { PointModel } from "./models/PointModel";
@@ -99,8 +108,8 @@ export class DiagramEngine extends BaseEntity<IDiagramEngineListener> {
     entities.forEach(entity => {
       // If a node is requested to repaint, add all of its links.
       if (entity instanceof NodeModel) {
-        _.forEach(entity.getPorts(), port => {
-          _.forEach(port.getLinks(), link => {
+        forEach(entity.getPorts(), port => {
+          forEach(port.getLinks(), link => {
             this.paintableWidgets![link.getID()] = true;
           });
         });
@@ -460,7 +469,7 @@ export class DiagramEngine extends BaseEntity<IDiagramEngineListener> {
     const matrixWidth = Math.ceil(canvasWidth / ROUTING_SCALING_FACTOR);
     const matrixHeight = Math.ceil(canvasHeight / ROUTING_SCALING_FACTOR);
 
-    this.canvasMatrix = _.range(0, matrixHeight).map(() => {
+    this.canvasMatrix = range(0, matrixHeight).map(() => {
       return new Array(matrixWidth).fill(0);
     });
   }
@@ -488,7 +497,7 @@ export class DiagramEngine extends BaseEntity<IDiagramEngineListener> {
   }
 
   public calculateRoutingMatrix(): void {
-    const matrix = _.cloneDeep(this.getCanvasMatrix());
+    const matrix = cloneDeep(this.getCanvasMatrix());
 
     // nodes need to be marked as blocked points
     this.markNodes(matrix);
@@ -520,15 +529,15 @@ export class DiagramEngine extends BaseEntity<IDiagramEngineListener> {
     height: number;
     vAdjustmentFactor: number;
   } => {
-    const allNodesCoords = _.values(this.diagramModel.nodes).map(item => ({
+    const allNodesCoords = values(this.diagramModel.nodes).map(item => ({
       x: item.x,
       width: item.width,
       y: item.y,
       height: item.height
     }));
 
-    const allLinks = _.values(this.diagramModel.links);
-    const allPortsCoords = _.flatMap(
+    const allLinks = values(this.diagramModel.links);
+    const allPortsCoords = flatMap(
       allLinks.map(link => [link.sourcePort, link.targetPort])
     )
       .filter((port: PortModel | null): port is PortModel => port !== null)
@@ -538,7 +547,7 @@ export class DiagramEngine extends BaseEntity<IDiagramEngineListener> {
         y: item.y,
         height: item.height
       }));
-    const allPointsCoords = _.flatMap(allLinks.map(link => link.points)).map(
+    const allPointsCoords = flatMap(allLinks.map(link => link.points)).map(
       item => ({
         // points don't have width/height, so let's just use 0
         x: item.x,
@@ -550,8 +559,8 @@ export class DiagramEngine extends BaseEntity<IDiagramEngineListener> {
 
     const canvas = this.canvas as HTMLDivElement;
 
-    const minXBy = _.minBy(
-      _.concat(allNodesCoords, allPortsCoords, allPointsCoords),
+    const minXBy = minBy(
+      concat(allNodesCoords, allPortsCoords, allPointsCoords),
       item => item.x
     );
     if (minXBy == null) {
@@ -562,8 +571,8 @@ export class DiagramEngine extends BaseEntity<IDiagramEngineListener> {
       Math.floor(Math.min(minXBy.x, 0) / ROUTING_SCALING_FACTOR) *
       ROUTING_SCALING_FACTOR;
 
-    const maxXElement = _.maxBy(
-      _.concat(allNodesCoords, allPortsCoords, allPointsCoords),
+    const maxXElement = maxBy(
+      concat(allNodesCoords, allPortsCoords, allPointsCoords),
       item => item.x + item.width
     );
     if (maxXElement == null) {
@@ -575,8 +584,8 @@ export class DiagramEngine extends BaseEntity<IDiagramEngineListener> {
       canvas.offsetWidth
     );
 
-    const minYBy = _.minBy(
-      _.concat(allNodesCoords, allPortsCoords, allPointsCoords),
+    const minYBy = minBy(
+      concat(allNodesCoords, allPortsCoords, allPointsCoords),
       item => item.y
     );
     if (minYBy == null) {
@@ -587,8 +596,8 @@ export class DiagramEngine extends BaseEntity<IDiagramEngineListener> {
       Math.floor(Math.min(minYBy.y, 0) / ROUTING_SCALING_FACTOR) *
       ROUTING_SCALING_FACTOR;
 
-    const maxYElement = _.maxBy(
-      _.concat(allNodesCoords, allPortsCoords, allPointsCoords),
+    const maxYElement = maxBy(
+      concat(allNodesCoords, allPortsCoords, allPointsCoords),
       item => item.y + item.height
     );
     if (maxYElement == null) {
@@ -612,7 +621,7 @@ export class DiagramEngine extends BaseEntity<IDiagramEngineListener> {
    * Updates (by reference) where nodes will be drawn on the matrix passed in.
    */
   public markNodes = (matrix: number[][]): void => {
-    _.values(this.diagramModel.nodes).forEach(node => {
+    values(this.diagramModel.nodes).forEach(node => {
       const startX = Math.floor(node.x / ROUTING_SCALING_FACTOR);
       const endX = Math.ceil((node.x + node.width) / ROUTING_SCALING_FACTOR);
       const startY = Math.floor(node.y / ROUTING_SCALING_FACTOR);
@@ -634,8 +643,8 @@ export class DiagramEngine extends BaseEntity<IDiagramEngineListener> {
    * Updates (by reference) where ports will be drawn on the matrix passed in.
    */
   public markPorts = (matrix: number[][]): void => {
-    const allElements = _.flatMap(
-      _.values(this.diagramModel.links).map(link =>
+    const allElements = flatMap(
+      values(this.diagramModel.links).map(link =>
         ([] as PortModel[]).concat(link.sourcePort || [], link.targetPort || [])
       )
     );

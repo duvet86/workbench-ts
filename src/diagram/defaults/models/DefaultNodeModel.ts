@@ -1,5 +1,5 @@
 import { DefaultPortModel } from "./DefaultPortModel";
-import _ from "lodash";
+import { merge, filter } from "lodash";
 import { NodeModel } from "../../models/NodeModel";
 import { Toolkit } from "../../Toolkit";
 import { DiagramEngine } from "../../DiagramEngine";
@@ -32,14 +32,14 @@ export class DefaultNodeModel extends NodeModel {
   }
 
   public serialize() {
-    return _.merge(super.serialize(), {
+    return merge(super.serialize(), {
       name: this.name,
       color: this.color
     });
   }
 
   public getInPorts(): DefaultPortModel[] {
-    return _.filter(
+    return filter(
       this.ports as { [s: string]: DefaultPortModel },
       portModel => {
         return portModel.in;
@@ -48,7 +48,7 @@ export class DefaultNodeModel extends NodeModel {
   }
 
   public getOutPorts(): DefaultPortModel[] {
-    return _.filter(
+    return filter(
       this.ports as { [s: string]: DefaultPortModel },
       portModel => {
         return !portModel.in;

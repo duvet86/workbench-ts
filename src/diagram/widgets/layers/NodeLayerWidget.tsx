@@ -1,6 +1,6 @@
 import React from "react";
 import { DiagramEngine } from "../../DiagramEngine";
-import _ from "lodash";
+import { map } from "lodash";
 import { NodeWidget } from "../NodeWidget";
 import { NodeModel } from "../../models/NodeModel";
 import { BaseWidget, IBaseWidgetProps } from "../BaseWidget";
@@ -36,7 +36,7 @@ export class NodeLayerWidget extends BaseWidget<INodeLayerProps> {
             ")"
         }}
       >
-        {_.map(diagramModel.getNodes(), (node: NodeModel) => {
+        {map(diagramModel.getNodes(), (node: NodeModel) => {
           return React.createElement(
             NodeWidget,
             {
@@ -54,7 +54,7 @@ export class NodeLayerWidget extends BaseWidget<INodeLayerProps> {
   private updateNodeDimensions = () => {
     if (!this.props.diagramEngine.nodesRendered) {
       const diagramModel = this.props.diagramEngine.getDiagramModel();
-      _.map(diagramModel.getNodes(), node => {
+      map(diagramModel.getNodes(), node => {
         node.updateDimensions(this.props.diagramEngine.getNodeDimensions(node));
       });
     }

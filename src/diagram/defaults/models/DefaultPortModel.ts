@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { merge } from "lodash";
 import { PortModel } from "../../models/PortModel";
 import { DiagramEngine } from "../../DiagramEngine";
 import { DefaultLinkModel } from "./DefaultLinkModel";
@@ -21,7 +21,7 @@ export class DefaultPortModel extends PortModel {
   }
 
   public serialize() {
-    return _.merge(super.serialize(), {
+    return merge(super.serialize(), {
       in: this.in,
       label: this.label
     });

@@ -14,11 +14,9 @@ const pathFinderInstance = PF.JumpPointFinder({
 });
 
 export default class PathFinding {
-  private instance: any;
   private diagramEngine: DiagramEngine;
 
   constructor(diagramEngine: DiagramEngine) {
-    this.instance = pathFinderInstance;
     this.diagramEngine = diagramEngine;
   }
 

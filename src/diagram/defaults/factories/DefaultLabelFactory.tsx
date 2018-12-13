@@ -15,7 +15,7 @@ export class DefaultLabelFactory extends AbstractLabelFactory<
   }
 
   public generateReactWidget(
-    diagramEngine: DiagramEngine,
+    _: DiagramEngine,
     label: DefaultLabelModel
   ): JSX.Element {
     return <DefaultLabelWidget model={label} />;

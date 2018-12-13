@@ -4,7 +4,7 @@ import {
   IBaseEvent,
   BaseEntityType
 } from "../BaseEntity";
-import _ from "lodash";
+import { forEach, merge, map, flatMap, uniq, filter, includes } from "lodash";
 import { DiagramEngine } from "../DiagramEngine";
 import { LinkModel } from "./LinkModel";
 import { NodeModel } from "./NodeModel";
@@ -85,7 +85,7 @@ export class DiagramModel extends BaseEntity<IDiagramListener> {
     this.gridSize = object.gridSize;
 
     // deserialize nodes
-    _.forEach(object.nodes, (node: any) => {
+    forEach(object.nodes, (node: any) => {
       const nodeOb = diagramEngine
         .getNodeFactory(node.type)
         .getNewInstance(node);
@@ -95,7 +95,7 @@ export class DiagramModel extends BaseEntity<IDiagramListener> {
     });
 
     // deserialze links
-    _.forEach(object.links, (link: any) => {
+    forEach(object.links, (link: any) => {
       const linkOb = diagramEngine.getLinkFactory(link.type).getNewInstance();
       linkOb.setParent(this);
       linkOb.deSerialize(link, diagramEngine);
@@ -104,15 +104,15 @@ export class DiagramModel extends BaseEntity<IDiagramListener> {
   }
 
   public serializeDiagram() {
-    return _.merge(this.serialize(), {
+    return merge(this.serialize(), {
       offsetX: this.offsetX,
       offsetY: this.offsetY,
       zoom: this.zoom,
       gridSize: this.gridSize,
-      links: _.map(this.links, link => {
+      links: map(this.links, link => {
         return link.serialize();
       }),
-      nodes: _.map(this.nodes, node => {
+      nodes: map(this.nodes, node => {
         return node.serialize();
       })
     });
@@ -121,7 +121,7 @@ export class DiagramModel extends BaseEntity<IDiagramListener> {
   public clearSelection(
     ignore: BaseModel<BaseEntity, IBaseModelListener> | null = null
   ) {
-    _.forEach(this.getSelectedItems(), element => {
+    forEach(this.getSelectedItems(), element => {
       if (ignore && ignore.getID() === element.getID()) {
         return;
       }
@@ -139,41 +139,41 @@ export class DiagramModel extends BaseEntity<IDiagramListener> {
 
     // Run through nodes.
     items = items.concat(
-      _.flatMap(this.nodes, node => {
+      flatMap(this.nodes, node => {
         return node.getSelectedEntities();
       })
     );
 
     // Find all the links.
     items = items.concat(
-      _.flatMap(this.links, link => {
+      flatMap(this.links, link => {
         return link.getSelectedEntities();
       })
     );
 
     // Find all points.
     items = items.concat(
-      _.flatMap(this.links, link => {
-        return _.flatMap(link.points, point => {
+      flatMap(this.links, link => {
+        return flatMap(link.points, point => {
           return point.getSelectedEntities();
         });
       })
     );
 
-    items = _.uniq(items);
+    items = uniq(items);
 
     if (filters.length > 0) {
-      items = _.filter(_.uniq(items), (item: BaseModel<any>) => {
-        if (_.includes(filters, "node") && item instanceof NodeModel) {
+      items = filter(uniq(items), (item: BaseModel<any>) => {
+        if (includes(filters, "node") && item instanceof NodeModel) {
           return true;
         }
-        if (_.includes(filters, "link") && item instanceof LinkModel) {
+        if (includes(filters, "link") && item instanceof LinkModel) {
           return true;
         }
-        if (_.includes(filters, "port") && item instanceof PortModel) {
+        if (includes(filters, "port") && item instanceof PortModel) {
           return true;
         }
-        if (_.includes(filters, "point") && item instanceof PointModel) {
+        if (includes(filters, "point") && item instanceof PointModel) {
           return true;
         }
         return false;
@@ -267,7 +267,7 @@ export class DiagramModel extends BaseEntity<IDiagramListener> {
   }
 
   public addAll(...models: BaseModel[]): BaseModel[] {
-    _.forEach(models, model => {
+    forEach(models, model => {
       if (model instanceof LinkModel) {
         this.addLink(model);
       } else if (model instanceof NodeModel) {
