@@ -1,4 +1,4 @@
-import { NodeModel } from "storm-react-diagrams";
+import { NodeModel } from "storm-react-diagrams2";
 
 import WidgetPortModel from "workbench/WidgetPortModel";
 import { IQuery } from "workbench/types";

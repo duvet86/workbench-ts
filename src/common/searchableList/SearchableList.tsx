@@ -68,7 +68,7 @@ const SearchableList: SFC<IProps> = ({
 }) => (
   <Paper className={classes.paper}>
     <Typography variant="subtitle1">{`${label} (${totItems})`}</Typography>
-    <List className={classes.list} component="div" disablePadding>
+    <List className={classes.list} component={"div" as "ul"} disablePadding>
       <FormControl fullWidth>
         <InputLabel>Search</InputLabel>
         <Input

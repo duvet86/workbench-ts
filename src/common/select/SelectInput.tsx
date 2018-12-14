@@ -99,7 +99,7 @@ const SelectInput: React.SFC<IProps> = ({
       MenuProps: {
         disableAutoFocusItem: true,
         MenuListProps: {
-          component: "div"
+          component: "div" as "ul"
         }
       },
       open,

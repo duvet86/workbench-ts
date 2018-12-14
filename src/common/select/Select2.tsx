@@ -257,7 +257,7 @@ class IntegrationReactSelect extends React.Component<IProps> {
           options={suggestions}
           components={components(classes)}
           value={this.state.multi}
-          onChange={this.handleChange}
+          // onChange={this.handleChange}
           placeholder="Select multiple countries"
           isMulti
         />

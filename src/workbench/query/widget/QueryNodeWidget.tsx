@@ -1,5 +1,5 @@
 import React from "react";
-import { PortWidget } from "storm-react-diagrams";
+import { PortWidget } from "storm-react-diagrams2";
 
 import { IColumn } from "workbench/types";
 import QueryNodeModel from "workbench/query/widget/QueryNodeModel";
@@ -124,7 +124,11 @@ const QueryNodeWidget: React.SFC<IProps> = ({ classes, node }) => {
       <div>
         <Typography noWrap>Columns</Typography>
         <Divider />
-        <List className={classes.list} onWheel={handleWheel} component="div">
+        <List
+          className={classes.list}
+          onWheel={handleWheel}
+          component={"div" as "ul"}
+        >
           <VirtualizedList
             style={{
               outline: 0

@@ -3,7 +3,7 @@ import {
   AbstractNodeFactory,
   DiagramEngine,
   NodeModel
-} from "storm-react-diagrams";
+} from "storm-react-diagrams2";
 
 import QueryNodeModel from "workbench/query/widget/QueryNodeModel";
 import QueryNodeWidget from "workbench/query/widget/QueryNodeWidget";
