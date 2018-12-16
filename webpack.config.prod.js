@@ -15,12 +15,6 @@ const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 
 const publicPath = "/";
 
-// Assert this just to be safe.
-// Development builds of React are slow and not intended for production.
-if (env.stringified["process.env"].NODE_ENV !== '"production"') {
-  throw new Error("Production builds must have NODE_ENV=production.");
-}
-
 module.exports = {
   mode: "production",
   // Don't attempt to continue if there are any errors.

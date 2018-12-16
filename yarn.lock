@@ -1451,13 +1451,6 @@ cliui@^4.0.0:
     strip-ansi "^4.0.0"
     wrap-ansi "^2.0.0"
 
-closest@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/closest/-/closest-0.0.1.tgz#26da6f80b3e0e17e71f80f12782819e9f653495c"
-  integrity sha1-JtpvgLPg4X5x+A8SeCgZ6fZTSVw=
-  dependencies:
-    matches-selector "0.0.1"
-
 co@^4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/co/-/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
@@ -1800,10 +1793,10 @@ css-has-pseudo@^0.10.0:
     postcss "^7.0.6"
     postcss-selector-parser "^5.0.0-rc.4"
 
-css-loader@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/css-loader/-/css-loader-2.0.0.tgz#f0f7469dc8e750dace97534328ed80395b5c575b"
-  integrity sha512-3Fq8HJYs7ruBiDpJA/w2ZROtivA769ePuH3/vgPdOB+FQiotErJ7VJYRZq86SPRVFaccn1wEktUnaaUyf+Uslw==
+css-loader@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/css-loader/-/css-loader-2.0.1.tgz#2e51a15449ab3f7195b7e1bc00a407460016a3b3"
+  integrity sha512-XIVwoIOzSFRVsafOKa060GJ/A70c0IP/C1oVPHEX4eHIFF39z0Jl7j8Kua1SUTiqWDupUnbY3/yQx9r7EUB35w==
   dependencies:
     icss-utils "^4.0.0"
     loader-utils "^1.0.2"
@@ -4796,11 +4789,6 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-matches-selector@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/matches-selector/-/matches-selector-0.0.1.tgz#1df5262243ae341c1a0804dd302048267ac713bb"
-  integrity sha1-HfUmIkOuNBwaCATdMCBIJnrHE7s=
-
 math-random@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/math-random/-/math-random-1.0.1.tgz#8b3aac588b8a66e4975e3cdea67f7bb329601fac"
@@ -7561,12 +7549,11 @@ stealthy-require@^1.1.0:
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
   integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
 
-storm-react-diagrams2@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/storm-react-diagrams2/-/storm-react-diagrams2-1.0.4.tgz#ec4f0e1774b600faf992e01ec8fa9eecae523d65"
-  integrity sha512-k95Wf3KOhUq/FsnY9w4GTTm+ZcpWL9b25GLxpDHpn3DS7kIjiTVHQcbAci6EJCV8O6M/F+FSqToQ/FM+SI75GQ==
+storm-react-diagrams2@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/storm-react-diagrams2/-/storm-react-diagrams2-1.0.5.tgz#129fa972b131d81ba22d8ebc09955ee57cc1bf23"
+  integrity sha512-5sE1vapimklceoKNN7dXEtl25eKI+PaNdRVDsFUmJlAXM6SPDLnSuaEU4x7HgTBgN0m6ID6DE+okF9YIDck5SA==
   dependencies:
-    closest "^0.0.1"
     lodash "^4.17.11"
     pathfinding "^0.4.18"
     paths-js "^0.4.7"

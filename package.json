@@ -27,7 +27,7 @@
     "@types/react-window": "^1.1.0",
     "@types/webpack-env": "^1.13.6",
     "clean-webpack-plugin": "^1.0.0",
-    "css-loader": "^2.0.0",
+    "css-loader": "^2.0.1",
     "dotenv-webpack": "^1.5.7",
     "duplicate-package-checker-webpack-plugin": "^3.0.0",
     "file-loader": "^2.0.0",
@@ -86,7 +86,7 @@
     "redux-observable": "^1.0.0",
     "reselect": "^4.0.0",
     "rxjs": "^6.3.3",
-    "storm-react-diagrams2": "^1.0.4",
+    "storm-react-diagrams2": "^1.0.5",
     "typeface-roboto": "^0.0.54"
   },
   "browserslist": [
