@@ -1,5 +1,5 @@
 module.exports = {
-  resolver: require.resolve("jest-pnp-resolver");
+  resolver: require.resolve("jest-pnp-resolver"),
   roots: ["<rootDir>/src"],
   transform: {
     "^.+\\.tsx?$": "ts-jest"
