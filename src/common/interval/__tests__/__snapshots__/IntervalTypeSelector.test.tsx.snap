@@ -1,86 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test 1`] = `
-<div
-  className="MuiFormControl-root-01"
->
-  <label
-    className="MuiFormLabel-root-010 MuiFormLabel-filled-014 MuiInputLabel-root-05 MuiInputLabel-formControl-06 MuiInputLabel-animated-09 MuiInputLabel-shrink-08"
-    data-shrink={true}
-    htmlFor="interval"
-  >
-    Interval
-  </label>
-  <div
-    className="MuiInput-root-022 MuiInput-formControl-023 MuiInput-underline-026"
-  >
-    <div
-      className="MuiSelect-root-017"
-    >
-      <div
-        aria-haspopup="true"
-        aria-owns={null}
-        aria-pressed="false"
-        className="MuiSelect-select-018 MuiSelect-selectMenu-019 MuiInput-input-030"
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onKeyDown={[Function]}
-        role="button"
-        tabIndex={0}
-      >
-        <span
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "&#8203;",
-            }
-          }
-        />
-      </div>
-      <input
-        id="interval"
-        name="interval"
-        type="hidden"
-        value="type"
-      />
-      <svg
-        aria-hidden="true"
-        className="MuiSvgIcon-root-035 MuiSelect-icon-021"
-        focusable="false"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M7 10l5 5 5-5z"
-        />
-      </svg>
-    </div>
-  </div>
-</div>
-`;
-
 exports[`Test IntervalTypeSelector 1`] = `
 <div
-  className="MuiFormControl-root-3 IntervalTypeSelector-container-1"
+  className="MuiFormControl-root-2 IntervalTypeSelector-container-1"
 >
   <label
-    className="MuiFormLabel-root-14 MuiFormLabel-filled-18 MuiInputLabel-root-7 MuiInputLabel-formControl-8 MuiInputLabel-animated-11 MuiInputLabel-shrink-10"
+    className="MuiFormLabel-root-17 MuiFormLabel-filled-21 MuiInputLabel-root-6 MuiInputLabel-formControl-11 MuiInputLabel-animated-14 MuiInputLabel-shrink-13"
     data-shrink={true}
     htmlFor="interval"
   >
     Interval
   </label>
   <div
-    className="MuiInputBase-root-41 MuiInput-root-28 MuiInput-underline-32 MuiInputBase-formControl-42 MuiInput-formControl-29"
+    className="MuiInputBase-root-44 MuiInput-root-31 MuiInput-underline-35 MuiInputBase-formControl-45 MuiInput-formControl-32"
     onClick={[Function]}
   >
     <div
-      className="MuiSelect-root-21"
+      className="MuiSelect-root-24"
     >
       <div
         aria-haspopup="true"
-        aria-owns={null}
         aria-pressed="false"
-        className="MuiSelect-select-22 MuiSelect-selectMenu-25 MuiInputBase-input-51 MuiInput-input-36"
+        className="MuiSelect-select-25 MuiSelect-selectMenu-28 MuiInputBase-input-54 MuiInput-input-39"
         onBlur={[Function]}
         onClick={[Function]}
         onFocus={[Function]}
@@ -103,7 +44,7 @@ exports[`Test IntervalTypeSelector 1`] = `
       />
       <svg
         aria-hidden="true"
-        className="MuiSvgIcon-root-58 MuiSelect-icon-27"
+        className="MuiSvgIcon-root-61 MuiSelect-icon-30"
         focusable="false"
         role="presentation"
         viewBox="0 0 24 24"
