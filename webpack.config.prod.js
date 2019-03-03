@@ -1,17 +1,17 @@
 const path = require("path");
 const webpack = require("webpack");
+const PnpWebpackPlugin = require("pnp-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const safePostCssParser = require("postcss-safe-parser");
+const ManifestPlugin = require("webpack-manifest-plugin");
+const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ManifestPlugin = require("webpack-manifest-plugin");
 const Dotenv = require("dotenv-webpack");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-const safePostCssParser = require("postcss-safe-parser");
-const PnpWebpackPlugin = require("pnp-webpack-plugin");
-const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 
 const publicPath = "/";
 
@@ -29,11 +29,12 @@ module.exports = {
     publicPath
   },
   optimization: {
+    minimize: true,
     minimizer: [
       new TerserPlugin({
-        sourceMap: true,
         parallel: true,
-        cache: true
+        cache: true,
+        sourceMap: true
       }),
       new OptimizeCSSAssetsPlugin({
         cssProcessorOptions: {
@@ -232,7 +233,9 @@ module.exports = {
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
   node: {
+    module: "empty",
     dgram: "empty",
+    dns: "mock",
     fs: "empty",
     net: "empty",
     tls: "empty",

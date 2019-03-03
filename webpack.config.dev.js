@@ -1,12 +1,13 @@
 const path = require("path");
 const webpack = require("webpack");
+const PnpWebpackPlugin = require("pnp-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
+const ManifestPlugin = require("webpack-manifest-plugin");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 const DuplicatePackageCheckerPlugin = require("duplicate-package-checker-webpack-plugin");
-const PnpWebpackPlugin = require("pnp-webpack-plugin");
-const ManifestPlugin = require("webpack-manifest-plugin");
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -26,6 +27,7 @@ module.exports = {
     publicPath
   },
   optimization: {
+    minimize: false,
     // Automatically split vendor and commons
     // https://twitter.com/wSokra/status/969633336732905474
     // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
@@ -159,6 +161,7 @@ module.exports = {
       template: path.resolve(__dirname, "public/index.html")
     }),
     new webpack.HotModuleReplacementPlugin(),
+    new CaseSensitivePathsPlugin(),
     new ForkTsCheckerWebpackPlugin({
       tslint: true,
       checkSyntacticErrors: true,
@@ -176,7 +179,9 @@ module.exports = {
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
   node: {
+    module: "empty",
     dgram: "empty",
+    dns: "mock",
     fs: "empty",
     net: "empty",
     tls: "empty",
@@ -195,6 +200,8 @@ module.exports = {
     // WebpackDevServer is noisy by default so we emit custom message instead
     // by listening to the compiler events with `compiler.hooks[...].tap` calls above.
     //quiet: true,
+    // By default files from `contentBase` will not trigger a page reload.
+    watchContentBase: true,
     hot: true,
     open: true,
     overlay: true,

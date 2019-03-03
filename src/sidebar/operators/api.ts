@@ -5,4 +5,8 @@ import { getWithJwtAsync } from "lib/http";
 import { IOperatorServiceDtc } from "sidebar/operators/types";
 
 export const getOperatorsObs = (): Observable<IOperatorServiceDtc[]> =>
-  from(getWithJwtAsync(`api/qes/${process.env.TENANT_ID}/operatorservices`));
+  from(
+    getWithJwtAsync<IOperatorServiceDtc[]>(
+      `api/qes/${process.env.TENANT_ID}/operatorservices`
+    )
+  );

@@ -16,7 +16,7 @@ import {
 
 export const getSessionInfoObs = (dataViewId?: string): Observable<ISession> =>
   from(
-    postWithJwtAsync(
+    postWithJwtAsync<ISession>(
       `api/qes/${process.env.TENANT_ID}/sessions?applyOnly=true${
         dataViewId != null ? `&dataViewId=${dataViewId}` : ""
       }`
@@ -47,7 +47,7 @@ export const getGraphObs = (
   nextChangeNumber: number
 ): Observable<IQueryGraphChanges> =>
   from(
-    getWithJwtAsync(
+    getWithJwtAsync<IQueryGraphChanges>(
       // tslint:disable-next-line:max-line-length
       `api/qes/${tenantId}/sessions/${sessionId}/querygraph/${queryGraphId}/changes?nextChangeNumber=${nextChangeNumber}`
     )
@@ -70,7 +70,7 @@ export const popGraphChangesObs = (
   queryGraphId: number
 ): Observable<IQueryGraphPop> =>
   from(
-    postWithJwtAsync(
+    postWithJwtAsync<IQueryGraphPop>(
       `api/qes/${tenantId}/sessions/${sessionId}/querygraph/${queryGraphId}/pop`
     )
   );

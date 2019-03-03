@@ -11,11 +11,20 @@ import { IItemDtc } from "sidebar/userItems/types";
 // http://desktop-ejm4rss/dev/api/qes/systemdataviews/demo
 // http://desktop-ejm4rss/dev/api/qes/demo/dataservices
 export const getDataServicesObs = (): Observable<IItemDtc[]> =>
-  from(getWithJwtAsync(`api/qes/systemdataviews/${process.env.TENANT_ID}`));
+  from(
+    getWithJwtAsync<IItemDtc[]>(
+      `api/qes/systemdataviews/${process.env.TENANT_ID}`
+    )
+  );
 
 export const getFilterCapabilitiesObs = (): Observable<
   IFilterCapabilitiesDic
-> => from(getWithJwtAsync("api/qes/capabilities/aggregationdic"));
+> =>
+  from(
+    getWithJwtAsync<IFilterCapabilitiesDic>(
+      "api/qes/capabilities/aggregationdic"
+    )
+  );
 
 export const getDataServiceDescriptionObs = (
   tenantId: string,
@@ -24,7 +33,7 @@ export const getDataServiceDescriptionObs = (
   elementId: number
 ): Observable<IUdsDescriptionDtc> =>
   from(
-    getWithJwtAsync(
+    getWithJwtAsync<IUdsDescriptionDtc>(
       `api/qes/${tenantId}/sessions/${sessionId}/querygraph/${queryGraphId}/queries/${elementId}/describe`
     )
   );
@@ -47,7 +56,7 @@ export const getDataTablePageObs = (
   pageNumber: number
 ): Observable<IPagedRows> =>
   from(
-    getWithJwtAsync(
+    getWithJwtAsync<IPagedRows>(
       // tslint:disable-next-line:max-line-length
       `api/qes/${tenantId}/sessions/${sessionId}/datatables/${dataTableId}/rows?pageSize=${pageSize}&pageNumber=${pageNumber}&forDisplay=true`
     )
