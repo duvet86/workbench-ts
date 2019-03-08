@@ -1,6 +1,6 @@
 {
   "defaultSeverity": "error",
-  "extends": ["tslint:recommended", "tslint-react", "tslint-react-hooks"],
+  "extends": ["tslint:recommended", "tslint-react"],
   "jsRules": {},
   "rules": {
     "trailing-comma": false,
@@ -11,8 +11,7 @@
     "jsx-boolean-value": false,
     "object-literal-sort-keys": false,
     "ordered-imports": false,
-    "jsx-curly-spacing": { "when": "never" },
-    "react-hooks-nesting": "error"
+    "jsx-curly-spacing": { "when": "never" }
   },
   "rulesDirectory": []
 }
