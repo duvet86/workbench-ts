@@ -22,6 +22,7 @@ exports[`Test IntervalTypeSelector 1`] = `
         aria-haspopup="true"
         aria-pressed="false"
         className="MuiSelect-select-25 MuiSelect-selectMenu-28 MuiInputBase-input-54 MuiInput-input-39"
+        id="select-interval"
         onBlur={[Function]}
         onClick={[Function]}
         onFocus={[Function]}
