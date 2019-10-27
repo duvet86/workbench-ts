@@ -22,7 +22,7 @@ const styles = ({ spacing }: Theme) =>
   createStyles({
     valueInput: {
       flexGrow: 1,
-      margin: spacing.unit
+      margin: spacing()
     }
   });
 

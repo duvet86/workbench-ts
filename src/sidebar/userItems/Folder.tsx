@@ -46,7 +46,7 @@ const styles = (theme: Theme) =>
       fontWeight: theme.typography.fontWeightRegular
     },
     expand: {
-      marginRight: theme.spacing.unit
+      marginRight: theme.spacing()
     }
   });
 
@@ -78,7 +78,7 @@ const Folder: SFC<IProps> = ({
         divider
         button
         onClick={handleClick}
-        style={{ paddingLeft: nested * theme.spacing.unit * 2 }}
+        style={{ paddingLeft: nested * theme.spacing() * 2 }}
       >
         <ListItemIcon className={classes.expand}>
           {expanded ? <ExpandLess /> : <ExpandMore />}

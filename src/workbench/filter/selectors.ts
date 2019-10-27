@@ -15,7 +15,7 @@ export const getFilterCompletedSteps = createSelector(
   elementIdSelector,
   filterSelector,
   (elementId, filters) => {
-    const selectedQuery = filters[elementId];
+    // const selectedQuery = filters[elementId];
 
     return [false];
   }

@@ -1,4 +1,3 @@
-// tslint:disable:no-console
 import { AnyAction, Reducer, StoreEnhancer, Action, DeepPartial } from "redux";
 
 const round = (n: number) => Math.round(n * 100) / 100;

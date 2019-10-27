@@ -4,8 +4,6 @@ import { Redirect, Route } from "react-router";
 import { connect } from "react-redux";
 import { RootState } from "rootReducer";
 
-import { IStoreToken, storeToken } from "app/actions";
-
 import { getTokenFromSession } from "lib/authApi";
 import { IRouteProps } from "common/routes/types";
 

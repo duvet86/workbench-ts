@@ -76,7 +76,7 @@ const styles = createStyles({
 });
 
 const homePageLink = (props: ButtonProps) => (
-  <Link to="/" {...props as LinkProps} />
+  <Link to="/" {...(props as LinkProps)} />
 );
 
 const ErrorBoundary: SFC<IProps> = ({ classes, errorMessage }) => (

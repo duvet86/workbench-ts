@@ -1,4 +1,3 @@
-// tslint:disable:no-console
 import { Middleware, Dispatch } from "redux";
 import { RootState } from "rootReducer";
 

@@ -107,11 +107,11 @@ class IntervalSelectorContainer extends Component<Props, IState> {
 
     return (
       <LoadingContainer isLoading={isLoading}>
-        {!isLoading && (
+        {interval != null && intervalType != null && (
           <IntervalSelector
             intervalTypes={intervalTypes}
-            initIntervalType={intervalType!}
-            interval={interval!}
+            initIntervalType={intervalType}
+            interval={interval}
             onIntervalTypeChange={this.handleIntervalTypeChange}
             onIntervalStringChange={this.handleIntervalStringChange}
             onSmartKeyChange={this.handleSmartKeyChange}
@@ -123,13 +123,14 @@ class IntervalSelectorContainer extends Component<Props, IState> {
   }
 
   private handleIntervalTypeChange = async (
-    event: ChangeEvent<HTMLSelectElement>
+    event: ChangeEvent<{ name?: string; value: unknown }>
   ) => {
     try {
-      const resolvedInterval = await resolveIntervalAsync(event.target.value);
+      const resolvedInterval = await resolveIntervalAsync(event.target
+        .value as string);
 
       this.setState({
-        intervalType: event.target.value,
+        intervalType: event.target.value as string,
         interval: {
           ...resolvedInterval
         }
@@ -143,6 +144,7 @@ class IntervalSelectorContainer extends Component<Props, IState> {
     this.setState((prevState: IState) => {
       if (prevState.interval != null) {
         return {
+          ...prevState,
           interval: {
             ...prevState.interval,
             IntervalString: intervalString
@@ -154,7 +156,7 @@ class IntervalSelectorContainer extends Component<Props, IState> {
   };
 
   private handleSmartKeyChange = async (
-    event: ChangeEvent<HTMLSelectElement>
+    event: ChangeEvent<{ name?: string; value: unknown }>
   ) => {
     try {
       const { interval } = this.state;
@@ -164,13 +166,13 @@ class IntervalSelectorContainer extends Component<Props, IState> {
       const resolvedInterval = await resolveIntervalAsync(
         interval.IntervalType,
         0,
-        event.target.value
+        event.target.value as string
       );
 
       this.setState({
         interval: {
           ...resolvedInterval,
-          smartIntervalKey: event.target.value
+          smartIntervalKey: event.target.value as string
         }
       });
     } catch (e) {

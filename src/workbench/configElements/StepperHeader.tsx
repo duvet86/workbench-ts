@@ -35,10 +35,10 @@ const styles = ({ spacing }: Theme) =>
     titleContainer: {
       display: "flex",
       alignItems: "center",
-      marginBottom: spacing.unit * 2
+      marginBottom: spacing() * 2
     },
     title: {
-      marginRight: spacing.unit * 2
+      marginRight: spacing() * 2
     },
     stepper: {
       padding: 0,

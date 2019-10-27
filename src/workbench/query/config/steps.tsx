@@ -19,7 +19,7 @@ export const steps: Array<IConfigSteps<IQuery>> = [
         It can be a data source or an existing query.
         Once you are done go to the next step clicking on the next button.`
     },
-    renderComponent: (query: IQuery) => {
+    renderComponent: function(query: IQuery) {
       const initTargetDataViewId =
         query.TargetDataViewId != null ? query.TargetDataViewId : "";
       return (
@@ -45,9 +45,9 @@ export const steps: Array<IConfigSteps<IQuery>> = [
           Click on a column on the available list to move it to the selected list.
           To remove a column from the selected list click on it again.`
     },
-    renderComponent: (query: IQuery) => (
-      <ColumnsSelectorContainer elementId={query.ElementId} />
-    )
+    renderComponent: function columnsSelector(query: IQuery) {
+      return <ColumnsSelectorContainer elementId={query.ElementId} />;
+    }
   },
   {
     label: "Constraints",
@@ -56,17 +56,19 @@ export const steps: Array<IConfigSteps<IQuery>> = [
       text: `Narrow down your data with constraints.
         Constraints are part of the query you are creating and are not visible outside of it.`
     },
-    renderComponent: (query: IQuery) => (
-      <ConstraintSelectorContainer elementId={query.ElementId} />
-    )
+    renderComponent: function constraintSelector(query: IQuery) {
+      return <ConstraintSelectorContainer elementId={query.ElementId} />;
+    }
   },
   {
     label: "Summary",
-    renderComponent: (query: IQuery) => (
-      <>
-        <SummaryContainer query={query} />
-        <DataPreviewContainer columns={query.Columns} />
-      </>
-    )
+    renderComponent: function summary(query: IQuery) {
+      return (
+        <>
+          <SummaryContainer query={query} />
+          <DataPreviewContainer columns={query.Columns} />
+        </>
+      );
+    }
   }
 ];

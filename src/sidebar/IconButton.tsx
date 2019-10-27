@@ -49,9 +49,7 @@ const styles = (theme: Theme) =>
         position: "absolute",
         boxSizing: "border-box",
         border: "7px solid black",
-        borderColor: `transparent transparent ${theme.palette.common.white} ${
-          theme.palette.common.white
-        }`,
+        borderColor: `transparent transparent ${theme.palette.common.white} ${theme.palette.common.white}`,
         transform: "rotate(45deg)",
         boxShadow: "-3px 3px 3px 0 rgba(0, 0, 0, 0.1)"
       }

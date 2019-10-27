@@ -22,14 +22,19 @@ interface IProps extends WithStyles<typeof styles> {
   intervalTypes: { [key: string]: IIntervalTypesDtc };
   initIntervalType: string;
   interval: IIntervalDtc;
-  onIntervalTypeChange: (event: ChangeEvent<HTMLSelectElement>) => void;
+  onIntervalTypeChange: (
+    event: ChangeEvent<{ name?: string; value: unknown }>
+  ) => void;
   onIntervalStringChange: (intervalString: string) => void;
-  onSmartKeyChange: (event: ChangeEvent<HTMLSelectElement>) => void;
+  onSmartKeyChange: (
+    event: ChangeEvent<{ name?: string; value: unknown }>
+  ) => void;
   onNextIntevalClick: (offset: number) => () => void;
 }
 
-const styles = ({ spacing: { unit } }: Theme) =>
-  createStyles({
+const styles = ({ spacing }: Theme) => {
+  const unit = spacing();
+  return createStyles({
     container: {
       display: "flex",
       width: "100%"
@@ -43,6 +48,7 @@ const styles = ({ spacing: { unit } }: Theme) =>
       margin: `${unit * 3}px ${unit}px ${unit}px ${unit}px`
     }
   });
+};
 
 const IntervalSelector: SFC<IProps> = ({
   classes,

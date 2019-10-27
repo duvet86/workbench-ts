@@ -2,8 +2,7 @@ import React from "react";
 
 import { getMultiSelectValue } from "common/select/selectors";
 
-import { Overwrite, StyledComponentProps } from "@material-ui/core";
-
+import { SvgIconProps } from "@material-ui/core/SvgIcon";
 import { SelectProps } from "@material-ui/core/Select";
 import SelectInput from "common/select/SelectInput";
 import MultiSelectValue from "common/select/MultiSelectValue";
@@ -27,9 +26,7 @@ export interface IProps<T> {
   onChange: onChangeSingle<T> | onChangeMulti<T>;
   initValue?: T | T[];
   isMulti?: boolean;
-  OptionsIcon?: React.ComponentType<
-    Overwrite<Pick<{}, never>, StyledComponentProps<string>>
-  >;
+  OptionsIcon?: JSX.Element;
   inputLabel?: string;
   helperText?: string;
   noClear?: boolean;
@@ -134,16 +131,16 @@ export default class SelectInputContainer<T> extends React.Component<
   }
 
   private handleSelectAllNone = (
-    event: React.ChangeEvent<HTMLSelectElement>,
+    event: React.ChangeEvent<{ name?: string; value: unknown }>,
     _: React.ReactNode
   ) => {
-    if (event.target.value.includes(SelectEnum.SelectAll)) {
+    if ((event.target.value as string).includes(SelectEnum.SelectAll)) {
       this.setState({
         open: false,
         selectedOption: this.props.options
       });
       (this.props.onChange as onChangeMulti<T>)(this.props.options);
-    } else if (event.target.value.includes(SelectEnum.SelectNone)) {
+    } else if ((event.target.value as string).includes(SelectEnum.SelectNone)) {
       this.setState({
         open: false,
         selectedOption: []
@@ -153,13 +150,13 @@ export default class SelectInputContainer<T> extends React.Component<
   };
 
   private handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLDivElement>
+    event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
   };
 
   private handleClickClearSelected = (
-    event: React.MouseEvent<HTMLDivElement>
+    event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.stopPropagation();
     this.setState({
@@ -237,7 +234,7 @@ export default class SelectInputContainer<T> extends React.Component<
         />
       ));
     }
-    return <div>{optionLabel}</div>;
+    return <div>{optionLabel as string}</div>;
   };
 
   private handleDeleteChip = (optionLabel: string) => () => {

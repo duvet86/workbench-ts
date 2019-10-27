@@ -1,9 +1,4 @@
-import {
-  ISmartInterval,
-  IShiftDtc,
-  IIntervalDtc,
-  IntervalTypes
-} from "common/interval/types";
+import { ISmartInterval, IntervalTypes } from "common/interval/types";
 
 export const getDefaultInterval = () => ({
   IntervalType: IntervalTypes.DATEOP

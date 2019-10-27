@@ -30,7 +30,7 @@ interface IProps extends WithStyles<typeof styles> {
   ) => React.MouseEventHandler;
 }
 
-const styles = ({ spacing: { unit } }: Theme) =>
+const styles = ({ spacing }: Theme) =>
   createStyles({
     paper: {
       display: "flex",
@@ -38,11 +38,11 @@ const styles = ({ spacing: { unit } }: Theme) =>
     },
     targetLabel: {
       flexShrink: 0,
-      flexBasis: `${unit * 2}%`,
-      margin: unit
+      flexBasis: `${spacing() * 2}%`,
+      margin: spacing()
     },
     constraintIcon: {
-      margin: unit,
+      margin: spacing(),
       fill: "#2c5367"
     }
   });

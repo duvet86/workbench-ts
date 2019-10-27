@@ -48,18 +48,13 @@ class LoadingContainer extends Component<IProps, Readonly<IState>> {
     const { pastDelay } = this.state;
 
     return background ? (
-      <BackgroundLoading
-        isLoading={isLoading}
-        pastDelay={pastDelay}
-        children={children}
-      />
+      <BackgroundLoading isLoading={isLoading} pastDelay={pastDelay}>
+        {children}
+      </BackgroundLoading>
     ) : (
-      <Loading
-        isLoading={isLoading}
-        pastDelay={pastDelay}
-        children={children}
-        error={error}
-      />
+      <Loading isLoading={isLoading} pastDelay={pastDelay} error={error}>
+        {children}
+      </Loading>
     );
   }
 

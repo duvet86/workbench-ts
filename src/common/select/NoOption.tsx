@@ -9,10 +9,10 @@ import {
 
 import Typography from "@material-ui/core/Typography";
 
-const styles = ({ spacing: { unit } }: Theme) =>
+const styles = ({ spacing }: Theme) =>
   createStyles({
     labelContainer: {
-      padding: unit * 2
+      padding: spacing() * 2
     }
   });
 

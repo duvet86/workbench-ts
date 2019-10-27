@@ -28,7 +28,7 @@ export const initIntervalAsync = (
 
 export const resolveIntervalAsync = (
   intervalType: string,
-  offset: number = 0,
+  offset = 0,
   smartIntervalKey?: string
 ) =>
   getWithJwtAsync<IIntervalDtc[]>(
@@ -50,7 +50,7 @@ export const getCalendarStringAsync = async (
   intervalType: IntervalTypes.CALENDARPERIOD | IntervalTypes.CALENDARQUARTER
 ): Promise<ICalendarString[]> => {
   switch (intervalType) {
-    case IntervalTypes.CALENDARPERIOD:
+    case IntervalTypes.CALENDARPERIOD: {
       const periods = await getWithJwtAsync<ICalendarPeriodDtc[]>(
         "api/platform/calendarperiods"
       );
@@ -59,7 +59,8 @@ export const getCalendarStringAsync = async (
         label: Label,
         value: PeriodName
       }));
-    case IntervalTypes.CALENDARQUARTER:
+    }
+    case IntervalTypes.CALENDARQUARTER: {
       const quarters = await getWithJwtAsync<ICalendarQuarterDtc[]>(
         "api/platform/calendarquarters"
       );
@@ -68,6 +69,7 @@ export const getCalendarStringAsync = async (
         label: Label,
         value: QuarterName
       }));
+    }
     default:
       return [];
   }

@@ -20,7 +20,7 @@ interface IProps extends WithStyles<typeof styles> {
   handleChange: (event: ChangeEvent<{}>, value: number) => void;
 }
 
-const styles = ({ breakpoints, spacing: { unit } }: Theme) =>
+const styles = ({ breakpoints, spacing }: Theme) =>
   createStyles({
     tabs: {
       width: drawerBodyWidth
@@ -29,12 +29,12 @@ const styles = ({ breakpoints, spacing: { unit } }: Theme) =>
       minWidth: 0,
       maxWidth: "100%"
     },
-    labelContainer: {
-      [breakpoints.up("md")]: {
-        paddingLeft: unit * 2,
-        paddingRight: unit * 2
-      }
-    },
+    // labelContainer: {
+    //   [breakpoints.up("md")]: {
+    //     paddingLeft: spacing() * 2,
+    //     paddingRight: spacing() * 2
+    //   }
+    // },
     textColorPrimary: {
       color: "black"
     }
@@ -47,7 +47,6 @@ const NavigationTabs: SFC<IProps> = ({
   handleChange
 }) => (
   <Tabs
-    fullWidth
     className={classes.tabs}
     value={selectedTab}
     onChange={handleChange}
@@ -60,7 +59,7 @@ const NavigationTabs: SFC<IProps> = ({
         label={label}
         classes={{
           root: classes.tabRoot,
-          labelContainer: classes.labelContainer,
+          // labelContainer: classes.labelContainer,
           textColorPrimary: classes.textColorPrimary
         }}
       />

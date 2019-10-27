@@ -21,20 +21,20 @@ interface IProps extends WithStyles<typeof styles> {
   isFullWidth: boolean;
   handledUpdateQueryConstraintType: (
     constraintId: number
-  ) => React.ChangeEventHandler<HTMLSelectElement>;
+  ) => React.ChangeEventHandler<{ name?: string; value: unknown }>;
 }
 
-const styles = ({ spacing: { unit } }: Theme) =>
+const styles = ({ spacing }: Theme) =>
   createStyles({
     root: {
       flexShrink: 0,
-      flexBasis: `${unit * 2}%`,
-      margin: unit
+      flexBasis: `${spacing() * 2}%`,
+      margin: spacing()
     },
     rootFullWidth: {
       flexShrink: 0,
       flex: 1,
-      margin: unit
+      margin: spacing()
     }
   });
 

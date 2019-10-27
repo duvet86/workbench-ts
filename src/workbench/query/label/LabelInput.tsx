@@ -18,7 +18,7 @@ interface IProps extends WithStyles<typeof styles> {
 const styles = (theme: Theme) =>
   createStyles({
     paper: {
-      padding: theme.spacing.unit * 3
+      padding: theme.spacing() * 3
     }
   });
 

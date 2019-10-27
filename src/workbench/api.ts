@@ -59,7 +59,7 @@ export const pushGraphChangesObs = (
   queryGraphId: number
 ): Observable<IPushQueryGraphResult> =>
   from(
-    postWithJwtAsync(
+    postWithJwtAsync<IPushQueryGraphResult>(
       `api/qes/${tenantId}/sessions/${sessionId}/querygraph/${queryGraphId}/push`
     )
   );

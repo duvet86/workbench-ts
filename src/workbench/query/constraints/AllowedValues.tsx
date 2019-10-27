@@ -18,11 +18,11 @@ interface IProps extends WithStyles<typeof styles> {
   handledUpdateQueryConstraintValues: (selectedOptions?: IOption[]) => void;
 }
 
-const styles = ({ spacing: { unit } }: Theme) =>
+const styles = ({ spacing }: Theme) =>
   createStyles({
     valueInput: {
       flexGrow: 1,
-      margin: unit
+      margin: spacing()
     }
   });
 

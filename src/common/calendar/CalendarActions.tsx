@@ -22,7 +22,7 @@ const styles = (theme: Theme) =>
       justifyContent: "space-between"
     },
     button: {
-      marginRight: theme.spacing.unit
+      marginRight: theme.spacing()
     }
   });
 

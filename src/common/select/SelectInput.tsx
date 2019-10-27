@@ -25,20 +25,22 @@ interface IProps {
   value: string | string[];
   options: IOption[];
   isMulti?: boolean;
-  OptionsIcon?: React.ComponentType<SvgIconProps>;
+  OptionsIcon?: JSX.Element;
   inputLabel?: string;
   helperText?: string;
   noClear?: boolean;
   required?: boolean;
   handleOptionClick: (option: IOption) => (event: React.MouseEvent) => void;
   handleSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleClickClearSelected: (event: React.MouseEvent<HTMLDivElement>) => void;
-  handleMouseDownPassword: (event: React.MouseEvent<HTMLDivElement>) => void;
+  handleClickClearSelected: (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => void;
+  handleMouseDownPassword: (event: React.MouseEvent<HTMLButtonElement>) => void;
   handleOpen: () => void;
   handleClose: () => void;
   renderValue: (value: SelectProps["value"]) => React.ReactNode;
   handleSelectAllNone: (
-    event: React.ChangeEvent<HTMLSelectElement>,
+    event: React.ChangeEvent<{ name?: string; value: unknown }>,
     child: React.ReactNode
   ) => void;
 }
@@ -48,7 +50,7 @@ const rowRenderer = (
   options: IOption[],
   handleOptionClick: (option: IOption) => (event: React.MouseEvent) => void,
   isMulti?: boolean,
-  OptionsIcon?: React.ComponentType<SvgIconProps>
+  OptionsIcon?: JSX.Element
 ) => ({ index, style }: ListChildComponentProps) => {
   const option = options[index];
   const handleClick = handleOptionClick(option);
@@ -60,7 +62,7 @@ const rowRenderer = (
       option={option}
       handleClick={handleClick}
       isMulti={isMulti}
-      OptionsIcon={OptionsIcon}
+      // OptionsIcon={OptionsIcon}
     />
   );
 };
@@ -97,10 +99,10 @@ const SelectInput: React.SFC<IProps> = ({
     value={value}
     SelectProps={{
       MenuProps: {
-        disableAutoFocusItem: true,
-        MenuListProps: {
-          component: "div" as "ul"
-        }
+        disableAutoFocusItem: true
+        // MenuListProps: {
+        //   component: "div" as "ul"
+        // }
       },
       open,
       onOpen: handleOpen,

@@ -109,6 +109,7 @@ const Pagebuilder: SFC<IProps> = ({ classes, handleChange, value }) => (
           </Paper>
           <Paper key="c" elevation={4}>
             <img
+              alt=""
               draggable={false}
               style={{
                 height: "100%",

@@ -41,14 +41,16 @@ export interface IProps extends WithStyles<typeof styles> {
   yearInvalid: (currentYear: number) => boolean;
 }
 
-const styles = ({ spacing: { unit } }: Theme) =>
-  createStyles({
+const styles = ({ spacing }: Theme) => {
+  const unit = spacing();
+  return createStyles({
     calendarContainer: {
       minHeight: 375,
       overflow: "hidden",
       padding: `0 ${unit}px ${unit}px`
     }
   });
+};
 
 const Calendar: React.SFC<IProps> = ({
   classes,

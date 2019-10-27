@@ -21,23 +21,14 @@ interface IProps extends WithStyles<typeof styles> {
   handleChangeDataService: (option?: IOption) => void;
 }
 
-const iconStyles = createStyles({
-  iconColour: {
-    fill: "#003b86"
-  }
-});
-
-const styledIcon: SFC<WithStyles<typeof iconStyles>> = ({ classes }) => (
-  <StorageIcon className={classes.iconColour} />
-);
-
-const OptionsIcon = withStyles(iconStyles)(styledIcon);
-
 const styles = (theme: Theme) =>
   createStyles({
     paper: {
-      padding: theme.spacing.unit * 3,
-      marginBottom: theme.spacing.unit * 3
+      padding: theme.spacing() * 3,
+      marginBottom: theme.spacing() * 3
+    },
+    iconColour: {
+      fill: "#003b86"
     }
   });
 
@@ -50,7 +41,7 @@ const SourceSelector: SFC<IProps> = ({
   <Paper className={classes.paper}>
     <SelectInputContainer
       required
-      OptionsIcon={OptionsIcon}
+      OptionsIcon={<StorageIcon className={classes.iconColour} />}
       inputLabel="Query Source"
       initValue={initTargetDataViewId}
       options={dataServices}

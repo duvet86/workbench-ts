@@ -14,10 +14,10 @@ interface IProps extends WithStyles<typeof styles> {
   handleDeleteChip: (optionLabel: string) => () => void;
 }
 
-const styles = ({ spacing: { unit } }: Theme) =>
+const styles = ({ spacing }: Theme) =>
   createStyles({
     chip: {
-      pmarginLeft: unit / 2
+      pmarginLeft: spacing() / 2
     }
   });
 

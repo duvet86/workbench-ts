@@ -28,7 +28,7 @@ const styles = ({ spacing }: Theme) =>
     },
     leftIcon: {
       fill: "#bdbdbd",
-      marginRight: spacing.unit
+      marginRight: spacing()
     }
   });
 

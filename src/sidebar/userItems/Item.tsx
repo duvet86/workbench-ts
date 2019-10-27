@@ -68,7 +68,7 @@ const Item: SFC<IProps> = ({
     button
     component={workbenchLink(itemTypeId, itemId)}
     className={classes.item}
-    style={{ paddingLeft: nested * theme.spacing.unit * 2 }}
+    style={{ paddingLeft: nested * theme.spacing() * 2 }}
   >
     {itemTypeId.toUpperCase() === ItemTypeIds.PAGE_BUILDER ? (
       <DashboardIcon className={classes.icon} />

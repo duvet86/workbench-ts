@@ -19,17 +19,17 @@ interface IProps extends WithStyles<typeof styles> {
   dispatchGoToStep: (stepIndex: number) => void;
 }
 
-const styles = ({ spacing: { unit } }: Theme) =>
+const styles = ({ spacing }: Theme) =>
   createStyles({
     actionButtons: {
       display: "flex",
       justifyContent: "flex-end",
       position: "fixed",
-      bottom: unit * 6,
+      bottom: spacing() * 6,
       right: 0
     },
     button: {
-      margin: unit
+      margin: spacing()
     }
   });
 

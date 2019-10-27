@@ -25,15 +25,15 @@ interface IProps extends WithStyles<typeof styles> {
   ) => (event: React.MouseEvent) => void;
 }
 
-const styles = ({ spacing: { unit } }: Theme) =>
+const styles = ({ spacing }: Theme) =>
   createStyles({
     listContainer: {
       position: "relative"
     },
     button: {
       position: "absolute",
-      right: unit * 2,
-      top: unit * 2
+      right: spacing() * 2,
+      top: spacing() * 2
     }
   });
 
@@ -44,7 +44,7 @@ const ColumnsSelector: SFC<IProps> = ({
   handleAddQueryColumn,
   handleRemoveQueryColumn
 }) => (
-  <Grid container spacing={16}>
+  <Grid container spacing={6}>
     <Grid item xs={6} className={classes.listContainer}>
       {availableColumns.length > 0 && (
         <Button

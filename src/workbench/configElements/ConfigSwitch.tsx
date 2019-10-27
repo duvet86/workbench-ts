@@ -34,7 +34,7 @@ const styles = ({ spacing }: Theme) =>
     form: {
       position: "relative",
       height: "100%",
-      padding: spacing.unit * 2,
+      padding: spacing() * 2,
       overflow: "auto",
       marginBottom: 48
     }
@@ -64,7 +64,7 @@ const ConfigSwitch: SFC<IProps> = ({
   <Drawer classes={{ paper: classes.paper }} anchor="right" open={isDrawerOpen}>
     {isDrawerOpen && (
       <form className={classes.form} noValidate autoComplete="off">
-        <Grid container spacing={16} alignContent="stretch">
+        <Grid container spacing={6} alignContent="stretch">
           {drawerByType(operatorServiceId)}
         </Grid>
       </form>

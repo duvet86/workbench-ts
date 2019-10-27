@@ -15,7 +15,7 @@ const styles = createStyles({
 });
 
 const WelcomePage: SFC<WithStyles<typeof styles>> = ({ classes }) => (
-  <Grid container className={classes.container} spacing={16}>
+  <Grid container className={classes.container} spacing={6}>
     <Grid item xs={12}>
       <Typography variant="h5" gutterBottom>
         Welcome

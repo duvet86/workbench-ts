@@ -32,8 +32,8 @@ const styles = (theme: Theme) =>
   createStyles({
     addButton: {
       position: "fixed",
-      bottom: theme.spacing.unit * 3,
-      right: theme.spacing.unit * 3
+      bottom: theme.spacing() * 3,
+      right: theme.spacing() * 3
     },
     drawer: {
       marginTop: 48
@@ -50,7 +50,7 @@ const styles = (theme: Theme) =>
       maxHeight: 500
     },
     inputContainer: {
-      marginTop: theme.spacing.unit * 2
+      marginTop: theme.spacing() * 2
     },
     componentGroup: {
       color: theme.palette.secondary.main

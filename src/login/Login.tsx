@@ -33,7 +33,7 @@ interface IState {
   showPassword: boolean;
 }
 
-const styles = ({ spacing: { unit } }: Theme) =>
+const styles = ({ spacing }: Theme) =>
   createStyles({
     "@keyframes appLogoSpin": {
       from: {
@@ -47,14 +47,14 @@ const styles = ({ spacing: { unit } }: Theme) =>
       height: "70%"
     },
     paper: {
-      padding: unit * 3
+      padding: spacing() * 3
     },
     form: {
-      marginTop: unit * 3
+      marginTop: spacing() * 3
     },
     passwordControl: {
-      marginRight: unit,
-      marginBottom: unit * 3
+      marginRight: spacing(),
+      marginBottom: spacing() * 3
     },
     logoContainer: {
       textAlign: "center"

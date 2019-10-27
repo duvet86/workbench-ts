@@ -2,59 +2,55 @@
 
 exports[`Test IntervalTypeSelector 1`] = `
 <div
-  className="MuiFormControl-root-2 IntervalTypeSelector-container-1"
+  className="MuiFormControl-root IntervalTypeSelector-container-1"
 >
   <label
-    className="MuiFormLabel-root-17 MuiFormLabel-filled-21 MuiInputLabel-root-6 MuiInputLabel-formControl-11 MuiInputLabel-animated-14 MuiInputLabel-shrink-13"
+    className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled"
     data-shrink={true}
     htmlFor="interval"
   >
     Interval
   </label>
   <div
-    className="MuiInputBase-root-44 MuiInput-root-31 MuiInput-underline-35 MuiInputBase-formControl-45 MuiInput-formControl-32"
+    className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
     onClick={[Function]}
   >
     <div
-      className="MuiSelect-root-24"
+      aria-haspopup="listbox"
+      className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiInputBase-input MuiInput-input MuiInputBase-inputSelect"
+      id="select-interval"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      role="button"
+      tabIndex={0}
     >
-      <div
-        aria-haspopup="true"
-        aria-pressed="false"
-        className="MuiSelect-select-25 MuiSelect-selectMenu-28 MuiInputBase-input-54 MuiInput-input-39"
-        id="select-interval"
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onKeyDown={[Function]}
-        role="button"
-        tabIndex={0}
-      >
-        <span
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "&#8203;",
-            }
+      <span
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "&#8203;",
           }
-        />
-      </div>
-      <input
-        name="interval"
-        type="hidden"
-        value="DATEOP"
+        }
       />
-      <svg
-        aria-hidden="true"
-        className="MuiSvgIcon-root-61 MuiSelect-icon-30"
-        focusable="false"
-        role="presentation"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M7 10l5 5 5-5z"
-        />
-      </svg>
     </div>
+    <input
+      name="interval"
+      onAnimationStart={[Function]}
+      type="hidden"
+      value="DATEOP"
+    />
+    <svg
+      aria-hidden="true"
+      className="MuiSvgIcon-root MuiSelect-icon"
+      focusable="false"
+      role="presentation"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M7 10l5 5 5-5z"
+      />
+    </svg>
   </div>
 </div>
 `;

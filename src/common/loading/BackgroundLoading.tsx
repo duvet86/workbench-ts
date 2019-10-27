@@ -32,14 +32,13 @@ const BackgroundLoading: SFC<IProps> = ({
   children
 }) => (
   <Fragment>
-    {isLoading &&
-      pastDelay && (
-        <div className={classes.container}>
-          <Paper className={classes.loading}>
-            <BaseLoading />
-          </Paper>
-        </div>
-      )}
+    {isLoading && pastDelay && (
+      <div className={classes.container}>
+        <Paper className={classes.loading}>
+          <BaseLoading />
+        </Paper>
+      </div>
+    )}
     {children}
   </Fragment>
 );

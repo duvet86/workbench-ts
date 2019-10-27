@@ -1,8 +1,8 @@
-import React from "react";
+import React, { ElementType } from "react";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
-import MenuItem from "@material-ui/core/MenuItem";
+import MenuItem, { MenuItemProps } from "@material-ui/core/MenuItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
 
@@ -21,7 +21,7 @@ const styles = createStyles({
 const MenuItemSelectAll: React.SFC<IProps> = ({ classes, value }) => (
   <MenuItem
     divider
-    component="div"
+    component={"div" as ElementType}
     className={classes.menuItem}
     value={
       value === SelectEnum.AllLabel
@@ -30,7 +30,7 @@ const MenuItemSelectAll: React.SFC<IProps> = ({ classes, value }) => (
     }
   >
     <Checkbox checked={value === SelectEnum.AllLabel} />
-    <ListItemText primary={"Select all"} />
+    <ListItemText primary="Select all" />
   </MenuItem>
 );
 

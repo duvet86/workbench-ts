@@ -14,10 +14,10 @@ interface IProps extends WithStyles<typeof styles> {
   emptyListLabel?: string;
 }
 
-const styles = ({ spacing: { unit } }: Theme) =>
+const styles = ({ spacing }: Theme) =>
   createStyles({
     labelContainer: {
-      padding: unit * 2,
+      padding: spacing() * 2,
       height: LIST_HEIGHT
     }
   });

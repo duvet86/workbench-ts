@@ -149,8 +149,8 @@ class CalendarContainer extends React.Component<IProps, IState> {
           min && month < min.getMonth() && year === min.getFullYear()
             ? min.getMonth()
             : max && month > max.getMonth() && year === max.getFullYear()
-              ? max.getMonth()
-              : month
+            ? max.getMonth()
+            : month
       });
     } else {
       this.setState({

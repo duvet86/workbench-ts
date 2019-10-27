@@ -6,7 +6,6 @@ import {
   Theme
 } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
 
 import SlideTransition from "common/calendar/SlideTransition";
 

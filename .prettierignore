@@ -1,0 +1,5 @@
+*.png
+*.jpg
+*.svg
+yarn.lock
+packages/**/node_modules/

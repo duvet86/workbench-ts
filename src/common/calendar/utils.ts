@@ -119,8 +119,8 @@ export const formatDate = (date: Date, format: string) =>
           date.getHours() > 12
             ? date.getHours() - 12
             : date.getHours() === 0
-              ? 12
-              : date.getHours(),
+            ? 12
+            : date.getHours(),
           2
         )
       },
@@ -129,8 +129,8 @@ export const formatDate = (date: Date, format: string) =>
         word: (date.getHours() > 12
           ? date.getHours() - 12
           : date.getHours() === 0
-            ? 12
-            : date.getHours()
+          ? 12
+          : date.getHours()
         ).toString()
       }
     ],

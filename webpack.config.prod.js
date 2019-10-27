@@ -12,27 +12,148 @@ const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
+const postcssNormalize = require("postcss-normalize");
 
 const publicPath = "/";
 
+// style files regexes
+const cssRegex = /\.css$/;
+const cssModuleRegex = /\.module\.css$/;
+
+const getStyleLoaders = (cssOptions, preProcessor) => {
+  const loaders = [
+    {
+      loader: MiniCssExtractPlugin.loader
+    },
+    {
+      loader: require.resolve("css-loader"),
+      options: cssOptions
+    },
+    {
+      // Options for PostCSS as we reference these options twice
+      // Adds vendor prefixing based on your specified browser support in
+      // package.json
+      loader: require.resolve("postcss-loader"),
+      options: {
+        // Necessary for external CSS imports to work
+        // https://github.com/facebook/create-react-app/issues/2677
+        ident: "postcss",
+        plugins: () => [
+          require("postcss-flexbugs-fixes"),
+          require("postcss-preset-env")({
+            autoprefixer: {
+              flexbox: "no-2009"
+            },
+            stage: 3
+          }),
+          // Adds PostCSS Normalize as the reset css with default options,
+          // so that it honors browserslist config in package.json
+          // which in turn let's users customize the target behavior as per their needs.
+          postcssNormalize()
+        ],
+        sourceMap: true
+      }
+    }
+  ].filter(Boolean);
+
+  if (preProcessor) {
+    loaders.push(
+      {
+        loader: require.resolve("resolve-url-loader"),
+        options: {
+          sourceMap: true
+        }
+      },
+      {
+        loader: require.resolve(preProcessor),
+        options: {
+          sourceMap: true
+        }
+      }
+    );
+  }
+
+  return loaders;
+};
+
 module.exports = {
   mode: "production",
+  stats: {
+    all: false,
+    errors: true,
+    warnings: true,
+    errorDetails: true,
+    assets: true,
+    assetsSort: "!size",
+    builtAt: true,
+    colors: true,
+    env: true,
+    publicPath: true
+  },
   // Don't attempt to continue if there are any errors.
   bail: true,
   // Enable sourcemaps for debugging webpack's output.
   devtool: "source-map",
   entry: "./src/index.tsx",
   output: {
-    filename: "static/js/[name].[chunkhash:8].js",
-    chunkFilename: "static/js/[name].[chunkhash:8].chunk.js",
     path: path.resolve(__dirname, "build"),
-    publicPath
+    filename: "static/js/[name].[chunkhash:8].js",
+    // TODO: remove this when upgrading to webpack 5
+    futureEmitAssets: true,
+    chunkFilename: "static/js/[name].[chunkhash:8].chunk.js",
+    publicPath,
+    // this defaults to 'window', but by setting it to 'this' then
+    // module chunks which are built will work in web workers as well.
+    globalObject: "this"
   },
   optimization: {
     minimize: true,
     minimizer: [
+      // This is only used in production mode
       new TerserPlugin({
+        terserOptions: {
+          parse: {
+            // We want terser to parse ecma 8 code. However, we don't want it
+            // to apply any minification steps that turns valid ecma 5 code
+            // into invalid ecma 5 code. This is why the 'compress' and 'output'
+            // sections only apply transformations that are ecma 5 safe
+            // https://github.com/facebook/create-react-app/pull/4234
+            ecma: 8
+          },
+          compress: {
+            ecma: 5,
+            warnings: false,
+            // Disabled because of an issue with Uglify breaking seemingly valid code:
+            // https://github.com/facebook/create-react-app/issues/2376
+            // Pending further investigation:
+            // https://github.com/mishoo/UglifyJS2/issues/2011
+            comparisons: false,
+            // Disabled because of an issue with Terser breaking valid code:
+            // https://github.com/facebook/create-react-app/issues/5250
+            // Pending further investigation:
+            // https://github.com/terser-js/terser/issues/120
+            inline: 2
+          },
+          mangle: {
+            safari10: true
+          },
+          // Added for profiling in devtools
+          //keep_classnames: isEnvProductionProfile,
+          //keep_fnames: isEnvProductionProfile,
+          output: {
+            ecma: 5,
+            comments: false,
+            // Turned on because emoji and regex is not minified properly using default
+            // https://github.com/facebook/create-react-app/issues/2488
+            ascii_only: true
+          }
+        },
+        // Use multi-process parallel running to improve the build speed
+        // Default number of concurrent runs: os.cpus().length - 1
+        // Disabled on WSL (Windows Subsystem for Linux) due to an issue with Terser
+        // https://github.com/webpack-contrib/terser-webpack-plugin/issues/21
         parallel: true,
+        // Enable file caching
         cache: true,
         sourceMap: true
       }),
@@ -54,15 +175,24 @@ module.exports = {
     // https://twitter.com/wSokra/status/969633336732905474
     // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
     splitChunks: {
-      chunks: "all"
+      chunks: "all",
+      name: false
     },
-    // Keep the runtime chunk seperated to enable long term caching
+    // Keep the runtime chunk separated to enable long term caching
     // https://twitter.com/wSokra/status/969679223278505985
-    runtimeChunk: true
+    // https://github.com/facebook/create-react-app/issues/5358
+    runtimeChunk: {
+      name: entrypoint => `runtime-${entrypoint.name}`
+    }
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
-    plugins: [new TsconfigPathsPlugin(), PnpWebpackPlugin],
+    plugins: [
+      // Adds support for installing with Plug'n'Play, leading to faster installs and adding
+      // guards against forgotten dependencies and such.
+      PnpWebpackPlugin,
+      new TsconfigPathsPlugin()
+    ],
     alias: {
       react: path.resolve(__dirname, "node_modules/react")
     }
@@ -95,6 +225,10 @@ module.exports = {
               name: "static/media/[name].[hash:8].[ext]"
             }
           },
+          {
+            test: /\.svg$/,
+            use: ["@svgr/webpack"]
+          },
           // process ts/tsx files
           {
             test: /\.tsx?$/,
@@ -110,59 +244,32 @@ module.exports = {
           // "postcss" loader applies autoprefixer to our CSS.
           // "css" loader resolves paths in CSS and adds assets as dependencies.
           // "style" loader turns CSS into JS modules that inject <style> tags.
-          // In production, we use a plugin to extract that CSS to a file, but
-          // in development "style" loader enables hot editing of CSS.
+          // In production, we use MiniCSSExtractPlugin to extract that CSS
+          // to a file, but in development "style" loader enables hot editing
+          // of CSS.
           // By default we support CSS Modules with the extension .module.css
           {
-            test: /\.css$/,
-            exclude: /\.module\.css$/,
-            loader: [
-              {
-                loader: MiniCssExtractPlugin.loader
-              },
-              {
-                loader: require.resolve("css-loader"),
-                options: {
-                  importLoaders: 1,
-                  sourceMap: true
-                }
-              },
-              {
-                // Options for PostCSS as we reference these options twice
-                // Adds vendor prefixing based on your specified browser support in
-                // package.json
-                loader: require.resolve("postcss-loader"),
-                options: {
-                  // Necessary for external CSS imports to work
-                  // https://github.com/facebook/create-react-app/issues/2677
-                  ident: "postcss",
-                  plugins: () => [
-                    require("postcss-flexbugs-fixes"),
-                    require("postcss-preset-env")({
-                      autoprefixer: {
-                        flexbox: "no-2009"
-                      },
-                      stage: 3
-                    })
-                  ],
-                  sourceMap: true
-                }
-              }
-            ],
+            test: cssRegex,
+            exclude: cssModuleRegex,
+            use: getStyleLoaders({
+              importLoaders: 1,
+              sourceMap: true
+            }),
             // Don't consider CSS imports dead code even if the
             // containing package claims to have no side effects.
             // Remove this when webpack adds a warning or an error for this.
             // See https://github.com/webpack/webpack/issues/6571
             sideEffects: true
           },
-          // "file" loader makes sure assets end up in the `build` folder.
-          // When you `import` an asset, you get its filename.
+          // "file" loader makes sure those assets get served by WebpackDevServer.
+          // When you `import` an asset, you get its (virtual) filename.
+          // In production, they would get copied to the `build` folder.
           // This loader doesn't use a "test" so it will catch all modules
           // that fall through the other loaders.
           {
             loader: require.resolve("file-loader"),
             // Exclude `js` files to keep "css" loader working as it injects
-            // it's runtime that would otherwise be processed through "file" loader.
+            // its runtime that would otherwise be processed through "file" loader.
             // Also exclude `html` and `json` extensions so they get processed
             // by webpacks internal loaders.
             exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
@@ -177,7 +284,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin("build"),
+    new CleanWebpackPlugin(),
     new Dotenv({
       path: path.resolve(__dirname, ".prod.env")
     }),
@@ -185,7 +292,14 @@ module.exports = {
     new ForkTsCheckerWebpackPlugin({
       tslint: true,
       checkSyntacticErrors: true,
-      watch: ["./src"] // optional but improves performance (fewer stat calls)
+      reportFiles: [
+        "**",
+        "!**/__tests__/**",
+        "!**/?(*.)(spec|test).*",
+        "!**/src/setupProxy.*",
+        "!**/src/setupTests.*"
+      ],
+      watch: "./src" // optional but improves performance (fewer stat calls)
     }),
     new HtmlWebpackPlugin({
       inject: true,
@@ -207,12 +321,29 @@ module.exports = {
       filename: "static/css/[name].[contenthash:8].css",
       chunkFilename: "static/css/[name].[contenthash:8].chunk.css"
     }),
-    // Generate a manifest file which contains a mapping of all asset filenames
-    // to their corresponding output file so that tools can pick it up without
-    // having to parse `index.html`.
+    // Generate an asset manifest file with the following content:
+    // - "files" key: Mapping of all asset filenames to their corresponding
+    //   output file so that tools can pick it up without having to parse
+    //   `index.html`
+    // - "entrypoints" key: Array of files which are included in `index.html`,
+    //   can be used to reconstruct the HTML if necessary
     new ManifestPlugin({
       fileName: "asset-manifest.json",
-      publicPath
+      publicPath: publicPath,
+      generate: (seed, files, entrypoints) => {
+        const manifestFiles = files.reduce((manifest, file) => {
+          manifest[file.name] = file.path;
+          return manifest;
+        }, seed);
+        const entrypointFiles = entrypoints.main.filter(
+          fileName => !fileName.endsWith(".map")
+        );
+
+        return {
+          files: manifestFiles,
+          entrypoints: entrypointFiles
+        };
+      }
     }),
     // Generate a service worker script that will precache, and keep up to date,
     // the HTML & assets that are part of the Webpack build.

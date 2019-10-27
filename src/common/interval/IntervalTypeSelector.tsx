@@ -17,14 +17,14 @@ import Select from "@material-ui/core/Select";
 interface IProps extends WithStyles<typeof styles> {
   options: IIntervalTypesDtc[];
   value: string;
-  onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
+  onChange: (event: ChangeEvent<{ name?: string; value: unknown }>) => void;
 }
 
-const styles = ({ spacing: { unit } }: Theme) =>
+const styles = ({ spacing }: Theme) =>
   createStyles({
     container: {
       flexGrow: 1,
-      margin: unit
+      margin: spacing()
     }
   });
 
