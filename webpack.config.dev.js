@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
 const ManifestPlugin = require("webpack-manifest-plugin");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+const ForkTsCheckerNotifierWebpackPlugin = require("fork-ts-checker-notifier-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 const DuplicatePackageCheckerPlugin = require("duplicate-package-checker-webpack-plugin");
@@ -13,10 +14,6 @@ const postcssNormalize = require("postcss-normalize");
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
 const publicPath = "/";
-
-// style files regexes
-const cssRegex = /\.css$/;
-const cssModuleRegex = /\.module\.css$/;
 
 // common function to get style loaders
 const getStyleLoaders = (cssOptions, preProcessor) => {
@@ -135,6 +132,18 @@ module.exports = {
         // match the requirements. When no loader matches it will fall
         // back to the "file" loader at the end of the loader list.
         oneOf: [
+          // process ts/tsx files
+          {
+            test: /\.tsx?$/,
+            use: {
+              loader: require.resolve("ts-loader"),
+              options: PnpWebpackPlugin.tsLoaderOptions({
+                transpileOnly: true,
+                reportFiles: ["src/**/*.{ts,tsx}"]
+              })
+            },
+            exclude: /node_modules/
+          },
           // "url" loader works like "file" loader except that it embeds assets
           // smaller than specified limit in bytes as data URLs to avoid requests.
           // A missing `test` is equivalent to a match.
@@ -150,18 +159,6 @@ module.exports = {
             test: /\.svg$/,
             use: ["@svgr/webpack"]
           },
-          // process ts/tsx files
-          {
-            test: /\.tsx?$/,
-            use: {
-              loader: require.resolve("ts-loader"),
-              options: PnpWebpackPlugin.tsLoaderOptions({
-                transpileOnly: true,
-                reportFiles: ["src/**/*.{ts,tsx}"]
-              })
-            },
-            exclude: /node_modules/
-          },
           // "postcss" loader applies autoprefixer to our CSS.
           // "css" loader resolves paths in CSS and adds assets as dependencies.
           // "style" loader turns CSS into JS modules that inject <style> tags.
@@ -170,8 +167,8 @@ module.exports = {
           // of CSS.
           // By default we support CSS Modules with the extension .module.css
           {
-            test: cssRegex,
-            exclude: cssModuleRegex,
+            test: /\.css$/,
+            exclude: /\.module\.css$/,
             use: getStyleLoaders({
               importLoaders: 1,
               sourceMap: true
@@ -221,7 +218,7 @@ module.exports = {
         eslint: true,
         checkSyntacticErrors: true,
         async: true,
-        watch: "./src", // optional but improves performance (fewer stat calls)
+        useTypescriptIncrementalApi: true,
         reportFiles: [
           "**",
           "!**/__tests__/**",
@@ -231,6 +228,7 @@ module.exports = {
         ]
       })
     ),
+    new ForkTsCheckerNotifierWebpackPlugin(),
     // Generate an asset manifest file with the following content:
     // - "files" key: Mapping of all asset filenames to their corresponding
     //   output file so that tools can pick it up without having to parse

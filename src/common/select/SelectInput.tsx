@@ -11,7 +11,6 @@ import Input from "@material-ui/core/Input";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
-import { SvgIconProps } from "@material-ui/core/SvgIcon";
 import { SelectProps } from "@material-ui/core/Select";
 
 import Option from "common/select/Option";

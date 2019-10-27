@@ -2,7 +2,7 @@ import React, { ElementType } from "react";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
-import MenuItem, { MenuItemProps } from "@material-ui/core/MenuItem";
+import MenuItem from "@material-ui/core/MenuItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
 
