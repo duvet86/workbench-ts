@@ -58,14 +58,15 @@ class ValueSwitchContainer extends Component<IProps> {
       case QesFilterType.BetweenInclusive:
         return <div>TODO: Between</div>;
       case QesFilterType.InList:
-      case QesFilterType.NotInList:
+      case QesFilterType.NotInList: {
         if (availableFilter == null) {
           throw new Error("availableFilter cannot be null.");
         }
         const listDisplayValue =
           values && values.length > 0
-            ? ([].concat.apply([], values[0]) as string[]) // Flatten the list.
+            ? ([] as string[]).concat(...values) // Flatten the list.
             : undefined;
+
         return (
           <AllowedValuesContainer
             availableFilter={availableFilter}
@@ -74,7 +75,8 @@ class ValueSwitchContainer extends Component<IProps> {
             initDisplayValue={listDisplayValue}
           />
         );
-      default:
+      }
+      default: {
         const inputDisplayValue =
           values && values.length > 0 ? (values[0][0] as string) : "";
         return (
@@ -85,6 +87,7 @@ class ValueSwitchContainer extends Component<IProps> {
             initDisplayValue={inputDisplayValue}
           />
         );
+      }
     }
   }
 }

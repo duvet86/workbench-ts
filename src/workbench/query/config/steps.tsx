@@ -19,7 +19,7 @@ export const steps: Array<IConfigSteps<IQuery>> = [
         It can be a data source or an existing query.
         Once you are done go to the next step clicking on the next button.`
     },
-    renderComponent: function(query: IQuery) {
+    renderComponent: function querySource(query: IQuery) {
       const initTargetDataViewId =
         query.TargetDataViewId != null ? query.TargetDataViewId : "";
       return (

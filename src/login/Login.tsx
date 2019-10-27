@@ -1,4 +1,4 @@
-import logo from "login/logo.svg";
+import Logo from "login/logo.svg";
 
 import React, { ChangeEvent, Component, FormEvent, MouseEvent } from "react";
 
@@ -90,7 +90,7 @@ class Login extends Component<IProps, IState> {
         <Grid item md={3} xs={11}>
           <Paper className={classes.paper}>
             <div className={classes.logoContainer}>
-              <img src={logo} className={classes.appLogo} alt="logo" />
+              <Logo className={classes.appLogo} alt="logo" />
             </div>
             <Typography component="p" align="center">
               Reactive

@@ -70,7 +70,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<IQueryDataTableRequest>) => ({
-  dispatchDataTableRequest: (pageSize: number = 10, pageNumber: number = 0) =>
+  dispatchDataTableRequest: (pageSize = 10, pageNumber = 0) =>
     dispatch(queryDataTableRequest(pageSize, pageNumber))
 });
 
