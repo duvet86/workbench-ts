@@ -2,7 +2,7 @@ import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import Banner from "pagebuilder/PitBanner.jpg";
 
-import React, { SFC, ChangeEvent } from "react";
+import React, { FC, ChangeEvent } from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
@@ -59,7 +59,7 @@ const layout = [
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-const Pagebuilder: SFC<IProps> = ({ classes, handleChange, value }) => (
+const Pagebuilder: FC<IProps> = ({ classes, handleChange, value }) => (
   <Grid container className={classes.mainContainer}>
     <Paper square={true} className={classes.tabsContainer}>
       <DashboardIcon

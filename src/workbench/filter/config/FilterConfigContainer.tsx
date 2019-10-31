@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 import { connect } from "react-redux";
 
 import { RootState } from "rootReducer";
@@ -8,7 +8,7 @@ import FilterConfig from "workbench/filter/config/FilterConfig";
 
 type Props = ReturnType<typeof mapStateToProps>;
 
-const QueryConfigContainer: SFC<Props> = ({ currentStep, completedSteps }) => (
+const QueryConfigContainer: FC<Props> = ({ currentStep, completedSteps }) => (
   <FilterConfig currentStep={currentStep} completedSteps={completedSteps} />
 );
 

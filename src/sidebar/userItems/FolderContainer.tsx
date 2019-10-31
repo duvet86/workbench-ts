@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Location } from "history";
+import React, { FC, useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 import { IFolderChild } from "sidebar/userItems/types";
 import { SvgIconProps } from "@material-ui/core/SvgIcon";
@@ -8,7 +8,6 @@ import Folder from "sidebar/userItems/Folder";
 
 interface IProps {
   label: string;
-  location: Location;
   childFolders: IFolderChild[];
   nested: number;
   initExpanded?: boolean;
@@ -16,22 +15,16 @@ interface IProps {
   disabled?: boolean;
 }
 
-interface IState {
-  expanded: boolean;
-}
+const FolderContainer: FC<IProps> = ({ initExpanded, ...rest }) => {
+  const location = useLocation();
+  const [expanded, setExpanded] = useState(initExpanded || false);
 
-class FolderContainer extends Component<IProps, IState> {
-  public readonly state = {
-    expanded: this.props.initExpanded || false
-  };
-
-  public componentDidMount() {
-    const { childFolders, location } = this.props;
-    if (!childFolders || childFolders.length === 0) {
+  useEffect(() => {
+    if (!rest.childFolders || rest.childFolders.length === 0) {
       return;
     }
 
-    const match = childFolders.some(
+    const match = rest.childFolders.some(
       c =>
         c.ChildType === "I" &&
         (`/workbench/${c.ChildItemId}` === location.pathname ||
@@ -39,40 +32,15 @@ class FolderContainer extends Component<IProps, IState> {
     );
 
     if (match) {
-      this.setState({ expanded: true });
+      setExpanded(true);
     }
-  }
+  }, []);
 
-  public render() {
-    const {
-      nested,
-      location,
-      label,
-      childFolders,
-      CutomFolderIcon,
-      disabled
-    } = this.props;
-    const { expanded } = this.state;
-
-    return (
-      <Folder
-        disabled={disabled}
-        nested={nested}
-        label={label}
-        childFolders={childFolders}
-        handleClick={this.handleClick}
-        expanded={expanded}
-        location={location}
-        CutomFolderIcon={CutomFolderIcon}
-      />
-    );
-  }
-
-  private handleClick = () => {
-    this.setState(prevState => ({
-      expanded: !prevState.expanded
-    }));
+  const handleClick = () => {
+    setExpanded(prevState => !prevState);
   };
-}
+
+  return <Folder handleClick={handleClick} expanded={expanded} {...rest} />;
+};
 
 export default FolderContainer;

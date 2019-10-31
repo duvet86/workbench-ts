@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 import { connect } from "react-redux";
 
 import { RootState } from "rootReducer";
@@ -9,7 +9,7 @@ import QueryConfig from "workbench/query/config/QueryConfig";
 
 type Props = ReturnType<typeof mapStateToProps>;
 
-const QueryConfigContainer: SFC<Props> = ({
+const QueryConfigContainer: FC<Props> = ({
   isLoading,
   selectedQuery,
   currentStep,

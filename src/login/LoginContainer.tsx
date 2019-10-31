@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { RouteComponentProps } from "react-router";
+import React, { FC, useState, useEffect } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 
@@ -9,64 +9,51 @@ import { getTokenAsync } from "lib/authApi";
 import LoadingContainer from "common/loading/LoadingContainer";
 import Login from "login/Login";
 
-interface IState {
-  isLoading: boolean;
-  isInvalidCredentials: boolean;
-  error: any;
-}
+type Props = ReturnType<typeof mapDispatchToProps>;
 
-type Props = ReturnType<typeof mapDispatchToProps> & RouteComponentProps;
+const LoginContainer: FC<Props> = props => {
+  const history = useHistory();
+  const location = useLocation();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isInvalidCredentials, setIsInvalidCredentials] = useState(false);
+  const [error, setError] = useState<unknown>(undefined);
 
-class LoginContainer extends Component<Props, IState> {
-  public state: IState = {
-    isLoading: false,
-    isInvalidCredentials: false,
-    error: undefined
-  };
-
-  public componentDidMount() {
+  useEffect(() => {
     document.body.style.backgroundColor = "#eee";
-  }
 
-  public componentWillUnmount() {
-    document.body.style.backgroundColor = null;
-  }
+    return function cleanup() {
+      document.body.style.backgroundColor = null;
+    };
+  }, []);
 
-  public render() {
-    const { isLoading, isInvalidCredentials, error } = this.state;
-    return (
-      <LoadingContainer isLoading={isLoading} error={error}>
-        <Login
-          {...this.props}
-          isInvalidCredentials={isInvalidCredentials}
-          submitHandler={this.submitHandler}
-        />
-      </LoadingContainer>
-    );
-  }
-
-  private submitHandler = async (username: string, password: string) => {
-    this.setState({
-      isLoading: true
-    });
+  const submitHandler = async (username: string, password: string) => {
+    setIsLoading(true);
     try {
       const token = await getTokenAsync(username, password);
-      this.props.dispatchStoreToken(token);
-      this.props.history.push("/");
+      props.dispatchStoreToken(token);
+
+      const { from } = location.state || { from: { pathname: "/" } };
+      history.replace(from);
     } catch (error) {
       if (error.status === 401) {
-        this.setState({
-          isLoading: false,
-          isInvalidCredentials: true
-        });
+        setIsLoading(false);
+        setIsInvalidCredentials(true);
       } else {
-        this.setState({
-          error
-        });
+        setError(error);
       }
     }
   };
-}
+
+  return (
+    <LoadingContainer isLoading={isLoading} error={error}>
+      <Login
+        {...props}
+        isInvalidCredentials={isInvalidCredentials}
+        submitHandler={submitHandler}
+      />
+    </LoadingContainer>
+  );
+};
 
 const mapDispatchToProps = (dispatch: Dispatch<IStoreToken>) => ({
   dispatchStoreToken: (token: string) => {

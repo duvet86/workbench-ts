@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
@@ -13,7 +13,7 @@ const styles = createStyles({
   }
 });
 
-const SideBarBody: SFC<IProps> = ({ classes, tabRenderer }) => (
+const SideBarBody: FC<IProps> = ({ classes, tabRenderer }) => (
   <div className={classes.bodyContainer}>{tabRenderer()}</div>
 );
 

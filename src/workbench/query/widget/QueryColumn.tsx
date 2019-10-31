@@ -27,7 +27,7 @@ const styles = createStyles({
   }
 });
 
-const QueryColumn: React.SFC<IProps> = ({ classes, style, label }) => (
+const QueryColumn: React.FC<IProps> = ({ classes, style, label }) => (
   <ListItem style={style} className={classes.listItem} component="div" dense>
     <ListItemIcon className={classes.itemIcon}>
       <SettingsIcon />

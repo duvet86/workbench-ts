@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
 import { NavLink } from "react-router-dom";
 
@@ -23,7 +23,7 @@ const styles = createStyles({
   }
 });
 
-const WelcomePageCard: SFC<IProps> = ({
+const WelcomePageCard: FC<IProps> = ({
   classes,
   IconComponent,
   label,

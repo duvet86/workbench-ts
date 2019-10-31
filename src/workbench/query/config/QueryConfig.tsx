@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
 import { IQuery } from "workbench/types";
 
@@ -11,7 +11,7 @@ interface IProps {
   query: IQuery;
 }
 
-const QueryConfig: SFC<IProps> = ({ currentStep, completedSteps, query }) => (
+const QueryConfig: FC<IProps> = ({ currentStep, completedSteps, query }) => (
   <ConfigBody
     title="Configure Query"
     steps={steps}

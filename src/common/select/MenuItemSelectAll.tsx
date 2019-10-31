@@ -1,6 +1,6 @@
-import React, { ElementType } from "react";
+import React from "react";
 
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import { styled } from "@material-ui/core/styles";
 
 import MenuItem from "@material-ui/core/MenuItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -8,21 +8,18 @@ import Checkbox from "@material-ui/core/Checkbox";
 
 import { SelectEnum } from "common/select/SelectInputContainer";
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   value: string;
 }
 
-const styles = createStyles({
-  menuItem: {
-    paddingLeft: 10
-  }
+const StyledMenuItem = styled(MenuItem)({
+  paddingLeft: 10
 });
 
-const MenuItemSelectAll: React.SFC<IProps> = ({ classes, value }) => (
-  <MenuItem
+const MenuItemSelectAll: React.FC<IProps> = ({ value }) => (
+  <StyledMenuItem
     divider
-    component={"div" as ElementType}
-    className={classes.menuItem}
+    button
     value={
       value === SelectEnum.AllLabel
         ? SelectEnum.SelectNone
@@ -31,7 +28,7 @@ const MenuItemSelectAll: React.SFC<IProps> = ({ classes, value }) => (
   >
     <Checkbox checked={value === SelectEnum.AllLabel} />
     <ListItemText primary="Select all" />
-  </MenuItem>
+  </StyledMenuItem>
 );
 
-export default withStyles(styles)(MenuItemSelectAll);
+export default MenuItemSelectAll;

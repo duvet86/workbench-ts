@@ -1,31 +1,40 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
 import FormControl from "@material-ui/core/FormControl";
-import Input from "@material-ui/core/Input";
+// import Input from "@material-ui/core/Input";
 
-import PreviousIntervalButton from "common/interval/intervalString/PreviousIntervalButton";
-import NextIntervalButton from "common/interval/intervalString/NextIntervalButton";
-import CalendarContainer from "common/calendar/CalendarContainer";
+import {
+  KeyboardDatePicker,
+  MaterialUiPickersDate
+} from "@material-ui/pickers";
+
+// import PreviousIntervalButton from "common/interval/intervalString/PreviousIntervalButton";
+// import NextIntervalButton from "common/interval/intervalString/NextIntervalButton";
+//import CalendarContainer from "common/calendar/CalendarContainer";
 
 interface IProps {
   className: string;
-  isOpen: boolean;
+  // isOpen: boolean;
   intervalStringDate: string;
   onNextIntevalClick: (offset: number) => () => void;
-  onOpen: () => void;
-  onClose: (value: Date) => void;
+  // onOpen: () => void;
+  handleChange: (value: MaterialUiPickersDate) => void;
 }
 
-const DateOp: SFC<IProps> = ({
+const DateOp: FC<IProps> = ({
   className,
   intervalStringDate,
-  onNextIntevalClick,
-  isOpen,
-  onOpen,
-  onClose
+  // onNextIntevalClick,
+  // isOpen,
+  // onOpen,
+  handleChange
 }) => (
   <FormControl className={className}>
-    <Input
+    <KeyboardDatePicker
+      value={new Date(intervalStringDate)}
+      onChange={handleChange}
+    />
+    {/* <Input
       type="date"
       inputProps={{
         name: "interval-string",
@@ -34,12 +43,12 @@ const DateOp: SFC<IProps> = ({
       value={intervalStringDate}
       startAdornment={<PreviousIntervalButton onClick={onNextIntevalClick} />}
       endAdornment={<NextIntervalButton onClick={onNextIntevalClick} />}
-    />
-    <CalendarContainer
+    /> */}
+    {/* <CalendarContainer
       isOpen={isOpen}
       value={new Date(intervalStringDate)}
       onClose={onClose}
-    />
+    /> */}
   </FormControl>
 );
 

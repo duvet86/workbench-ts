@@ -1,6 +1,6 @@
 import trimbleLogo from "topbar/trimbleLogo.png";
 
-import React, { SFC } from "react";
+import React, { FC } from "react";
 import { Link } from "react-router-dom";
 
 import {
@@ -53,7 +53,7 @@ const styles = (theme: Theme) =>
     }
   });
 
-const TopBar: SFC<IProps> = ({
+const TopBar: FC<IProps> = ({
   classes,
   anchorEl,
   open,

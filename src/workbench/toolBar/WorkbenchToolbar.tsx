@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 import { Link } from "react-router-dom";
 
 import {
@@ -38,7 +38,7 @@ const newWorkbenchLink = ({ className, children }: ButtonProps) => (
   </Link>
 );
 
-const WorkbenchToolbar: SFC<WithStyles<typeof styles>> = ({ classes }) => (
+const WorkbenchToolbar: FC<WithStyles<typeof styles>> = ({ classes }) => (
   <Paper className={classes.root}>
     <Toolbar className={classes.toolBar} disableGutters>
       {toolbarData.map(({ id, label, IconComponent }) => (

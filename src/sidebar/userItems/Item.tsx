@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 import { NavLink } from "react-router-dom";
 
 import { ItemTypeIds } from "sidebar/userItems/types";
@@ -55,7 +55,7 @@ const workbenchLink = (itemTypeId: ItemTypeIds, itemId: string) => ({
   );
 };
 
-const Item: SFC<IProps> = ({
+const Item: FC<IProps> = ({
   classes,
   itemTypeId,
   itemId,

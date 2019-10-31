@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, SFC } from "react";
+import React, { ChangeEventHandler, FC } from "react";
 
 import {
   FixedSizeList as VirtualizedList,
@@ -55,7 +55,7 @@ const rowRenderer = (
   return <Row style={style} option={option} handleClick={handleClick} />;
 };
 
-const SearchableList: SFC<IProps> = ({
+const SearchableList: FC<IProps> = ({
   classes,
   label,
   totItems,

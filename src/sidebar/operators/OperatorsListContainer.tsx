@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { FC, useEffect } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -11,21 +11,21 @@ import OperatorsList from "sidebar/operators/OperatorsList";
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
-class OperatorsListContainer extends Component<Props> {
-  public componentDidMount() {
-    this.props.dispatchLoadOperators();
-  }
+const OperatorsListContainer: FC<Props> = ({
+  isLoading,
+  dispatchLoadOperators,
+  ...rest
+}) => {
+  useEffect(() => {
+    dispatchLoadOperators();
+  }, []);
 
-  public render() {
-    const { isLoading, ...props } = this.props;
-
-    return (
-      <LoadingContainer isLoading={this.props.isLoading}>
-        <OperatorsList {...props} />
-      </LoadingContainer>
-    );
-  }
-}
+  return (
+    <LoadingContainer isLoading={isLoading}>
+      <OperatorsList {...rest} />
+    </LoadingContainer>
+  );
+};
 
 const mapStateToProps = ({
   operators: { isLoading, operators },

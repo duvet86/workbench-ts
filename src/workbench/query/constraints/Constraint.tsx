@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
 import { IConstraint } from "workbench/types";
 import { IUdsFilterDescriptionDtc } from "workbench/query/types";
@@ -47,7 +47,7 @@ const styles = ({ spacing }: Theme) =>
     }
   });
 
-const FilterConstraint: SFC<IProps> = ({
+const FilterConstraint: FC<IProps> = ({
   classes,
   elementId,
   label,

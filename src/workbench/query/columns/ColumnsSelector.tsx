@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
 import {
   createStyles,
@@ -37,7 +37,7 @@ const styles = ({ spacing }: Theme) =>
     }
   });
 
-const ColumnsSelector: SFC<IProps> = ({
+const ColumnsSelector: FC<IProps> = ({
   classes,
   availableColumns,
   selectedColumns,

@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
 import {
   createStyles,
@@ -49,7 +49,7 @@ const styles = ({ spacing }: Theme) =>
     }
   });
 
-const StepperHeader: SFC<IProps> = ({
+const StepperHeader: FC<IProps> = ({
   classes,
   title,
   steps,

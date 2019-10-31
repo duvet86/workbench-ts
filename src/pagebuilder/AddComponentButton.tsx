@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
 import {
   createStyles,
@@ -61,7 +61,7 @@ const styles = (theme: Theme) =>
     }
   });
 
-const AddComponentButton: SFC<IProps> = ({
+const AddComponentButton: FC<IProps> = ({
   classes,
   anchorEl,
   componentGroups,

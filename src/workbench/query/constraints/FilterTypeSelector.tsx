@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
 import { IFilterCapabilitiesDic } from "workbench/query/types";
 
@@ -38,7 +38,7 @@ const styles = ({ spacing }: Theme) =>
     }
   });
 
-const FilterTypeSelector: SFC<IProps> = ({
+const FilterTypeSelector: FC<IProps> = ({
   classes,
   filterCapabilities,
   constraintId,

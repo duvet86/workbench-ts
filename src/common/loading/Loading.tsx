@@ -1,19 +1,18 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import Typography from "@material-ui/core/Typography";
 
 import BaseLoading from "common/loading/BaseLoading";
 
-interface IProps extends WithStyles<typeof styles> {
-  error: any;
+interface IProps {
+  error: unknown;
   isLoading: boolean;
   pastDelay: boolean;
-  children: any;
 }
 
-const styles = createStyles({
+const useStyles = makeStyles({
   container: {
     alignItems: "center",
     display: "flex",
@@ -23,13 +22,9 @@ const styles = createStyles({
   }
 });
 
-const Loading: SFC<IProps> = ({
-  classes,
-  error,
-  isLoading,
-  pastDelay,
-  children
-}) => {
+const Loading: FC<IProps> = ({ error, isLoading, pastDelay, children }) => {
+  const classes = useStyles();
+
   if (error != null) {
     // When the loader has errored.
     return (
@@ -52,7 +47,7 @@ const Loading: SFC<IProps> = ({
   }
 
   // When the loader has finished.
-  return children;
+  return <>{children}</>;
 };
 
-export default withStyles(styles)(Loading);
+export default Loading;

@@ -1,5 +1,4 @@
-import { Location } from "history";
-import React, { Component } from "react";
+import React, { FC } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -9,33 +8,20 @@ import { UserItemsActions, userItemsRequest } from "sidebar/userItems/actions";
 import LoadingContainer from "common/loading/LoadingContainer";
 import FolderTree from "sidebar/userItems/FolderTree";
 
-interface IOwnProps {
-  location: Location;
-}
-
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  IOwnProps;
+  ReturnType<typeof mapDispatchToProps>;
 
-class FolderTreeContainer extends Component<Props> {
-  public componentDidMount() {
-    this.props.dispatchLoadUserItems();
-  }
-
-  public render() {
-    const { myItems, sharedWithMe, location, isLoading } = this.props;
-
-    return (
-      <LoadingContainer isLoading={isLoading}>
-        <FolderTree
-          myItems={myItems}
-          sharedWithMe={sharedWithMe}
-          location={location}
-        />
-      </LoadingContainer>
-    );
-  }
-}
+const FolderTreeContainer: FC<Props> = ({
+  isLoading,
+  myItems,
+  sharedWithMe
+}) => {
+  return (
+    <LoadingContainer isLoading={isLoading}>
+      <FolderTree myItems={myItems} sharedWithMe={sharedWithMe} />
+    </LoadingContainer>
+  );
+};
 
 const mapStateToProps = ({
   userItems: { isLoading, myItems, sharedWithMe }

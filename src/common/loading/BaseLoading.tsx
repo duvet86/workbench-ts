@@ -1,11 +1,11 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Typography from "@material-ui/core/Typography";
 
-const styles = createStyles({
+const useStyles = makeStyles({
   laodingContainer: {
     margin: "16px 28px 16px 28px"
   },
@@ -14,15 +14,19 @@ const styles = createStyles({
   }
 });
 
-const BaseLoading: SFC<WithStyles<typeof styles>> = ({ classes }) => (
-  <div className={classes.laodingContainer}>
-    <Typography className={classes.label} variant="h6">
-      Loading...
-    </Typography>
-    <div>
-      <LinearProgress variant="query" />
-    </div>
-  </div>
-);
+const BaseLoading: FC = () => {
+  const classes = useStyles();
 
-export default withStyles(styles)(BaseLoading);
+  return (
+    <div className={classes.laodingContainer}>
+      <Typography className={classes.label} variant="h6">
+        Loading...
+      </Typography>
+      <div>
+        <LinearProgress variant="query" />
+      </div>
+    </div>
+  );
+};
+
+export default BaseLoading;

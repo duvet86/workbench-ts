@@ -2,7 +2,7 @@
 
 exports[`Test IntervalTypeSelector 1`] = `
 <div
-  className="MuiFormControl-root IntervalTypeSelector-container-1"
+  className="MuiFormControl-root WithStyles(ForwardRef(FormControl))-root-1 WithStyles(ForwardRef(FormControl))-root-2"
 >
   <label
     className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled"
@@ -17,8 +17,9 @@ exports[`Test IntervalTypeSelector 1`] = `
   >
     <div
       aria-haspopup="listbox"
+      aria-labelledby=" mui-component-select-interval"
       className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiInputBase-input MuiInput-input MuiInputBase-inputSelect"
-      id="select-interval"
+      id="mui-component-select-interval"
       onBlur={[Function]}
       onClick={[Function]}
       onFocus={[Function]}

@@ -5,7 +5,7 @@ import {
 } from "common/errorBoundary/actions";
 
 interface IErrorState {
-  error: any;
+  error: unknown;
 }
 
 function error(

@@ -5,7 +5,6 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
 const ManifestPlugin = require("webpack-manifest-plugin");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
-const ForkTsCheckerNotifierWebpackPlugin = require("fork-ts-checker-notifier-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 const DuplicatePackageCheckerPlugin = require("duplicate-package-checker-webpack-plugin");
@@ -228,7 +227,6 @@ module.exports = {
         ]
       })
     ),
-    new ForkTsCheckerNotifierWebpackPlugin(),
     // Generate an asset manifest file with the following content:
     // - "files" key: Mapping of all asset filenames to their corresponding
     //   output file so that tools can pick it up without having to parse

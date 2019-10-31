@@ -21,7 +21,7 @@ const styles = ({ spacing }: Theme) =>
     }
   });
 
-const MultiSelectValue: React.SFC<IProps> = ({
+const MultiSelectValue: React.FC<IProps> = ({
   classes,
   label,
   handleDeleteChip

@@ -1,8 +1,8 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
 import Typography from "@material-ui/core/Typography";
 
-const Filters: SFC = () => (
+const Filters: FC = () => (
   <Typography style={{ padding: 18 }}>TODO: Filters</Typography>
 );
 

@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -19,7 +19,7 @@ interface IOwnProps {
 
 type Props = IOwnProps & ReturnType<typeof mapDispatchToProps>;
 
-const ConfigButtonsContainer: SFC<Props> = ({
+const ConfigButtonsContainer: FC<Props> = ({
   currentStep,
   completedSteps,
   totalNumberSteps,

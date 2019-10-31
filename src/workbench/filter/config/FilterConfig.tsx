@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
 import ConfigBody from "workbench/configElements/ConfigBody";
 
@@ -9,7 +9,7 @@ interface IProps {
   completedSteps: boolean[];
 }
 
-const QueryConfig: SFC<IProps> = ({ currentStep, completedSteps }) => (
+const QueryConfig: FC<IProps> = ({ currentStep, completedSteps }) => (
   <ConfigBody
     title="Configure Filter"
     steps={steps}

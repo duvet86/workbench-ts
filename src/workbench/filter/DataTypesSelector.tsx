@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
 import {
   createStyles,
@@ -26,7 +26,7 @@ const styles = ({ spacing }: Theme) =>
     }
   });
 
-const DataTypesSelector: SFC<IProps> = ({
+const DataTypesSelector: FC<IProps> = ({
   classes,
   selectedValues,
   allowedValueOptions,

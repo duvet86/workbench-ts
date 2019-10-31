@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
 import {
   createStyles,
@@ -22,7 +22,7 @@ const styles = (theme: Theme) =>
     }
   });
 
-const LabelInput: SFC<IProps> = ({ classes, initLabel, handleChangeLabel }) => (
+const LabelInput: FC<IProps> = ({ classes, initLabel, handleChangeLabel }) => (
   <Paper className={classes.paper}>
     <TextField
       fullWidth

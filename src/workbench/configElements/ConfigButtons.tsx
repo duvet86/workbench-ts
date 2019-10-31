@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
 import {
   createStyles,
@@ -33,7 +33,7 @@ const styles = ({ spacing }: Theme) =>
     }
   });
 
-const ConfigButtons: SFC<IProps> = ({
+const ConfigButtons: FC<IProps> = ({
   classes,
   currentStep,
   completedSteps,

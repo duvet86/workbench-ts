@@ -6,6 +6,8 @@ import { render } from "react-dom";
 import { Provider } from "react-redux";
 import { Switch, RouteComponentProps } from "react-router";
 import { BrowserRouter } from "react-router-dom";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
 import configureStore from "lib/configureStore";
 import configureTheme from "lib/configureTheme";
@@ -32,15 +34,17 @@ render(
   <Provider store={store}>
     <BrowserRouter>
       <MuiThemeProvider theme={theme}>
-        <CssBaseline />
-        <ErrorBoundaryContainer>
-          <LoadAsync>
-            <Switch>
-              <AnonymousRoute path="/login" component={LoginContainerAsync} />
-              <AuthenticatedRoute path="/" component={AppContainerAsync} />
-            </Switch>
-          </LoadAsync>
-        </ErrorBoundaryContainer>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <CssBaseline />
+          <ErrorBoundaryContainer>
+            <LoadAsync>
+              <Switch>
+                <AnonymousRoute path="/login" component={LoginContainerAsync} />
+                <AuthenticatedRoute path="/" component={AppContainerAsync} />
+              </Switch>
+            </LoadAsync>
+          </ErrorBoundaryContainer>
+        </MuiPickersUtilsProvider>
       </MuiThemeProvider>
     </BrowserRouter>
   </Provider>,

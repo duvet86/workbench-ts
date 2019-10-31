@@ -16,7 +16,7 @@ const styles = ({ spacing }: Theme) =>
     }
   });
 
-const NoOption: React.SFC<WithStyles<typeof styles>> = ({ classes }) => (
+const NoOption: React.FC<WithStyles<typeof styles>> = ({ classes }) => (
   <Typography color="textSecondary" className={classes.labelContainer}>
     No items found
   </Typography>

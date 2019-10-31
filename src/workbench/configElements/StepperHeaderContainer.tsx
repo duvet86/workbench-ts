@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -17,7 +17,7 @@ interface IOwnProps {
 
 type Props = ReturnType<typeof mapDispatchToProps> & IOwnProps;
 
-const StepperHeaderContainer: SFC<Props> = ({
+const StepperHeaderContainer: FC<Props> = ({
   title,
   steps,
   currentStep,

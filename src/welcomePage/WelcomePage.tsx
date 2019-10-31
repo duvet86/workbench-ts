@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
@@ -14,7 +14,7 @@ const styles = createStyles({
   }
 });
 
-const WelcomePage: SFC<WithStyles<typeof styles>> = ({ classes }) => (
+const WelcomePage: FC<WithStyles<typeof styles>> = ({ classes }) => (
   <Grid container className={classes.container} spacing={6}>
     <Grid item xs={12}>
       <Typography variant="h5" gutterBottom>

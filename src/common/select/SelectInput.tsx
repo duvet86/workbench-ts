@@ -70,7 +70,7 @@ const handleSearchClick = (e: React.MouseEvent<HTMLInputElement>) => {
   e.stopPropagation();
 };
 
-const SelectInput: React.SFC<IProps> = ({
+const SelectInput: React.FC<IProps> = ({
   inputLabel,
   helperText,
   value,

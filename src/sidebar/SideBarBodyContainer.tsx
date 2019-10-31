@@ -1,6 +1,5 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 import { connect } from "react-redux";
-import { Location } from "history";
 
 import { RootState } from "rootReducer";
 
@@ -9,23 +8,19 @@ import OperatorsListContainer from "sidebar/operators/OperatorsListContainer";
 import Filters from "sidebar/filters/Filters";
 import SideBarBody from "sidebar/SideBarBody";
 
-interface IOwnProps {
-  location: Location;
-}
+type Props = ReturnType<typeof mapStateToProps>;
 
-type Props = ReturnType<typeof mapStateToProps> & IOwnProps;
-
-const SideBarBodyContainer: SFC<Props> = ({ selectedTab, ...props }) => {
+const SideBarBodyContainer: FC<Props> = ({ selectedTab, ...rest }) => {
   let component: JSX.Element;
   switch (selectedTab) {
     case 1:
       component = <Filters />;
       break;
     case 2:
-      component = <OperatorsListContainer {...props} />;
+      component = <OperatorsListContainer />;
       break;
     default:
-      component = <FolderTreeContainer {...props} />;
+      component = <FolderTreeContainer {...rest} />;
       break;
   }
   const renderer = () => component;

@@ -1,14 +1,8 @@
-import React, { SFC } from "react";
-import { Location } from "history";
+import React, { FC } from "react";
 
 import { IFolderChild } from "sidebar/userItems/types";
 
-import {
-  createStyles,
-  Theme,
-  withStyles,
-  WithStyles
-} from "@material-ui/core/styles";
+import { makeStyles, Theme, useTheme } from "@material-ui/core/styles";
 import { SvgIconProps } from "@material-ui/core/SvgIcon";
 
 import Collapse from "@material-ui/core/Collapse";
@@ -25,8 +19,7 @@ import ExpandMore from "@material-ui/icons/KeyboardArrowRight";
 import Item from "sidebar/userItems/Item";
 import FolderContainer from "sidebar/userItems/FolderContainer";
 
-interface IProps extends WithStyles<typeof styles, true> {
-  location: Location;
+interface IProps {
   label: string;
   handleClick: () => void;
   expanded: boolean;
@@ -36,32 +29,31 @@ interface IProps extends WithStyles<typeof styles, true> {
   disabled?: boolean;
 }
 
-const styles = (theme: Theme) =>
-  createStyles({
-    icon: {
-      color: "#696969"
-    },
-    heading: {
-      fontSize: theme.typography.pxToRem(15),
-      fontWeight: theme.typography.fontWeightRegular
-    },
-    expand: {
-      marginRight: theme.spacing()
-    }
-  });
+const useStyles = makeStyles((theme: Theme) => ({
+  icon: {
+    color: "#696969"
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightRegular
+  },
+  expand: {
+    marginRight: theme.spacing()
+  }
+}));
 
-const Folder: SFC<IProps> = ({
-  classes,
-  location,
+const Folder: FC<IProps> = ({
   label,
   childFolders,
   handleClick,
   expanded,
   nested,
-  theme,
   CutomFolderIcon,
   disabled
 }) => {
+  const theme = useTheme();
+  const classes = useStyles();
+
   const icon =
     CutomFolderIcon != null ? (
       <CutomFolderIcon className={classes.icon} />
@@ -107,7 +99,6 @@ const Folder: SFC<IProps> = ({
                   key={ChildFolderId}
                   label={ChildFolder.Label}
                   childFolders={ChildFolder.Children}
-                  location={location}
                 />
               ) : (
                 <Item
@@ -125,4 +116,4 @@ const Folder: SFC<IProps> = ({
   );
 };
 
-export default withStyles(styles, { withTheme: true })(Folder);
+export default Folder;

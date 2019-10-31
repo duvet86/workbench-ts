@@ -10,7 +10,7 @@ import { ICleanError, cleanError } from "common/errorBoundary/actions";
 import ErrorBoundary from "common/errorBoundary/ErrorBoundary";
 
 interface IState {
-  error: any;
+  error: unknown;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &

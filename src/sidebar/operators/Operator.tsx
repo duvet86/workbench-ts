@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 import classnames from "classnames";
 
 import {
@@ -61,7 +61,7 @@ const handleDrag = (operatorServiceId: string) => (
   event.dataTransfer.setData("ELEMENT", operatorServiceId);
 };
 
-const Operator: SFC<IProps> = ({
+const Operator: FC<IProps> = ({
   classes,
   label,
   description,

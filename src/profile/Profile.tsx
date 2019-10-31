@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
 import { IUserInfo } from "profile/types";
 
@@ -16,7 +16,7 @@ const styles = createStyles({
   }
 });
 
-const Profile: SFC<IProps> = ({
+const Profile: FC<IProps> = ({
   classes,
   userInfo: {
     Profile: { UserName }

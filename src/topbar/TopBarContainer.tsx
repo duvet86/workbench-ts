@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { History } from "history";
+import React, { FC, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 
@@ -9,59 +9,51 @@ import TopBar from "topbar/TopBar";
 
 interface IOwnProps {
   handleDrawerOpen: () => void;
-  history: History;
 }
 
 type Props = IOwnProps & ReturnType<typeof mapDispatchToProps>;
 
-interface IState {
-  anchorEl?: HTMLElement;
-}
+const TopBarContainer: FC<Props> = ({
+  handleDrawerOpen,
+  dispatchClearToken
+}) => {
+  const history = useHistory();
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>();
 
-class TopBarContainer extends Component<Props, IState> {
-  public readonly state = {
-    anchorEl: undefined
+  const onMenuClickHandler = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
   };
 
-  public render() {
-    const { anchorEl } = this.state;
-    const open = Boolean(anchorEl);
+  const onMenuCloseHandler = () => setAnchorEl(undefined);
 
-    return (
-      <TopBar
-        anchorEl={anchorEl}
-        open={open}
-        handleDrawerOpen={this.props.handleDrawerOpen}
-        onMenuClickHandler={this.onMenuClickHandler}
-        onMenuCloseHandler={this.onMenuCloseHandler}
-        onWelcomePageClickHandler={this.onWelcomePageClickHandler}
-        onProfileClickHandler={this.onProfileClickHandler}
-        onLogoutClickHandler={this.onLogoutClickHandler}
-      />
-    );
-  }
-
-  private onMenuClickHandler = (event: React.MouseEvent<HTMLElement>) => {
-    this.setState({ anchorEl: event.currentTarget });
+  const onWelcomePageClickHandler = () => {
+    onMenuCloseHandler();
+    history.push("/");
   };
 
-  private onMenuCloseHandler = () => this.setState({ anchorEl: undefined });
-
-  private onWelcomePageClickHandler = () => {
-    this.onMenuCloseHandler();
-    this.props.history.push("/");
+  const onProfileClickHandler = () => {
+    onMenuCloseHandler();
+    history.push("/profile");
   };
 
-  private onProfileClickHandler = () => {
-    this.onMenuCloseHandler();
-    this.props.history.push("/profile");
+  const onLogoutClickHandler = () => {
+    onMenuCloseHandler();
+    dispatchClearToken();
   };
 
-  private onLogoutClickHandler = () => {
-    this.onMenuCloseHandler();
-    this.props.dispatchClearToken();
-  };
-}
+  return (
+    <TopBar
+      anchorEl={anchorEl}
+      open={Boolean(anchorEl)}
+      handleDrawerOpen={handleDrawerOpen}
+      onMenuClickHandler={onMenuClickHandler}
+      onMenuCloseHandler={onMenuCloseHandler}
+      onWelcomePageClickHandler={onWelcomePageClickHandler}
+      onProfileClickHandler={onProfileClickHandler}
+      onLogoutClickHandler={onLogoutClickHandler}
+    />
+  );
+};
 
 const mapDispatchToProps = (dispatch: Dispatch<IClearToken>) => ({
   dispatchClearToken: () => {

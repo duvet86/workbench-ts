@@ -1,11 +1,6 @@
-import React, { ChangeEvent, SFC } from "react";
+import React, { ChangeEvent, FC } from "react";
 
-import {
-  createStyles,
-  Theme,
-  withStyles,
-  WithStyles
-} from "@material-ui/core/styles";
+import { styled } from "@material-ui/core/styles";
 
 import { IIntervalTypesDtc } from "common/interval/types";
 
@@ -14,27 +9,19 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   options: IIntervalTypesDtc[];
   value: string;
   onChange: (event: ChangeEvent<{ name?: string; value: unknown }>) => void;
 }
 
-const styles = ({ spacing }: Theme) =>
-  createStyles({
-    container: {
-      flexGrow: 1,
-      margin: spacing()
-    }
-  });
+const StyledFormControl = styled(FormControl)(({ theme }) => ({
+  flexGrow: 1,
+  margin: theme.spacing()
+}));
 
-const IntervalTypeSelector: SFC<IProps> = ({
-  classes,
-  options,
-  value,
-  onChange
-}) => (
-  <FormControl className={classes.container}>
+const IntervalTypeSelector: FC<IProps> = ({ options, value, onChange }) => (
+  <StyledFormControl>
     <InputLabel htmlFor="interval">Interval</InputLabel>
     <Select
       value={value}
@@ -49,7 +36,7 @@ const IntervalTypeSelector: SFC<IProps> = ({
         </MenuItem>
       ))}
     </Select>
-  </FormControl>
+  </StyledFormControl>
 );
 
-export default withStyles(styles)(IntervalTypeSelector);
+export default IntervalTypeSelector;

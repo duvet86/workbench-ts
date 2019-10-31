@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
 import { IIntervalDtc, IntervalTypes } from "common/interval/types";
 import { getDateOpStringDate } from "common/interval/selector";
@@ -13,7 +13,7 @@ interface IProps {
   onNextIntevalClick: (offset: number) => () => void;
 }
 
-const IntervalStringPickerContainer: SFC<IProps> = ({
+const IntervalStringPickerContainer: FC<IProps> = ({
   className,
   interval,
   onIntervalStringChange,

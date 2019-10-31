@@ -1,3 +1,4 @@
+import { MaterialUiPickersDate } from "@material-ui/pickers";
 import { ISmartInterval, IntervalTypes } from "common/interval/types";
 
 export const getDefaultInterval = () => ({
@@ -39,7 +40,11 @@ export const parseDateOpString = (intervalString: string): string => {
   return `${year}-${month}-${day}`;
 };
 
-export const parseDateOpDate = (date: Date): string => {
+export const parseDateOpDate = (date: MaterialUiPickersDate): string => {
+  if (date == null) {
+    throw new Error();
+  }
+
   const dayPart = date.getDate();
   let dayString = dayPart.toString();
   if (dayPart <= 9) {

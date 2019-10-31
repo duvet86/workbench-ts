@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 import { RouteComponentProps } from "react-router";
 import { Redirect, Route } from "react-router";
 import { connect } from "react-redux";
@@ -9,19 +9,19 @@ import { IRouteProps } from "common/routes/types";
 
 type Props = IRouteProps & ReturnType<typeof mapStateToProps>;
 
-const AuthenticatedRoute: SFC<Props> = ({
+const AuthenticatedRoute: FC<Props> = ({
   component,
   forceLogout,
   ...props
 }) => {
-  const boundRender = (routeProps: RouteComponentProps) =>
+  const boundRender = ({ location }: RouteComponentProps) =>
     getTokenFromSession() != null && !forceLogout ? (
-      React.createElement(component, routeProps)
+      React.createElement(component)
     ) : (
       <Redirect
         to={{
           pathname: "/login",
-          state: { from: routeProps.location }
+          state: { from: location }
         }}
       />
     );

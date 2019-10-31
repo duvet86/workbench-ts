@@ -25,7 +25,7 @@ const styles = createStyles({
   }
 });
 
-const Option: React.SFC<IProps> = ({
+const Option: React.FC<IProps> = ({
   classes,
   style,
   option,

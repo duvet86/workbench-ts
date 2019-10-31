@@ -1,4 +1,4 @@
-import React, { SFC, lazy } from "react";
+import React, { FC, lazy } from "react";
 
 import {
   createStyles,
@@ -56,7 +56,7 @@ const drawerByType = (operatorServiceId: OperatorServiceIds) => {
   return <LoadAsync>{component}</LoadAsync>;
 };
 
-const ConfigSwitch: SFC<IProps> = ({
+const ConfigSwitch: FC<IProps> = ({
   classes,
   operatorServiceId,
   isDrawerOpen

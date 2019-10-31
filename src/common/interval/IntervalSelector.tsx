@@ -1,11 +1,6 @@
-import React, { SFC, ChangeEvent } from "react";
+import React, { FC, ChangeEvent } from "react";
 
-import {
-  createStyles,
-  Theme,
-  withStyles,
-  WithStyles
-} from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 
 import { getIntervalTypes } from "common/interval/selector";
 import { IIntervalTypesDtc, IIntervalDtc } from "common/interval/types";
@@ -18,9 +13,9 @@ import Select from "@material-ui/core/Select";
 import IntervalTypeSelector from "common/interval/IntervalTypeSelector";
 import IntervalStringPickerContainer from "./IntervalStringPickerContainer";
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   intervalTypes: { [key: string]: IIntervalTypesDtc };
-  initIntervalType: string;
+  // initIntervalType: string;
   interval: IIntervalDtc;
   onIntervalTypeChange: (
     event: ChangeEvent<{ name?: string; value: unknown }>
@@ -29,12 +24,13 @@ interface IProps extends WithStyles<typeof styles> {
   onSmartKeyChange: (
     event: ChangeEvent<{ name?: string; value: unknown }>
   ) => void;
-  onNextIntevalClick: (offset: number) => () => void;
+  onNextIntevalClick: (offset: number) => () => Promise<void>;
 }
 
-const styles = ({ spacing }: Theme) => {
+const useStyles = makeStyles(({ spacing }: Theme) => {
   const unit = spacing();
-  return createStyles({
+
+  return {
     container: {
       display: "flex",
       width: "100%"
@@ -47,26 +43,25 @@ const styles = ({ spacing }: Theme) => {
       flexGrow: 2,
       margin: `${unit * 3}px ${unit}px ${unit}px ${unit}px`
     }
-  });
-};
+  };
+});
 
-const IntervalSelector: SFC<IProps> = ({
-  classes,
+const IntervalSelector: FC<IProps> = ({
   intervalTypes,
-  initIntervalType,
   interval,
   onIntervalTypeChange,
   onIntervalStringChange,
   onNextIntevalClick,
   onSmartKeyChange
 }) => {
-  const smartIntervals = intervalTypes[initIntervalType].SmartIntervals;
+  const classes = useStyles();
+  const smartIntervals = intervalTypes[interval.IntervalType].SmartIntervals;
 
   return (
     <div className={classes.container}>
       <IntervalTypeSelector
         options={getIntervalTypes(intervalTypes)}
-        value={initIntervalType}
+        value={interval.IntervalType}
         onChange={onIntervalTypeChange}
       />
       <IntervalStringPickerContainer
@@ -97,4 +92,4 @@ const IntervalSelector: SFC<IProps> = ({
   );
 };
 
-export default withStyles(styles)(IntervalSelector);
+export default IntervalSelector;

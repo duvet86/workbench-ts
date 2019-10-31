@@ -1,5 +1,5 @@
-import { Location } from "history";
-import React, { ChangeEvent, Component } from "react";
+import React, { FC, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -16,47 +16,34 @@ import NavigationTabs from "sidebar/navigationTabs/NavigationTabs";
 
 type TabsEnabled = [boolean, boolean, boolean];
 
-interface IOwnProps {
-  location: Location;
-}
-
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  IOwnProps;
+  ReturnType<typeof mapDispatchToProps>;
 
-class NavigationTabsContainer extends Component<Props> {
-  public componentDidMount() {
-    this.setTabsFromLocation(this.props.location.pathname);
-  }
+const NavigationTabsContainer: FC<Props> = ({
+  dispatchShowTools,
+  dispatchShowFilters,
+  dispatchShowUserItems,
+  selectedTab,
+  visibleTabs
+}) => {
+  const { pathname } = useLocation();
 
-  public componentDidUpdate(prevProps: Props) {
-    if (this.props.location !== prevProps.location) {
-      this.setTabsFromLocation(this.props.location.pathname);
+  useEffect(() => {
+    if (pathname === "/workbench/new") {
+      dispatchShowTools([false, false, false]);
+    } else if (pathname === "/pagebuilder/new") {
+      dispatchShowFilters([false, false, true]);
+    } else if (
+      pathname.includes("/pagebuilder") ||
+      pathname.includes("/workbench")
+    ) {
+      dispatchShowUserItems([false, false, false]);
+    } else {
+      dispatchShowUserItems([false, true, true]);
     }
-  }
+  }, [pathname, dispatchShowTools, dispatchShowFilters, dispatchShowUserItems]);
 
-  public render() {
-    const { selectedTab, visibleTabs } = this.props;
-    if (visibleTabs.length === 1) {
-      return null;
-    }
-
-    return (
-      <NavigationTabs
-        selectedTab={selectedTab}
-        visibleTabs={visibleTabs}
-        handleChange={this.handleChange}
-      />
-    );
-  }
-
-  private handleChange = (_: ChangeEvent<{}>, value: number) => {
-    const {
-      dispatchShowUserItems,
-      dispatchShowFilters,
-      dispatchShowTools
-    } = this.props;
-
+  const handleChange = (_: React.ChangeEvent<{}>, value: number) => {
     switch (value) {
       case 1:
         dispatchShowFilters();
@@ -70,19 +57,14 @@ class NavigationTabsContainer extends Component<Props> {
     }
   };
 
-  private setTabsFromLocation(pathname: string) {
-    if (pathname === "/workbench/new") {
-      return this.props.dispatchShowTools([false, false, false]);
-    }
-    if (pathname === "/pagebuilder/new") {
-      return this.props.dispatchShowFilters([false, false, true]);
-    }
-    if (pathname.includes("/pagebuilder") || pathname.includes("/workbench")) {
-      return this.props.dispatchShowUserItems([false, false, false]);
-    }
-    return this.props.dispatchShowUserItems([false, true, true]);
-  }
-}
+  return (
+    <NavigationTabs
+      selectedTab={selectedTab}
+      visibleTabs={visibleTabs}
+      handleChange={handleChange}
+    />
+  );
+};
 
 const mapStateToProps = (state: RootState) => ({
   selectedTab: state.navigationTabs.selectedTab,

@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
 import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -9,7 +9,7 @@ interface IProps {
   onClick: (offset: number) => () => void;
 }
 
-const PreviousIntervalButton: SFC<IProps> = ({ onClick }) => (
+const PreviousIntervalButton: FC<IProps> = ({ onClick }) => (
   <InputAdornment position="start">
     <IconButton onClick={onClick(-1)} aria-label="Left">
       {<ArrowLeftIcon />}

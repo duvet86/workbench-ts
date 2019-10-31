@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 import classnames from "classnames";
 
 import {
@@ -69,7 +69,7 @@ const styles = (theme: Theme) =>
     }
   });
 
-const Summary: SFC<IProps> = ({ classes, query, querySourceLabel }) => (
+const Summary: FC<IProps> = ({ classes, query, querySourceLabel }) => (
   <>
     <Paper square elevation={1} className={classes.paper}>
       <Typography gutterBottom variant="h6" className={classes.labelContainer}>

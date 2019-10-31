@@ -104,7 +104,7 @@ const handleWheel = (event: React.WheelEvent) => {
   event.stopPropagation();
 };
 
-const QueryNodeWidget: React.SFC<IProps> = ({ classes, node }) => {
+const QueryNodeWidget: React.FC<IProps> = ({ classes, node }) => {
   const { Label: QueyLabel, Columns } = node.getQueryInfo();
   const { backgroundColor, IconComponent } = operatorsExtraInfo.QUERY;
 

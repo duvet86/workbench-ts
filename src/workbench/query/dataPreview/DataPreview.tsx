@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
 import { withStyles } from "@material-ui/core/styles";
 import { IColumn } from "workbench/types";
@@ -38,7 +38,7 @@ const TitleTableCell = withStyles(theme => ({
   }
 }))(TableCell);
 
-const DataPreview: SFC<IProps> = ({
+const DataPreview: FC<IProps> = ({
   columns,
   dataTableRows,
   rowsPerPageOptions,

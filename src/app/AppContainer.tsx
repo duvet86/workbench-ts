@@ -1,7 +1,6 @@
-import React, { Component } from "react";
+import React, { FC, useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { RouteComponentProps } from "react-router";
 
 import { RootState } from "rootReducer";
 import { QesEnabledAction, qesEnabledRequest } from "app/actions";
@@ -10,40 +9,21 @@ import App from "app/App";
 import LoadingContainer from "common/loading/LoadingContainer";
 
 type Props = ReturnType<typeof mapDispatchToProps> &
-  ReturnType<typeof mapStateToProps> &
-  RouteComponentProps;
+  ReturnType<typeof mapStateToProps>;
 
-interface ILocalState {
-  open: boolean;
-}
+const AppContainer: FC<Props> = ({ isLoading, ...rest }) => {
+  const [open, setOpen] = useState(true);
 
-class AppContainer extends Component<Props, ILocalState> {
-  public readonly state = {
-    open: true
+  const handleDrawerOpen = () => {
+    setOpen(prevState => !prevState);
   };
 
-  public componentDidMount() {
-    this.props.dispatchQesEnabledRequest();
-  }
-
-  public render() {
-    return (
-      <LoadingContainer isLoading={this.props.isLoading}>
-        <App
-          {...this.props}
-          open={this.state.open}
-          handleDrawerOpen={this.handleDrawerOpen}
-        />
-      </LoadingContainer>
-    );
-  }
-
-  private handleDrawerOpen = () => {
-    this.setState((prevState: { open: boolean }) => ({
-      open: !prevState.open
-    }));
-  };
-}
+  return (
+    <LoadingContainer isLoading={isLoading}>
+      <App {...rest} open={open} handleDrawerOpen={handleDrawerOpen} />
+    </LoadingContainer>
+  );
+};
 
 const mapStateToProps = ({ app: { isLoading, isQesEnabled } }: RootState) => ({
   isLoading,

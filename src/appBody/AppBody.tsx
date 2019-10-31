@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 import { Route, Switch } from "react-router-dom";
 import { routeRenderers } from "appBody/routes";
 
@@ -7,7 +7,7 @@ import Grid from "@material-ui/core/Grid";
 import LoadAsync from "common/loading/LoadAsync";
 import NotFoundRoute from "common/routes/NotFoundRoute";
 
-const AppBody: SFC = () => (
+const AppBody: FC = () => (
   <Grid container>
     <Grid item xs={12}>
       <LoadAsync>

@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
@@ -26,7 +26,7 @@ const styles = createStyles({
   }
 });
 
-const ConstraintSelector: SFC<IProps> = ({
+const ConstraintSelector: FC<IProps> = ({
   classes,
   elementId,
   availableConstraints,

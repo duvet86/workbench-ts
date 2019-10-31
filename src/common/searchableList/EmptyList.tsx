@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
 import {
   createStyles,
@@ -22,7 +22,7 @@ const styles = ({ spacing }: Theme) =>
     }
   });
 
-const EmptyList: SFC<IProps> = ({ classes, emptyListLabel }) => (
+const EmptyList: FC<IProps> = ({ classes, emptyListLabel }) => (
   <Typography color="textSecondary" className={classes.labelContainer}>
     {emptyListLabel != null ? emptyListLabel : "No items found"}
   </Typography>

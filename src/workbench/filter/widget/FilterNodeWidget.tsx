@@ -66,7 +66,7 @@ const styles = ({
     }
   });
 
-const FilterNodeWidget: React.SFC<IProps> = ({ classes, node }) => {
+const FilterNodeWidget: React.FC<IProps> = ({ classes, node }) => {
   const { Label, FilterType } = node.getFilterInfo();
   const { backgroundColor, IconComponent } = operatorsExtraInfo.FILTER;
 

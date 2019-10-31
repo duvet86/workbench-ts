@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
 import SelectInputContainer, {
   IOption
@@ -32,7 +32,7 @@ const styles = (theme: Theme) =>
     }
   });
 
-const SourceSelector: SFC<IProps> = ({
+const SourceSelector: FC<IProps> = ({
   classes,
   initTargetDataViewId,
   dataServices,

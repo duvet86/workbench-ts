@@ -1,21 +1,18 @@
-import React, { SFC } from "react";
-import { RouteComponentProps } from "react-router";
+import React, { FC } from "react";
 
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import AppBody from "appBody/AppBody";
 import SideBar from "sidebar/SideBar";
 import TopBarContainer from "topbar/TopBarContainer";
 
-interface IOwnProps extends WithStyles<typeof styles> {
+interface IProps {
   handleDrawerOpen: () => void;
   open: boolean;
   isQesEnabled: boolean;
 }
 
-type Props = RouteComponentProps & IOwnProps;
-
-const styles = createStyles({
+const useStyles = makeStyles({
   bodyContainer: {
     display: "flex",
     height: "100%",
@@ -23,24 +20,20 @@ const styles = createStyles({
   }
 });
 
-const App: SFC<Props> = ({
-  classes,
-  handleDrawerOpen,
-  open,
-  isQesEnabled,
-  history,
-  ...props
-}) =>
-  isQesEnabled ? (
+const App: FC<IProps> = ({ handleDrawerOpen, open, isQesEnabled, ...rest }) => {
+  const classes = useStyles();
+
+  return isQesEnabled ? (
     <>
-      <TopBarContainer history={history} handleDrawerOpen={handleDrawerOpen} />
+      <TopBarContainer handleDrawerOpen={handleDrawerOpen} />
       <div className={classes.bodyContainer}>
-        <SideBar open={open} {...props} />
+        <SideBar open={open} {...rest} />
         <AppBody />
       </div>
     </>
   ) : (
     <div>Workbench features are not enabled.</div>
   );
+};
 
-export default withStyles(styles)(App);
+export default App;

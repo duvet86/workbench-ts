@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 import { connect } from "react-redux";
 
 import { RootState } from "rootReducer";
@@ -8,7 +8,7 @@ import ConfigSwitch from "workbench/configElements/ConfigSwitch";
 
 type Props = ReturnType<typeof mapStateToProps>;
 
-const ConfigSwitchContainer: SFC<Props> = props => <ConfigSwitch {...props} />;
+const ConfigSwitchContainer: FC<Props> = props => <ConfigSwitch {...props} />;
 
 const mapStateToProps = (state: RootState) => ({
   operatorServiceId: state.configElements.operatorServiceId,

@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
 import { IHelperText } from "workbench/configElements/types";
 
@@ -13,7 +13,7 @@ interface IProps {
   stepHelpText: IHelperText | undefined;
 }
 
-const HelperText: SFC<IProps> = ({ stepHelpText }) => {
+const HelperText: FC<IProps> = ({ stepHelpText }) => {
   if (stepHelpText == null) {
     return null;
   }

@@ -46,7 +46,7 @@ export interface IQesEnabledSuccess extends Action {
 
 export interface IQesEnabledError extends Action {
   type: QesEnabledActionTypes.QES_ENABLED_ERROR;
-  error: any;
+  error: unknown;
 }
 
 export type QesEnabledAction =
@@ -65,7 +65,7 @@ export const qesEnabledSuccess = (
   type: QesEnabledActionTypes.QES_ENABLED_SUCCESS
 });
 
-export const qesEnabledError = (error: any): IQesEnabledError => ({
+export const qesEnabledError = (error: unknown): IQesEnabledError => ({
   error,
   type: QesEnabledActionTypes.QES_ENABLED_ERROR
 });

@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
@@ -28,7 +28,7 @@ const styles = createStyles({
   }
 });
 
-const Row: SFC<IProps> = ({ classes, style, option, handleClick }) => (
+const Row: FC<IProps> = ({ classes, style, option, handleClick }) => (
   <ListItem
     divider
     disableGutters

@@ -6,7 +6,7 @@ import { clearToken, IClearToken } from "app/actions";
 export interface IErrorResponse {
   status: number;
   message: string;
-  error: any;
+  error: unknown;
 }
 
 export const enum ErrorActionTypes {
@@ -16,14 +16,14 @@ export const enum ErrorActionTypes {
 
 export interface ITriggerError extends Action {
   type: ErrorActionTypes.ERROR_TRIGGER;
-  error: any;
+  error: unknown;
 }
 
 export interface ICleanError extends Action {
   type: ErrorActionTypes.ERROR_CLEAN;
 }
 
-export const triggerError = (error: any): ITriggerError => ({
+export const triggerError = (error: unknown): ITriggerError => ({
   type: ErrorActionTypes.ERROR_TRIGGER,
   error
 });

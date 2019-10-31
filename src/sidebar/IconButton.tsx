@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 import { NavLink } from "react-router-dom";
 import classnames from "classnames";
 
@@ -59,7 +59,7 @@ const styles = (theme: Theme) =>
     }
   });
 
-const IconButton: SFC<IProps> = ({
+const IconButton: FC<IProps> = ({
   classes,
   Icon,
   to,

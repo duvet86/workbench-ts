@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
 import { ICalendarString } from "common/interval/types";
 
@@ -15,7 +15,7 @@ interface IProps {
   handleNextIntevalClick: (offset: number) => () => void;
 }
 
-const CalendarPeriod: SFC<IProps> = ({
+const CalendarPeriod: FC<IProps> = ({
   className,
   calendarValues,
   intervalStringDate,

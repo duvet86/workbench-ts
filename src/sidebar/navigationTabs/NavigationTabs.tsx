@@ -1,4 +1,4 @@
-import React, { ChangeEvent, SFC } from "react";
+import React, { ChangeEvent, FC } from "react";
 
 import {
   createStyles,
@@ -40,7 +40,7 @@ const styles = ({ breakpoints, spacing }: Theme) =>
     }
   });
 
-const NavigationTabs: SFC<IProps> = ({
+const NavigationTabs: FC<IProps> = ({
   classes,
   selectedTab,
   visibleTabs,

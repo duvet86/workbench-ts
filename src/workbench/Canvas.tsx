@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 import { DiagramEngine, DiagramWidget } from "storm-react-diagrams2";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
@@ -20,7 +20,7 @@ const styles = createStyles({
   }
 });
 
-const Workbench: SFC<IProps> = ({
+const Workbench: FC<IProps> = ({
   classes,
   diagramEngine,
   handleDragOver,

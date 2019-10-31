@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 
@@ -19,56 +19,23 @@ interface IOwnProps {
   handleNextIntevalClick: (offset: number) => () => void;
 }
 
-interface IState {
-  calendarValues: ICalendarString[];
-}
-
 type Props = ReturnType<typeof mapDispatchToProps> & IOwnProps;
 
-class CalendarPeriodContainer extends Component<Props, IState> {
-  public state: IState = {
-    calendarValues: []
-  };
+const CalendarPeriodContainer: FC<Props> = ({
+  intervalType,
+  dispatchHandleException,
+  ...rest
+}) => {
+  const [calendarValues, setCalendarValues] = useState<ICalendarString[]>([]);
 
-  private isComponentUnmouted = false;
+  useEffect(() => {
+    getCalendarStringAsync(intervalType)
+      .then(resp => setCalendarValues(resp))
+      .catch(e => dispatchHandleException(e));
+  }, [intervalType, dispatchHandleException]);
 
-  public async componentDidMount() {
-    const { dispatchHandleException, intervalType } = this.props;
-    try {
-      const calendarValues = await getCalendarStringAsync(intervalType);
-
-      if (!this.isComponentUnmouted) {
-        this.setState({
-          calendarValues
-        });
-      }
-    } catch (e) {
-      dispatchHandleException(e);
-    }
-  }
-
-  public componentWillUnmount() {
-    this.isComponentUnmouted = true;
-  }
-
-  public render() {
-    const { calendarValues } = this.state;
-    const {
-      className,
-      intervalStringDate,
-      handleNextIntevalClick
-    } = this.props;
-
-    return (
-      <CalendarPeriod
-        className={className}
-        calendarValues={calendarValues}
-        intervalStringDate={intervalStringDate}
-        handleNextIntevalClick={handleNextIntevalClick}
-      />
-    );
-  }
-}
+  return <CalendarPeriod calendarValues={calendarValues} {...rest} />;
+};
 
 const mapDispatchToProps = (dispatch: Dispatch<ErrorActions>) => ({
   dispatchHandleException: (resp: IErrorResponse) => {

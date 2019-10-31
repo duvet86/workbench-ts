@@ -1,19 +1,19 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 import { RouteComponentProps } from "react-router";
 import { Redirect, Route } from "react-router-dom";
 
 import { getTokenFromSession } from "lib/authApi";
 import { IRouteProps } from "common/routes/types";
 
-const AnonymousRoute: SFC<IRouteProps> = ({ component, ...props }) => {
-  const boundRender = (routeProps: RouteComponentProps) =>
+const AnonymousRoute: FC<IRouteProps> = ({ component, ...props }) => {
+  const boundRender = ({ location }: RouteComponentProps) =>
     getTokenFromSession() == null ? (
-      React.createElement(component, routeProps)
+      React.createElement(component)
     ) : (
       <Redirect
         to={{
           pathname: "/",
-          state: { from: routeProps.location }
+          state: { from: location }
         }}
       />
     );

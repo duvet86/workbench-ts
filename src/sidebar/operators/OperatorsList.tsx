@@ -1,4 +1,4 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 import { IOperatorResult } from "sidebar/operators/types";
@@ -17,7 +17,7 @@ const styles = createStyles({
   }
 });
 
-const OperatorsList: SFC<IProps> = ({
+const OperatorsList: FC<IProps> = ({
   classes,
   operators,
   areOperatorsEnabled
