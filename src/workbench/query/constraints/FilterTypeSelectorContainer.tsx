@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { FC } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { RootState } from "rootReducer";
@@ -22,44 +22,40 @@ type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   IOwnProps;
 
-class FilterTypeSelectorContainer extends Component<Props> {
-  public render() {
-    if (this.props.dataType === QesDataType.Interval) {
-      return null;
-    }
-
-    const {
-      filterCapabilities,
-      constraintId,
-      filterType,
-      dataType
-    } = this.props;
-
-    const isFullWidth =
-      filterType === QesFilterType.IsNull ||
-      filterType === QesFilterType.IsNotNull;
-
-    return (
-      <FilterTypeSelector
-        filterCapabilities={filterCapabilities}
-        constraintId={constraintId}
-        filterType={filterType}
-        dataType={dataType}
-        isFullWidth={isFullWidth}
-        handledUpdateQueryConstraintType={this.handledUpdateQueryConstraintType}
-      />
-    );
+const FilterTypeSelectorContainer: FC<Props> = ({
+  elementId,
+  dataType,
+  filterCapabilities,
+  constraintId,
+  filterType,
+  dispatchUpdateQueryConstraintType
+}) => {
+  if (dataType === QesDataType.Interval) {
+    return null;
   }
 
-  private handledUpdateQueryConstraintType = (constraintId: number) => (
+  const handledUpdateQueryConstraintType = (constraintId: number) => (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    const { elementId, dispatchUpdateQueryConstraintType } = this.props;
-
     dispatchUpdateQueryConstraintType(elementId, constraintId, event.target
       .value as QesFilterType);
   };
-}
+
+  const isFullWidth =
+    filterType === QesFilterType.IsNull ||
+    filterType === QesFilterType.IsNotNull;
+
+  return (
+    <FilterTypeSelector
+      filterCapabilities={filterCapabilities}
+      constraintId={constraintId}
+      filterType={filterType}
+      dataType={dataType}
+      isFullWidth={isFullWidth}
+      handledUpdateQueryConstraintType={handledUpdateQueryConstraintType}
+    />
+  );
+};
 
 const mapStateToProps = (state: RootState) => ({
   filterCapabilities: state.queryConfig.filterCapabilities

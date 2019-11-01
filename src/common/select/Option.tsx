@@ -1,6 +1,6 @@
 import React from "react";
 
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import { styled } from "@material-ui/core/styles";
 
 import { IOption } from "common/select/SelectInputContainer";
 
@@ -10,7 +10,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
 import { SvgIconProps } from "@material-ui/core/SvgIcon";
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   style: React.CSSProperties;
   option: IOption;
   selectedValue: string | string[];
@@ -19,14 +19,11 @@ interface IProps extends WithStyles<typeof styles> {
   handleClick: (event: React.MouseEvent) => void;
 }
 
-const styles = createStyles({
-  menuItem: {
-    padding: "0 0 0 10px"
-  }
+const StyledMenuItem = styled(MenuItem)({
+  padding: "0 0 0 10px"
 });
 
 const Option: React.FC<IProps> = ({
-  classes,
   style,
   option,
   selectedValue,
@@ -34,12 +31,7 @@ const Option: React.FC<IProps> = ({
   isMulti,
   handleClick
 }) => (
-  <MenuItem
-    component="div"
-    style={style}
-    className={classes.menuItem}
-    onClick={handleClick}
-  >
+  <StyledMenuItem button style={style} onClick={handleClick}>
     {OptionsIcon && (
       <ListItemIcon>
         <OptionsIcon />
@@ -53,7 +45,7 @@ const Option: React.FC<IProps> = ({
       />
     )}
     <ListItemText primary={option.label} />
-  </MenuItem>
+  </StyledMenuItem>
 );
 
-export default withStyles(styles)(Option);
+export default Option;

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { FC } from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 
@@ -13,7 +13,7 @@ import IntervalSelectorContainer from "common/interval/IntervalSelectorContainer
 interface IOwnProps {
   elementId: number;
   constraintId: number;
-  initDisplayValue: IIntervalDtc | undefined;
+  displayValue: IIntervalDtc | undefined;
 }
 
 type Props = ReturnType<typeof mapDispatchToProps> & IOwnProps;
@@ -22,32 +22,21 @@ interface IState {
   displayValue: IIntervalDtc | undefined;
 }
 
-class TextInputContainer extends Component<Props, IState> {
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      displayValue: this.props.initDisplayValue
-    };
-  }
-
-  public render() {
-    return <IntervalSelectorContainer onChange={this.applyConstraintValue} />;
-  }
-
-  private applyConstraintValue = (interval: IIntervalDtc) => {
-    const {
-      elementId,
-      constraintId,
-      dispatchUpdateQueryConstraintValues
-    } = this.props;
-
+const TextInputContainer: FC<Props> = ({
+  displayValue,
+  elementId,
+  constraintId,
+  dispatchUpdateQueryConstraintValues
+}) => {
+  const applyConstraintValue = (interval: IIntervalDtc) => {
     const vectorValues = [
       [interval.IntervalType, interval.IntervalString, interval.Label]
     ];
     dispatchUpdateQueryConstraintValues(elementId, constraintId, vectorValues);
   };
-}
+
+  return <IntervalSelectorContainer onChange={applyConstraintValue} />;
+};
 
 const mapDispatchToProps = (
   dispatch: Dispatch<IUpdateQueryConstraintValues>

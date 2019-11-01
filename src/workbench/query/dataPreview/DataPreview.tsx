@@ -1,8 +1,9 @@
 import React, { FC } from "react";
 
-import { withStyles } from "@material-ui/core/styles";
 import { IColumn } from "workbench/types";
 import { IPagedRows } from "workbench/query/types";
+
+import { styled } from "@material-ui/core/styles";
 
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
@@ -26,17 +27,13 @@ interface IProps {
   onChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const HeadTableCell = withStyles(theme => ({
-  head: {
-    ...theme.typography.subtitle2
-  }
-}))(TableCell);
+const HeadTableCell = styled(TableCell)(({ theme }) => ({
+  ...theme.typography.subtitle2
+}));
 
-const TitleTableCell = withStyles(theme => ({
-  head: {
-    ...theme.typography.h6
-  }
-}))(TableCell);
+const TitleTableCell = styled(TableCell)(({ theme }) => ({
+  ...theme.typography.h6
+}));
 
 const DataPreview: FC<IProps> = ({
   columns,

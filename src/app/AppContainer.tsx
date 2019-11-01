@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -11,8 +11,16 @@ import LoadingContainer from "common/loading/LoadingContainer";
 type Props = ReturnType<typeof mapDispatchToProps> &
   ReturnType<typeof mapStateToProps>;
 
-const AppContainer: FC<Props> = ({ isLoading, ...rest }) => {
+const AppContainer: FC<Props> = ({
+  isLoading,
+  dispatchQesEnabledRequest,
+  ...rest
+}) => {
   const [open, setOpen] = useState(true);
+
+  useEffect(() => {
+    dispatchQesEnabledRequest();
+  }, []);
 
   const handleDrawerOpen = () => {
     setOpen(prevState => !prevState);

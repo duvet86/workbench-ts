@@ -1,5 +1,4 @@
-import React, { ChangeEvent, Component } from "react";
-import { createSelector } from "reselect";
+import React, { ChangeEvent, FC, useState } from "react";
 
 import { IOption } from "common/select/SelectInputContainer";
 
@@ -12,52 +11,36 @@ interface IProps {
   handleItemClick: (item: IOption) => (event: React.MouseEvent) => void;
 }
 
-interface IState {
-  searchString: string;
-}
+const SearchableListContainer: FC<IProps> = ({
+  label,
+  items,
+  emptyListLabel,
+  handleItemClick
+}) => {
+  const [searchString, setSearchString] = useState("");
 
-const filterTextSelector = (state: IState) => state.searchString;
-const itemsSelector = (_: IState, props: IProps) => props.items;
-
-export default class SearchableListContainer extends Component<IProps, IState> {
-  public state = {
-    searchString: ""
+  const handleClickClearIcon = () => {
+    setSearchString("");
   };
 
-  private filterList = createSelector(
-    filterTextSelector,
-    itemsSelector,
-    (filterText, items) => items.filter(item => item.label.includes(filterText))
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchString(event.target.value);
+  };
+
+  const filteredList = items.filter(item => item.label.includes(searchString));
+
+  return (
+    <SearchableList
+      label={label}
+      emptyListLabel={emptyListLabel}
+      totItems={filteredList.length}
+      searchableItems={filteredList}
+      searchString={searchString}
+      handleItemClick={handleItemClick}
+      handleChange={handleChange}
+      handleClickClearIcon={handleClickClearIcon}
+    />
   );
+};
 
-  public render() {
-    const { label, emptyListLabel, handleItemClick } = this.props;
-    const { searchString } = this.state;
-    const filteredList = this.filterList(this.state, this.props);
-
-    return (
-      <SearchableList
-        label={label}
-        emptyListLabel={emptyListLabel}
-        totItems={filteredList.length}
-        searchableItems={filteredList}
-        searchString={searchString}
-        handleItemClick={handleItemClick}
-        handleChange={this.handleChange}
-        handleClickClearIcon={this.handleClickClearIcon}
-      />
-    );
-  }
-
-  private handleClickClearIcon = () => {
-    this.setState({
-      searchString: ""
-    });
-  };
-
-  private handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      searchString: event.target.value
-    });
-  };
-}
+export default SearchableListContainer;

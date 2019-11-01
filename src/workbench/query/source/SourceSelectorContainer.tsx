@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { FC } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -22,32 +22,27 @@ type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   IOwnProps;
 
-class SourceSelectorContainer extends Component<Props> {
-  public componentDidMount() {
-    this.props.dispatchDataServicesRequest();
-  }
-
-  public render() {
-    const { initTargetDataViewId, dataServices } = this.props;
-
-    return (
-      <SourceSelector
-        initTargetDataViewId={initTargetDataViewId}
-        dataServices={dataServices}
-        handleChangeDataService={this.handleChangeDataService}
-      />
-    );
-  }
-
-  private handleChangeDataService = (option?: IOption) => {
-    const { elementId, dispatchUpdateDataService } = this.props;
-
+const SourceSelectorContainer: FC<Props> = ({
+  initTargetDataViewId,
+  dataServices,
+  elementId,
+  dispatchUpdateDataService
+}) => {
+  const handleChangeDataService = (option?: IOption) => {
     const targetDataViewId = option != null ? option.value : undefined;
     const dataServiceLabel = option != null ? option.label : undefined;
 
     dispatchUpdateDataService(elementId, targetDataViewId, dataServiceLabel);
   };
-}
+
+  return (
+    <SourceSelector
+      initTargetDataViewId={initTargetDataViewId}
+      dataServices={dataServices}
+      handleChangeDataService={handleChangeDataService}
+    />
+  );
+};
 
 const mapStateToProps = (state: RootState) => ({
   dataServices: getDataServices(state)

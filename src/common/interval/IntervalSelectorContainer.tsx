@@ -22,7 +22,7 @@ import IntervalSelector from "common/interval/IntervalSelector";
 
 interface IOwnProps {
   initValue?: IIntervalDtc;
-  handleChange: (newInterval: IIntervalDtc) => void;
+  onChange: (newInterval: IIntervalDtc) => void;
 }
 
 type Props = ReturnType<typeof mapDispatchToProps> & IOwnProps;
@@ -35,7 +35,7 @@ type Props = ReturnType<typeof mapDispatchToProps> & IOwnProps;
 
 const IntervalSelectorContainer: FC<Props> = ({
   initValue,
-  handleChange,
+  onChange,
   dispatchHandleException
 }) => {
   const [interval, setInterval] = useState<IIntervalDtc | undefined>(initValue);
@@ -58,7 +58,7 @@ const IntervalSelectorContainer: FC<Props> = ({
             initValue.IntervalType === newInterval.IntervalType &&
             initValue.IntervalString === newInterval.IntervalString)
         ) {
-          handleChange(newInterval);
+          onChange(newInterval);
         }
       })
       .catch(e => dispatchHandleException(e));

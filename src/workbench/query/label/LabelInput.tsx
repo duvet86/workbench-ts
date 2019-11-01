@@ -1,29 +1,23 @@
 import React, { FC } from "react";
 
-import {
-  createStyles,
-  withStyles,
-  WithStyles,
-  Theme
-} from "@material-ui/core/styles";
+import { styled } from "@material-ui/core/styles";
 
 import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   initLabel: string;
   handleChangeLabel: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const styles = (theme: Theme) =>
-  createStyles({
-    paper: {
-      padding: theme.spacing() * 3
-    }
-  });
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  paper: {
+    padding: theme.spacing() * 3
+  }
+}));
 
-const LabelInput: FC<IProps> = ({ classes, initLabel, handleChangeLabel }) => (
-  <Paper className={classes.paper}>
+const LabelInput: FC<IProps> = ({ initLabel, handleChangeLabel }) => (
+  <StyledPaper>
     <TextField
       fullWidth
       required
@@ -31,7 +25,7 @@ const LabelInput: FC<IProps> = ({ classes, initLabel, handleChangeLabel }) => (
       value={initLabel}
       onChange={handleChangeLabel}
     />
-  </Paper>
+  </StyledPaper>
 );
 
-export default withStyles(styles)(LabelInput);
+export default LabelInput;

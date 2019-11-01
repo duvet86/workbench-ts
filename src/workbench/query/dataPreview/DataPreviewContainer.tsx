@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { FC, useEffect } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -19,51 +19,47 @@ type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   IOwnProps;
 
-class DataPreviewContainer extends Component<Props> {
-  private rowsPerPageOptions = [10, 25, 50, 100];
+const DataPreviewContainer: FC<Props> = ({
+  columns,
+  dataTableRows,
+  dispatchDataTableRequest
+}) => {
+  useEffect(() => {
+    dispatchDataTableRequest();
+  }, []);
 
-  public componentDidMount() {
-    this.props.dispatchDataTableRequest();
-  }
-
-  public render() {
-    const { columns, dataTableRows } = this.props;
-
-    return (
-      <DataPreview
-        columns={columns}
-        dataTableRows={dataTableRows}
-        rowsPerPageOptions={this.rowsPerPageOptions}
-        onChangePage={this.handleChangePage}
-        onChangeRowsPerPage={this.handleChangeRowsPerPage}
-      />
-    );
-  }
-
-  private handleChangePage = (
+  const handleChangePage = (
     _: React.MouseEvent<HTMLButtonElement> | null,
     pageNumber: number
   ) => {
-    const { dataTableRows } = this.props;
     if (dataTableRows == null) {
       throw new Error("dataTableRows cannot be null.");
     }
-    this.props.dispatchDataTableRequest(dataTableRows.PageSize, pageNumber);
+    dispatchDataTableRequest(dataTableRows.PageSize, pageNumber);
   };
 
-  private handleChangeRowsPerPage = (
+  const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const { dataTableRows } = this.props;
     if (dataTableRows == null) {
       throw new Error("dataTableRows cannot be null.");
     }
-    this.props.dispatchDataTableRequest(
+    dispatchDataTableRequest(
       Number(event.target.value),
       dataTableRows.PageNumber
     );
   };
-}
+
+  return (
+    <DataPreview
+      columns={columns}
+      dataTableRows={dataTableRows}
+      rowsPerPageOptions={[10, 25, 50, 100]}
+      onChangePage={handleChangePage}
+      onChangeRowsPerPage={handleChangeRowsPerPage}
+    />
+  );
+};
 
 const mapStateToProps = (state: RootState) => ({
   dataTableRows: state.queryConfig.dataTableTows

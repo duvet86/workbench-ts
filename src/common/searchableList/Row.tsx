@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { IOption } from "common/select/SelectInputContainer";
 
@@ -10,13 +10,13 @@ import ListItemText from "@material-ui/core/ListItemText";
 
 import ColumnIcon from "@material-ui/icons/SettingsApplications";
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   style: React.CSSProperties;
   option: IOption;
   handleClick: (event: React.MouseEvent) => void;
 }
 
-const styles = createStyles({
+const useStyles = makeStyles({
   iconColour: {
     fill: "#003b86"
   },
@@ -28,22 +28,26 @@ const styles = createStyles({
   }
 });
 
-const Row: FC<IProps> = ({ classes, style, option, handleClick }) => (
-  <ListItem
-    divider
-    disableGutters
-    dense
-    button
-    ContainerComponent="div"
-    style={style}
-    onClick={handleClick}
-    className={classes.listItem}
-  >
-    <ListItemIcon>
-      <ColumnIcon className={classes.iconColour} />
-    </ListItemIcon>
-    <ListItemText className={classes.listItemText} primary={option.label} />
-  </ListItem>
-);
+const Row: FC<IProps> = ({ style, option, handleClick }) => {
+  const classes = useStyles();
 
-export default withStyles(styles)(Row);
+  return (
+    <ListItem
+      divider
+      disableGutters
+      dense
+      button
+      ContainerComponent="div"
+      style={style}
+      onClick={handleClick}
+      className={classes.listItem}
+    >
+      <ListItemIcon>
+        <ColumnIcon className={classes.iconColour} />
+      </ListItemIcon>
+      <ListItemText className={classes.listItemText} primary={option.label} />
+    </ListItem>
+  );
+};
+
+export default Row;

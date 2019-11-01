@@ -1,25 +1,15 @@
-import React from "react";
+import React, { FC } from "react";
 
-import {
-  createStyles,
-  Theme,
-  withStyles,
-  WithStyles
-} from "@material-ui/core/styles";
+import { styled } from "@material-ui/core/styles";
 
 import Typography from "@material-ui/core/Typography";
 
-const styles = ({ spacing }: Theme) =>
-  createStyles({
-    labelContainer: {
-      padding: spacing() * 2
-    }
-  });
+const StyledTypography = styled(Typography)(({ theme }) => ({
+  padding: theme.spacing() * 2
+}));
 
-const NoOption: React.FC<WithStyles<typeof styles>> = ({ classes }) => (
-  <Typography color="textSecondary" className={classes.labelContainer}>
-    No items found
-  </Typography>
+const NoOption: FC = () => (
+  <StyledTypography color="textSecondary">No items found</StyledTypography>
 );
 
-export default withStyles(styles)(NoOption);
+export default NoOption;

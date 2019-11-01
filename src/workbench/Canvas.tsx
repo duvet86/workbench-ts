@@ -1,15 +1,15 @@
 import React, { FC } from "react";
 import { DiagramEngine, DiagramWidget } from "storm-react-diagrams2";
 
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   diagramEngine: DiagramEngine;
   handleDrop: (event: React.DragEvent<HTMLDivElement>) => void;
   handleDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
 }
 
-const styles = createStyles({
+const useStyles = makeStyles({
   canvasContainer: {
     height: "100%",
     width: "100%"
@@ -21,23 +21,26 @@ const styles = createStyles({
 });
 
 const Workbench: FC<IProps> = ({
-  classes,
   diagramEngine,
   handleDragOver,
   handleDrop
-}) => (
-  <div
-    className={classes.canvasContainer}
-    onDrop={handleDrop}
-    onDragOver={handleDragOver}
-  >
-    <DiagramWidget
-      className={classes.canvas}
-      diagramEngine={diagramEngine}
-      maxNumberPointsPerLink={0}
-      allowLooseLinks={false}
-    />
-  </div>
-);
+}) => {
+  const classes = useStyles();
 
-export default withStyles(styles)(Workbench);
+  return (
+    <div
+      className={classes.canvasContainer}
+      onDrop={handleDrop}
+      onDragOver={handleDragOver}
+    >
+      <DiagramWidget
+        className={classes.canvas}
+        diagramEngine={diagramEngine}
+        maxNumberPointsPerLink={0}
+        allowLooseLinks={false}
+      />
+    </div>
+  );
+};
+
+export default Workbench;

@@ -1,13 +1,8 @@
 import Logo from "login/logo.svg";
 
-import React, { ChangeEvent, Component, FormEvent, MouseEvent } from "react";
+import React, { ChangeEvent, FormEvent, MouseEvent, FC } from "react";
 
-import {
-  createStyles,
-  Theme,
-  withStyles,
-  WithStyles
-} from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
@@ -22,158 +17,127 @@ import Typography from "@material-ui/core/Typography";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
-interface IProps extends WithStyles<typeof styles> {
-  isInvalidCredentials: boolean;
-  submitHandler: (username: string, password: string) => void;
-}
-
-interface IState {
-  username: string;
-  password: string;
+interface IProps {
   showPassword: boolean;
+  isInvalidCredentials: boolean;
+  submitHandler: (e: FormEvent) => void;
+  handleChange: (
+    prop: string
+  ) => (event: ChangeEvent<HTMLInputElement>) => void;
+  handleMouseDownPassword: (e: MouseEvent) => void;
+  handleClickShowPasssword: () => void;
 }
 
-const styles = ({ spacing }: Theme) =>
-  createStyles({
-    "@keyframes appLogoSpin": {
-      from: {
-        transform: "rotate(0deg)"
-      },
-      to: {
-        transform: "rotate(360deg)"
-      }
+const useStyles = makeStyles(({ spacing }: Theme) => ({
+  "@keyframes appLogoSpin": {
+    from: {
+      transform: "rotate(0deg)"
     },
-    container: {
-      height: "70%"
-    },
-    paper: {
-      padding: spacing() * 3
-    },
-    form: {
-      marginTop: spacing() * 3
-    },
-    passwordControl: {
-      marginRight: spacing(),
-      marginBottom: spacing() * 3
-    },
-    logoContainer: {
-      textAlign: "center"
-    },
-    appLogo: {
-      animation: "appLogoSpin infinite 20s linear",
-      height: "50px"
-    },
-    errorMessage: {
-      marginTop: 10,
-      color: "red"
+    to: {
+      transform: "rotate(360deg)"
     }
-  });
-
-class Login extends Component<IProps, IState> {
-  public readonly state = {
-    username: "",
-    password: "",
-    showPassword: false
-  };
-
-  public render() {
-    const { classes, isInvalidCredentials } = this.props;
-
-    return (
-      <Grid
-        container
-        alignItems="center"
-        justify="center"
-        className={classes.container}
-        spacing={0}
-      >
-        <Grid item md={3} xs={11}>
-          <Paper className={classes.paper}>
-            <div className={classes.logoContainer}>
-              <Logo className={classes.appLogo} alt="logo" />
-            </div>
-            <Typography component="p" align="center">
-              Reactive
-            </Typography>
-            <Typography variant="h5" component="h3" align="center">
-              Connected Mine Analitycs
-            </Typography>
-            <form
-              className={classes.form}
-              noValidate
-              onSubmit={this.submitHandler}
-            >
-              <FormControl fullWidth>
-                <InputLabel htmlFor="username">User Name</InputLabel>
-                <Input
-                  id="username"
-                  onChange={this.handleChange("username")}
-                  autoComplete="username"
-                />
-              </FormControl>
-              <FormControl className={classes.passwordControl} fullWidth>
-                <InputLabel htmlFor="password">Password</InputLabel>
-                <Input
-                  id="password"
-                  type={this.state.showPassword ? "text" : "password"}
-                  onChange={this.handleChange("password")}
-                  autoComplete="current-password"
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={this.handleClickShowPasssword}
-                        onMouseDown={this.handleMouseDownPassword}
-                      >
-                        {this.state.showPassword ? (
-                          <VisibilityOff />
-                        ) : (
-                          <Visibility />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-              <Button
-                type="submit"
-                variant="contained"
-                color="secondary"
-                fullWidth
-              >
-                Login
-              </Button>
-            </form>
-            {isInvalidCredentials && (
-              <Typography className={classes.errorMessage} variant="subtitle1">
-                Invalid Username or Password
-              </Typography>
-            )}
-          </Paper>
-        </Grid>
-      </Grid>
-    );
+  },
+  container: {
+    height: "70%"
+  },
+  paper: {
+    padding: spacing() * 3
+  },
+  form: {
+    marginTop: spacing() * 3
+  },
+  passwordControl: {
+    marginRight: spacing(),
+    marginBottom: spacing() * 3
+  },
+  logoContainer: {
+    textAlign: "center"
+  },
+  appLogo: {
+    animation: "appLogoSpin infinite 20s linear",
+    height: "50px"
+  },
+  errorMessage: {
+    marginTop: 10,
+    color: "red"
   }
+}));
 
-  private handleChange = (prop: string) => (
-    event: ChangeEvent<HTMLInputElement>
-  ) => {
-    // TODO: fix me: typescript issue.
-    this.setState({ [prop]: event.target.value } as any);
-  };
+const Login: FC<IProps> = ({
+  showPassword,
+  submitHandler,
+  handleChange,
+  handleClickShowPasssword,
+  handleMouseDownPassword,
+  isInvalidCredentials
+}) => {
+  const classes = useStyles();
 
-  private handleMouseDownPassword = (e: MouseEvent) => {
-    e.preventDefault();
-  };
+  return (
+    <Grid
+      container
+      alignItems="center"
+      justify="center"
+      className={classes.container}
+      spacing={0}
+    >
+      <Grid item md={3} xs={11}>
+        <Paper className={classes.paper}>
+          <div className={classes.logoContainer}>
+            <Logo className={classes.appLogo} alt="logo" />
+          </div>
+          <Typography component="p" align="center">
+            Reactive
+          </Typography>
+          <Typography variant="h5" component="h3" align="center">
+            Connected Mine Analitycs
+          </Typography>
+          <form className={classes.form} noValidate onSubmit={submitHandler}>
+            <FormControl fullWidth>
+              <InputLabel htmlFor="username">User Name</InputLabel>
+              <Input
+                id="username"
+                onChange={handleChange("username")}
+                autoComplete="username"
+              />
+            </FormControl>
+            <FormControl className={classes.passwordControl} fullWidth>
+              <InputLabel htmlFor="password">Password</InputLabel>
+              <Input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                onChange={handleChange("password")}
+                autoComplete="current-password"
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={handleClickShowPasssword}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+            <Button
+              type="submit"
+              variant="contained"
+              color="secondary"
+              fullWidth
+            >
+              Login
+            </Button>
+          </form>
+          {isInvalidCredentials && (
+            <Typography className={classes.errorMessage} variant="subtitle1">
+              Invalid Username or Password
+            </Typography>
+          )}
+        </Paper>
+      </Grid>
+    </Grid>
+  );
+};
 
-  private handleClickShowPasssword = () => {
-    this.setState({ showPassword: !this.state.showPassword });
-  };
-
-  private submitHandler = (e: FormEvent) => {
-    e.preventDefault();
-    const { username, password } = this.state;
-    this.props.submitHandler(username, password);
-  };
-}
-
-export default withStyles(styles)(Login);
+export default Login;

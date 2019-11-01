@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { RootState } from "rootReducer";
@@ -23,116 +23,89 @@ interface IOwnProps {
   elementId: number;
   constraintId: number;
   availableFilter: IUdsFilterDescriptionDtc;
-  initDisplayValue?: string[];
+  displayValue?: string[];
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   IOwnProps;
 
-interface IState {
-  isLoading: boolean;
-  allowedValueOptions: IOption[];
-  selectedValues: string[];
-}
+const AllowedValuesContainer: FC<Props> = ({
+  session,
+  availableFilter: {
+    AllowedValuesSessionId,
+    AllowedValuesQueryGraphId,
+    FilterName
+  },
+  displayValue,
+  dispatchHandleException
+}) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [allowedValueOptions, setAllowedValueOptions] = useState<IOption[]>([]);
+  const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
-class AllowedValuesContainer extends Component<Props, IState> {
-  public state: IState = {
-    isLoading: false,
-    allowedValueOptions: [],
-    selectedValues: []
-  };
-
-  public async componentDidMount() {
-    const {
-      dispatchHandleException,
-      session,
-      availableFilter: {
-        AllowedValuesSessionId,
-        AllowedValuesQueryGraphId,
-        FilterName
-      },
-      initDisplayValue
-    } = this.props;
+  useEffect(() => {
     if (session == null) {
       throw new Error("Session cannot be null.");
     }
+    setIsLoading(true);
 
-    this.setState({
-      isLoading: true
-    });
+    getAllowedValuesAsync(
+      session.TenantId,
+      AllowedValuesSessionId,
+      AllowedValuesQueryGraphId,
+      FilterName
+    )
+      .then(allowedValues => {
+        let selectedValues: string[];
+        if (displayValue == null) {
+          const allSelected = allowedValues.find(({ Selected }) => !Selected);
+          selectedValues =
+            allSelected == null
+              ? allowedValues.map(({ ValueVector }) => ValueVector[0] as string)
+              : allowedValues
+                  .filter(({ Selected }) => Selected)
+                  .map(({ ValueVector }) => ValueVector[0] as string);
+        } else {
+          selectedValues = displayValue;
+        }
 
-    try {
-      const allowedValues = await getAllowedValuesAsync(
-        session.TenantId,
-        AllowedValuesSessionId,
-        AllowedValuesQueryGraphId,
-        FilterName
-      );
-
-      let selectedValues: string[];
-      if (initDisplayValue == null) {
-        const allSelected = allowedValues.find(({ Selected }) => !Selected);
-
-        selectedValues =
-          allSelected == null
-            ? allowedValues.map(({ ValueVector }) => ValueVector[0] as string)
-            : allowedValues
-                .filter(({ Selected }) => Selected)
-                .map(({ ValueVector }) => ValueVector[0] as string);
-      } else {
-        selectedValues = initDisplayValue;
-      }
-
-      this.setState({
-        isLoading: false,
-        allowedValueOptions: allowedValues.map<IOption>(
-          ({ DisplayValue, ValueVector }) => ({
+        setAllowedValueOptions(
+          allowedValues.map<IOption>(({ DisplayValue, ValueVector }) => ({
             label: DisplayValue,
             value: ValueVector[0]
-          })
-        ),
-        selectedValues
-      });
-    } catch (e) {
-      dispatchHandleException(e);
-    }
-  }
+          }))
+        );
+        setSelectedValues(selectedValues);
+        setIsLoading(false);
+      })
+      .catch(e => dispatchHandleException(e));
+  }, []);
 
-  public render() {
-    const { isLoading, allowedValueOptions, selectedValues } = this.state;
-
-    return (
-      <LoadingContainer isLoading={isLoading}>
-        <AllowedValues
-          selectedValues={selectedValues}
-          allowedValueOptions={allowedValueOptions}
-          handledUpdateQueryConstraintValues={
-            this.handledUpdateQueryConstraintValues
-          }
-        />
-      </LoadingContainer>
-    );
-  }
-
-  private handledUpdateQueryConstraintValues = (
-    selectedOptions?: IOption[]
-  ) => {
-    const {
-      elementId,
-      constraintId,
-      dispatchUpdateQueryConstraintValues
-    } = this.props;
-
+  const handledUpdateQueryConstraintValues = (selectedOptions?: IOption[]) => {
+    // const {
+    //   elementId,
+    //   constraintId,
+    //   dispatchUpdateQueryConstraintValues
+    // } = this.props;
     // TODO: convert value to vector value.
-
     // dispatchUpdateQueryConstraintValues(
     //   elementId,
     //   constraintId,
     //   valuesObj.vectorValues
     // );
   };
-}
+
+  return (
+    <LoadingContainer isLoading={isLoading}>
+      <AllowedValues
+        selectedValues={selectedValues}
+        allowedValueOptions={allowedValueOptions}
+        handledUpdateQueryConstraintValues={handledUpdateQueryConstraintValues}
+      />
+    </LoadingContainer>
+  );
+};
 
 const mapStateToProps = ({ sessionGraph: { session } }: RootState) => ({
   session

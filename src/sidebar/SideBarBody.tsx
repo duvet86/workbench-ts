@@ -1,20 +1,20 @@
 import React, { FC } from "react";
 
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import { styled } from "@material-ui/core/styles";
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   tabRenderer: () => JSX.Element;
 }
 
-const styles = createStyles({
+const StyledDiv = styled("div")({
   bodyContainer: {
     height: "100%",
     display: "flex"
   }
 });
 
-const SideBarBody: FC<IProps> = ({ classes, tabRenderer }) => (
-  <div className={classes.bodyContainer}>{tabRenderer()}</div>
+const SideBarBody: FC<IProps> = ({ tabRenderer }) => (
+  <StyledDiv>{tabRenderer()}</StyledDiv>
 );
 
-export default withStyles(styles)(SideBarBody);
+export default SideBarBody;

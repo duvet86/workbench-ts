@@ -19,7 +19,7 @@ export interface IProfileSuccess extends Action {
 
 export interface IProfileError extends Action {
   type: ProfileActionTypes.PROFILE_ERROR;
-  error: any;
+  error: unknown;
 }
 
 export type ProfileAction = IProfileRequest | IProfileSuccess | IProfileError;
@@ -33,7 +33,7 @@ export const profileSuccess = (userInfo: IUserInfo): IProfileSuccess => ({
   userInfo
 });
 
-export const profileError = (error: any): IProfileError => ({
+export const profileError = (error: unknown): IProfileError => ({
   type: ProfileActionTypes.PROFILE_ERROR,
   error
 });

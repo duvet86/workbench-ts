@@ -2,31 +2,28 @@ import React, { FC } from "react";
 
 import { IUserInfo } from "profile/types";
 
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import { styled } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   userInfo: IUserInfo;
 }
 
-const styles = createStyles({
-  container: {
-    padding: 25
-  }
+const StyledGrid = styled(Grid)({
+  padding: 25
 });
 
 const Profile: FC<IProps> = ({
-  classes,
   userInfo: {
     Profile: { UserName }
   }
 }) => (
-  <Grid container className={classes.container}>
+  <StyledGrid container>
     <Grid item xs={12}>
       {UserName}
     </Grid>
-  </Grid>
+  </StyledGrid>
 );
 
-export default withStyles(styles)(Profile);
+export default Profile;

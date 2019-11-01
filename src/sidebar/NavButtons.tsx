@@ -1,19 +1,17 @@
 import React, { FC } from "react";
 
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import { styled } from "@material-ui/core/styles";
 
 import linksList from "common/linksList";
 import { HomeIcon } from "common/icons";
 import IconButtonContainer from "sidebar/IconButtonContainer";
 
-const styles = createStyles({
-  buttonsContainer: {
-    width: 50
-  }
+const StyledDiv = styled("div")({
+  width: 50
 });
 
-const NavButtons: FC<WithStyles<typeof styles>> = ({ classes }) => (
-  <div className={classes.buttonsContainer}>
+const NavButtons: FC = () => (
+  <StyledDiv>
     <IconButtonContainer Icon={HomeIcon} link="/" label="Home Page" />
     {linksList.map(({ id, IconComponent, to, label }) => (
       <IconButtonContainer
@@ -23,7 +21,7 @@ const NavButtons: FC<WithStyles<typeof styles>> = ({ classes }) => (
         label={label}
       />
     ))}
-  </div>
+  </StyledDiv>
 );
 
-export default withStyles(styles)(NavButtons);
+export default NavButtons;

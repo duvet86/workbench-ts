@@ -1,6 +1,6 @@
 import React from "react";
 
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -8,12 +8,12 @@ import ListItemText from "@material-ui/core/ListItemText";
 
 import SettingsIcon from "@material-ui/icons/SettingsApplications";
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   label: string;
   style: React.CSSProperties;
 }
 
-const styles = createStyles({
+const useStyles = makeStyles({
   listItem: {
     padding: 0
   },
@@ -27,17 +27,21 @@ const styles = createStyles({
   }
 });
 
-const QueryColumn: React.FC<IProps> = ({ classes, style, label }) => (
-  <ListItem style={style} className={classes.listItem} component="div" dense>
-    <ListItemIcon className={classes.itemIcon}>
-      <SettingsIcon />
-    </ListItemIcon>
-    <ListItemText
-      className={classes.listItem}
-      classes={{ primary: classes.primary }}
-      primary={label}
-    />
-  </ListItem>
-);
+const QueryColumn: React.FC<IProps> = ({ style, label }) => {
+  const classes = useStyles();
 
-export default withStyles(styles)(QueryColumn);
+  return (
+    <ListItem style={style} className={classes.listItem} component="div" dense>
+      <ListItemIcon className={classes.itemIcon}>
+        <SettingsIcon />
+      </ListItemIcon>
+      <ListItemText
+        className={classes.listItem}
+        classes={{ primary: classes.primary }}
+        primary={label}
+      />
+    </ListItem>
+  );
+};
+
+export default QueryColumn;

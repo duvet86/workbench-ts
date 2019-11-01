@@ -1,11 +1,6 @@
 import React, { FC } from "react";
 
-import {
-  createStyles,
-  Theme,
-  withStyles,
-  WithStyles
-} from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 import { IConfigSteps } from "workbench/configElements/types";
 
 import Grid from "@material-ui/core/Grid";
@@ -14,7 +9,7 @@ import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepButton from "@material-ui/core/StepButton";
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   title: string;
   steps: Array<IConfigSteps<any>>;
   currentStep: number;
@@ -22,41 +17,41 @@ interface IProps extends WithStyles<typeof styles> {
   dispatchGoToStep: (stepIndex: number) => void;
 }
 
-const styles = ({ spacing }: Theme) =>
-  createStyles({
-    gridTitle: {
-      position: "fixed",
-      top: 0,
-      width: "98%",
-      backgroundColor: "white",
-      zIndex: 2,
-      borderBottom: "1px solid #eee"
-    },
-    titleContainer: {
-      display: "flex",
-      alignItems: "center",
-      marginBottom: spacing() * 2
-    },
-    title: {
-      marginRight: spacing() * 2
-    },
-    stepper: {
-      padding: 0,
-      width: "100%"
-    },
-    stepTitle: {
-      marginTop: 85
-    }
-  });
+const useStyles = makeStyles(({ spacing }: Theme) => ({
+  gridTitle: {
+    position: "fixed",
+    top: 0,
+    width: "98%",
+    backgroundColor: "white",
+    zIndex: 2,
+    borderBottom: "1px solid #eee"
+  },
+  titleContainer: {
+    display: "flex",
+    alignItems: "center",
+    marginBottom: spacing() * 2
+  },
+  title: {
+    marginRight: spacing() * 2
+  },
+  stepper: {
+    padding: 0,
+    width: "100%"
+  },
+  stepTitle: {
+    marginTop: 85
+  }
+}));
 
 const StepperHeader: FC<IProps> = ({
-  classes,
   title,
   steps,
   currentStep,
   completedSteps,
   dispatchGoToStep
 }) => {
+  const classes = useStyles();
+
   const handleStep = (stepIndex: number) => () => {
     return dispatchGoToStep(stepIndex);
   };
@@ -96,4 +91,4 @@ const StepperHeader: FC<IProps> = ({
   );
 };
 
-export default withStyles(styles)(StepperHeader);
+export default StepperHeader;

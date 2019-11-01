@@ -1,28 +1,22 @@
 import React, { FC } from "react";
 
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import { styled } from "@material-ui/core/styles";
 import { IOperatorResult } from "sidebar/operators/types";
 
 import List from "@material-ui/core/List";
 import Operator from "sidebar/operators/Operator";
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   operators: { [key: string]: IOperatorResult };
   areOperatorsEnabled: boolean;
 }
 
-const styles = createStyles({
-  list: {
-    overflow: "auto"
-  }
+const StyledList = styled(List)({
+  overflow: "auto"
 });
 
-const OperatorsList: FC<IProps> = ({
-  classes,
-  operators,
-  areOperatorsEnabled
-}) => (
-  <List className={classes.list}>
+const OperatorsList: FC<IProps> = ({ operators, areOperatorsEnabled }) => (
+  <StyledList>
     {Object.keys(operators).map(key => (
       <Operator
         key={key}
@@ -30,7 +24,7 @@ const OperatorsList: FC<IProps> = ({
         areOperatorsEnabled={areOperatorsEnabled}
       />
     ))}
-  </List>
+  </StyledList>
 );
 
-export default withStyles(styles)(OperatorsList);
+export default OperatorsList;

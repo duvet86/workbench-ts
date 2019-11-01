@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import { styled } from "@material-ui/core/styles";
 
 import { IConstraint } from "workbench/types";
 import { IFilterCapabilitiesDic } from "workbench/query/types";
@@ -12,7 +12,7 @@ import ConstraintContainer from "workbench/query/constraints/ConstraintContainer
 
 import ConstraintIcon from "@material-ui/icons/FilterList";
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   elementId: number;
   availableConstraints: Array<IOption<string>>;
   queryConstraints: IConstraint[];
@@ -20,21 +20,18 @@ interface IProps extends WithStyles<typeof styles> {
   handledAddQueryConstraint: (target?: IOption) => void;
 }
 
-const styles = createStyles({
-  constraintTargetSelect: {
-    marginBottom: 30
-  }
+const StyledDiv = styled("div")({
+  marginBottom: 30
 });
 
 const ConstraintSelector: FC<IProps> = ({
-  classes,
   elementId,
   availableConstraints,
   queryConstraints,
   handledAddQueryConstraint
 }) => (
   <>
-    <div className={classes.constraintTargetSelect}>
+    <StyledDiv>
       <SelectInputContainer
         reset
         // OptionsIcon={ConstraintIcon}
@@ -42,7 +39,7 @@ const ConstraintSelector: FC<IProps> = ({
         options={availableConstraints}
         onChange={handledAddQueryConstraint}
       />
-    </div>
+    </StyledDiv>
     {queryConstraints.map(constraint => (
       <ConstraintContainer
         key={constraint.ConstraintIndex}
@@ -53,4 +50,4 @@ const ConstraintSelector: FC<IProps> = ({
   </>
 );
 
-export default withStyles(styles)(ConstraintSelector);
+export default ConstraintSelector;

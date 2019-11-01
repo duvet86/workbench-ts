@@ -1,16 +1,11 @@
 import React, { FC } from "react";
 
-import {
-  createStyles,
-  Theme,
-  withStyles,
-  WithStyles
-} from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   currentStep: number;
   completedSteps: boolean[];
   totalNumberSteps: number;
@@ -19,22 +14,20 @@ interface IProps extends WithStyles<typeof styles> {
   dispatchGoToStep: (stepIndex: number) => void;
 }
 
-const styles = ({ spacing }: Theme) =>
-  createStyles({
-    actionButtons: {
-      display: "flex",
-      justifyContent: "flex-end",
-      position: "fixed",
-      bottom: spacing() * 6,
-      right: 0
-    },
-    button: {
-      margin: spacing()
-    }
-  });
+const useStyles = makeStyles(({ spacing }: Theme) => ({
+  actionButtons: {
+    display: "flex",
+    justifyContent: "flex-end",
+    position: "fixed",
+    bottom: spacing() * 6,
+    right: 0
+  },
+  button: {
+    margin: spacing()
+  }
+}));
 
 const ConfigButtons: FC<IProps> = ({
-  classes,
   currentStep,
   completedSteps,
   totalNumberSteps,
@@ -42,6 +35,8 @@ const ConfigButtons: FC<IProps> = ({
   dispatchCompleteQueryConfig,
   dispatchGoToStep
 }) => {
+  const classes = useStyles();
+
   const handleStep = (stepIndex: number) => () => {
     return dispatchGoToStep(stepIndex);
   };
@@ -82,4 +77,4 @@ const ConfigButtons: FC<IProps> = ({
   );
 };
 
-export default withStyles(styles)(ConfigButtons);
+export default ConfigButtons;

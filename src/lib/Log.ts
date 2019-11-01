@@ -7,7 +7,7 @@ const enum LogLevels {
 }
 
 class Log {
-  public generateMessage(level: LogLevels, area: string, rawError: any) {
+  public generateMessage(level: LogLevels, area: string, rawError: unknown) {
     const error =
       rawError instanceof Error ? rawError.stack : JSON.stringify(rawError);
 
@@ -23,19 +23,19 @@ class Log {
     }
   }
 
-  public trace(message: string, error: any) {
+  public trace(message: string, error: unknown) {
     return this.generateMessage(LogLevels.TRACE, message, error);
   }
 
-  public info(message: string, error: any) {
+  public info(message: string, error: unknown) {
     return this.generateMessage(LogLevels.INFO, message, error);
   }
 
-  public warn(message: string, error: any) {
+  public warn(message: string, error: unknown) {
     return this.generateMessage(LogLevels.WARN, message, error);
   }
 
-  public error(message: string, error: any) {
+  public error(message: string, error: unknown) {
     return this.generateMessage(LogLevels.ERROR, message, error);
   }
 }

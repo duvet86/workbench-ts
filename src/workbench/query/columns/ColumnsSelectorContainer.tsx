@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { FC } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { createSelector } from "reselect";
@@ -30,40 +30,29 @@ type Props = ReturnType<typeof mapStateToProps> &
 const availableColumnsSelector = (props: Props) => props.availableColumns;
 const selectedColumnsSelector = (props: Props) => props.selectedColumns;
 
-class ColumnsSelectorContainer extends Component<Props> {
-  private availableColumnOptions = createSelector(
-    availableColumnsSelector,
-    availableColumns =>
-      availableColumns.map<IOption>(column => ({
-        label: column.Label,
-        value: column.ColumnName
-      }))
-  );
+const availableColumnOptions = createSelector(
+  availableColumnsSelector,
+  availableColumns =>
+    availableColumns.map<IOption>(column => ({
+      label: column.Label,
+      value: column.ColumnName
+    }))
+);
 
-  private selectedColumnOptions = createSelector(
-    selectedColumnsSelector,
-    selectedColumns =>
-      selectedColumns.map<IOption>(column => ({
-        label: column.Label,
-        value: column.ColumnName
-      }))
-  );
+const selectedColumnOptions = createSelector(
+  selectedColumnsSelector,
+  selectedColumns =>
+    selectedColumns.map<IOption>(column => ({
+      label: column.Label,
+      value: column.ColumnName
+    }))
+);
 
-  public render() {
-    return (
-      <ColumnsSelector
-        availableColumns={this.availableColumnOptions(this.props)}
-        selectedColumns={this.selectedColumnOptions(this.props)}
-        handleAddQueryColumn={this.handleAddQueryColumn}
-        handleRemoveQueryColumn={this.handleRemoveQueryColumn}
-      />
-    );
-  }
-
-  private handleAddQueryColumn = ({ value, label }: IOption) => (
+const ColumnsSelectorContainer: FC<Props> = props => {
+  const handleAddQueryColumn = ({ value, label }: IOption) => (
     _: React.MouseEvent
   ) => {
-    const { elementId, dispatchAddQueryColumn } = this.props;
+    const { elementId, dispatchAddQueryColumn } = props;
     const queryColumn = {
       ColumnName: value,
       Label: label,
@@ -72,13 +61,22 @@ class ColumnsSelectorContainer extends Component<Props> {
     dispatchAddQueryColumn(elementId, queryColumn);
   };
 
-  private handleRemoveQueryColumn = ({ value }: IOption) => (
+  const handleRemoveQueryColumn = ({ value }: IOption) => (
     _: React.MouseEvent
   ) => {
-    const { elementId, dispatchRemoveQueryColumn } = this.props;
+    const { elementId, dispatchRemoveQueryColumn } = props;
     dispatchRemoveQueryColumn(elementId, value);
   };
-}
+
+  return (
+    <ColumnsSelector
+      availableColumns={availableColumnOptions(props)}
+      selectedColumns={selectedColumnOptions(props)}
+      handleAddQueryColumn={handleAddQueryColumn}
+      handleRemoveQueryColumn={handleRemoveQueryColumn}
+    />
+  );
+};
 
 const mapStateToProps = (state: RootState) => ({
   availableColumns: getAvailableColumns(state),

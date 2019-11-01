@@ -1,11 +1,6 @@
 import React, { FC, lazy } from "react";
 
-import {
-  createStyles,
-  Theme,
-  withStyles,
-  WithStyles
-} from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 
 import { OperatorServiceIds } from "workbench/types";
 
@@ -20,25 +15,24 @@ const FilterConfigContainerLazy = lazy(() =>
   import("workbench/filter/config/FilterConfigContainer")
 );
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   operatorServiceId: OperatorServiceIds;
   isDrawerOpen: boolean;
 }
 
-const styles = ({ spacing }: Theme) =>
-  createStyles({
-    paper: {
-      width: "calc(100% - 362px)",
-      marginTop: 48
-    },
-    form: {
-      position: "relative",
-      height: "100%",
-      padding: spacing() * 2,
-      overflow: "auto",
-      marginBottom: 48
-    }
-  });
+const useStyles = makeStyles(({ spacing }: Theme) => ({
+  paper: {
+    width: "calc(100% - 362px)",
+    marginTop: 48
+  },
+  form: {
+    position: "relative",
+    height: "100%",
+    padding: spacing() * 2,
+    overflow: "auto",
+    marginBottom: 48
+  }
+}));
 
 const drawerByType = (operatorServiceId: OperatorServiceIds) => {
   let component;
@@ -56,20 +50,24 @@ const drawerByType = (operatorServiceId: OperatorServiceIds) => {
   return <LoadAsync>{component}</LoadAsync>;
 };
 
-const ConfigSwitch: FC<IProps> = ({
-  classes,
-  operatorServiceId,
-  isDrawerOpen
-}) => (
-  <Drawer classes={{ paper: classes.paper }} anchor="right" open={isDrawerOpen}>
-    {isDrawerOpen && (
-      <form className={classes.form} noValidate autoComplete="off">
-        <Grid container spacing={6} alignContent="stretch">
-          {drawerByType(operatorServiceId)}
-        </Grid>
-      </form>
-    )}
-  </Drawer>
-);
+const ConfigSwitch: FC<IProps> = ({ operatorServiceId, isDrawerOpen }) => {
+  const classes = useStyles();
 
-export default withStyles(styles)(ConfigSwitch);
+  return (
+    <Drawer
+      classes={{ paper: classes.paper }}
+      anchor="right"
+      open={isDrawerOpen}
+    >
+      {isDrawerOpen && (
+        <form className={classes.form} noValidate autoComplete="off">
+          <Grid container spacing={6} alignContent="stretch">
+            {drawerByType(operatorServiceId)}
+          </Grid>
+        </form>
+      )}
+    </Drawer>
+  );
+};
+
+export default ConfigSwitch;

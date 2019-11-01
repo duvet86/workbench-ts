@@ -1,12 +1,7 @@
 import React, { FC } from "react";
 import classnames from "classnames";
 
-import {
-  createStyles,
-  Theme,
-  withStyles,
-  WithStyles
-} from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 
 import { OperatorServiceIds } from "workbench/types";
 
@@ -18,7 +13,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { SvgIconProps } from "@material-ui/core/SvgIcon";
 import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   label: string;
   description?: string;
   backgroundColor: string;
@@ -27,33 +22,32 @@ interface IProps extends WithStyles<typeof styles> {
   areOperatorsEnabled: boolean;
 }
 
-const styles = (theme: Theme) =>
-  createStyles({
-    listItemRoot: {
-      minHeight: 70,
-      padding: "3px 8px 3px 16px"
-    },
-    heading: {
-      fontSize: theme.typography.pxToRem(15),
-      fontWeight: theme.typography.fontWeightRegular
-    },
-    description: {
-      whiteSpace: "initial"
-    },
-    avatarContainer: {
-      display: "flex",
-      alignItems: "center",
-      cursor: "pointer",
-      padding: 8,
-      borderRadius: 5,
-      border: "1px solid #ddd",
-      backgroundColor: theme.palette.common.white
-    },
-    avatarContainerDisabled: {
-      backgroundColor: "#ccc",
-      cursor: "no-drop"
-    }
-  });
+const useStyles = makeStyles((theme: Theme) => ({
+  listItemRoot: {
+    minHeight: 70,
+    padding: "3px 8px 3px 16px"
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightRegular
+  },
+  description: {
+    whiteSpace: "initial"
+  },
+  avatarContainer: {
+    display: "flex",
+    alignItems: "center",
+    cursor: "pointer",
+    padding: 8,
+    borderRadius: 5,
+    border: "1px solid #ddd",
+    backgroundColor: theme.palette.common.white
+  },
+  avatarContainerDisabled: {
+    backgroundColor: "#ccc",
+    cursor: "no-drop"
+  }
+}));
 
 const handleDrag = (operatorServiceId: string) => (
   event: React.DragEvent<HTMLDivElement>
@@ -62,7 +56,6 @@ const handleDrag = (operatorServiceId: string) => (
 };
 
 const Operator: FC<IProps> = ({
-  classes,
   label,
   description,
   IconComponent,
@@ -70,8 +63,10 @@ const Operator: FC<IProps> = ({
   operatorServiceId,
   areOperatorsEnabled
 }) => {
+  const classes = useStyles();
   const isDisabled =
     operatorServiceId !== OperatorServiceIds.QUERY && areOperatorsEnabled;
+
   return (
     <ListItem divider classes={{ root: classes.listItemRoot }}>
       <ListItemText
@@ -104,4 +99,4 @@ const Operator: FC<IProps> = ({
   );
 };
 
-export default withStyles(styles)(Operator);
+export default Operator;

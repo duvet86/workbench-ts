@@ -1,45 +1,38 @@
 import React, { FC } from "react";
 
-import {
-  createStyles,
-  Theme,
-  withStyles,
-  WithStyles
-} from "@material-ui/core/styles";
+import { styled } from "@material-ui/core/styles";
 
 import FormControl from "@material-ui/core/FormControl";
 import SelectInputContainer, {
   IOption
 } from "common/select/SelectInputContainer";
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   selectedValues: string[];
   allowedValueOptions: IOption[];
   handledUpdateQueryConstraintValues: (selectedOptions?: IOption[]) => void;
 }
 
-const styles = ({ spacing }: Theme) =>
-  createStyles({
-    valueInput: {
-      flexGrow: 1,
-      margin: spacing()
-    }
-  });
+const StyledFormControl = styled(FormControl)(({ theme }) => ({
+  valueInput: {
+    flexGrow: 1,
+    margin: theme.spacing()
+  }
+}));
 
 const AllowedValues: FC<IProps> = ({
-  classes,
   selectedValues,
   allowedValueOptions,
   handledUpdateQueryConstraintValues
 }) => (
-  <FormControl className={classes.valueInput}>
+  <StyledFormControl>
     <SelectInputContainer
       isMulti
       initValue={selectedValues}
       options={allowedValueOptions}
       onChange={handledUpdateQueryConstraintValues}
     />
-  </FormControl>
+  </StyledFormControl>
 );
 
-export default withStyles(styles)(AllowedValues);
+export default AllowedValues;

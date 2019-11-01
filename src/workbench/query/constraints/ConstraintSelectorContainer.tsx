@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { FC, useEffect } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { RootState } from "rootReducer";
@@ -28,39 +28,21 @@ type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   IOwnProps;
 
-class ConstraintSelectorContainer extends Component<Props> {
-  public componentDidMount() {
-    this.props.dispatchFilterCapabilitiesRequest();
-  }
+const ConstraintSelectorContainer: FC<Props> = ({
+  elementId,
+  queryConstraints,
+  filterCapabilities,
+  availableConstraints,
+  dispatchFilterCapabilitiesRequest,
+  dispatchAddQueryConstraint,
+  availableFiltersDic,
+  availableColumnsDic
+}) => {
+  useEffect(() => {
+    dispatchFilterCapabilitiesRequest();
+  }, []);
 
-  public render() {
-    const {
-      elementId,
-      queryConstraints,
-      filterCapabilities,
-      availableConstraints
-    } = this.props;
-
-    return (
-      <ConstraintSelector
-        elementId={elementId}
-        queryConstraints={queryConstraints}
-        filterCapabilities={filterCapabilities}
-        availableConstraints={availableConstraints}
-        handledAddQueryConstraint={this.handledAddQueryConstraint}
-      />
-    );
-  }
-
-  private handledAddQueryConstraint = (selectedOption?: IOption<string>) => {
-    const {
-      elementId,
-      queryConstraints,
-      dispatchAddQueryConstraint,
-      filterCapabilities,
-      availableFiltersDic,
-      availableColumnsDic
-    } = this.props;
+  const handledAddQueryConstraint = (selectedOption?: IOption<string>) => {
     if (selectedOption == null) {
       return;
     }
@@ -96,7 +78,17 @@ class ConstraintSelectorContainer extends Component<Props> {
 
     dispatchAddQueryConstraint(elementId, constraint);
   };
-}
+
+  return (
+    <ConstraintSelector
+      elementId={elementId}
+      queryConstraints={queryConstraints}
+      filterCapabilities={filterCapabilities}
+      availableConstraints={availableConstraints}
+      handledAddQueryConstraint={handledAddQueryConstraint}
+    />
+  );
+};
 
 const mapStateToProps = (state: RootState) => ({
   queryConstraints: getQueryConstraints(state),

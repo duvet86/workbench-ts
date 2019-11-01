@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { FC, useState } from "react";
 
 import IconButton from "sidebar/IconButton";
 import { SvgIconProps } from "@material-ui/core/SvgIcon";
@@ -9,40 +9,27 @@ interface IProps {
   label: string;
 }
 
-interface IState {
-  visible: boolean;
-}
+const IconButtonContainer: FC<IProps> = ({ Icon, link, label }) => {
+  const [visible, setVisible] = useState(false);
 
-class IconButtonContainer extends Component<IProps, IState> {
-  public state = {
-    visible: false
+  const handlePopoverOpen = () => {
+    setVisible(true);
   };
 
-  public render() {
-    const { Icon, link, label } = this.props;
-    const { visible } = this.state;
-
-    return (
-      <IconButton
-        visible={visible}
-        Icon={Icon}
-        to={link}
-        label={label}
-        handlePopoverOpen={this.handlePopoverOpen}
-        handlePopoverClose={this.handlePopoverClose}
-      />
-    );
-  }
-
-  private handlePopoverOpen = () => {
-    this.setState({
-      visible: true
-    });
+  const handlePopoverClose = () => {
+    setVisible(false);
   };
 
-  private handlePopoverClose = () => {
-    this.setState({ visible: false });
-  };
-}
+  return (
+    <IconButton
+      visible={visible}
+      Icon={Icon}
+      to={link}
+      label={label}
+      handlePopoverOpen={handlePopoverOpen}
+      handlePopoverClose={handlePopoverClose}
+    />
+  );
+};
 
 export default IconButtonContainer;

@@ -1,23 +1,15 @@
-import React, { Component, ChangeEvent } from "react";
+import React, { ChangeEvent, FC, useState } from "react";
 
 import Pagebuilder from "pagebuilder/Pagebuilder";
 
-interface IState {
-  value: number;
-}
+const PagebuilderContainer: FC = () => {
+  const [value, setValue] = useState(0);
 
-export default class PagebuilderContainer extends Component<{}, IState> {
-  public state = {
-    value: 0
+  const handleChange = (_: ChangeEvent<{}>, value: number) => {
+    setValue(value);
   };
 
-  public render() {
-    const { value } = this.state;
+  return <Pagebuilder value={value} handleChange={handleChange} />;
+};
 
-    return <Pagebuilder value={value} handleChange={this.handleChange} />;
-  }
-
-  private handleChange = (_: ChangeEvent<{}>, value: number) => {
-    this.setState({ value });
-  };
-}
+export default PagebuilderContainer;

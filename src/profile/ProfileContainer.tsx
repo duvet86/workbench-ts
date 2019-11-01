@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { FC, useEffect } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -11,19 +11,21 @@ import Profile from "profile/Profile";
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
-class ProfileContainer extends Component<Props> {
-  public componentDidMount() {
-    this.props.dispatchLoadProfile();
-  }
+const ProfileContainer: FC<Props> = ({
+  isLoading,
+  userInfo,
+  dispatchLoadProfile
+}) => {
+  useEffect(() => {
+    dispatchLoadProfile();
+  }, []);
 
-  public render() {
-    return (
-      <LoadingContainer isLoading={this.props.isLoading}>
-        {this.props.userInfo && <Profile userInfo={this.props.userInfo} />}
-      </LoadingContainer>
-    );
-  }
-}
+  return (
+    <LoadingContainer isLoading={isLoading}>
+      {userInfo && <Profile userInfo={userInfo} />}
+    </LoadingContainer>
+  );
+};
 
 const mapStateToProps = ({ profile: { isLoading, userInfo } }: RootState) => ({
   isLoading,

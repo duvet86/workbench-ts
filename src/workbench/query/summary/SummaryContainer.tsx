@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { FC } from "react";
 import { connect } from "react-redux";
 
 import { RootState } from "rootReducer";
@@ -13,13 +13,9 @@ interface IOwnProps {
 
 type Props = ReturnType<typeof mapStateToProps> & IOwnProps;
 
-class SummaryContainer extends Component<Props> {
-  public render() {
-    const { query, querySourceLabel } = this.props;
-
-    return <Summary query={query} querySourceLabel={querySourceLabel} />;
-  }
-}
+const SummaryContainer: FC<Props> = ({ query, querySourceLabel }) => (
+  <Summary query={query} querySourceLabel={querySourceLabel} />
+);
 
 const mapStateToProps = (state: RootState) => ({
   querySourceLabel: getQuerySourceLabel(state)

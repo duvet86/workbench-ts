@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, FC, useEffect } from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 
@@ -15,58 +15,43 @@ import AddComponentButton from "pagebuilder/AddComponentButton";
 
 type Props = ReturnType<typeof mapDispatchToProps>;
 
-interface IState {
-  isLoading: boolean;
-  anchorEl: HTMLElement | undefined;
-  componentGroups: IComponentGroup[];
-}
+const AddComponentButtonContainer: FC<Props> = ({
+  dispatchHandleException
+}) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>();
+  const [componentGroups, setComponentGroups] = useState<IComponentGroup[]>([]);
 
-class AddComponentButtonContainer extends Component<Props, IState> {
-  public state: IState = {
-    isLoading: false,
-    anchorEl: undefined,
-    componentGroups: []
+  useEffect(() => {
+    setIsLoading(true);
+
+    getComponentListAsync()
+      .then(componentGroupsResp => {
+        setComponentGroups(componentGroupsResp);
+        setIsLoading(false);
+      })
+      .catch(e => dispatchHandleException(e));
+  }, []);
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.target as HTMLElement);
   };
 
-  public async componentDidMount() {
-    this.setState({
-      isLoading: true
-    });
-
-    try {
-      const componentGroups = await getComponentListAsync();
-      this.setState({
-        componentGroups,
-        isLoading: false
-      });
-    } catch (e) {
-      this.props.dispatchHandleException(e);
-    }
-  }
-
-  public render() {
-    const { anchorEl, isLoading, componentGroups } = this.state;
-
-    return (
-      <LoadingContainer isLoading={isLoading}>
-        <AddComponentButton
-          anchorEl={anchorEl}
-          componentGroups={componentGroups}
-          handleClick={this.handleClick}
-          handleClose={this.handleClose}
-        />
-      </LoadingContainer>
-    );
-  }
-
-  private handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    this.setState({ anchorEl: event.target as HTMLElement });
+  const handleClose = () => {
+    setAnchorEl(undefined);
   };
 
-  private handleClose = () => {
-    this.setState({ anchorEl: undefined });
-  };
-}
+  return (
+    <LoadingContainer isLoading={isLoading}>
+      <AddComponentButton
+        anchorEl={anchorEl}
+        componentGroups={componentGroups}
+        handleClick={handleClick}
+        handleClose={handleClose}
+      />
+    </LoadingContainer>
+  );
+};
 
 const mapDispatchToProps = (dispatch: Dispatch<ErrorActions>) => ({
   dispatchHandleException: (resp: IErrorResponse) => {

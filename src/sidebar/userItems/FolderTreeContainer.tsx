@@ -15,13 +15,11 @@ const FolderTreeContainer: FC<Props> = ({
   isLoading,
   myItems,
   sharedWithMe
-}) => {
-  return (
-    <LoadingContainer isLoading={isLoading}>
-      <FolderTree myItems={myItems} sharedWithMe={sharedWithMe} />
-    </LoadingContainer>
-  );
-};
+}) => (
+  <LoadingContainer isLoading={isLoading}>
+    <FolderTree myItems={myItems} sharedWithMe={sharedWithMe} />
+  </LoadingContainer>
+);
 
 const mapStateToProps = ({
   userItems: { isLoading, myItems, sharedWithMe }

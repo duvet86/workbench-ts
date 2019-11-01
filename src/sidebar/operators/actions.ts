@@ -28,7 +28,7 @@ export interface IOperatorsSuccess extends Action {
 
 export interface IOperatorsError extends Action {
   type: OperatorsActionTypes.OPERATORS_ERROR;
-  error: any;
+  error: unknown;
 }
 
 export type OperatorsAction =
@@ -65,7 +65,7 @@ export const operatorsSuccess = (
   };
 };
 
-export const operatorsError = (error: any): IOperatorsError => ({
+export const operatorsError = (error: unknown): IOperatorsError => ({
   type: OperatorsActionTypes.OPERATORS_ERROR,
   error
 });

@@ -5,7 +5,7 @@ import {
   ListChildComponentProps
 } from "react-window";
 
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { IOption } from "common/select/SelectInputContainer";
 
@@ -25,7 +25,7 @@ import EmptyList from "common/searchableList/EmptyList";
 
 export const LIST_HEIGHT = 245;
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   label: string;
   totItems: number;
   searchableItems: IOption[];
@@ -36,7 +36,7 @@ interface IProps extends WithStyles<typeof styles> {
   emptyListLabel?: string;
 }
 
-const styles = createStyles({
+const useStyles = makeStyles({
   list: {
     height: "100%"
   },
@@ -56,7 +56,6 @@ const rowRenderer = (
 };
 
 const SearchableList: FC<IProps> = ({
-  classes,
   label,
   totItems,
   searchableItems,
@@ -65,44 +64,48 @@ const SearchableList: FC<IProps> = ({
   handleChange,
   handleClickClearIcon,
   emptyListLabel
-}) => (
-  <Paper className={classes.paper}>
-    <Typography variant="subtitle1">{`${label} (${totItems})`}</Typography>
-    <List className={classes.list} component={"div" as "ul"} disablePadding>
-      <FormControl fullWidth>
-        <InputLabel>Search</InputLabel>
-        <Input
-          value={searchString}
-          onChange={handleChange}
-          disabled={searchableItems.length === 0}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="Clear"
-                onClick={handleClickClearIcon}
-                onMouseDown={handleClickClearIcon}
-              >
-                {searchString ? <ClearIcon /> : null}
-              </IconButton>
-            </InputAdornment>
-          }
-        />
-      </FormControl>
-      {searchableItems.length === 0 && (
-        <EmptyList emptyListLabel={emptyListLabel} />
-      )}
-      {searchableItems.length > 0 && (
-        <VirtualizedList
-          width="100%"
-          height={LIST_HEIGHT}
-          itemCount={searchableItems.length}
-          itemSize={41}
-        >
-          {rowRenderer(searchableItems, handleItemClick)}
-        </VirtualizedList>
-      )}
-    </List>
-  </Paper>
-);
+}) => {
+  const classes = useStyles();
 
-export default withStyles(styles)(SearchableList);
+  return (
+    <Paper className={classes.paper}>
+      <Typography variant="subtitle1">{`${label} (${totItems})`}</Typography>
+      <List className={classes.list} component={"div" as "ul"} disablePadding>
+        <FormControl fullWidth>
+          <InputLabel>Search</InputLabel>
+          <Input
+            value={searchString}
+            onChange={handleChange}
+            disabled={searchableItems.length === 0}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="Clear"
+                  onClick={handleClickClearIcon}
+                  onMouseDown={handleClickClearIcon}
+                >
+                  {searchString ? <ClearIcon /> : null}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </FormControl>
+        {searchableItems.length === 0 && (
+          <EmptyList emptyListLabel={emptyListLabel} />
+        )}
+        {searchableItems.length > 0 && (
+          <VirtualizedList
+            width="100%"
+            height={LIST_HEIGHT}
+            itemCount={searchableItems.length}
+            itemSize={41}
+          >
+            {rowRenderer(searchableItems, handleItemClick)}
+          </VirtualizedList>
+        )}
+      </List>
+    </Paper>
+  );
+};
+
+export default SearchableList;

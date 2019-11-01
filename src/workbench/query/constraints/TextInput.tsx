@@ -1,16 +1,11 @@
 import React, { FC } from "react";
 
-import {
-  createStyles,
-  Theme,
-  withStyles,
-  WithStyles
-} from "@material-ui/core/styles";
+import { styled } from "@material-ui/core/styles";
 
 import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   displayValue: string;
   inputType: string;
   handledUpdateQueryConstraintValues: (
@@ -18,28 +13,24 @@ interface IProps extends WithStyles<typeof styles> {
   ) => void;
 }
 
-const styles = ({ spacing }: Theme) =>
-  createStyles({
-    valueInput: {
-      flexGrow: 1,
-      margin: spacing()
-    }
-  });
+const StyledFormControl = styled(FormControl)(({ theme }) => ({
+  flexGrow: 1,
+  margin: theme.spacing()
+}));
 
 const TextInput: FC<IProps> = ({
-  classes,
   inputType,
   displayValue,
   handledUpdateQueryConstraintValues
 }) => (
-  <FormControl className={classes.valueInput}>
+  <StyledFormControl>
     <Input
       autoFocus
       type={inputType}
       value={displayValue}
       onChange={handledUpdateQueryConstraintValues}
     />
-  </FormControl>
+  </StyledFormControl>
 );
 
-export default withStyles(styles)(TextInput);
+export default TextInput;

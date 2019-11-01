@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { FC } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -13,24 +13,19 @@ interface IOwnProps {
 
 type Props = ReturnType<typeof mapDispatchToProps> & IOwnProps;
 
-class LabelInputContainer extends Component<Props> {
-  public render() {
-    const { initLabel } = this.props;
-
-    return (
-      <LabelInput
-        initLabel={initLabel}
-        handleChangeLabel={this.handleChangeLabel}
-      />
-    );
-  }
-
-  private handleChangeLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { elementId, dispatcLabelUpdate } = this.props;
-
+const LabelInputContainer: FC<Props> = ({
+  initLabel,
+  elementId,
+  dispatcLabelUpdate
+}) => {
+  const handleChangeLabel = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatcLabelUpdate(elementId, event.target.value);
   };
-}
+
+  return (
+    <LabelInput initLabel={initLabel} handleChangeLabel={handleChangeLabel} />
+  );
+};
 
 const mapDispatchToProps = (dispatch: Dispatch<IUpdateQueryLabel>) => ({
   dispatcLabelUpdate: (elementId: number, label: string) => {

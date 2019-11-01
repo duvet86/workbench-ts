@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { FC } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { RootState } from "rootReducer";
@@ -25,41 +25,37 @@ type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   IOwnProps;
 
-class ConstraintContainer extends Component<Props> {
-  public render() {
-    const {
-      elementId,
-      availableFiltersDic,
-      availableColumnsDic,
-      constraint: { FilterType, FilterName, ColumnName }
-    } = this.props;
-
-    let label;
-    if (FilterType != null && FilterName != null) {
-      label = availableFiltersDic[FilterName].Label;
-    } else {
-      label = availableColumnsDic[ColumnName].Label;
-    }
-
-    return (
-      <Constraint
-        elementId={elementId}
-        label={label}
-        constraint={this.props.constraint}
-        availableFilter={
-          (FilterName && availableFiltersDic[FilterName]) || undefined
-        }
-        handledRemoveQueryConstraint={this.handledRemoveQueryConstraint}
-      />
-    );
-  }
-
-  private handledRemoveQueryConstraint = (constraintId: number) => () => {
-    const { elementId, dispatchRemoveQueryConstraint } = this.props;
-
+const ConstraintContainer: FC<Props> = ({
+  elementId,
+  constraint,
+  constraint: { FilterType, FilterName, ColumnName },
+  availableFiltersDic,
+  availableColumnsDic,
+  dispatchRemoveQueryConstraint
+}) => {
+  const handledRemoveQueryConstraint = (constraintId: number) => () => {
     dispatchRemoveQueryConstraint(elementId, constraintId);
   };
-}
+
+  let label;
+  if (FilterType != null && FilterName != null) {
+    label = availableFiltersDic[FilterName].Label;
+  } else {
+    label = availableColumnsDic[ColumnName].Label;
+  }
+
+  return (
+    <Constraint
+      elementId={elementId}
+      label={label}
+      constraint={constraint}
+      availableFilter={
+        (FilterName && availableFiltersDic[FilterName]) || undefined
+      }
+      handledRemoveQueryConstraint={handledRemoveQueryConstraint}
+    />
+  );
+};
 
 const mapStateToProps = (state: RootState) => ({
   availableFiltersDic: getAvailableFilterDic(state),

@@ -19,7 +19,7 @@ export interface IUserItemsSuccess extends Action {
 
 export interface IUserItemsError extends Action {
   type: UserItemsActionTypes.USER_ITEMS_ERROR;
-  error: any;
+  error: unknown;
 }
 
 export type UserItemsActions =
@@ -36,7 +36,7 @@ export const userItemsSuccess = (items: ISideBarItems): IUserItemsSuccess => ({
   items
 });
 
-export const userItemsError = (error: any): IUserItemsError => ({
+export const userItemsError = (error: unknown): IUserItemsError => ({
   type: UserItemsActionTypes.USER_ITEMS_ERROR,
   error
 });
