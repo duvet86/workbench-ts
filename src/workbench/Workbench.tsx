@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { DiagramEngine } from "storm-react-diagrams2";
+import { DiagramEngine } from "@projectstorm/react-diagrams";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -62,8 +62,8 @@ const Workbench: FC<IProps> = ({
 
   return (
     <div className={classes.workbench}>
-      <WorkbenchToolbar />
-      <ConfigSwitchContainer />
+      {/* <WorkbenchToolbar />
+      <ConfigSwitchContainer /> */}
       <div className={classes.canvasContainer}>
         <Canvas
           diagramEngine={diagramEngine}

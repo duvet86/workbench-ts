@@ -1,5 +1,6 @@
 import React, { FC } from "react";
-import { DiagramEngine, DiagramWidget } from "storm-react-diagrams2";
+import { DiagramEngine } from "@projectstorm/react-diagrams";
+import { CanvasWidget } from "@projectstorm/react-canvas-core";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -33,12 +34,7 @@ const Workbench: FC<IProps> = ({
       onDrop={handleDrop}
       onDragOver={handleDragOver}
     >
-      <DiagramWidget
-        className={classes.canvas}
-        diagramEngine={diagramEngine}
-        maxNumberPointsPerLink={0}
-        allowLooseLinks={false}
-      />
+      <CanvasWidget className={classes.canvas} engine={diagramEngine} />
     </div>
   );
 };

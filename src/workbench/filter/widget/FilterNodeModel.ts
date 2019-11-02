@@ -1,19 +1,26 @@
-import { NodeModel } from "storm-react-diagrams2";
+import { NodeModel, DefaultPortModel } from "@projectstorm/react-diagrams";
+import { BaseModelOptions } from "@projectstorm/react-canvas-core";
 
-import WidgetPortModel from "workbench/WidgetPortModel";
 import { IInteractiveFilter } from "workbench/types";
+
+type FilterNodeModelOptions = IInteractiveFilter & BaseModelOptions;
 
 export default class FilterNodeModel extends NodeModel {
   private filterInfo: IInteractiveFilter;
 
-  constructor(filterInfo: IInteractiveFilter) {
-    super("filter", filterInfo.ElementId.toString());
+  constructor(options: FilterNodeModelOptions) {
+    super({
+      ...options,
+      id: options.ElementId.toString(),
+      type: "filter"
+    });
 
-    this.addPort(new WidgetPortModel("from"));
-    this.addPort(new WidgetPortModel("to"));
-    this.setPosition(filterInfo.LayoutX, filterInfo.LayoutY);
+    this.addPort(new DefaultPortModel(true, "from"));
+    this.addPort(new DefaultPortModel(false, "to"));
 
-    this.filterInfo = filterInfo;
+    this.setPosition(options.LayoutX, options.LayoutY);
+
+    this.filterInfo = options;
   }
 
   public getFilterInfo() {

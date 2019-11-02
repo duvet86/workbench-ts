@@ -1,26 +1,34 @@
 import React from "react";
 import {
-  AbstractNodeFactory,
-  DiagramEngine,
-  NodeModel
-} from "storm-react-diagrams2";
+  AbstractReactFactory,
+  GenerateWidgetEvent,
+  GenerateModelEvent
+} from "@projectstorm/react-canvas-core";
+import { DiagramEngine } from "@projectstorm/react-diagrams-core";
 
 import FilterNodeModel from "workbench/filter/widget/FilterNodeModel";
 import FilterNodeWidget from "workbench/filter/widget/FilterNodeWidget";
 
-export default class FilterNodeFactory extends AbstractNodeFactory {
+export default class FilterNodeFactory extends AbstractReactFactory<
+  FilterNodeModel,
+  DiagramEngine
+> {
   constructor() {
     super("filter");
   }
 
-  public generateReactWidget(
-    _: DiagramEngine,
-    node: FilterNodeModel
-  ): JSX.Element {
-    return <FilterNodeWidget node={node} />;
+  public generateModel(event: GenerateModelEvent) {
+    return new FilterNodeModel(event.initialConfig);
   }
 
-  public getNewInstance() {
-    return new NodeModel();
+  public generateReactWidget(
+    event: GenerateWidgetEvent<FilterNodeModel>
+  ): JSX.Element {
+    return (
+      <FilterNodeWidget
+        engine={this.engine as DiagramEngine}
+        node={event.model}
+      />
+    );
   }
 }

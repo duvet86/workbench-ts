@@ -1,19 +1,26 @@
-import { NodeModel } from "storm-react-diagrams2";
+import { NodeModel, DefaultPortModel } from "@projectstorm/react-diagrams";
+import { BaseModelOptions } from "@projectstorm/react-canvas-core";
 
-import WidgetPortModel from "workbench/WidgetPortModel";
 import { IQuery } from "workbench/types";
+
+type QueryNodeModelOptions = IQuery & BaseModelOptions;
 
 export default class QueryNodeModel extends NodeModel {
   private queryInfo: IQuery;
 
-  constructor(queryInfo: IQuery) {
-    super("query", queryInfo.ElementId.toString());
+  constructor(options: QueryNodeModelOptions) {
+    super({
+      ...options,
+      id: options.ElementId.toString(),
+      type: "query"
+    });
 
-    this.addPort(new WidgetPortModel("from"));
-    this.addPort(new WidgetPortModel("to"));
-    this.setPosition(queryInfo.LayoutX, queryInfo.LayoutY);
+    this.addPort(new DefaultPortModel(true, "from"));
+    this.addPort(new DefaultPortModel(false, "to"));
 
-    this.queryInfo = queryInfo;
+    this.setPosition(options.LayoutX, options.LayoutY);
+
+    this.queryInfo = options;
   }
 
   public getQueryInfo() {

@@ -1,26 +1,33 @@
 import React from "react";
 import {
-  AbstractNodeFactory,
-  DiagramEngine,
-  NodeModel
-} from "storm-react-diagrams2";
+  AbstractReactFactory,
+  GenerateWidgetEvent,
+  GenerateModelEvent
+} from "@projectstorm/react-canvas-core";
+import { DiagramEngine } from "@projectstorm/react-diagrams-core";
 
 import QueryNodeModel from "workbench/query/widget/QueryNodeModel";
 import QueryNodeWidget from "workbench/query/widget/QueryNodeWidget";
 
-export default class QueryNodeFactory extends AbstractNodeFactory {
+export default class QueryNodeFactory extends AbstractReactFactory<
+  QueryNodeModel,
+  DiagramEngine
+> {
   constructor() {
     super("query");
   }
-
-  public generateReactWidget(
-    _: DiagramEngine,
-    node: QueryNodeModel
-  ): JSX.Element {
-    return <QueryNodeWidget node={node} />;
+  public generateModel(event: GenerateModelEvent) {
+    return new QueryNodeModel(event.initialConfig);
   }
 
-  public getNewInstance() {
-    return new NodeModel();
+  public generateReactWidget(
+    event: GenerateWidgetEvent<QueryNodeModel>
+  ): JSX.Element {
+    return (
+      <QueryNodeWidget
+        engine={this.engine as DiagramEngine}
+        node={event.model}
+      />
+    );
   }
 }

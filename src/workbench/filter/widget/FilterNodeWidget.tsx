@@ -1,12 +1,7 @@
 import React from "react";
-import { PortWidget } from "storm-react-diagrams2";
+import { DiagramEngine, PortWidget } from "@projectstorm/react-diagrams-core";
 
-import {
-  createStyles,
-  Theme,
-  withStyles,
-  WithStyles
-} from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 
 import FilterNodeModel from "workbench/filter/widget/FilterNodeModel";
 import { operatorsExtraInfo } from "sidebar/operators/operatorsData";
@@ -14,16 +9,17 @@ import { operatorsExtraInfo } from "sidebar/operators/operatorsData";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   node: FilterNodeModel;
+  engine: DiagramEngine;
 }
 
-const styles = ({
-  palette: {
-    background: { paper }
-  }
-}: Theme) =>
-  createStyles({
+const useStyles = makeStyles(
+  ({
+    palette: {
+      background: { paper }
+    }
+  }: Theme) => ({
     container: {
       display: "flex",
       flexFlow: "column",
@@ -64,16 +60,25 @@ const styles = ({
       borderRadius: 15,
       zIndex: -1
     }
-  });
+  })
+);
 
-const FilterNodeWidget: React.FC<IProps> = ({ classes, node }) => {
+const FilterNodeWidget: React.FC<IProps> = ({ node, engine }) => {
+  const classes = useStyles();
+
   const { Label, FilterType } = node.getFilterInfo();
   const { backgroundColor, IconComponent } = operatorsExtraInfo.FILTER;
+
+  const portTo = node.getPort("to");
+  const portFrom = node.getPort("from");
+  if (portTo == null || portFrom == null) {
+    return null;
+  }
 
   return (
     <div className={classes.container}>
       <div className={classes.topPort}>
-        <PortWidget name="to" node={node} />
+        <PortWidget engine={engine} port={portTo} />
       </div>
       <div className={classes.body}>
         <Avatar className={classes.avatar} style={{ backgroundColor }}>
@@ -87,10 +92,10 @@ const FilterNodeWidget: React.FC<IProps> = ({ classes, node }) => {
         {FilterType}
       </Typography>
       <div className={classes.bottomPort}>
-        <PortWidget name="from" node={node} />
+        <PortWidget engine={engine} port={portFrom} />
       </div>
     </div>
   );
 };
 
-export default withStyles(styles)(FilterNodeWidget);
+export default FilterNodeWidget;

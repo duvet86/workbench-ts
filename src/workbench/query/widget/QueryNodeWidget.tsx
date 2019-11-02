@@ -1,16 +1,11 @@
 import React from "react";
-import { PortWidget } from "storm-react-diagrams2";
+import { DiagramEngine, PortWidget } from "@projectstorm/react-diagrams-core";
 
 import { IColumn } from "workbench/types";
 import QueryNodeModel from "workbench/query/widget/QueryNodeModel";
 import { operatorsExtraInfo } from "sidebar/operators/operatorsData";
 
-import {
-  createStyles,
-  Theme,
-  withStyles,
-  WithStyles
-} from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 
 import {
   FixedSizeList as VirtualizedList,
@@ -24,16 +19,17 @@ import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   node: QueryNodeModel;
+  engine: DiagramEngine;
 }
 
-const styles = ({
-  palette: {
-    background: { paper }
-  }
-}: Theme) =>
-  createStyles({
+const useStyles = makeStyles(
+  ({
+    palette: {
+      background: { paper }
+    }
+  }: Theme) => ({
     operatorContainer: {
       display: "flex",
       flexFlow: "column",
@@ -91,7 +87,8 @@ const styles = ({
       borderRadius: 15,
       zIndex: -1
     }
-  });
+  })
+);
 
 const rowRenderer = (columns: IColumn[]) => ({
   index,
@@ -104,14 +101,22 @@ const handleWheel = (event: React.WheelEvent) => {
   event.stopPropagation();
 };
 
-const QueryNodeWidget: React.FC<IProps> = ({ classes, node }) => {
+const QueryNodeWidget: React.FC<IProps> = ({ engine, node }) => {
+  const classes = useStyles();
+
   const { Label: QueyLabel, Columns } = node.getQueryInfo();
   const { backgroundColor, IconComponent } = operatorsExtraInfo.QUERY;
+
+  const portTo = node.getPort("to");
+  const portFrom = node.getPort("from");
+  if (portTo == null || portFrom == null) {
+    return null;
+  }
 
   return (
     <div className={classes.operatorContainer}>
       <div className={classes.topPort}>
-        <PortWidget name="to" node={node} />
+        <PortWidget engine={engine} port={portTo} />
       </div>
       <div className={classes.titleContainer}>
         <Avatar className={classes.avatar} style={{ backgroundColor }}>
@@ -143,10 +148,10 @@ const QueryNodeWidget: React.FC<IProps> = ({ classes, node }) => {
         </List>
       </div>
       <div className={classes.bottomPort}>
-        <PortWidget name="from" node={node} />
+        <PortWidget engine={engine} port={portFrom} />
       </div>
     </div>
   );
 };
 
-export default withStyles(styles)(QueryNodeWidget);
+export default QueryNodeWidget;
