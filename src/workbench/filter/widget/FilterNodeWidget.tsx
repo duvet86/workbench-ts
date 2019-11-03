@@ -1,12 +1,7 @@
 import React from "react";
 import { PortWidget } from "storm-react-diagrams2";
 
-import {
-  createStyles,
-  Theme,
-  withStyles,
-  WithStyles
-} from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 
 import FilterNodeModel from "workbench/filter/widget/FilterNodeModel";
 import { operatorsExtraInfo } from "sidebar/operators/operatorsData";
@@ -14,16 +9,17 @@ import { operatorsExtraInfo } from "sidebar/operators/operatorsData";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   node: FilterNodeModel;
 }
 
-const styles = ({
-  palette: {
-    background: { paper }
-  }
-}: Theme) =>
-  createStyles({
+const useStyles = makeStyles(
+  ({
+    spacing,
+    palette: {
+      background: { paper }
+    }
+  }: Theme) => ({
     container: {
       display: "flex",
       flexFlow: "column",
@@ -37,19 +33,19 @@ const styles = ({
     },
     body: {
       display: "flex",
-      maxWidth: 130,
-      marginBottom: 5
+      width: "100%",
+      marginBottom: 5,
+      alignItems: "center",
+      justifyContent: "center"
     },
     avatar: {
       width: 25,
       height: 25,
-      marginRight: 3
-    },
-    label: {
-      marginTop: 10
+      marginRight: spacing()
     },
     filterType: {
-      textAlign: "center"
+      textAlign: "center",
+      fontStyle: "italic"
     },
     topPort: {
       position: "relative",
@@ -64,9 +60,11 @@ const styles = ({
       borderRadius: 15,
       zIndex: -1
     }
-  });
+  })
+);
 
-const FilterNodeWidget: React.FC<IProps> = ({ classes, node }) => {
+const FilterNodeWidget: React.FC<IProps> = ({ node }) => {
+  const classes = useStyles();
   const { Label, FilterType } = node.getFilterInfo();
   const { backgroundColor, IconComponent } = operatorsExtraInfo.FILTER;
 
@@ -93,4 +91,4 @@ const FilterNodeWidget: React.FC<IProps> = ({ classes, node }) => {
   );
 };
 
-export default withStyles(styles)(FilterNodeWidget);
+export default FilterNodeWidget;

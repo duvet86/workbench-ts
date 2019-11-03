@@ -134,7 +134,8 @@ interface IAspect {
 }
 
 interface ISortBy {
-  ColumnName: string;
+  OutputColumnName: string;
+  SourceColumnName: string;
   Aggregation: string;
   Direction: "Ascending" | "Descending";
   Order: number;
@@ -142,7 +143,8 @@ interface ISortBy {
 
 interface IQesDataTableColumn {
   ColumnIndex: number;
-  ColumnName: number;
+  OutputColumnName: string;
+  SourceColumnName: string;
   Label: string;
   DisplayLabel: string;
   Description: string;
@@ -188,7 +190,8 @@ interface IException {
 export interface IConstraint {
   ConstraintIndex: number;
   DataType: QesDataType;
-  ColumnName: string;
+  OutputColumnName: string;
+  SourceColumnName: string;
   FilterType: QesFilterType;
 
   ConstraintName?: string;
@@ -201,10 +204,10 @@ export interface IConstraint {
 }
 
 export interface IColumn {
-  ColumnName: string;
+  OutputColumnName: string;
+  SourceColumnName: string;
   Label: string;
   Aggregation: string;
-  UniqueOutputColumnName?: string;
 }
 
 export interface IQuery extends IQueryGraphElementBase {

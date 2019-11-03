@@ -23,9 +23,8 @@ const SideBarBodyContainer: FC<Props> = ({ selectedTab, ...rest }) => {
       component = <FolderTreeContainer {...rest} />;
       break;
   }
-  const renderer = () => component;
 
-  return <SideBarBody tabRenderer={renderer} />;
+  return <SideBarBody>{component}</SideBarBody>;
 };
 
 const mapStateToProps = ({ navigationTabs: { selectedTab } }: RootState) => ({

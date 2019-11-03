@@ -1,11 +1,11 @@
-import React, { FC } from "react";
-import { Link } from "react-router-dom";
+import React, { FC, forwardRef } from "react";
+import { Link, LinkProps } from "react-router-dom";
 
 import { makeStyles, Theme } from "@material-ui/core/styles";
 
 import Paper from "@material-ui/core/Paper";
 import Toolbar from "@material-ui/core/Toolbar";
-import Button, { ButtonProps } from "@material-ui/core/Button";
+import Button from "@material-ui/core/Button";
 
 import { toolbarData } from "workbench/utils";
 
@@ -26,11 +26,14 @@ const useStyles = makeStyles(({ spacing }: Theme) => ({
   }
 }));
 
-const newWorkbenchLink = ({ className, children }: ButtonProps) => (
-  <Link className={className} to="/workbench/new">
-    {children}
-  </Link>
-);
+// The use of React.forwardRef will no longer be required for react-router-dom v6.
+// See https://github.com/ReactTraining/react-router/issues/6056
+const newWorkbenchLink = forwardRef<
+  HTMLAnchorElement,
+  Omit<LinkProps, "innerRef" | "to">
+>(function NewWorkbenchLink(props, ref) {
+  return <Link to="/workbench/new" innerRef={ref} {...props} />;
+});
 
 const WorkbenchToolbar: FC = () => {
   const classes = useStyles();

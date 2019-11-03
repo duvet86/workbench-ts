@@ -11,9 +11,7 @@ interface IProps {
 }
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
-  paper: {
-    padding: theme.spacing() * 3
-  }
+  padding: theme.spacing() * 3
 }));
 
 const LabelInput: FC<IProps> = ({ initLabel, handleChangeLabel }) => (

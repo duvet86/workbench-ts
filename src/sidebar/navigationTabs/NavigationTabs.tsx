@@ -1,7 +1,6 @@
 import React, { ChangeEvent, FC } from "react";
 
-import { makeStyles, Theme } from "@material-ui/core/styles";
-import { drawerBodyWidth } from "sidebar/SideBar";
+import { makeStyles } from "@material-ui/core/styles";
 
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
@@ -15,24 +14,19 @@ interface IProps {
   handleChange: (event: ChangeEvent<{}>, value: number) => void;
 }
 
-const useStyles = makeStyles(({ breakpoints, spacing }: Theme) => ({
+const useStyles = makeStyles({
   tabs: {
-    width: drawerBodyWidth
+    width: 312
   },
   tabRoot: {
     minWidth: 0,
-    maxWidth: "100%"
+    maxWidth: "100%",
+    flexGrow: 1
   },
-  // labelContainer: {
-  //   [breakpoints.up("md")]: {
-  //     paddingLeft: spacing() * 2,
-  //     paddingRight: spacing() * 2
-  //   }
-  // },
   textColorPrimary: {
     color: "black"
   }
-}));
+});
 
 const NavigationTabs: FC<IProps> = ({
   selectedTab,
@@ -55,7 +49,6 @@ const NavigationTabs: FC<IProps> = ({
           label={label}
           classes={{
             root: classes.tabRoot,
-            // labelContainer: classes.labelContainer,
             textColorPrimary: classes.textColorPrimary
           }}
         />

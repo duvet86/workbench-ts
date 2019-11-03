@@ -18,6 +18,7 @@ import ExpandMore from "@material-ui/icons/KeyboardArrowRight";
 
 import Item from "sidebar/userItems/Item";
 import FolderContainer from "sidebar/userItems/FolderContainer";
+import EmptyItem from "sidebar/userItems/EmptyItem";
 
 interface IProps {
   label: string;
@@ -30,6 +31,11 @@ interface IProps {
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
+  ellipsis: {
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis"
+  },
   icon: {
     color: "#696969"
   },
@@ -37,8 +43,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular
   },
-  expand: {
-    marginRight: theme.spacing()
+  expandIcon: {
+    minWidth: theme.spacing()
   }
 }));
 
@@ -72,43 +78,52 @@ const Folder: FC<IProps> = ({
         onClick={handleClick}
         style={{ paddingLeft: nested * theme.spacing() * 2 }}
       >
-        <ListItemIcon className={classes.expand}>
-          {expanded ? <ExpandLess /> : <ExpandMore />}
-        </ListItemIcon>
         <ListItemIcon>{icon}</ListItemIcon>
         <ListItemText
           primary={label}
+          className={classes.ellipsis}
           classes={{
             primary: classes.heading
           }}
         />
+        <ListItemIcon
+          classes={{
+            root: classes.expandIcon
+          }}
+        >
+          {expanded ? <ExpandLess /> : <ExpandMore />}
+        </ListItemIcon>
       </ListItem>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <List disablePadding component="nav">
-          {childFolders.map(
-            ({
-              ChildType,
-              ChildFolderId,
-              ChildFolder,
-              ChildItemId,
-              ChildItem
-            }) =>
-              ChildType === "F" ? (
-                <FolderContainer
-                  nested={nested + 1}
-                  key={ChildFolderId}
-                  label={ChildFolder.Label}
-                  childFolders={ChildFolder.Children}
-                />
-              ) : (
-                <Item
-                  nested={nested + 1}
-                  key={ChildItemId}
-                  itemTypeId={ChildItem.ItemTypeId}
-                  itemId={ChildItem.ItemId}
-                  label={ChildItem.Label}
-                />
-              )
+          {childFolders.length === 0 ? (
+            <EmptyItem nested={nested + 1} />
+          ) : (
+            childFolders.map(
+              ({
+                ChildType,
+                ChildFolderId,
+                ChildFolder,
+                ChildItemId,
+                ChildItem
+              }) =>
+                ChildType === "F" ? (
+                  <FolderContainer
+                    nested={nested + 1}
+                    key={ChildFolderId}
+                    label={ChildFolder.Label}
+                    childFolders={ChildFolder.Children}
+                  />
+                ) : (
+                  <Item
+                    nested={nested + 1}
+                    key={ChildItemId}
+                    itemTypeId={ChildItem.ItemTypeId}
+                    itemId={ChildItem.ItemId}
+                    label={ChildItem.Label}
+                  />
+                )
+            )
           )}
         </List>
       </Collapse>

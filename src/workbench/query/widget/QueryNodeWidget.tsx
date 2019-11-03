@@ -5,12 +5,7 @@ import { IColumn } from "workbench/types";
 import QueryNodeModel from "workbench/query/widget/QueryNodeModel";
 import { operatorsExtraInfo } from "sidebar/operators/operatorsData";
 
-import {
-  createStyles,
-  Theme,
-  withStyles,
-  WithStyles
-} from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 
 import {
   FixedSizeList as VirtualizedList,
@@ -24,16 +19,16 @@ import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   node: QueryNodeModel;
 }
 
-const styles = ({
-  palette: {
-    background: { paper }
-  }
-}: Theme) =>
-  createStyles({
+const useStyles = makeStyles(
+  ({
+    palette: {
+      background: { paper }
+    }
+  }: Theme) => ({
     operatorContainer: {
       display: "flex",
       flexFlow: "column",
@@ -65,19 +60,6 @@ const styles = ({
         outline: 0
       }
     },
-    listItem: {
-      padding: 0
-    },
-    itemIcon: {
-      width: 10,
-      height: 10,
-      marginRight: 5
-    },
-    primary: {
-      whiteSpace: "nowrap",
-      overflow: "hidden",
-      textOverflow: "ellipsis"
-    },
     topPort: {
       position: "relative",
       top: -9,
@@ -91,20 +73,22 @@ const styles = ({
       borderRadius: 15,
       zIndex: -1
     }
-  });
+  })
+);
 
 const rowRenderer = (columns: IColumn[]) => ({
   index,
   style
 }: ListChildComponentProps) => (
-  <QueryColumn style={style} label={columns[index].Label} />
+  <QueryColumn style={style} label={columns[index].OutputColumnName} />
 );
 
 const handleWheel = (event: React.WheelEvent) => {
   event.stopPropagation();
 };
 
-const QueryNodeWidget: React.FC<IProps> = ({ classes, node }) => {
+const QueryNodeWidget: React.FC<IProps> = ({ node }) => {
+  const classes = useStyles();
   const { Label: QueyLabel, Columns } = node.getQueryInfo();
   const { backgroundColor, IconComponent } = operatorsExtraInfo.QUERY;
 
@@ -149,4 +133,4 @@ const QueryNodeWidget: React.FC<IProps> = ({ classes, node }) => {
   );
 };
 
-export default withStyles(styles)(QueryNodeWidget);
+export default QueryNodeWidget;

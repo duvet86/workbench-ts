@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -14,12 +14,19 @@ type Props = ReturnType<typeof mapStateToProps> &
 const FolderTreeContainer: FC<Props> = ({
   isLoading,
   myItems,
-  sharedWithMe
-}) => (
-  <LoadingContainer isLoading={isLoading}>
-    <FolderTree myItems={myItems} sharedWithMe={sharedWithMe} />
-  </LoadingContainer>
-);
+  sharedWithMe,
+  dispatchLoadUserItems
+}) => {
+  useEffect(() => {
+    dispatchLoadUserItems();
+  }, []);
+
+  return (
+    <LoadingContainer isLoading={isLoading}>
+      <FolderTree myItems={myItems} sharedWithMe={sharedWithMe} />
+    </LoadingContainer>
+  );
+};
 
 const mapStateToProps = ({
   userItems: { isLoading, myItems, sharedWithMe }

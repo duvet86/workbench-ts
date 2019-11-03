@@ -15,15 +15,13 @@ interface IProps {
 
 const useStyles = makeStyles({
   listItem: {
-    padding: 0
-  },
-  itemIcon: {
-    marginRight: 5
-  },
-  primary: {
+    padding: 0,
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis"
+  },
+  itemIcon: {
+    minWidth: 0
   }
 });
 
@@ -35,11 +33,7 @@ const QueryColumn: React.FC<IProps> = ({ style, label }) => {
       <ListItemIcon className={classes.itemIcon}>
         <SettingsIcon />
       </ListItemIcon>
-      <ListItemText
-        className={classes.listItem}
-        classes={{ primary: classes.primary }}
-        primary={label}
-      />
+      <ListItemText className={classes.listItem} primary={label} />
     </ListItem>
   );
 };

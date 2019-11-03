@@ -14,10 +14,8 @@ interface IProps {
 }
 
 const StyledFormControl = styled(FormControl)(({ theme }) => ({
-  valueInput: {
-    flexGrow: 1,
-    margin: theme.spacing()
-  }
+  flexGrow: 1,
+  margin: theme.spacing()
 }));
 
 const AllowedValues: FC<IProps> = ({

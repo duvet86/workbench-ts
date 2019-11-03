@@ -106,6 +106,7 @@
     "redux-observable": "^1.2.0",
     "reselect": "^4.0.0",
     "rxjs": "^6.5.3",
+    "storm-react-diagrams2": "^1.0.7",
     "typeface-roboto": "^0.0.75"
   },
   "husky": {
