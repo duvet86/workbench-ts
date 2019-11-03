@@ -41,8 +41,8 @@ const WorkbenchToolbar: FC = () => {
   return (
     <Paper className={classes.root}>
       <Toolbar className={classes.toolBar} disableGutters>
-        {toolbarData.map(({ id, label, IconComponent }) => (
-          <Button key={id} size="small" component={newWorkbenchLink}>
+        {toolbarData.map(({ label, IconComponent }, i) => (
+          <Button key={i} size="small" component={newWorkbenchLink}>
             <IconComponent className={classes.leftIcon} />
             {label}
           </Button>

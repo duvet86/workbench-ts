@@ -72,7 +72,8 @@ const ConstraintSelectorContainer: FC<Props> = ({
       ConstraintName: constraintColumn && constraintColumn.ColumnName,
       FilterName: constraintFilter && constraintFilter.FilterName,
       DataType: dataType,
-      ColumnName: columnName,
+      SourceColumnName: columnName,
+      OutputColumnName: columnName,
       FilterType: filterType
     };
 

@@ -109,12 +109,12 @@ const Summary: FC<IProps> = ({ query, querySourceLabel }) => {
         <ExpansionPanelDetails>
           <List dense className={classes.list}>
             <Divider />
-            {query.Columns.map(({ ColumnName, Label }) => (
-              <ListItem key={ColumnName} divider>
+            {query.Columns.map(({ OutputColumnName }, i) => (
+              <ListItem key={i} divider>
                 <ListItemIcon>
                   <ColumnIcon />
                 </ListItemIcon>
-                <ListItemText primary={Label} />
+                <ListItemText primary={OutputColumnName} />
               </ListItem>
             ))}
           </List>

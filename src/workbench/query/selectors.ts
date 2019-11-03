@@ -44,7 +44,7 @@ export const getAvailableColumns = createSelector(
   (elementId, queries, availableColumns) =>
     availableColumns.filter(
       ac =>
-        !queries[elementId].Columns.map(c => c.ColumnName).includes(
+        !queries[elementId].Columns.map(c => c.OutputColumnName).includes(
           ac.ColumnName
         )
     )
@@ -116,9 +116,9 @@ export const getAvailableConstraint = createSelector(
       );
 
     const optionColumns = columnsSelect.map<IOption<string>>(
-      ({ Label, ColumnName }) => ({
+      ({ DisplayLabel, ColumnName }) => ({
         value: ColumnName,
-        label: Label + " (C)"
+        label: DisplayLabel + " (C)"
       })
     );
 
@@ -127,7 +127,8 @@ export const getAvailableConstraint = createSelector(
       .filter(
         opt =>
           !queries[elementId].Constraints.some(
-            qc => opt.value === qc.FilterName || opt.value === qc.ColumnName
+            qc =>
+              opt.value === qc.FilterName || opt.value === qc.OutputColumnName
           )
       );
 

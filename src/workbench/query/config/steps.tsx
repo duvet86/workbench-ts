@@ -22,6 +22,7 @@ export const steps: Array<IConfigSteps<IQuery>> = [
     renderComponent: function querySource(query: IQuery) {
       const initTargetDataViewId =
         query.TargetDataViewId != null ? query.TargetDataViewId : "";
+
       return (
         <>
           <SourceSelectorContainer

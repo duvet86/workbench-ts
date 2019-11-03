@@ -206,7 +206,6 @@ export interface IConstraint {
 export interface IColumn {
   OutputColumnName: string;
   SourceColumnName: string;
-  Label: string;
   Aggregation: string;
 }
 

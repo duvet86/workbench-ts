@@ -1,5 +1,6 @@
 import { IConstraint, QesDataType } from "workbench/types";
 import { IOption } from "common/select/SelectInputContainer";
+import { DataViewIcon } from "common/icons";
 
 import NewIcon from "@material-ui/icons/RestorePage";
 import SaveIcon from "@material-ui/icons/Save";
@@ -13,51 +14,47 @@ type QueryContraint = IConstraint & IOption;
 
 export const toolbarData = [
   {
-    id: 0,
     label: "New",
     IconComponent: NewIcon
   },
   {
-    id: 1,
     label: "Save",
     IconComponent: SaveIcon
   },
   {
-    id: 2,
     label: "Save As",
     IconComponent: SaveIcon
   },
   {
-    id: 3,
     label: "Share",
     IconComponent: ShareIcon
   },
   {
-    id: 4,
     label: "Undo",
     IconComponent: UndoIcon
   },
   {
-    id: 5,
     label: "Redo",
     IconComponent: RedoIcon
   },
   {
-    id: 6,
     label: "Layout",
     IconComponent: OpenWithIcon
   },
   {
-    id: 7,
     label: "Export Graph",
     IconComponent: ArrowDownwardIcon
+  },
+  {
+    label: "Session Info",
+    IconComponent: DataViewIcon
   }
 ];
 
 export function getConstraintDisplayValue(constraint: IConstraint) {
   const constraintDsiplayValue: QueryContraint = {
     ...constraint,
-    label: constraint.ColumnName,
+    label: constraint.OutputColumnName,
     value: ""
   };
 

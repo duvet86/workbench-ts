@@ -61,7 +61,7 @@ const ConfigSwitch: FC<IProps> = ({ operatorServiceId, isDrawerOpen }) => {
     >
       {isDrawerOpen && (
         <form className={classes.form} noValidate autoComplete="off">
-          <Grid container spacing={6} alignContent="stretch">
+          <Grid container spacing={4} alignContent="stretch">
             {drawerByType(operatorServiceId)}
           </Grid>
         </form>

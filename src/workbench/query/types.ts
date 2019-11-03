@@ -8,7 +8,6 @@ interface IFilterTypeMapping {
 export interface IUdsColumnDescriptionDtc {
   ColumnIndex: number;
   ColumnName: string;
-  Label: string;
   DisplayLabel: string;
   Description: string;
   DisplayFormat: IDisplayFormat;

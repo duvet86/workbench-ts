@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -26,8 +26,13 @@ const SourceSelectorContainer: FC<Props> = ({
   initTargetDataViewId,
   dataServices,
   elementId,
-  dispatchUpdateDataService
+  dispatchUpdateDataService,
+  dispatchDataServicesRequest
 }) => {
+  useEffect(() => {
+    dispatchDataServicesRequest();
+  }, []);
+
   const handleChangeDataService = (option?: IOption) => {
     const targetDataViewId = option != null ? option.value : undefined;
     const dataServiceLabel = option != null ? option.label : undefined;

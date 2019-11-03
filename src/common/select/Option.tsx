@@ -1,6 +1,6 @@
 import React from "react";
 
-import { styled } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { IOption } from "common/select/SelectInputContainer";
 
@@ -19,8 +19,10 @@ interface IProps {
   handleClick: (event: React.MouseEvent) => void;
 }
 
-const StyledMenuItem = styled(MenuItem)({
-  padding: "0 0 0 10px"
+const useStyles = makeStyles({
+  manuItem: {
+    padding: "0 0 0 10px"
+  }
 });
 
 const Option: React.FC<IProps> = ({
@@ -30,22 +32,33 @@ const Option: React.FC<IProps> = ({
   OptionsIcon,
   isMulti,
   handleClick
-}) => (
-  <StyledMenuItem button style={style} onClick={handleClick}>
-    {OptionsIcon && (
-      <ListItemIcon>
-        <OptionsIcon />
-      </ListItemIcon>
-    )}
-    {isMulti && (
-      <Checkbox
-        checked={
-          selectedValue.includes(option.label) || selectedValue[0] === "All..."
-        }
-      />
-    )}
-    <ListItemText primary={option.label} />
-  </StyledMenuItem>
-);
+}) => {
+  const classes = useStyles();
+
+  return (
+    <MenuItem
+      className={classes.manuItem}
+      component="div"
+      style={style}
+      onClick={handleClick}
+      disableRipple
+    >
+      {OptionsIcon && (
+        <ListItemIcon>
+          <OptionsIcon />
+        </ListItemIcon>
+      )}
+      {isMulti && (
+        <Checkbox
+          checked={
+            selectedValue.includes(option.label) ||
+            selectedValue[0] === "All..."
+          }
+        />
+      )}
+      <ListItemText primary={option.label} />
+    </MenuItem>
+  );
+};
 
 export default Option;

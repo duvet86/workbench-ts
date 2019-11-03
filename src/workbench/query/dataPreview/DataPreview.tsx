@@ -59,8 +59,10 @@ const DataPreview: FC<IProps> = ({
               />
             </TableRow>
             <TableRow>
-              {columns.map(({ ColumnName, Label }) => (
-                <HeadTableCell key={ColumnName}>{Label}</HeadTableCell>
+              {columns.map(({ OutputColumnName }) => (
+                <HeadTableCell key={OutputColumnName}>
+                  {OutputColumnName}
+                </HeadTableCell>
               ))}
             </TableRow>
           </TableHead>

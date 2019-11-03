@@ -28,7 +28,7 @@ type Props = ReturnType<typeof mapStateToProps> &
 const ConstraintContainer: FC<Props> = ({
   elementId,
   constraint,
-  constraint: { FilterType, FilterName, ColumnName },
+  constraint: { FilterType, FilterName, OutputColumnName },
   availableFiltersDic,
   availableColumnsDic,
   dispatchRemoveQueryConstraint
@@ -41,7 +41,7 @@ const ConstraintContainer: FC<Props> = ({
   if (FilterType != null && FilterName != null) {
     label = availableFiltersDic[FilterName].Label;
   } else {
-    label = availableColumnsDic[ColumnName].Label;
+    label = availableColumnsDic[OutputColumnName].DisplayLabel;
   }
 
   return (

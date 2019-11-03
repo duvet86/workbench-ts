@@ -55,7 +55,7 @@ function session(
           Columns: {
             $apply: (columns: IColumn[]) =>
               columns.filter(
-                ({ ColumnName }) => ColumnName !== action.columnName
+                ({ OutputColumnName }) => OutputColumnName !== action.columnName
               )
           },
           DataTableId: { $set: undefined } // NOTE: remove DataTableId to retrigger graph changes.

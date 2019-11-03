@@ -4,6 +4,8 @@ import {
   ListChildComponentProps
 } from "react-window";
 
+import { SvgIconProps } from "@material-ui/core/SvgIcon";
+
 import { IOption } from "common/select/SelectInputContainer";
 
 import TextField from "@material-ui/core/TextField";
@@ -24,7 +26,7 @@ interface IProps {
   value: string | string[];
   options: IOption[];
   isMulti?: boolean;
-  OptionsIcon?: JSX.Element;
+  OptionsIcon?: React.ComponentType<SvgIconProps>;
   inputLabel?: string;
   helperText?: string;
   noClear?: boolean;
@@ -49,7 +51,7 @@ const rowRenderer = (
   options: IOption[],
   handleOptionClick: (option: IOption) => (event: React.MouseEvent) => void,
   isMulti?: boolean,
-  OptionsIcon?: JSX.Element
+  OptionsIcon?: React.ComponentType<SvgIconProps>
 ) => ({ index, style }: ListChildComponentProps) => {
   const option = options[index];
   const handleClick = handleOptionClick(option);
@@ -61,7 +63,7 @@ const rowRenderer = (
       option={option}
       handleClick={handleClick}
       isMulti={isMulti}
-      // OptionsIcon={OptionsIcon}
+      OptionsIcon={OptionsIcon}
     />
   );
 };
@@ -96,12 +98,13 @@ const SelectInput: React.FC<IProps> = ({
     label={inputLabel}
     helperText={helperText}
     value={value}
+    autoFocus={false}
     SelectProps={{
       MenuProps: {
-        disableAutoFocusItem: true
-        // MenuListProps: {
-        //   component: "div" as "ul"
-        // }
+        autoFocus: false,
+        MenuListProps: {
+          component: "div"
+        } as any
       },
       open,
       onOpen: handleOpen,

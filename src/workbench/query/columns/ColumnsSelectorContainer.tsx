@@ -34,7 +34,7 @@ const availableColumnOptions = createSelector(
   availableColumnsSelector,
   availableColumns =>
     availableColumns.map<IOption>(column => ({
-      label: column.Label,
+      label: column.DisplayLabel,
       value: column.ColumnName
     }))
 );
@@ -43,8 +43,8 @@ const selectedColumnOptions = createSelector(
   selectedColumnsSelector,
   selectedColumns =>
     selectedColumns.map<IOption>(column => ({
-      label: column.Label,
-      value: column.ColumnName
+      label: column.OutputColumnName,
+      value: column.OutputColumnName
     }))
 );
 
@@ -54,7 +54,8 @@ const ColumnsSelectorContainer: FC<Props> = props => {
   ) => {
     const { elementId, dispatchAddQueryColumn } = props;
     const queryColumn = {
-      ColumnName: value,
+      SourceColumnName: value,
+      OutputColumnName: value,
       Label: label,
       Aggregation: "None"
     };

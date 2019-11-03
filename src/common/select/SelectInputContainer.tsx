@@ -26,7 +26,7 @@ export interface IProps<T> {
   onChange: onChangeSingle<T> | onChangeMulti<T>;
   initValue?: T | T[];
   isMulti?: boolean;
-  OptionsIcon?: JSX.Element;
+  OptionsIcon?: React.ComponentType<SvgIconProps>;
   inputLabel?: string;
   helperText?: string;
   noClear?: boolean;
