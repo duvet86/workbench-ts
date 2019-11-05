@@ -19,11 +19,6 @@ interface IProps {
 
 const useStyles = makeStyles(({ spacing }: Theme) => ({
   gridTitle: {
-    position: "fixed",
-    top: 0,
-    width: "98%",
-    backgroundColor: "white",
-    zIndex: 2,
     borderBottom: "1px solid #eee"
   },
   titleContainer: {
@@ -37,9 +32,6 @@ const useStyles = makeStyles(({ spacing }: Theme) => ({
   stepper: {
     padding: 0,
     width: "100%"
-  },
-  stepTitle: {
-    marginTop: 85
   }
 }));
 
@@ -82,7 +74,7 @@ const StepperHeader: FC<IProps> = ({
           ))}
         </Stepper>
       </Grid>
-      <Grid item xs={12} className={classes.stepTitle}>
+      <Grid item xs={12}>
         <Typography variant="h5">
           {`Step ${currentStep + 1}: ${steps[currentStep].label}`}
         </Typography>
