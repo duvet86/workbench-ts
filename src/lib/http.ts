@@ -40,7 +40,7 @@ const handleErrors = async (response: Response) => {
     throw {
       error: e.toString(),
       status: "javascript error",
-      tip: "Have you changed the BASE_URL in the constants file?"
+      tip: "Have you changed the BASE_URL in the env file?"
     };
   }
 };
