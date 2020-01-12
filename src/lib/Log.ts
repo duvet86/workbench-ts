@@ -1,4 +1,3 @@
-// tslint:disable:no-console
 const enum LogLevels {
   TRACE = "TRACE",
   INFO = "INFO",

@@ -72,8 +72,5 @@ const mapDispatchToProps = (dispatch: Dispatch<ICleanError>) => ({
 // withRouter solves it.
 // https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/guides/blocked-updates.md
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(ErrorBoundaryContainer)
+  connect(mapStateToProps, mapDispatchToProps)(ErrorBoundaryContainer)
 );

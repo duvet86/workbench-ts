@@ -40,7 +40,7 @@ const ConstraintSelectorContainer: FC<Props> = ({
 }) => {
   useEffect(() => {
     dispatchFilterCapabilitiesRequest();
-  }, []);
+  }, [dispatchFilterCapabilitiesRequest]);
 
   const handledAddQueryConstraint = (selectedOption?: IOption<string>) => {
     if (selectedOption == null) {

@@ -19,7 +19,7 @@ const FolderTreeContainer: FC<Props> = ({
 }) => {
   useEffect(() => {
     dispatchLoadUserItems();
-  }, []);
+  }, [dispatchLoadUserItems]);
 
   return (
     <LoadingContainer isLoading={isLoading}>

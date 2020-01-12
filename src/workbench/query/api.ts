@@ -17,9 +17,7 @@ export const getDataServicesObs = (): Observable<IItemDtc[]> =>
     )
   );
 
-export const getFilterCapabilitiesObs = (): Observable<
-  IFilterCapabilitiesDic
-> =>
+export const getFilterCapabilitiesObs = (): Observable<IFilterCapabilitiesDic> =>
   from(
     getWithJwtAsync<IFilterCapabilitiesDic>(
       "api/qes/capabilities/aggregationdic"
@@ -57,7 +55,6 @@ export const getDataTablePageObs = (
 ): Observable<IPagedRows> =>
   from(
     getWithJwtAsync<IPagedRows>(
-      // tslint:disable-next-line:max-line-length
       `api/qes/${tenantId}/sessions/${sessionId}/datatables/${dataTableId}/rows?pageSize=${pageSize}&pageNumber=${pageNumber}&forDisplay=true`
     )
   );

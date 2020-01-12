@@ -20,7 +20,7 @@ const AppContainer: FC<Props> = ({
 
   useEffect(() => {
     dispatchQesEnabledRequest();
-  }, []);
+  }, [dispatchQesEnabledRequest]);
 
   const handleDrawerOpen = () => {
     setOpen(prevState => !prevState);
@@ -44,7 +44,4 @@ const mapDispatchToProps = (dispatch: Dispatch<QesEnabledAction>) => ({
   }
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AppContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);

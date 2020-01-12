@@ -80,7 +80,14 @@ const AllowedValuesContainer: FC<Props> = ({
         setIsLoading(false);
       })
       .catch(e => dispatchHandleException(e));
-  }, []);
+  }, [
+    AllowedValuesQueryGraphId,
+    AllowedValuesSessionId,
+    FilterName,
+    dispatchHandleException,
+    displayValue,
+    session
+  ]);
 
   const handledUpdateQueryConstraintValues = (selectedOptions?: IOption[]) => {
     // const {

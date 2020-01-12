@@ -33,7 +33,4 @@ const mapDispatchToProps = (dispatch: Dispatch<IUpdateQueryLabel>) => ({
   }
 });
 
-export default connect(
-  undefined,
-  mapDispatchToProps
-)(LabelInputContainer);
+export default connect(undefined, mapDispatchToProps)(LabelInputContainer);

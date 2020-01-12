@@ -33,7 +33,7 @@ const LoginContainer: FC<Props> = props => {
     document.body.style.backgroundColor = "#eee";
 
     return function cleanup() {
-      document.body.style.backgroundColor = null;
+      document.body.style.backgroundColor = "";
     };
   }, []);
 
@@ -97,7 +97,4 @@ const mapDispatchToProps = (dispatch: Dispatch<IStoreToken>) => ({
   }
 });
 
-export default connect(
-  undefined,
-  mapDispatchToProps
-)(LoginContainer);
+export default connect(undefined, mapDispatchToProps)(LoginContainer);

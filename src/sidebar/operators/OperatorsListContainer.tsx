@@ -18,7 +18,7 @@ const OperatorsListContainer: FC<Props> = ({
 }) => {
   useEffect(() => {
     dispatchLoadOperators();
-  }, []);
+  }, [dispatchLoadOperators]);
 
   return (
     <LoadingContainer isLoading={isLoading}>

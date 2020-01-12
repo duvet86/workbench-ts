@@ -16,13 +16,10 @@ export const initIntervalAsync = (
     getWithJwtAsync<IIntervalTypesDtc[]>("api/platform/intervaltypes"),
     resolveIntervalAsync(initInterval.IntervalType)
   ]).then(arrayOfResponses => ({
-    intervalTypes: arrayOfResponses[0].reduce(
-      (res, val) => {
-        res[val.IntervalType] = val;
-        return res;
-      },
-      {} as { [key: string]: IIntervalTypesDtc }
-    ),
+    intervalTypes: arrayOfResponses[0].reduce((res, val) => {
+      res[val.IntervalType] = val;
+      return res;
+    }, {} as { [key: string]: IIntervalTypesDtc }),
     interval: arrayOfResponses[1]
   }));
 

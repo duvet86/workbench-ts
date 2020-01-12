@@ -29,6 +29,7 @@ const LoadingContainer: FC<IProps> = ({
     }
 
     return () => clearTimeout(delayRef.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

@@ -43,7 +43,4 @@ const mapDispatchToProps = (dispatch: Dispatch<ICloseConfig | IGoToStep>) => ({
   dispatchCompleteQueryConfig: () => dispatch(closeConfig())
 });
 
-export default connect(
-  undefined,
-  mapDispatchToProps
-)(ConfigButtonsContainer);
+export default connect(undefined, mapDispatchToProps)(ConfigButtonsContainer);

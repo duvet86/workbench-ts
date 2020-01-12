@@ -192,7 +192,4 @@ const mapDispatchToProps = (
   dispatchSessionClean: () => dispatch(sessionClean())
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WorkbenchContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(WorkbenchContainer);

@@ -139,13 +139,10 @@ export const getAvailableConstraint = createSelector(
 export const getAvailableFilterDic = createSelector(
   availableFiltersSelector,
   filters => {
-    const availableFiltersDic = filters.reduce(
-      (res, f) => {
-        res[f.FilterName] = f;
-        return res;
-      },
-      {} as IAvailableFilters
-    );
+    const availableFiltersDic = filters.reduce((res, f) => {
+      res[f.FilterName] = f;
+      return res;
+    }, {} as IAvailableFilters);
 
     return availableFiltersDic;
   }
@@ -167,13 +164,10 @@ export const getAvailableColumnsDic = createSelector(
           )
       );
 
-    const availableColumnsDic = columnsSelect.reduce(
-      (res, c) => {
-        res[c.ColumnName] = c;
-        return res;
-      },
-      {} as IAvailableColumns
-    );
+    const availableColumnsDic = columnsSelect.reduce((res, c) => {
+      res[c.ColumnName] = c;
+      return res;
+    }, {} as IAvailableColumns);
 
     return availableColumnsDic;
   }

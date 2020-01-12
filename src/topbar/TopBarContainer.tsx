@@ -61,7 +61,4 @@ const mapDispatchToProps = (dispatch: Dispatch<IClearToken>) => ({
   }
 });
 
-export default connect(
-  undefined,
-  mapDispatchToProps
-)(TopBarContainer);
+export default connect(undefined, mapDispatchToProps)(TopBarContainer);

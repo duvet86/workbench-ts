@@ -62,14 +62,15 @@ const IntervalSelectorContainer: FC<Props> = ({
         }
       })
       .catch(e => dispatchHandleException(e));
-  }, []);
+  }, [dispatchHandleException, initValue, onChange]);
 
   const handleIntervalTypeChange = async (
     event: React.ChangeEvent<{ name?: string; value: unknown }>
   ) => {
     try {
-      const resolvedInterval = await resolveIntervalAsync(event.target
-        .value as string);
+      const resolvedInterval = await resolveIntervalAsync(
+        event.target.value as string
+      );
 
       setInterval(resolvedInterval);
     } catch (e) {

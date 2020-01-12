@@ -40,7 +40,4 @@ const mapDispatchToProps = (dispatch: Dispatch<IGoToStep>) => ({
   dispatchGoToStep: (step: number) => dispatch(goToStep(step))
 });
 
-export default connect(
-  undefined,
-  mapDispatchToProps
-)(StepperHeaderContainer);
+export default connect(undefined, mapDispatchToProps)(StepperHeaderContainer);

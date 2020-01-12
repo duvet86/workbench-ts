@@ -43,7 +43,4 @@ const mapDispatchToProps = (dispatch: Dispatch<ErrorActions>) => ({
   }
 });
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(CalendarPeriodContainer);
+export default connect(null, mapDispatchToProps)(CalendarPeriodContainer);

@@ -1,5 +1,8 @@
 *.png
 *.jpg
 *.svg
+*.custom
+*.snap
+__mocks__
 yarn.lock
 packages/**/node_modules/

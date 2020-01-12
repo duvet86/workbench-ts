@@ -31,7 +31,7 @@ const AddComponentButtonContainer: FC<Props> = ({
         setIsLoading(false);
       })
       .catch(e => dispatchHandleException(e));
-  }, []);
+  }, [dispatchHandleException]);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.target as HTMLElement);

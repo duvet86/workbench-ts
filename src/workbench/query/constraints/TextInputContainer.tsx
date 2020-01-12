@@ -52,7 +52,4 @@ const mapDispatchToProps = (
     )
 });
 
-export default connect(
-  undefined,
-  mapDispatchToProps
-)(TextInputContainer);
+export default connect(undefined, mapDispatchToProps)(TextInputContainer);

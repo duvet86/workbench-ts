@@ -18,7 +18,7 @@ const ProfileContainer: FC<Props> = ({
 }) => {
   useEffect(() => {
     dispatchLoadProfile();
-  }, []);
+  }, [dispatchLoadProfile]);
 
   return (
     <LoadingContainer isLoading={isLoading}>
@@ -38,7 +38,4 @@ const mapDispatchToProps = (dispatch: Dispatch<IProfileRequest>) => ({
   }
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProfileContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileContainer);

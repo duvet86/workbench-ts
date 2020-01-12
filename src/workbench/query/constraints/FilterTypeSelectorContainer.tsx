@@ -37,8 +37,11 @@ const FilterTypeSelectorContainer: FC<Props> = ({
   const handledUpdateQueryConstraintType = (constraintId: number) => (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    dispatchUpdateQueryConstraintType(elementId, constraintId, event.target
-      .value as QesFilterType);
+    dispatchUpdateQueryConstraintType(
+      elementId,
+      constraintId,
+      event.target.value as QesFilterType
+    );
   };
 
   const isFullWidth =

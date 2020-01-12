@@ -26,7 +26,7 @@ const DataPreviewContainer: FC<Props> = ({
 }) => {
   useEffect(() => {
     dispatchDataTableRequest();
-  }, []);
+  }, [dispatchDataTableRequest]);
 
   const handleChangePage = (
     _: React.MouseEvent<HTMLButtonElement> | null,

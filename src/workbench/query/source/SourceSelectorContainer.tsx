@@ -31,7 +31,7 @@ const SourceSelectorContainer: FC<Props> = ({
 }) => {
   useEffect(() => {
     dispatchDataServicesRequest();
-  }, []);
+  }, [dispatchDataServicesRequest]);
 
   const handleChangeDataService = (option?: IOption) => {
     const targetDataViewId = option != null ? option.value : undefined;
